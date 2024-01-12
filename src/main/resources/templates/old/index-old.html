@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org">
+<!--
+  xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
+  -->
+
+<head>
+    <meta charset="UTF-8">
+    <title>Радіо для всіх!</title>
+    <link th:href = "@{/css/bootstrap.min.css}" rel="stylesheet">
+    <!--
+    <link th:href = "@{/css/bootstrap.min.css}">
+    <script type="text/javascript" th:src="@{/js/bootstrap.bundle.min.js}"></script>
+    -->
+</head>
+<body>
+<header>
+    <div class = "container">
+        <div class = "row">
+            <div th:insert="~{/fragments/navbar :: mynavbar}">  </div>
+        </div>
+    </div>
+    <!--
+
+    <div class="container">
+        <div class="row">
+            <div th:insert="~{/fragments/logreg :: logreg}">  </div>
+        </div>
+    </div>
+    -->
+
+<!--Section: Design Block-->
+    <!-- Intro -->
+    <!--
+<section>
+    <div id="intro" class="bg-image vh-100"
+         style=" background-image: url('/pictures/BackgroundRadioToloka.jpg'); ">
+        <div class="mask" style="background-color: rgba(250, 182, 162, 0.15);"></div>
+    </div>
+</section>
+    -->
+    <!-- Intro -->
+<!--Section: Design Block-->
+</header>
+<!--Section: First Block-->
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-sm-2; col-lg-1">
+            <div class="card">
+                <div class="card-header">Header</div>
+                <div class="card-body">Content</div>
+                <div class="card-footer">Footer</div>
+            </div>
+        </div>
+        <div class="col-sm-2; col-lg-1">
+            <div class="card">
+                <div class="card-header">Header</div>
+                <div class="card-body">Content</div>
+                <div class="card-footer">Footer</div>
+            </div>
+            <div class="card">
+                <div class="card-header">Header</div>
+                <div class="card-body">Content</div>
+                <div class="card-footer">Footer</div>
+            </div>
+        </div>
+        <div class="col-sm-2; col-lg-1">
+            <div class="card">
+                <div class="card-header">Header</div>
+                <div class="card-body">Content</div>
+                <div class="card-footer">Footer</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

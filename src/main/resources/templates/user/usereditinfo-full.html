@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+>
+<head>
+    <meta charset="utf-8" />
+    <!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Толока - радіо для всіх!</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/css/bootstrap.min.css"  rel="stylesheet" />
+</head>
+<body>
+<header>
+    <div th:insert="~{/fragments/user :: user_navbar}">  </div>
+</header>
+
+<!--<section style="padding-top: 100px">-->
+<!--    <div th:insert="~{/fragments/user :: user_service}">  </div>-->
+<!--</section>-->
+<div style="padding-top: 100px">
+    <h2>Ваша інформація</h2>
+</div>
+
+<div class="row">
+    <div class="col-md-8 mb-4">
+        <div class="card mb-4">
+            <div class="card-header py-3">
+                <h5 class="mb-0">Ваша Інформація</h5>
+            </div>
+            <form th:action="@{/user/infosave}"  th:object="${userform}" method="post">
+                <div class="card-body">
+                    <!-- 2 column grid layout with text inputs for the first and last names -->
+                    <div class="row mb-4">
+                        <div class="form-outline mb-4">
+                            <input th:name="userDetail.adresses.firmname"
+                                   th:field="${userDetail.adresses.firmname}"
+                                   th:value="*{userDetail.adresses.firmname}"
+                                   type="text"
+                                   id="userDetail.adresses.firmname"
+                                   class="form-control" />
+                            <label class="form-label" for="userDetail.adresses.firmname">Найменування організації</label>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="form-outline">
+                                <input name="userform.custname" th:field="${userform.custname}" type="text" id="userform.custname" class="form-control" disabled />
+                                <label class="form-label" for="userform.custname">Імʼя</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-outline">
+                                <input name="userform.custsurname" type="text" id="userform.custsurname" th:value="${userform.custsurname}"  class="form-control" disabled />
+                                <label class="form-label" for="userform.custsurname">Призвище</label>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Text input -->
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="form-outline">
+                                <input th:field="${userform.userDetail.adresses.street}" name="userform.userDetail.adresses.street" id="userform.userDetail.adresses.street" type="text"  class="form-control" />
+                                <label class="form-label" for="userform.userDetail.adresses.street">Вулиця</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-outline">
+                                <input th:field="${userform.userDetail.adresses.buildnumber}" name="userform.userDetail.adresses.buildnumber" type="text" id="userform.userDetail.adresses.buildnumber" class="form-control" />
+                                <label class="form-label" for="userform.userDetail.adresses.buildnumber">Будинок</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-outline">
+                                <input th:field="${userform.userDetail.adresses.appartment}" name="userform.userDetail.adresses.appartment" type="text" id="userform.userDetail.adresses.appartment" class="form-control" />
+                                <label class="form-label" for="userform.userDetail.adresses.appartment">Квартира/офіс</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="form-outline">
+                                <input th:field="${userform.userDetail.adresses.cityname}" name="userform.userDetail.adresses.cityname" type="text" id="form7Example6" class="form-control" />
+                                <label class="form-label" for="form7Example6">Район</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-outline">
+                                <input th:field="${userform.userDetail.adresses.area}" name="userform.userDetail.adresses.area" type="text" id="form7Example7" class="form-control" />
+                                <label class="form-label" for="form7Example7">Область</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-outline">
+                                <input th:field="${userform.userDetail.adresses.region}" name="formaddress.region" type="text" id="form7Example8" class="form-control" />
+                                <label class="form-label" for="form7Example8">Країна</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-outline">
+                                <input th:field="${userform.userDetail.adresses.zip}" name="formaddress.zip" type="text" id="form7Example15" class="form-control" />
+                                <label class="form-label" for="form7Example15">Індекс</label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Text input -->
+
+                    <!-- Email input -->
+                    <div class="form-outline mb-4">
+                        <input th:field="${userform.name}" name="userform.name" type="email" id="userform.name" class="form-control" disabled />
+                        <label class="form-label" for="userform.name">Email</label>
+                    </div>
+
+                    <!-- Number input -->
+                    <div class="form-outline mb-4">
+                        <input th:field="${userform.userDetail.adresses.phone}" name="formaddress.phone" type="number" id="formaddress.phone" class="form-control" />
+                        <label class="form-label" for="formaddress.phone">Телефон</label>
+                    </div>
+
+                    <!-- Message input -->
+                    <div class="form-outline mb-4">
+                        <textarea th:field="${userform.userDetail.adresses.comment}" name="formaddress.comment"  class="form-control" id="form7Example13" rows="4"></textarea>
+                        <label class="form-label" for="form7Example13">Коментар до адреси</label>
+                    </div>
+
+                    <div class="form-outline mb-4">
+                        <textarea th:field="${userform.userDetail.comments}" name="userform.userDetail.comments" class="form-control" id="form7Example10"  rows="4"></textarea>
+                        <label class="form-label" for="form7Example10">Додаткова інформація</label>
+                    </div>
+
+                    <!-- Checkbox -->
+                    <div class="form-check d-flex justify-content-center mb-2">
+                        <input class="form-check-input me-2" type="checkbox" value="" id="form7Example11" checked />
+                        <label class="form-check-label" for="form7Example11">
+                            З умовами надання сервісу погоджуюся.
+                        </label>
+                    </div>
+                </div>
+                <div class="card-footer">
+                    <button type="submit" class="btn btn-primary btn-lg btn-block" >
+                        Зберегти
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="col-md-4 mb-4">
+        <div th:insert="~{/fragments/user :: userrecentactions}">  </div>
+    </div>
+
+</div>
+
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>

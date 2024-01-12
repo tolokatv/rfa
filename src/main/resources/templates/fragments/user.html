@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<section th:fragment="user_navbar" >
+    <div class="container-fluid ">
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
+            <!-- Navbar content -->
+            <div class="container-fluid">
+                <!--                    <a class="navbar-brand" href="#">Радіо для Всіх!</a>-->
+                <a class="navbar-brand" href="/"><img src="/assets/rfa-logo.png" alt="..." /></a>
+            </div>
+            <div sec:authorize="hasRole('ROLE_CREATER')" class="collapse navbar-collapse" id="navbarCreater">
+<!--                <div sec:authorize="hasRole('ROLE_CREATER')">-->
+<!--                <div sec:authorize="hasRole('Creater')">-->
+                    <ul  class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="/creater/home">Головна</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/creater/tracks">Треки</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/creater/albums">Альбоми</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/creater/info">Інформація</a></li>
+                    </ul>
+            </div>
+                <div sec:authorize="hasRole('ROLE_USER')">
+                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                        <li class="nav-item"><a class="nav-link" href="/user/user_page">Головна</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/user/userstations">Станції</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/user/contract">Угоди</a></li>
+                        <li class="nav-item"><a class="nav-link" href="/user/documents">Документи</a></li>
+                    </ul>
+                </div>
+                <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="/#contact">Повідомлення</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/#contact">Підтримка</a></li>
+                    <li class="nav-item"><a class="nav-link" th:href="@{/logout}" >Вихід</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+</section>
+<!--================= Сервіси користувача ====================-->
+<div th:fragment="user_service">
+    <div class="container-fluid">
+        <div class="row text-center">
+            <div class="col align-center">
+                <div class="card">
+                    <div class="card-header"><h3>Ваші станції.</h3></div>
+                    <div class="card-body">
+                    <span class="fa-stack fa-4x">
+                        <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fas fa-radio fa-stack-1x fa-inverse"></i>
+                    </span>
+                        <h5 class="card-title">Вас чує весь світ!</h5>
+                        <p class="card-text">Створити, зупинити, відновити роботу, видалити.</p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <a href="/user/home/managestations" class="btn btn-primary">Керувати станціями</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col align-center">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Угоди</h3>
+                    </div>
+                    <div class="card-body">
+                    <span class="fa-stack fa-4x">
+                        <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fas fa-file-contract fa-stack-1x fa-inverse"></i>
+                    </span>
+                        <h5 class="card-title">Угоди - стан, оплата, фінансові питання.</h5>
+                        <p class="card-text">Створити угоду, подивитися стан, зупинити, історія. </p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <a href="/user/home/managecontract" class="btn btn-primary">Керувати угодами</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col align-center">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Документи</h3>
+                    </div>
+                    <div class="card-body">
+                    <span class="fa-stack fa-4x">
+                        <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fas fa-comments fa-stack-1x fa-inverse"></i>
+                    </span>
+                        <h5 class="card-title">Ваші документи</h5>
+                        <p class="card-text">Завантаження, схвалення, видалення... </p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <a href="/user/home/documents" class="btn btn-primary">Ваші документи</a>
+                    </div>
+                </div>
+            </div>
+            <div class="col align-center">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Підтримка</h3>
+                    </div>
+                    <div class="card-body">
+                    <span class="fa-stack fa-4x">
+                        <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                        <i class="fas fa-comments fa-stack-1x fa-inverse"></i>
+                    </span>
+                        <h5 class="card-title">Підтримка.</h5>
+                        <p class="card-text">Документація, служба підтримки. </p>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <a href="/user/home/usergetinfo" class="btn btn-primary">Ваша інформація</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!--============= Ваші станції ========================-->
+    <div th:fragment="liststation">
+        <table class="table">
+            <thead>
+            <tr>
+                <th scope="col">Стан</th>
+                <th scope="col">Номер угоди</th>
+                <th scope="col">Дата укладання</th>
+                <th scope="col">Дата останньої оплати</th>
+                <th scope="col">Історія дій</th>
+            </tr>
+            </thead>
+            <tbody>
+            <a href="/user/createstation" class="btn btn-primary">Створити радіо станцію</a>
+            <tr th:each="station : ${stations}">
+                <td>
+                <span class="fa-stack ">
+                    <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fas fa-circle-info fa-stack-1x fa-inverse"></i>
+                </span>
+                </td>
+                <td><span th:text="${station.radio_id}"></span></td>
+                <td><span th:text="${station.createdate}"></span></td>
+                <td><span th:text="${station.lastpaydate}"></span></td>
+                <td>Подробиці</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+<!--============ Таблиця контрактів=========================-->
+<div th:fragment="listcontract">
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">Стан</th>
+                <th scope="col">Номер угоди</th>
+                <th scope="col">Дата укладання</th>
+                <th scope="col">Дата останньої оплати</th>
+                <th scope="col">Історія дій</th>
+            </tr>
+        </thead>
+    <tbody>
+        <a href="/user/createcontract" class="btn btn-primary">Створити угоду</a>
+        <tr th:each="contract : ${contracts}">
+            <td>
+                <span class="fa-stack ">
+                    <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                    <i class="fas fa-circle-info fa-stack-1x fa-inverse"></i>
+                </span>
+            </td>
+            <td><span th:text="${contract.number}"></span></td>
+            <td><span th:text="${contract.createDate}"></span></td>
+            <td><span th:text="${contract.lastPayDate}"></span></td>
+            <td>Подивитися</td>
+        </tr>
+    </tbody>
+</table>
+</div>
+<!--============= Останні операції з контрактами ========================-->
+<div th:fragment="userrecentactions">
+    <div class="card" >
+        <div class="card-header"><h3>Останні операції</h3></div>
+        <ul class="list-group list-group-flush">
+            <li class="list-group-item">An item</li>
+            <li class="list-group-item">A second item</li>
+            <li class="list-group-item">A third item</li>
+        </ul>
+    </div>
+</div>
+<!--============= Перелік документів ========================-->
+<div th:fragment="listdocuments">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Стан</th>
+            <th scope="col">Вид документу</th>
+            <th scope="col">Дата завантаження</th>
+            <th scope="col">Дія</th>
+        </tr>
+        </thead>
+        <tbody>
+        <a href="/user/userloaddocument" class="btn btn-primary">Завантажити</a>
+        <!--    <tr th:if="${contracts.isEmpty()}">-->
+        <!--        <a href="/user/createcontract" class="btn btn-primary">Створити контакт</a>-->
+        <!--    </tr>-->
+        <tr th:each="document : ${documents}">
+
+            <!--        <th scope="row">1</th>-->
+            <td>
+
+                <span>
+                    <th:block th:switch="${document.status}">
+                        <span th:case="0"> Не визначено</span>
+                        <span th:case="1"> Завантажено</span>
+                        <span th:case="2"> На розгляді</span>
+                        <span th:case="3"> Схвалено</span>
+                        <span th:case="4"> Відхилено</span>
+                    </th:block>
+                </span>
+<!--                            <span class="fa-stack ">-->
+<!--                                <i class="fas fa-circle fa-stack-2x text-primary"></i>-->
+<!--                                <i class="fas fa-circle-info fa-stack-1x fa-inverse"></i>-->
+<!--                            </span>-->
+            </td>
+            <td><span th:text="${document.documentType}"></span></td>
+            <td><span th:text="${document.loadDate}"></span></td>
+            <td><span><a th:href="@{'/user/documentedit/' + ${document.id}}" >Редагувати</a></span></td>
+<!--            <td><span><a th:href="@{/user/documentedit/{idDocument}(idDocument=${document.id})}" >Редагувати</a></span></td>-->
+        </tr>
+        </tbody>
+    </table>
+</div>
+<!--============= Редагування документу ========================-->
+<div th:fragment="editdocument">
+    <form th:action="@{/user/documentedit}"  th:object="${document}" method="post" class="mx-1 mx-md-4">
+        <input type="hidden" name="id" th:value="${document.id}" />
+<!--        <div class="dz-message needsclick">-->
+<!--        <th:block th:switch="${document.status}">-->
+        <span class="form-label">Статус:
+            <th:block th:switch="${status}">
+                <span th:case="0"> Не визначено</span>
+                <span th:case="1"> Завантажено</span>
+                <span th:case="2"> На розгляді</span>
+                <span th:case="3"> Схвалено</span>
+                <span th:case="4"> Відхилено</span>
+            </th:block>
+        </span>
+        <br>
+
+        <input type="text" id="documentType" name="documentType" th:value="${document.documentType}" class="form-control" />
+        <label class="form-label" for="documentType">Тип документу</label>
+
+        <input type="text" id="userComment" name="userComment" th:value="${document.userComment}" class="form-control" />
+        <label class="form-label" for="userComment">Коментар до документу</label>
+
+        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+            <button type="submit" class="btn btn-primary btn-lg">Записати зміни</button>
+        </div>
+
+    </form>
+</div>
+
+</body>
+</html>

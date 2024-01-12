@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+>
+<head>
+    <meta charset="utf-8" />
+    <!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <!--    <meta name="description" content="" />-->
+    <!--    <meta name="author" content="" />-->
+    <title>Толока - радіо для всіх!</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/css/bootstrap.min.css" rel="stylesheet" />
+    <!--    <link href="css/styles.css" rel="stylesheet" />-->
+</head>
+<body>
+<header>
+    <!--        <div th:insert="~{/fragments/user :: user_navbar}">  </div>-->
+    <div th:insert="~{/fragments/navbar :: mynavbar}">  </div>
+</header>
+
+<section style="padding-top: 100px">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Колонка керування радіо-->
+            <div class="col-lg-9 col-sm-12">
+                <h4>Ваші повідомлення</h4> <b><span>(Всі:</span><span th:text="${rd}"/><span> / Нові:</span><span th:text="${nrd}"/><span>)</span></b>
+            </div>
+        </div>
+    </div>
+</section>
+<section style="padding-top: 100px">
+    <div class="container-fluid">
+        <form action="#" th:action="@{/usermessage}" method="post" th:object="${messages}">
+            <div class="col-lg-9 col-sm-12">
+                <textarea th:field="*{body}" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+<!--                <input type="text" th:field="*{body}" />-->
+                <button style="margin-bottom: 20px" type="submit">Надіслати</button>
+            </div>
+            <div class="row">
+                <div th:if="${listAllMessage.empty}" class="col-lg-9 col-sm-12">
+                    <span colspan="2"> Вам Ще не написали :( </span>
+                </div>
+                <div th:each="message : ${listAllMessage}">
+                    <div class="col-lg-9 col-sm-12">
+<!--                    <div><span th:text="${message.body}"> Title </span></div>-->
+                        <div th:if="${message.userf.id} == ${currentUserID}">
+                            <p  class="text-end" style="">
+                                <span th:text="${message.send}"/><br><span th:text="${message.body}"/>
+                            </p>
+                        </div>
+                        <div th:if="!(${message.userf.id} == ${currentUserID})">
+                            <p  class="text-start " style="background-color:#f3f3f3;">
+                                <span th:text="${message.send}"/><br><span th:text="${message.body}"/>
+                            </p>
+                        </div>
+<!--                        <textarea type="text" th:text="${message.body}" class="form-control"> </textarea>-->
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</section>
+
+
+
+<!--                <h1 style="padding-top: 100px">MESSAGE PAGE  <span th:text="${rd}"/>/<span th:text="${nrd}"/></h1>-->
+
+<!--<form action="#" th:action="@{/usermessage}" method="post" th:object="${messages}">-->
+<!--    <label>Повідомлення:</label>-->
+<!--    <input type="text" th:field="*{body}" />-->
+
+<!--    <button type="submit">Надіслати</button>-->
+<!--</form>-->
+</body>
+</html>

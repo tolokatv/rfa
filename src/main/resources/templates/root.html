@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+        <meta name="description" content="" />
+        <meta name="author" content="" />
+        <title>Толока - радіо для всіх!</title>
+        <!-- Favicon-->
+        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <!-- Font Awesome icons (free version)-->
+        <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+        <!-- Google fonts-->
+        <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+        <!-- Core theme CSS (includes Bootstrap)-->
+        <link href="css/styles.css" rel="stylesheet" />
+    </head>
+    <body id="page-top">
+        <!-- MessageBox -->
+        <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
+        <!-- Navigation-->
+        <div th:insert="~{/fragments/navbar :: mynavbar}">  </div>
+        <!-- Masthead-->
+        <div th:insert="~{/fragments/root :: masthead}">  </div>
+        <!-- Services-->
+        <div th:insert="~{/fragments/root :: services}">  </div>
+        <!-- Portfolio Grid-->
+        <div th:insert="~{/fragments/root :: portfolio}">  </div>
+        <!-- Contact-->
+        <div th:insert="~{/fragments/forms :: saveformroot}">  </div>
+        <!-- About-->
+        <div th:insert="~{/fragments/root :: about}">  </div>
+        <!-- Team-->
+        <div th:insert="~{/fragments/root :: team}">  </div>
+        <!-- Clients-->
+        <div th:insert="~{/fragments/root :: clients}">  </div>
+        <!-- Footer-->
+        <div th:insert="~{/fragments/root :: footer}">  </div>
+        <!-- Portfolio Modals-->
+        <!-- Portfolio item 1 modal popup-->
+        <div th:insert="~{/fragments/rootmodal :: modalportfolio1}">  </div>
+        <!-- Portfolio item 2 modal popup-->
+        <div th:insert="~{/fragments/rootmodal :: modalportfolio2}">  </div>
+        <!-- Portfolio item 3 modal popup-->
+        <div th:insert="~{/fragments/rootmodal :: modalportfolio3}">  </div>
+        <!-- Portfolio item 4 modal popup-->
+        <div th:insert="~{/fragments/rootmodal :: modalportfolio4}">  </div>
+        <!-- Portfolio item 5 modal popup-->
+        <div th:insert="~{/fragments/rootmodal :: modalportfolio5}">  </div>
+        <!-- Portfolio item 6 modal popup-->
+        <div th:insert="~{/fragments/rootmodal :: modalportfolio6}">  </div>
+        <!-- Bootstrap core JS-->
+        <script src="js/bootstrap.bundle.min.js"></script>
+        <!-- Core theme JS-->
+<!--        <script src="js/scripts.js"></script>-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+        <!-- * *                               SB Forms JS                               * *-->
+        <!-- * * Activate your form at https://startbootstrap.com/solution/contact-forms * *-->
+        <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
+<!--        <script src="https://cdn.startbootstrap.com/sb-forms-latest.js"></script>-->
+    </body>
+</html>

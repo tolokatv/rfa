@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:fragment="mymessagebox">
+    <div class="alert alert-primary" role="alert" th:text="${primary}" th:if="${primary}"></div>
+    <div class="alert alert-secondary" role="alert" th:text="${secondary}" th:if="${secondary}"></div>
+    <div class="alert alert-success" role="alert" th:text="${success}" th:if="${success}"></div>
+    <div class="alert alert-danger" role="alert" th:text="${danger}" th:if="${danger}"></div>
+    <div class="alert alert-warning" role="alert" th:text="${warning}" th:if="${warning}"></div>
+    <div class="alert alert-info" role="alert" th:text="${info}" th:if="${info}"></div>
+    <div class="alert alert-light" role="alert" th:text="${light}" th:if="${light}"></div>
+    <div class="alert alert-dark" role="alert" th:text="${dark}" th:if="${dark}"></div>
+</div>
+
+
+</body>
+</html>
