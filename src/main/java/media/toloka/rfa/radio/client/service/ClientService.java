@@ -4,6 +4,7 @@ import media.toloka.rfa.radio.client.repository.ClientRepository;
 import media.toloka.rfa.security.security.model.ERole;
 import media.toloka.rfa.security.security.model.Roles;
 import media.toloka.rfa.security.security.model.Users;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
@@ -14,6 +15,7 @@ import java.util.Optional;
 @Service
 public class ClientService {
 
+    @Autowired
     private ClientRepository clientRepository;
 
     public Optional<Users> findUserByEmail(String email) {
@@ -46,8 +48,9 @@ public class ClientService {
         return false;
     }
 
-    public Long saveUser(Users user) {
-        return clientRepository.save(user).getId();
+    public void saveUser(Users user) {
+        clientRepository.save(user);
+//        return user.getId();
     }
 
     public Optional<Users> findById(Long idUser) {

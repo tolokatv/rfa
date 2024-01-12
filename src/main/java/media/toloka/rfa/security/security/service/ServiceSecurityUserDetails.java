@@ -22,7 +22,7 @@ public class ServiceSecurityUserDetails implements ServiceSecurityUsers, UserDet
     private BCryptPasswordEncoder passwordEncoder;
     @Autowired
     private UserSecurityRepository repoUsers;
-    @Override
+//    @Override
     public Long saveUser(Users user) { // TODO Перенести з класу повʼязаного з Security до класу обробки реєстрації користувача
         String passwd= user.getPassword();
         String encodedPasswod = passwordEncoder.encode(passwd);

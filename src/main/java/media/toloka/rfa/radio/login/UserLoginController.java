@@ -3,15 +3,18 @@ package media.toloka.rfa.radio.login;
 // робота з поштою https://nuwanthafernando95.medium.com/spring-boot-email-template-with-thymeleaf-4f21ca437b52
 // реєстрація користувача https://www.baeldung.com/registration-verify-user-by-email
 
-import jakarta.mail.MessagingException;
+//import jakarta.mail.MessagingException;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.email.model.Mail;
 import media.toloka.rfa.radio.email.service.EmailSenderService;
 import media.toloka.rfa.radio.history.service.ServiceHistory;
 import media.toloka.rfa.radio.login.model.Token;
 import media.toloka.rfa.radio.login.service.TokenService;
+import media.toloka.rfa.radio.root.RootController;
 import media.toloka.rfa.security.security.model.Roles;
 import media.toloka.rfa.security.security.model.Users;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailSendException;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -26,10 +29,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Optional;
-import java.util.UUID;
+import java.util.*;
 
 import static media.toloka.rfa.radio.history.model.EHistoryType.*;
 import static media.toloka.rfa.security.security.model.ERole.*;
@@ -57,11 +57,13 @@ public class UserLoginController {
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
 
-    @Autowired
-    private EmailSenderService emailSenderService;
+//    @Autowired
+//    private EmailSenderService emailSenderService;
 
     @Autowired
     private TokenService serviceToken;
+
+    Logger logger = LoggerFactory.getLogger(RootController.class);
 
     @GetMapping(value = "/login/route")
     public String userRouter (
@@ -117,17 +119,25 @@ public class UserLoginController {
 //            switch (userDTO.getName()) {
                 case "User":
                     role.setRole(ROLE_USER);
+                    userDTO.setRoles(new ArrayList<Roles>());
                     userDTO.getRoles().add(role);
                     break;
                 case "Creater":
                     role.setRole(ROLE_CREATER);
+                    userDTO.setRoles(new ArrayList<Roles>());
                     userDTO.getRoles().add(role);
                     break;
                 default:
                     role.setRole(ROLE_UNKNOWN);
+                    userDTO.setRoles(new ArrayList<Roles>());
                     userDTO.getRoles().add(role);
             }
-            Long idUser = clientService.saveUser(userDTO); // зберігаємо користувача в базу
+            // зберігаємо користувача в базу
+            userDTO.setPassword("*");
+            clientService.saveUser(userDTO);
+            Long idUser = clientService.findUserByEmail(userDTO.getEmail()).get().getId();
+
+//            Long idUser = clientService.saveUser(userDTO);
 
             opt = clientService.findById(idUser);  // перевірити чи збережено користувача
             if (opt.isPresent()) {
@@ -157,19 +167,21 @@ public class UserLoginController {
                 map1.put("confirmationUrl", (Object) "https://rfa.toloka.media/login/setUserPassword?token=" + token); // сформували для переходу адресу з токеном
                 mail.setHtmlTemplate(new Mail.HtmlTemplate("/mail/registerSetPassword", map1)); // заповнили обʼєкт для відсилання пошти
                 // пробуємо надіслати
+                logger.info("ЗРОБИТИ ВІДПРАВКУ ПОШТИ!!!");
+
                 // потрібно зробити нормальну обробку помилок пошти
-                try {
-                    emailSenderService.sendEmail(mail);
+//                try {
+//                    emailSenderService.sendEmail(mail);
+////                }
+////                catch (MessagingException e) {
+////                    System.out.println("========================== mail MessagingException");
+//                } catch (IOException e) {
+//                    System.out.println("========================== mail IOException");
 //                }
-//                catch (MessagingException e) {
-//                    System.out.println("========================== mail MessagingException");
-                } catch (IOException e) {
-                    System.out.println("========================== mail IOException");
-                }
-                catch (javax.mail.MessagingException e) {
-                    throw new RuntimeException(e);
-                }
-                Optional<Users> topt = clientService.findUserByEmail(email);
+//                catch (javax.mail.MessagingException e) {
+//                    throw new RuntimeException(e);
+//                }
+//                Optional<Users> topt = clientService.findUserByEmail(email);
                 /*
                  */
 
@@ -234,21 +246,22 @@ public class UserLoginController {
             map1.put("confirmationUrl", (Object) "https://rfa.toloka.media/login/setUserPassword?token=" + token.getToken()); // сформували для переходу адресу з токеном
             mail.setHtmlTemplate(new Mail.HtmlTemplate("/mail/restorePsw", map1)); // заповнили обʼєкт для відсилання пошти
             // TODO потрібно зробити нормальну обробку помилок пошти
-            try {
-                emailSenderService.sendEmail(mail);
-                serviceHistory.saveHistory(History_UserSendMailSetPassword, mail.getTo(), user);
-
-            } catch (IOException e) {
-                System.out.println("========================== mail IOException");
-                model.addAttribute("msg", "На пошту '" + email + "' не надіслано лист. ");
-                return "redirect:/error";
-            }
-            catch (javax.mail.MessagingException e) {
-//                throw new RuntimeException(e);
-                System.out.println("========================== mail MessagingException");
-                model.addAttribute("msg", "На пошту '" + email + "' не надіслано лист. ");
-                return "redirect:/error";
-            }
+            logger.info("ЗРОБИТИ ВІДПРАВКУ ПОШТИ!!!");
+//            try {
+//                emailSenderService.sendEmail(mail);
+//                serviceHistory.saveHistory(History_UserSendMailSetPassword, mail.getTo(), user);
+//
+//            } catch (IOException e) {
+//                System.out.println("========================== mail IOException");
+//                model.addAttribute("msg", "На пошту '" + email + "' не надіслано лист. ");
+//                return "redirect:/error";
+//            }
+//            catch (javax.mail.MessagingException e) {
+////                throw new RuntimeException(e);
+//                System.out.println("========================== mail MessagingException");
+//                model.addAttribute("msg", "На пошту '" + email + "' не надіслано лист. ");
+//                return "redirect:/error";
+//            }
 
 //        } catch (MessagingException e) {
 //                System.out.println("========================== mail MessagingException");
@@ -310,7 +323,10 @@ public class UserLoginController {
             myuser.setPassword(passwordEncoder.encode(psw));
 //            myuser.setLock(false);
 //            myuser.setEnabled(true);
-            Long idt = clientService.saveUser(myuser);
+
+            clientService.saveUser(myuser);
+            Long idt = clientService.findUserByEmail(myuser.getEmail()).get().getId();
+//            Long idt = clientService.saveUser(myuser);
             serviceHistory.saveHistory(History_UserSetPassword, "Встановили новий пароль", myuser);
 
             serviceToken.delete(myToken);
@@ -333,7 +349,9 @@ public class UserLoginController {
             @ModelAttribute Users user,
             Model model
     ) { // тут напевно робота з поштою
-        Long id = clientService.saveUser(user);
+        clientService.saveUser(user);
+        Long id = clientService.findUserByEmail(user.getEmail()).get().getId();
+//        Long id = clientService.saveUser(user);
         String message = "Користувача '" + id + "' збережено!";
         model.addAttribute("msg", message);
         return "/login/registerUser";
