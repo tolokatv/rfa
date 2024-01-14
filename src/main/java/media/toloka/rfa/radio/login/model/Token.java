@@ -21,8 +21,8 @@ public class Token {
     @Column
     private Long id;
 
-    @Column
-    private String name;
+//    @Column
+//    private String name;
 
     @Column
     private String token;
@@ -32,7 +32,7 @@ public class Token {
     private Users user;
 
     @Column
-    private Date expiryDate;
+    private Date expiryDate = calculateExpiryDate(EXPIRATION);
 
     public Date calculateExpiryDate(int expiryTimeInMinutes) {
         Calendar cal = Calendar.getInstance();

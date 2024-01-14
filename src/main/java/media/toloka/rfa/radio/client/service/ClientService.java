@@ -41,7 +41,7 @@ public class ClientService {
         Iterator<Roles> iterator = roles.iterator();
         while (iterator.hasNext()) {
             Roles curRole = iterator.next();
-            if (curRole.equals(role)) {
+            if (role.equals(curRole.getRole())) {
                 return true;
             }
         }

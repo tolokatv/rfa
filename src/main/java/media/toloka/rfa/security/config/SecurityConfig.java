@@ -62,12 +62,12 @@ public class SecurityConfig {
                 .anyRequest().authenticated();
                 //.anyRequest().permitAll();
 // tmp comment
-//        http.formLogin(fL -> fL
-//                .loginPage("/login")
-//                .loginProcessingUrl("/login")
-//                .defaultSuccessUrl("/login/route")
-//                .permitAll()
-//        );
+        http.formLogin(fL -> fL
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .defaultSuccessUrl("/login/route")
+                .permitAll()
+        );
 
         http.logout(lOut -> {
             lOut.invalidateHttpSession(true)

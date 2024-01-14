@@ -3,6 +3,7 @@ package media.toloka.rfa.radio.login.service;
 import media.toloka.rfa.radio.login.model.Token;
 import media.toloka.rfa.radio.login.repo.TokenRepository;
 import media.toloka.rfa.security.security.model.Users;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -10,10 +11,15 @@ import java.util.Optional;
 @Service
 public class TokenService {
 
+    @Autowired
     private TokenRepository tokenRepository;
 
     public void createVerificationToken (Users user, String token) {
-
+        Token stoken = new Token();
+        stoken.setUser(user);
+        stoken.setToken(token);
+//        stoken.setExpiryDate();
+        tokenRepository.save(stoken);
     }
 
     public Token findByToken(String stoken) {
