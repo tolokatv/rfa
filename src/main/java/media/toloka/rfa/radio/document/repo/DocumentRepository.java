@@ -1,16 +1,19 @@
 package media.toloka.rfa.radio.document.repo;
 
 
-import media.toloka.rfa.radio.document.model.IDDocuments;
+
+
+import media.toloka.rfa.radio.client.model.Clientdetail;
+import media.toloka.rfa.radio.document.model.Documents;
 import media.toloka.rfa.security.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface DocumentRepository extends JpaRepository<IDDocuments, Long> {
+public interface DocumentRepository extends JpaRepository<Documents, Long> {
 
-    List<IDDocuments> findDocumentByUser(Users user);
+    List<Documents> findDocumentByClientdetail(Clientdetail clientdetail);
 
-    IDDocuments findDocumentById(Long id);
+    Documents findDocumentById(Long id);
 
 }

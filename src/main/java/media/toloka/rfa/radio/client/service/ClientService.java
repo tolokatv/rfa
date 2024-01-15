@@ -4,7 +4,7 @@ import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.radio.client.repository.ClientAddressRepository;
 import media.toloka.rfa.radio.client.repository.ClientDetailRepository;
 import media.toloka.rfa.radio.client.repository.UserRepository;
-import media.toloka.rfa.radio.document.model.IDDocuments;
+import media.toloka.rfa.radio.document.model.Documents;
 import media.toloka.rfa.radio.document.repo.DocumentRepository;
 import media.toloka.rfa.security.model.ERole;
 import media.toloka.rfa.security.model.Roles;
@@ -73,12 +73,12 @@ public class ClientService {
         return userRepository.findById(idUser);
     }
 
-    public IDDocuments GetDocument(Long idDocument) {
+    public Documents GetDocument(Long idDocument) {
         // витягли з бази документ
         return documentRepository.getById(idDocument);
     }
 
-    public void saveDocument(IDDocuments document) {
+    public void saveDocument(Documents document) {
         // зберегли документ
         documentRepository.save(document);
     }

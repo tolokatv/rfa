@@ -3,7 +3,7 @@ package media.toloka.rfa.radio.client;
 import lombok.extern.slf4j.Slf4j;
 
 import media.toloka.rfa.radio.client.service.ClientService;
-import media.toloka.rfa.radio.document.model.IDDocuments;
+import media.toloka.rfa.radio.document.model.Documents;
 import media.toloka.rfa.radio.document.service.DocumentService;
 import media.toloka.rfa.security.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -39,7 +38,12 @@ public class ClientHomeDocumentsController {
         // дивимося його групи
         // відповідним чином виводимо пункти меню
         // Заповнюємо поля для форми
-        List<IDDocuments> documents = documentService.listDocumentsByUser(user);
+        List<Documents> documents = documentService.listDocumentsByClientdetail(
+                clientService.getClientDetail(
+                        clientService.GetCurrentUser()
+                )
+        );
+
         //==========================================================
         // Бавимося
         //==========================================================

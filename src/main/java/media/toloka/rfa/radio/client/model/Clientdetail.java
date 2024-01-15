@@ -3,6 +3,7 @@ package media.toloka.rfa.radio.client.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import media.toloka.rfa.radio.contract.model.Contract;
+import media.toloka.rfa.radio.history.model.History;
 import media.toloka.rfa.security.model.Users;
 
 
@@ -40,6 +41,9 @@ public class Clientdetail {
     @OneToMany(cascade = CascadeType.ALL)
     private List<Contract> contractList;
 
+    @ElementCollection
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<History> historyList;
 //    @ElementCollection
 //    @OneToMany(cascade = CascadeType.ALL)
 //    private List<Contract> listcontract;

@@ -3,7 +3,7 @@ package media.toloka.rfa.radio.client;
 import lombok.extern.slf4j.Slf4j;
 
 import media.toloka.rfa.radio.client.service.ClientService;
-import media.toloka.rfa.radio.document.model.IDDocuments;
+import media.toloka.rfa.radio.document.model.Documents;
 import media.toloka.rfa.radio.document.service.DocumentService;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.Optional;
 
 @Slf4j
 @Controller
@@ -42,7 +40,7 @@ public class ClientDocumentEditController {
         Users user = clientService.GetCurrentUser();
         if (user == null) { return "redirect:/"; }
         // витягуємо документ, який ми будемо редагувати і передаємо в форму
-        IDDocuments doc = clientService.GetDocument(idDocument);
+        Documents doc = clientService.GetDocument(idDocument);
 //        logger.info("Document: {}",doc);
 //        doc.setDocumentType("Type document");
         model.addAttribute("document", doc);
@@ -53,7 +51,7 @@ public class ClientDocumentEditController {
     @PostMapping("/user/documentedit")
     public String PostDocumentEdit(
 //            @ModelAttribute Long ide,
-            @ModelAttribute IDDocuments document,
+            @ModelAttribute Documents document,
 //            @ModelAttribute User user,
             Model model
     ) {
@@ -64,7 +62,7 @@ public class ClientDocumentEditController {
         if (user == null) {
             return "redirect:/";
         }
-        IDDocuments curDocument = documentService.GetDocument(document.getId());
+        Documents curDocument = documentService.GetDocument(document.getId());
 //        if (cur)
         curDocument.setDocumentType(document.getDocumentType());
         curDocument.setUserComment(document.getUserComment());

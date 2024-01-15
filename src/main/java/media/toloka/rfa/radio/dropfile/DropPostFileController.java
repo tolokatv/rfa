@@ -53,11 +53,12 @@ public class DropPostFileController {
             logger.info("Завантаження файлу: Випадкова затримка {}",difference);
             try {
                 Thread.sleep(difference);
+                documentService.saveDocumentInfo(destination);
+                historyService.saveHistory(History_DocumentCreate, " Завантажено файл" + file.getOriginalFilename(), clientService.GetCurrentUser());
             }
             catch(InterruptedException e)
             {
-                documentService.saveDocumentInfo(destination);
-                historyService.saveHistory(History_DocumentCreate, " Завантажено файл" +destination.toFile().getName(), clientService.GetCurrentUser());
+                logger.info("--------- catch(InterruptedException e)");
             }
         } catch (IOException e) {
             logger.info("Завантаження файлу: Проблема збереження");
