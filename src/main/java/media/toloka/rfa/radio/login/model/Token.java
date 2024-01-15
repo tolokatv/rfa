@@ -3,7 +3,7 @@ package media.toloka.rfa.radio.login.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import media.toloka.rfa.security.security.model.Users;
+import media.toloka.rfa.security.model.Users;
 
 import java.sql.Timestamp;
 import java.util.Calendar;

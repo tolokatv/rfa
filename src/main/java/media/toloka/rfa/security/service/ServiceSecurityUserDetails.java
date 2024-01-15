@@ -1,8 +1,8 @@
-package media.toloka.rfa.security.security.service;
+package media.toloka.rfa.security.service;
 
-import media.toloka.rfa.security.security.model.Roles;
-import media.toloka.rfa.security.security.model.Users;
-import media.toloka.rfa.security.security.repository.UserSecurityRepository;
+import media.toloka.rfa.security.model.Roles;
+import media.toloka.rfa.security.model.Users;
+import media.toloka.rfa.security.repository.UserSecurityRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;

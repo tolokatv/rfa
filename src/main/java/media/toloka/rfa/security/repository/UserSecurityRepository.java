@@ -1,6 +1,6 @@
-package media.toloka.rfa.security.security.repository;
+package media.toloka.rfa.security.repository;
 
-import media.toloka.rfa.security.security.model.Users;
+import media.toloka.rfa.security.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;

@@ -1,4 +1,4 @@
-package media.toloka.rfa.security.security.model;
+package media.toloka.rfa.security.model;
 
 public enum ERole {
 //    ROLE_USER("User"),

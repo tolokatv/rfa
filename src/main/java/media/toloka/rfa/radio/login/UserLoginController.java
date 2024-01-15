@@ -4,23 +4,22 @@ package media.toloka.rfa.radio.login;
 // реєстрація користувача https://www.baeldung.com/registration-verify-user-by-email
 
 //import jakarta.mail.MessagingException;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
+import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.email.model.Mail;
 import media.toloka.rfa.radio.email.service.EmailSenderService;
-import media.toloka.rfa.radio.history.service.ServiceHistory;
+import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.login.model.Token;
 import media.toloka.rfa.radio.login.service.TokenService;
 import media.toloka.rfa.radio.root.RootController;
-import media.toloka.rfa.security.security.model.Roles;
-import media.toloka.rfa.security.security.model.Users;
+import media.toloka.rfa.radio.station.service.StationService;
+import media.toloka.rfa.security.model.Roles;
+import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.MailSendException;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.messaging.MessagingException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -32,11 +31,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
-import java.io.IOException;
 import java.util.*;
 
 import static media.toloka.rfa.radio.history.model.EHistoryType.*;
-import static media.toloka.rfa.security.security.model.ERole.*;
+import static media.toloka.rfa.security.model.ERole.*;
 
 //import static media.toloka.rfa.radio.model.EHistoryType.*;
 //import static media.toloka.rfa.security.model.ERole.*;
@@ -55,7 +53,7 @@ public class UserLoginController {
     private ClientService clientService;
 
     @Autowired
-    private ServiceHistory serviceHistory;
+    private HistoryService historyService;
 
 
     @Autowired
@@ -121,16 +119,16 @@ public class UserLoginController {
         String email = formuser.getEmail();
 //        String frmgrp = userDTO.getEmail();
         // намагаємося знайти пошту в базі
-        Optional<Users> opt = clientService.findUserByEmail(email);
+//        Optional<Users> opt = clientService.findUserByEmail(email);
+        Users newUser = clientService.getByEmail(email);
         // перевіряємо, чи є цей емайл в базі
-        if (opt.isEmpty()) {
-            Users newUser= new Users();
+//        if (opt.isEmpty()) {
+        if (newUser == null) {
+            newUser = new Users();
             // додали групу для користувача
             // TODO Якщо у користувача декілька груп, то у формі передбачити вибір групи з якої працюємо.
             // Роль беремо зі форми. Визначається статусом радіобутона.
             Roles role = new Roles();
-            String ttt = "User";
-//            switch (ttt) {
             switch (formuser.getGroup()) {
                 case "User":
                     role.setRole(ROLE_USER);
@@ -151,64 +149,41 @@ public class UserLoginController {
             newUser.setPassword("*");
             newUser.setEmail(formuser.getEmail());
             clientService.saveUser(newUser);
-            Long idUser = clientService.findUserByEmail(newUser.getEmail()).get().getId();
 
-//            Long idUser = clientService.saveUser(userDTO);
+            clientService.CreateClientsDetail(newUser,formuser.getCustname(),formuser.getCustsurname());
+            String token = UUID.randomUUID().toString();
+            serviceToken.createVerificationToken(newUser, token);
 
-            opt = clientService.findById(idUser);  // перевірити чи збережено користувача
-            if (opt.isPresent()) {
-                Users user = opt.get();
-                // Записуємо подію в журнал історії
 
-//                serviceUser.saveHistory(History_UserCreate,
-//                        user.getName(),
-//                        user);
-
-                // формуємо токен та зберігаємо в базу
-                String token = UUID.randomUUID().toString();
-                serviceToken.createVerificationToken(user, token);
-
-                // формуємо повідомлення для відправки поштою
-                Mail mail;
-                mail = new Mail();
-//                mail = new Mail("","","",);
-                mail.setTo(newUser.getEmail());
-                mail.setFrom("rfa@toloka.kiev.ua");
-                mail.setSubject("Радіо для Всіх! Підтвердження реєстрації Вашої радіостанції на сервісі.");
-                Map<String, Object> map1 = new HashMap<String, Object>();
+            // формуємо повідомлення для відправки поштою
+            Mail mail;
+            mail = new Mail();
+            mail.setTo(newUser.getEmail());
+            mail.setFrom("rfa@toloka.kiev.ua");
+            mail.setSubject("Радіо для Всіх! Підтвердження реєстрації Вашої радіостанції на сервісі.");
+            Map<String, Object> map1 = new HashMap<String, Object>();
 //                map1.put("name",(Object) userDTO.getEmail());
 //                map1.put("name", (Object) userDTO.getCustname() + " " + userDTO.getCustsurname()); // сформували імʼя та призвище для листа
-                // TODO правильно сформувати імʼя для відсилання пошти.
-                map1.put("name", (Object) "УВАГА!!! Штучно Сформоване імʼя"); // сформували імʼя та призвище для листа
-                map1.put("confirmationUrl", (Object) "https://rfa.toloka.media/login/setUserPassword?token=" + token); // сформували для переходу адресу з токеном
-                mail.setHtmlTemplate(new Mail.HtmlTemplate("/mail/registerSetPassword", map1)); // заповнили обʼєкт для відсилання пошти
-                // пробуємо надіслати
+            // TODO правильно сформувати імʼя для відсилання пошти.
+            map1.put("name", (Object) "УВАГА!!! Штучно Сформоване імʼя"); // сформували імʼя та призвище для листа
+            map1.put("confirmationUrl", (Object) "https://rfa.toloka.media/login/setUserPassword?token=" + token); // сформували для переходу адресу з токеном
+            mail.setHtmlTemplate(new Mail.HtmlTemplate("/mail/registerSetPassword", map1)); // заповнили обʼєкт для відсилання пошти
+            // пробуємо надіслати
 //                logger.info("ЗРОБИТИ ВІДПРАВКУ ПОШТИ!!!");
-                // Відправляємо через RabbitMQ
+            // Відправляємо через RabbitMQ
 
-                // потрібно зробити нормальну обробку помилок пошти
-                try {
-                    logger.info("Відправляємо пошту при реєстрації!");
-                    emailSenderService.sendEmail(mail);
-//                }
-//                catch (MessagingException e) {
-//                    System.out.println("========================== mail MessagingException");
-                }
-//                catch (IOException e) {
-//                    System.out.println("========================== mail IOException");
-//                }
-                catch (MessagingException e) {
-                    throw new RuntimeException(e);
-                }
-                Optional<Users> topt = clientService.findUserByEmail(email);
-                /*
-                 */
+            // потрібно зробити нормальну обробку помилок пошти
+            try {
+                logger.info("Відправляємо пошту при реєстрації!");
+                emailSenderService.sendEmail(mail);
+            } catch (MessagingException e) {
+                throw new RuntimeException(e);
+            }
 
-                // Готуємо інформацію для відображення для користувача у формі
+            // Готуємо інформацію для відображення для користувача у формі
 //                String message = "Користувача '" + email + "' успішно збережено! Для продовження реєстрації перевірте свою пошту.";
 //                model.addAttribute("msg", message);
-                model.addAttribute("success", "Користувача '" + email + "' успішно збережено! Для продовження реєстрації перевірте свою пошту.");
-            }
+            model.addAttribute("success", "Користувача '" + email + "' успішно збережено! Для продовження реєстрації перевірте свою пошту.");
         } else { // знайшли таку пошту
             // формуємо повідомлення для форми
             // Готуємо інформацію для відображення для користувача у формі
@@ -240,11 +215,11 @@ public class UserLoginController {
         // Забираємо з форми email користувача
         String email = userDTO.getEmail();
         // намагаємося знайти пошту в базі кристувачів
-        Optional<Users> opt = clientService.findUserByEmail(email);
+        Users  user = clientService.getByEmail(email);
         // перевіряємо, чи є цей емайл в базі
-        if (opt.isPresent()) {  // користувач є в базі
+        if (user != null) {  // користувач є в базі
             // формуємо токен та зберігаємо в базу
-            Users user = opt.get();
+//            Users user = opt.get();
             // формуємо повідомлення для відправки поштою
             Mail mail;
             mail = new Mail();
@@ -268,7 +243,7 @@ public class UserLoginController {
             logger.info("ЗРОБИТИ ВІДПРАВКУ ПОШТИ!!!");
             try {
                 emailSenderService.sendEmail(mail);
-                serviceHistory.saveHistory(History_UserSendMailSetPassword, mail.getTo(), user);
+                historyService.saveHistory(History_UserSendMailSetPassword, mail.getTo(), user);
 
             }
 //            catch (IOException e) {
@@ -283,33 +258,16 @@ public class UserLoginController {
                 return "redirect:/error";
             }
 
-//        } catch (MessagingException e) {
-//                System.out.println("========================== mail MessagingException");
-//                model.addAttribute("msg", "На пошту '" + email + "' не надіслано лист. ");
-//                return "redirect:/error";
-//            } catch (IOException e) {
-//                System.out.println("========================== mail IOException");
-//                model.addAttribute("msg", "На пошту '" + email + "' не надіслано лист. ");
-//                return "redirect:/error";
-//            } catch (MailSendException e) {
-//                System.out.println("========================== mail MailSendException");
-//                model.addAttribute("msg", "На пошту '" + email + "' не надіслано лист. ");
-//                return "redirect:/error";
-//            }
             // формуємо повідомлення для форми реєстрації
             model.addAttribute("success", "На пошту '" + email + "' надіслано лист. Для продовження відновлення паролю перевірте свою пошту.");
 //            }
         } else { // не знайшли таку пошту
             // формуємо повідомлення для форми
-//            String message = "Користувача '" + email + "' не знайдено в базі.";
-//            model.addAttribute("danger", message);
             String restorePSW = "Зареєструвати нового користувача?";
             model.addAttribute("restorepsw", restorePSW);
-
             model.addAttribute("danger", "Користувача '" + email + "' не знайдено в базі.");
         }
         return "/login/restorepsw";
-//        return "redirect:/";
     }
 
     @GetMapping("/login/setUserPassword")
@@ -334,21 +292,10 @@ public class UserLoginController {
         if (myToken != null) {
             //TODO перевірити термін дії токена. якщо протерміновано, то вивести повідомлення і запропонувати повторити
             Users myuser = myToken.getUser();
-            // перевірити чи не залочено користувача
-//            if (myuser.isLock()) {
-//                // формуємо повідомлення про те, що користувач залочен
-//                model.addAttribute("msg", "Користувачу заборонені операції на цьому сервісі. Зверніться до адміністрації сервісу.");
-//                return "redirect:/error";
-//            }
+            // TODO перевірити чи не залочено користувача
             myuser.setPassword(passwordEncoder.encode(psw));
-//            myuser.setLock(false);
-//            myuser.setEnabled(true);
-
             clientService.saveUser(myuser);
-            Long idt = clientService.findUserByEmail(myuser.getEmail()).get().getId();
-//            Long idt = clientService.saveUser(myuser);
-            serviceHistory.saveHistory(History_UserSetPassword, "Встановили новий пароль", myuser);
-
+            historyService.saveHistory(History_UserSetPassword, "Встановили новий пароль", myuser);
             serviceToken.delete(myToken);
         } else {
             // токен не найден
@@ -361,7 +308,6 @@ public class UserLoginController {
         }
         // світимо результат запису пароля і якщо все гаразд, то пропонуємо ввійти в систему
         return "redirect:/login";
-//        return "/setUserPassword";
     }
 
     @PostMapping("/login/saveUser")
@@ -370,9 +316,9 @@ public class UserLoginController {
             Model model
     ) { // тут напевно робота з поштою
         clientService.saveUser(user);
-        Long id = clientService.findUserByEmail(user.getEmail()).get().getId();
-//        Long id = clientService.saveUser(user);
-        String message = "Користувача '" + id + "' збережено!";
+//        Long id = clientService.getByEmail(user.getEmail()).getId();
+//        String message = "Користувача '" + clientService.getByEmail(user.getEmail()).getEmail() + "' збережено!";
+        String message = "Користувача '" + user.getEmail() + "' збережено!";
         model.addAttribute("msg", message);
         return "/login/registerUser";
     }

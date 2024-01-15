@@ -1,4 +1,4 @@
-package media.toloka.rfa.security.security.model;
+package media.toloka.rfa.security.model;
 
 import jakarta.persistence.*;
 import lombok.Data;

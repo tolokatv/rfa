@@ -3,8 +3,7 @@ package media.toloka.rfa.radio.history.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
-import media.toloka.rfa.radio.history.model.EHistoryType;
-import media.toloka.rfa.security.security.model.Users;
+import media.toloka.rfa.security.model.Users;
 
 import java.time.LocalDateTime;
 
@@ -23,7 +22,7 @@ public class History {
     private String          action;
     private String          comment;
 
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Users user;
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    private Users user;
 
 }

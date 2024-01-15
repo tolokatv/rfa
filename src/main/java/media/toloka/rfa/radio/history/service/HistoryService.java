@@ -3,14 +3,14 @@ package media.toloka.rfa.radio.history.service;
 import media.toloka.rfa.radio.history.model.EHistoryType;
 import media.toloka.rfa.radio.history.model.History;
 import media.toloka.rfa.radio.history.repository.RepoHistory;
-import media.toloka.rfa.security.security.model.Users;
+import media.toloka.rfa.security.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
 @Service
-public class ServiceHistory {
+public class HistoryService {
 
     @Autowired
     private RepoHistory historyrepo;
