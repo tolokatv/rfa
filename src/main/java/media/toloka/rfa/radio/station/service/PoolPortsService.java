@@ -56,21 +56,22 @@ public class PoolPortsService {
         return  station;
     }
 
+    private Poolport GetFreePort () {
+        // дивимося, чи є вільні порти EServerPortType PORT_FREE
+        Poolport firstFreePorts = poolPortRepo.findFirstByPorttype( PORT_FREE);
+        if (firstFreePorts!= null ) {
+            return firstFreePorts;
+        } else {
+            return GetNewFreePort(); // TODO Що робити коли вийшли за межі портів на сервері?
+        }
+    }
+
     private Poolport GetNewFreePort() {
         // вибираємо максимальний номер не зайнятого порту.
         Integer newPort = poolPortRepo.findMaxPort();
         Poolport sp = new Poolport();
         sp.setPort(newPort);
         return sp;
-    }
-    private Poolport GetFreePort () {
-        // дивимося, чи є вільні порти EServerPortType PORT_FREE
-        Poolport listFreePorts = poolPortRepo.findFirstByPorttype( PORT_FREE);
-        if (listFreePorts != null ) {
-            return listFreePorts;
-        } else {
-            return GetNewFreePort();
-        }
     }
 
     public void SavePort(Poolport port) {

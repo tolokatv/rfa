@@ -32,6 +32,7 @@ public class RPCService {
 //        logger.info(rjob);
         // витягли користувача
         Users user = rjob.getUser();
+        // саме тут створюємо новий обʼєкт - радіостанція
         Station newRadio = poolPortsService.AttachPort(user,new Station(), EServerPortType.PORT_MAIN);
         newRadio.setUuid(UUID.randomUUID().toString()); // TODO перенесті в конструктор
         // Сохраніть станцію с портом (Занять порт в пуле портов)

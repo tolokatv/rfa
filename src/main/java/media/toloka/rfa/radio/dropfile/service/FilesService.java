@@ -26,7 +26,11 @@ public class FilesService {
 
     final Logger logger = LoggerFactory.getLogger(DropPostFileController.class);
 
-    public String CheckClientDirectory() {
-        return PATH.concat(clientService.getClientDetail(clientService.GetCurrentUser()).getUuid());
+    public String GetClientDirectory() {
+        Users usr = clientService.GetCurrentUser();
+        Clientdetail cd = clientService.getClientDetail(clientService.GetCurrentUser());
+        String sss = cd.getUuid();
+//        String str = clientService.getClientDetail(clientService.GetCurrentUser()).getUuid();
+        return PATH.concat(sss);
     }
 }

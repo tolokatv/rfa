@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class ClientService {
@@ -100,6 +101,7 @@ public class ClientService {
         clientdetail.setUser(user);
         clientdetail.setCustname(name);
         clientdetail.setCustsurname(surname);
+        clientdetail.setUuid(UUID.randomUUID().toString());
         clientDetailRepository.save(clientdetail);
 
     }

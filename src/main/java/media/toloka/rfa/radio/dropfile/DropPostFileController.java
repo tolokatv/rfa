@@ -41,13 +41,14 @@ public class DropPostFileController {
 
     @PostMapping(path = "/uploadfile" ) // , produces = MediaType.APPLICATION_JSON_VALUE
     public void upload(@RequestParam("file") MultipartFile file) {
+
         log.info("uploaded file " + file.getOriginalFilename());
         if (file.isEmpty()) {
 //                throw new ExecutionControl.UserException("Empty file");
             logger.info("Завантаження файлу: Файл порожній");
         }
 //        Path destination = Paths.get("/home/ysv/rfa/upload").resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
-        Path destination = Paths.get(filesService.CheckClientDirectory()).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
+        Path destination = Paths.get(filesService.GetClientDirectory()).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
 //        Path destination = Paths.get("upload").resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
         try {
             Files.createDirectories(destination.getParent());
