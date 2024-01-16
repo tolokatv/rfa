@@ -1,4 +1,4 @@
-package media.toloka.rfa.radio.client;
+package media.toloka.rfa.radio.contract;
 // куерування контрактами користувача
 // створення, оплата, закриття, пауза, зняття з паузи.
 
@@ -30,7 +30,7 @@ import static media.toloka.rfa.radio.history.model.EHistoryType.History_UserCrea
 public class ClientHomeContractController {
 
     @Autowired
-    private HistoryService historuService;
+    private HistoryService historyService;
 
     @Autowired
     private ClientService clientService;
@@ -101,12 +101,13 @@ public class ClientHomeContractController {
         // Працюємо з новим контрактом.
         Contract ncontract = new Contract();
         ncontract.setNumber(UUID.randomUUID().toString());
+        ncontract.setUuid(ncontract.getNumber());
         ncontract.setCreateDate(LocalDateTime.now());
         ncontract.setLastPayDate(null);
         ncontract.setClientdetail(clientService.getClientDetail(clientService.GetCurrentUser()));
         ncontract.setUsercomment(contract.getUsercomment());
         contractService.saveContract(ncontract);
-        historuService.saveHistory(History_UserCreateContract, " Новий контракт: "+ncontract.getNumber().toString(), user);
+        historyService.saveHistory(History_UserCreateContract, " Новий контракт: "+ncontract.getNumber().toString(), user);
 
         return "redirect:/user/contract";
     } // END postuserCreateContract

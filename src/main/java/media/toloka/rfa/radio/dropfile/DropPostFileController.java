@@ -3,6 +3,7 @@ package media.toloka.rfa.radio.dropfile;
 import lombok.extern.slf4j.Slf4j;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.document.service.DocumentService;
+import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -33,6 +34,9 @@ public class DropPostFileController {
     @Autowired
     private HistoryService historyService;
 
+    @Autowired
+    private FilesService filesService;
+
     final Logger logger = LoggerFactory.getLogger(DropPostFileController.class);
 
     @PostMapping(path = "/uploadfile" ) // , produces = MediaType.APPLICATION_JSON_VALUE
@@ -43,8 +47,10 @@ public class DropPostFileController {
             logger.info("Завантаження файлу: Файл порожній");
         }
 //        Path destination = Paths.get("/home/ysv/rfa/upload").resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
-        Path destination = Paths.get("upload").resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
+        Path destination = Paths.get(filesService.CheckClientDirectory()).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
+//        Path destination = Paths.get("upload").resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
         try {
+            Files.createDirectories(destination.getParent());
             Files.copy(file.getInputStream(), destination);
             // Зберігаємо інформацію о файлі та привʼязуємо до користувача.
             Random random = new Random();
@@ -54,7 +60,7 @@ public class DropPostFileController {
             try {
                 Thread.sleep(difference);
                 documentService.saveDocumentInfo(destination);
-                historyService.saveHistory(History_DocumentCreate, " Завантажено файл" + file.getOriginalFilename(), clientService.GetCurrentUser());
+                historyService.saveHistory(History_DocumentCreate, " Завантажено файл: " + file.getOriginalFilename(), clientService.GetCurrentUser());
             }
             catch(InterruptedException e)
             {

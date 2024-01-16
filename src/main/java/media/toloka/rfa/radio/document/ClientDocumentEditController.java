@@ -1,4 +1,4 @@
-package media.toloka.rfa.radio.client;
+package media.toloka.rfa.radio.document;
 
 import lombok.extern.slf4j.Slf4j;
 

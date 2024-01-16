@@ -1,4 +1,4 @@
-package media.toloka.rfa.radio.client;
+package media.toloka.rfa.radio.station;
 
 
 import com.google.gson.Gson;
