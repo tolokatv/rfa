@@ -1,11 +1,6 @@
 package media.toloka.rfa.rpc.service;
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import media.toloka.rfa.config.gson.LocalDateDeserializer;
-import media.toloka.rfa.config.gson.LocalDateSerializer;
-import media.toloka.rfa.config.gson.LocalDateTimeDeserializer;
-import media.toloka.rfa.config.gson.LocalDateTimeSerializer;
 import media.toloka.rfa.config.gson.service.GsonService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.message.service.MessageService;
@@ -17,14 +12,13 @@ import media.toloka.rfa.rpc.model.RPCJob;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.util.UUID;
-
 import static media.toloka.rfa.radio.history.model.EHistoryType.History_StatiionCreate;
+import static media.toloka.rfa.rpc.model.ERPCJobType.JOB_STATION_ALLOCATE;
 
 @Service
 public class RPCService {
@@ -43,6 +37,15 @@ public class RPCService {
 
     @Autowired
     private GsonService gsonService;
+
+    @Autowired
+    private ServerRunnerService serverRunnerService;
+
+    @Autowired
+    RabbitTemplate template;
+
+    @Value("${rabbitmq.queue}")
+    private String queueName;
 
     final Logger logger = LoggerFactory.getLogger(RPCService.class);
 
@@ -71,17 +74,10 @@ public class RPCService {
                 newRadio.getCreatedate().toString() + " Create " + newRadio.getUuid().toString(),
                 user
                 );
-
-//        String rjobdata = rjob.getRjobdata();
-//        GsonBuilder builder = new GsonBuilder();
-////        builder.setPrettyPrinting();
-//
-//        Gson gson = builder.create();
-//        Users student = gson.fromJson(rjobdata, Users.class);
-//        System.out.println(student);
-//
-//        jsonString = gson.toJson(student);
-//        System.out.println(jsonString);
+        rjob.setRJobType(JOB_STATION_ALLOCATE);
+        Gson gson = gsonService.CreateGson();
+//        String strgson = gson.toJson(rjob).toString();
+        template.convertAndSend(queueName,gson.toJson(rjob).toString());
         // подивилися, чи є у нього угода. Якщо немає контракту то створили безкоштовний
             // відправили повідомлення про створення контракту
         // подивилися, чи є в угоді станція. Якщо немає то створили радіостанцію на безкоштовному пакеті

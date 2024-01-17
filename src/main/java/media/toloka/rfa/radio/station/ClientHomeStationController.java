@@ -89,7 +89,7 @@ public class ClientHomeStationController {
         }
         // відправляємо завдання на створення радіостанції.
         RPCJob rjob = new RPCJob();
-        rjob.setRJobType(ERPCJobType.JOB_RADIO_CREATE); // set job type
+        rjob.setRJobType(ERPCJobType.JOB_STATION_CREATE); // set job type
         rjob.setUser(user);
         // Додаємо станцію і передаємо на виконання на віддалений сервіс
         Station station = stationService.CreateStation();
@@ -100,32 +100,12 @@ public class ClientHomeStationController {
             return "redirect:/user/stations";
         }
 
-//        GsonBuilder gstationbuilder = new GsonBuilder();
-//        gstationbuilder.registerTypeAdapter(LocalDate.class,        new LocalDateSerializer());
-//        gstationbuilder.registerTypeAdapter(LocalDate.class,        new LocalDateDeserializer());
-//        gstationbuilder.registerTypeAdapter(LocalDateTime.class,    new LocalDateTimeSerializer());
-//        gstationbuilder.registerTypeAdapter(LocalDateTime.class,    new LocalDateTimeDeserializer());
         Gson gstation = gsonService.CreateGson();
-//                gstationbuilder.setPrettyPrinting().create();
-
-        rjob.setRjobdata(
-                gstation.toJson(station).toString()
-        );
+        rjob.setRjobdata(gstation.toJson(station).toString());
         // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
-//        GsonBuilder gsonBuilder = new GsonBuilder();
-//        gsonBuilder.registerTypeAdapter(LocalDate.class,        new LocalDateSerializer());
-//        gsonBuilder.registerTypeAdapter(LocalDate.class,        new LocalDateDeserializer());
-//        gsonBuilder.registerTypeAdapter(LocalDateTime.class,    new LocalDateTimeSerializer());
-//        gsonBuilder.registerTypeAdapter(LocalDateTime.class,    new LocalDateTimeDeserializer());
-
         Gson gson = gsonService.CreateGson();
-//                gsonBuilder.setPrettyPrinting().create();
-
         String strgson = gson.toJson(rjob).toString();
-        logger.info("======== Send to RPC: "+strgson);
         template.convertAndSend(queueName,gson.toJson(rjob).toString());
-
-
         return "redirect:/user/stations";
     }
 }

@@ -54,7 +54,7 @@ public class SecurityConfig {
                         "/setUserPassword").permitAll()
                 .requestMatchers("/admin/**").hasAuthority("Admin")
                 .requestMatchers("/user/**").hasAuthority("User")
-                .requestMatchers("/creator/**").hasAuthority("Creator")
+                .requestMatchers("/creater/**").hasAuthority("Creator")
                 .requestMatchers("/editor/**").hasAuthority("Editor,Admin")
                 .requestMatchers("/moderator/**").hasAuthority("Moderator,Admin")
                 .requestMatchers("/upload/**").hasAuthority("User,Creator,Admin,Editor,Moderator")

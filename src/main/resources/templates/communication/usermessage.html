@@ -60,7 +60,9 @@
                         <div th:if="!(${message.from.id} == ${currentUserID})">
                             <div th:if="${message.reading}" >
                                     <p  class="text-end" style="">
-                                        <span th:text="${message.send}"/><br><span th:text="${message.body}" style="color:#ff0000;"/>
+                                        <span th:text="${message.send}"/>
+                                        <br>
+                                        <span th:text="${message.body}" style="color:#ff0000;"/>
                                     </p>
                             </div>
                             <div th:if="!(${message.reading})" >

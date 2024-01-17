@@ -7,11 +7,14 @@ import media.toloka.rfa.config.gson.LocalDateDeserializer;
 import media.toloka.rfa.config.gson.LocalDateSerializer;
 import media.toloka.rfa.config.gson.LocalDateTimeDeserializer;
 import media.toloka.rfa.config.gson.LocalDateTimeSerializer;
+import media.toloka.rfa.config.gson.service.GsonService;
 import media.toloka.rfa.rpc.model.RPCJob;
 import media.toloka.rfa.rpc.service.RPCService;
+import media.toloka.rfa.rpc.service.ServerRunnerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.annotation.RabbitListener;
+import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,6 +26,16 @@ public class RPCListener {
 
     @Autowired
     private RPCService serviceRPC;
+
+    @Autowired
+    private ServerRunnerService serverRunner;
+
+    @Autowired
+    RabbitTemplate template;
+
+    @Autowired
+    private GsonService gsonService;
+
 Logger logger = LoggerFactory.getLogger(RPCListener.class);
 
 //    @RabbitListener(queues = "rfajob")
@@ -36,22 +49,19 @@ Logger logger = LoggerFactory.getLogger(RPCListener.class);
 
     @RabbitListener(queues = "${rabbitmq.queue}")
     public void processedFromFront(String message) {
-        logger.info("Received from queue 1: " + message);
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(LocalDate.class,        new LocalDateSerializer());
-        gsonBuilder.registerTypeAdapter(LocalDate.class,        new LocalDateDeserializer());
-        gsonBuilder.registerTypeAdapter(LocalDateTime.class,    new LocalDateTimeSerializer());
-        gsonBuilder.registerTypeAdapter(LocalDateTime.class,    new LocalDateTimeDeserializer());
 
-        Gson gson = gsonBuilder.setPrettyPrinting().create();
+        Gson gson = gsonService.CreateGson();
         RPCJob rjob = gson.fromJson(message, RPCJob.class);
         // TODO тут обробляємо завдання з фронтенда.
 //        logger.info("+++++++++++++++++  Recive message from QUEUES.");
         switch (rjob.getRJobType()) {
-            case JOB_RADIO_CREATE:
+            case JOB_STATION_CREATE:
 //                logger.info("======= RADIO CREATE  {}    {}", rjob.getRJobType().label, rjob.getRjobdata());
                 serviceRPC.JobCreateStation(rjob);
 //                serviceRPC.SendMessageToUser(user,null,msg);
+                break;
+            case JOB_STATION_ALLOCATE:
+                serverRunner.AllocateStationOnServer(rjob);
                 break;
             case JOB_CONTRACT_CREATE:
                 logger.info("======= {}    {}", rjob.getRJobType().label, rjob.getRjobdata());

@@ -2,6 +2,7 @@ package media.toloka.rfa.radio.client;
 
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.message.service.MessageService;
+import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.security.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -21,6 +22,9 @@ public class ClientHomeController {
 
     @Autowired
     private ClientService clientService;
+
+    @Autowired
+    private StationService stationService;
 
     @Autowired
     private MessageService messageService;
@@ -50,6 +54,7 @@ public class ClientHomeController {
         // дивимося його групи
         // відповідним чином виводимо пункти меню
         // Заповнюємо поля для форми
+        model.addAttribute("stations",  stationService.GetListStationByUser(user));
         model.addAttribute("userID",    user.getId());
         model.addAttribute("userName",  au.getName());
         return "/user/user_page";
