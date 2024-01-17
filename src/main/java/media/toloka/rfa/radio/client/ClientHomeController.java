@@ -29,7 +29,7 @@ public class ClientHomeController {
             Model model ) {
 
         // Додаемо сповіщення про не прочитані повідомлення
-        Long numberNewMsg = Long.valueOf (messageService.GetNewMessages(clientService.GetCurrentUser()).size());
+        Long numberNewMsg = Long.valueOf (messageService.GetNewMessages(clientService.getClientDetail(clientService.GetCurrentUser())).size());
         if (numberNewMsg > 0) {
             model.addAttribute("danger", "У Вас є нові повідомлення: "
                     + numberNewMsg.toString()

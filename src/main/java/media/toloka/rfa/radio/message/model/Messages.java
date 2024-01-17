@@ -2,6 +2,7 @@ package media.toloka.rfa.radio.message.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.security.model.Users;
 
 
@@ -16,9 +17,9 @@ public class Messages {
     @Column
     private Long id;
     @ManyToOne
-    private Users userf; // from user
+    private Clientdetail from; // from user
     @ManyToOne
-    private Users usert; // to user
+    private Clientdetail tom; // to user
     private boolean reading;
     private LocalDateTime send;
     private LocalDateTime read;

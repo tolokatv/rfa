@@ -8,9 +8,11 @@ import media.toloka.rfa.radio.history.repository.RepoHistory;
 import media.toloka.rfa.security.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 
+@Transactional
 @Service
 public class HistoryService {
 
@@ -26,8 +28,9 @@ public class HistoryService {
         history.setDateAction(LocalDateTime.now());
         history.setHistoryType(type);
         history.setAction(type.label);
-        if (user != null) {
-            history.setClientdetail(clientService.getClientDetail(user));
+        if (user != null) { // TODO А що робити в мікросервісі, де брати поточного користувача?
+            Clientdetail cd = clientService.getClientDetail(user);
+            history.setClientdetail(cd);
         }
 
         history.setComment( history.getDateAction().toString()

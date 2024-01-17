@@ -43,7 +43,6 @@
         <form action="#" th:action="@{/usermessage}" method="post" th:object="${messages}">
             <div class="col-lg-9 col-sm-12">
                 <textarea th:field="*{body}" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
-<!--                <input type="text" th:field="*{body}" />-->
                 <button style="margin-bottom: 20px" type="submit">Надіслати</button>
             </div>
             <div class="row">
@@ -53,17 +52,23 @@
                 <div th:each="message : ${listAllMessage}">
                     <div class="col-lg-9 col-sm-12">
 <!--                    <div><span th:text="${message.body}"> Title </span></div>-->
-                        <div th:if="${message.userf.id} == ${currentUserID}">
-                            <p  class="text-end" style="">
-                                <span th:text="${message.send}"/><br><span th:text="${message.body}"/>
-                            </p>
-                        </div>
-                        <div th:if="!(${message.userf.id} == ${currentUserID})">
+                        <div th:if="${message.from.id} == ${currentUserID}">
                             <p  class="text-start " style="background-color:#f3f3f3;">
                                 <span th:text="${message.send}"/><br><span th:text="${message.body}"/>
                             </p>
                         </div>
-<!--                        <textarea type="text" th:text="${message.body}" class="form-control"> </textarea>-->
+                        <div th:if="!(${message.from.id} == ${currentUserID})">
+                            <div th:if="${message.reading}" >
+                                    <p  class="text-end" style="">
+                                        <span th:text="${message.send}"/><br><span th:text="${message.body}" style="color:#ff0000;"/>
+                                    </p>
+                            </div>
+                            <div th:if="!(${message.reading})" >
+                                <p  class="text-end" style="">
+                                    <span th:text="${message.send}"/><br><span th:text="${message.body}"/>
+                                </p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>

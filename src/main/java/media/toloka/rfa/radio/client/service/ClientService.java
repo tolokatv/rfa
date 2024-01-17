@@ -84,10 +84,10 @@ public class ClientService {
         documentRepository.save(document);
     }
 
-    public Clientdetail getClientDetail(Users frmuser) {
+    public Clientdetail getClientDetail(Users user) {
         // витягли з бази деталі по клієнту
 //        Optional<Clientdetail> ocd = clientDetailRepository.getByUser(frmuser);
-        return clientDetailRepository.getByUser(frmuser);
+        return clientDetailRepository.getByUser(user);
 //        if (ocd.isEmpty()) {
 //            return null;
 //        }

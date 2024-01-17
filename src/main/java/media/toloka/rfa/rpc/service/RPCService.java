@@ -1,5 +1,13 @@
 package media.toloka.rfa.rpc.service;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import media.toloka.rfa.config.gson.LocalDateDeserializer;
+import media.toloka.rfa.config.gson.LocalDateSerializer;
+import media.toloka.rfa.config.gson.LocalDateTimeDeserializer;
+import media.toloka.rfa.config.gson.LocalDateTimeSerializer;
+import media.toloka.rfa.config.gson.service.GsonService;
+import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.station.model.EServerPortType;
 import media.toloka.rfa.radio.station.model.Station;
@@ -12,7 +20,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.UUID;
+
+import static media.toloka.rfa.radio.history.model.EHistoryType.History_StatiionCreate;
 
 @Service
 public class RPCService {
@@ -24,7 +36,13 @@ public class RPCService {
     private PoolPortsService poolPortsService;
 
     @Autowired
+    private HistoryService historyService;
+
+    @Autowired
     private StationService stationService;
+
+    @Autowired
+    private GsonService gsonService;
 
     final Logger logger = LoggerFactory.getLogger(RPCService.class);
 
@@ -32,16 +50,27 @@ public class RPCService {
 //        logger.info(rjob);
         // витягли користувача
         Users user = rjob.getUser();
+        // Витягнути станцію з переданого gson
+        String sStation = rjob.getRjobdata();
+        Gson gStation = gsonService.CreateGson();
+        Station newRadio = gStation.fromJson(sStation, Station.class);
+
         // саме тут створюємо новий обʼєкт - радіостанція
-        Station newRadio = poolPortsService.AttachPort(user,new Station(), EServerPortType.PORT_MAIN);
-        newRadio.setUuid(UUID.randomUUID().toString()); // TODO перенесті в конструктор
+        newRadio = poolPortsService.AttachPort(user,newRadio, EServerPortType.PORT_MAIN);
+//        newRadio.setUuid(UUID.randomUUID().toString()); //
         // Сохраніть станцію с портом (Занять порт в пуле портов)
-        stationService.AddAndSaveRadio(user, newRadio);
+        stationService.saveStation(newRadio);
         newRadio = poolPortsService.AttachPort(user,newRadio, EServerPortType.PORT_SHOW);
-        stationService.AddAndSaveRadio(user, newRadio);
+        stationService.saveStation(newRadio);
         newRadio = poolPortsService.AttachPort(user,newRadio, EServerPortType.PORT_WEB);
-        stationService.AddAndSaveRadio(user, newRadio);
+        stationService.saveStation( newRadio);
         // записуємо подію в журнал.
+        String sCreateDate = newRadio.getCreatedate().toString();
+        String suuid = newRadio.getUuid().toString();
+        historyService.saveHistory(History_StatiionCreate,
+                newRadio.getCreatedate().toString() + " Create " + newRadio.getUuid().toString(),
+                user
+                );
 
 //        String rjobdata = rjob.getRjobdata();
 //        GsonBuilder builder = new GsonBuilder();

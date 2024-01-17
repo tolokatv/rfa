@@ -34,7 +34,7 @@ Logger logger = LoggerFactory.getLogger(RPCListener.class);
 //        return "Received on worker : " + message + "  uuid=" + UUID.randomUUID().toString();
 //    }
 
-    @RabbitListener(queues = "rfajob")
+    @RabbitListener(queues = "${rabbitmq.queue}")
     public void processedFromFront(String message) {
         logger.info("Received from queue 1: " + message);
         GsonBuilder gsonBuilder = new GsonBuilder();
@@ -46,7 +46,7 @@ Logger logger = LoggerFactory.getLogger(RPCListener.class);
         Gson gson = gsonBuilder.setPrettyPrinting().create();
         RPCJob rjob = gson.fromJson(message, RPCJob.class);
         // TODO тут обробляємо завдання з фронтенда.
-        logger.info("+++++++++++++++++  Recive message from QUEUES.");
+//        logger.info("+++++++++++++++++  Recive message from QUEUES.");
         switch (rjob.getRJobType()) {
             case JOB_RADIO_CREATE:
 //                logger.info("======= RADIO CREATE  {}    {}", rjob.getRJobType().label, rjob.getRjobdata());

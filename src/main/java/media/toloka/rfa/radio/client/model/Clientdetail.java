@@ -16,7 +16,7 @@ import java.util.List;
 public class Clientdetail {
     @Id
     @GeneratedValue
-    @Column(name="id")
+    @Column
     private Long id;
     @Column
     private String custname;
@@ -59,7 +59,7 @@ public class Clientdetail {
 //@OneToOne(cascade = CascadeType.ALL)
 //    @OneToOne(mappedBy = "clientdetail")
     @ElementCollection
-    @OneToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     private Users user;
 }
 

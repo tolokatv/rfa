@@ -7,7 +7,10 @@ import media.toloka.rfa.config.gson.LocalDateDeserializer;
 import media.toloka.rfa.config.gson.LocalDateSerializer;
 import media.toloka.rfa.config.gson.LocalDateTimeDeserializer;
 import media.toloka.rfa.config.gson.LocalDateTimeSerializer;
+import media.toloka.rfa.config.gson.service.GsonService;
 import media.toloka.rfa.radio.client.service.ClientService;
+import media.toloka.rfa.radio.history.service.HistoryService;
+import media.toloka.rfa.radio.station.model.Station;
 import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.rpc.model.ERPCJobType;
 import media.toloka.rfa.rpc.model.RPCJob;
@@ -16,12 +19,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Controller
 public class ClientHomeStationController {
@@ -31,11 +36,21 @@ public class ClientHomeStationController {
 //    @Autowired
 //    private RepoRadio repoRadio;
 
+
+    @Value("${rabbitmq.queue}")
+    private String queueName;
+
     @Autowired
     private ClientService clientService;
 
     @Autowired
     private StationService stationService;
+
+    @Autowired
+    private HistoryService historyService;
+
+    @Autowired
+    private GsonService gsonService;
 
     @Autowired
     RabbitTemplate template;
@@ -65,6 +80,7 @@ public class ClientHomeStationController {
     @GetMapping(value = "/user/createstation")
     public String userCreateStation(
             Model model ) {
+
         logger.info("Create New station.");
         Users user = clientService.GetCurrentUser();
         if (user == null) {
@@ -75,29 +91,41 @@ public class ClientHomeStationController {
         RPCJob rjob = new RPCJob();
         rjob.setRJobType(ERPCJobType.JOB_RADIO_CREATE); // set job type
         rjob.setUser(user);
-        rjob.setRjobdata("Job for remote program call");
-        // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.registerTypeAdapter(LocalDate.class,        new LocalDateSerializer());
-        gsonBuilder.registerTypeAdapter(LocalDate.class,        new LocalDateDeserializer());
-        gsonBuilder.registerTypeAdapter(LocalDateTime.class,    new LocalDateTimeSerializer());
-        gsonBuilder.registerTypeAdapter(LocalDateTime.class,    new LocalDateTimeDeserializer());
+        // Додаємо станцію і передаємо на виконання на віддалений сервіс
+        Station station = stationService.CreateStation();
+        if (station == null) {
+            // Станцію створити не можемо. Показуємо про це повідомлення.
+            logger.info("Не можемо створити станцію для користувача {}", user.getEmail());
+            // TODO Відправити користувачу повідомлення про неможливість створення станції
+            return "redirect:/user/stations";
+        }
 
-        Gson gson = gsonBuilder.setPrettyPrinting().create();
+//        GsonBuilder gstationbuilder = new GsonBuilder();
+//        gstationbuilder.registerTypeAdapter(LocalDate.class,        new LocalDateSerializer());
+//        gstationbuilder.registerTypeAdapter(LocalDate.class,        new LocalDateDeserializer());
+//        gstationbuilder.registerTypeAdapter(LocalDateTime.class,    new LocalDateTimeSerializer());
+//        gstationbuilder.registerTypeAdapter(LocalDateTime.class,    new LocalDateTimeDeserializer());
+        Gson gstation = gsonService.CreateGson();
+//                gstationbuilder.setPrettyPrinting().create();
+
+        rjob.setRjobdata(
+                gstation.toJson(station).toString()
+        );
+        // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
+//        GsonBuilder gsonBuilder = new GsonBuilder();
+//        gsonBuilder.registerTypeAdapter(LocalDate.class,        new LocalDateSerializer());
+//        gsonBuilder.registerTypeAdapter(LocalDate.class,        new LocalDateDeserializer());
+//        gsonBuilder.registerTypeAdapter(LocalDateTime.class,    new LocalDateTimeSerializer());
+//        gsonBuilder.registerTypeAdapter(LocalDateTime.class,    new LocalDateTimeDeserializer());
+
+        Gson gson = gsonService.CreateGson();
+//                gsonBuilder.setPrettyPrinting().create();
 
         String strgson = gson.toJson(rjob).toString();
         logger.info("======== Send to RPC: "+strgson);
-        template.convertAndSend("rfajob",gson.toJson(rjob).toString());
+        template.convertAndSend(queueName,gson.toJson(rjob).toString());
 
 
-//        Radio radio = new Radio();
-//
-//        if (user.getStations() == null) {
-//                user.setStations(new ArrayList());
-//                user.setStations(user.getStations().add(radio));
-//            } else { user.setStations(user.getStations().add(radio)); }
-//
-//        serviceUser.saveUser(user);
         return "redirect:/user/stations";
     }
 }

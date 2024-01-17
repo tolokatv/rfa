@@ -16,32 +16,16 @@ public class Station {
     @Id
     @GeneratedValue
     private Long radio_id;
-
-
     private String name;
     private boolean enable = false;
     private LocalDateTime startdate;
     private LocalDateTime createdate;
-//    private Date enddate;
     private LocalDateTime lastpaydate;
-//    @OneToOne(cascade = CascadeType.ALL)
-
     public Integer guiport;
-//    @OneToOne(cascade = CascadeType.ALL)
     public Integer main;
-//    @OneToOne(cascade = CascadeType.ALL)
     public Integer show;
-
-//    @OneToMany(cascade = CascadeType.ALL)
-//    public List<ServerPort> ports;
     @ManyToOne(cascade = CascadeType.ALL)
     private Clientdetail clientdetail;
-//    @ManyToOne(cascade = CascadeType.ALL)
-//    private Contract contract;
     private String uuid;
-//
-//    @OneToMany
-//    private List<History> history;
-
 }
 
