@@ -1,15 +1,15 @@
-package media.toloka.rfa.radio.station;
-
+package media.toloka.rfa.rpc;
 
 import com.google.gson.Gson;
 import media.toloka.rfa.config.gson.service.GsonService;
+import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
-import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.station.model.Station;
 import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.rpc.model.ERPCJobType;
 import media.toloka.rfa.rpc.model.RPCJob;
+import media.toloka.rfa.rpc.service.ServerRunnerService;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,64 +19,68 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+import static media.toloka.rfa.rpc.model.ERPCJobType.JOB_STATION_ALLOCATE;
 
 @Controller
-public class ClientHomeStationController {
+public class TemporaryController {
 
-    @Value("${rabbitmq.queue}")
-    private String queueName;
 
     @Autowired
-    private ClientService clientService;
+    private ServerRunnerService serverRunnerService;
 
     @Autowired
     private StationService stationService;
 
     @Autowired
-    private HistoryService historyService;
+    private MessageService messageService;
+
+    @Autowired
+    private ClientService clientService;
 
     @Autowired
     private GsonService gsonService;
 
     @Autowired
-    private MessageService messageService;
-
-    @Autowired
     RabbitTemplate template;
 
-    final Logger logger = LoggerFactory.getLogger(ClientHomeStationController.class);
+    @Value("${rabbitmq.queue}")
+    private String queueName;
 
+    Logger logger = LoggerFactory.getLogger(RPCListener.class);
 
-    @GetMapping(value = "/user/stations")
+    @GetMapping(value = "/user/temporary")
     public String userHomeStation(
             Model model ) {
-        Users user = clientService.GetCurrentUser();
-        if (user == null) {
-            logger.warn("User not found. Redirect to main page");
-            return "redirect:/";
-        }
-        // TODO додати в меню інформацію по повідомленням - всі/нові
-        messageService.setNavQuantityMessage(model, clientService.getClientDetail(user)); // встановили кількість повідомлень для меню.
-        model.addAttribute("stations",  stationService.GetListStationByUser(user));
-        return "/user/stations";
+        messageService.setNavQuantityMessage
+                (model, clientService.getClientDetail(clientService.GetCurrentUser()));
+
+        model.addAttribute("stations",  stationService.GetListStationByUser(clientService.GetCurrentUser()));
+
+        return "/user/temporary";
     }
 
-    @GetMapping(value = "/user/createstation")
-    public String userCreateStation(
-            Model model ) {
-
-//        logger.info("Create New station.");
+    @GetMapping(value = "/user/temporaryid")
+    public String PostDocumentEdit(
+            @RequestParam(value = "id", required = true) Long id,
+            Model model
+    ) {
         Users user = clientService.GetCurrentUser();
         if (user == null) {
 //            logger.warn("User not found. Redirect to main page");
-            return "redirect:/";
+            return "redirect:/login";
         }
+
+//        messageService.setQuantityMessage(clientService.getClientDetail(clientService.GetCurrentUser()));
+        Station station = stationService.GetStationById(id);
+        Clientdetail cd = station.getClientdetail();
+
         // відправляємо завдання на створення радіостанції.
         RPCJob rjob = new RPCJob();
-        rjob.setRJobType(ERPCJobType.JOB_STATION_CREATE); // set job type
+        rjob.setRJobType(JOB_STATION_ALLOCATE); // set job type
         rjob.setUser(user);
-        // Додаємо станцію і передаємо на виконання на віддалений сервіс
-        Station station = stationService.CreateStation();
         if (station == null) {
             // Станцію створити не можемо. Показуємо про це повідомлення.
             logger.info("Не можемо створити станцію для користувача {}", user.getEmail());
@@ -90,6 +94,10 @@ public class ClientHomeStationController {
         Gson gson = gsonService.CreateGson();
         String strgson = gson.toJson(rjob).toString();
         template.convertAndSend(queueName,gson.toJson(rjob).toString());
-        return "redirect:/user/stations";
+
+        return "redirect:/user/temporary";
+//        return "redirect:/user/temporary";
     }
+
+
 }

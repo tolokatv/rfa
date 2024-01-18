@@ -78,7 +78,7 @@ public class MessageService {
         }
     }
     // встановлюємо для меню повідомлення/нові
-    public void setQuantityMessage(Model model, Clientdetail clientDetail) {
+    public void setNavQuantityMessage(Model model, Clientdetail clientDetail) {
         model.addAttribute("quantityallmessage",  GetQuantityAllMessage(clientDetail));
         model.addAttribute("quantitynewmessage",  GetQuantityNewMessage(clientDetail));
 

@@ -131,6 +131,7 @@
             </thead>
             <tbody>
             <a href="/user/createstation" class="btn btn-primary">Створити радіо станцію</a>
+
             <tr th:each="station : ${stations}">
                 <td>
                 <span class="fa-stack ">
@@ -141,7 +142,10 @@
                 <td><span th:text="${station.radio_id}"></span></td>
                 <td><span th:text="${station.createdate}"></span></td>
                 <td><span th:text="${station.lastpaydate}"></span></td>
-                <td>Подробиці</td>
+<!--                <td><a href="/user/temporary@{/(id=${station.radio_id})}" class="btn btn-primary">Керувати</a></td>-->
+                <td><a th:href="@{/user/temporaryid(id=${station.radio_id})}" class="btn btn-primary">Керувати</a></td>
+<!--                <a th:href="@{/user/temporary(id='${station.radio_id}')}"-->
+
             </tr>
             </tbody>
         </table>

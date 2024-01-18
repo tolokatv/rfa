@@ -74,10 +74,10 @@ public class RPCService {
                 newRadio.getCreatedate().toString() + " Create " + newRadio.getUuid().toString(),
                 user
                 );
-        rjob.setRJobType(JOB_STATION_ALLOCATE);
-        Gson gson = gsonService.CreateGson();
-//        String strgson = gson.toJson(rjob).toString();
-        template.convertAndSend(queueName,gson.toJson(rjob).toString());
+//        rjob.setRJobType(JOB_STATION_ALLOCATE);
+//        Gson gson = gsonService.CreateGson();
+////        String strgson = gson.toJson(rjob).toString();
+//        template.convertAndSend(queueName,gson.toJson(rjob).toString());
         // подивилися, чи є у нього угода. Якщо немає контракту то створили безкоштовний
             // відправили повідомлення про створення контракту
         // подивилися, чи є в угоді станція. Якщо немає то створили радіостанцію на безкоштовному пакеті

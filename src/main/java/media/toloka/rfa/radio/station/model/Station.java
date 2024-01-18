@@ -27,5 +27,9 @@ public class Station {
     @ManyToOne(cascade = CascadeType.ALL)
     private Clientdetail clientdetail;
     private String uuid;
+    private String icecastname;
+    private String icecastdescription;
+    private String icecastsite;
+    private String icecastgenre;
 }
 
