@@ -8,6 +8,7 @@ import media.toloka.rfa.radio.message.repo.RepoRooms;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.ui.Model;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -31,11 +32,11 @@ public class MessageService {
     }
 
     // отримали загальну кількість повідомлень для клієнта.
-    public Long GetQuantityAllMessage(Clientdetail clientdetail) {
+    public int GetQuantityAllMessage(Clientdetail clientdetail) {
         return GetMessages(clientdetail).size();
     }
     // отримали загальну кількість нових повідомлень для клієнта.
-    public Long GetQuantityNewMessage(Clientdetail clientdetail) {
+    public int GetQuantityNewMessage(Clientdetail clientdetail) {
         return GetNewMessages(clientdetail).size();
     }
 
@@ -75,5 +76,11 @@ public class MessageService {
             msg.setRead(LocalDateTime.now());
             SaveMessage(msg);
         }
+    }
+    // встановлюємо для меню повідомлення/нові
+    public void setQuantityMessage(Model model, Clientdetail clientDetail) {
+        model.addAttribute("quantityallmessage",  GetQuantityAllMessage(clientDetail));
+        model.addAttribute("quantitynewmessage",  GetQuantityNewMessage(clientDetail));
+
     }
 }

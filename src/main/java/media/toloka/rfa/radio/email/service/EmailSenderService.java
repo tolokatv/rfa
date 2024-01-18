@@ -35,9 +35,9 @@ public class EmailSenderService {
     @Value("${media.toloka.rfa.mail.smtpport}")
     private int mailport;
     @Value("${media.toloka.rfa.mail.protocol}")
-    private int mailprotocol;
+    private String  mailprotocol;
     @Value("${media.toloka.rfa.mail.defaultencoding}")
-    private int maildefaultencoding;
+    private String maildefaultencoding;
 
     public void sendEmail(Mail mail) throws MessagingException //, IOException
     {

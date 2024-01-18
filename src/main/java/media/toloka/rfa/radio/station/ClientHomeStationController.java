@@ -10,6 +10,7 @@ import media.toloka.rfa.config.gson.LocalDateTimeSerializer;
 import media.toloka.rfa.config.gson.service.GsonService;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.history.service.HistoryService;
+import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.station.model.Station;
 import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.rpc.model.ERPCJobType;
@@ -53,6 +54,9 @@ public class ClientHomeStationController {
     private GsonService gsonService;
 
     @Autowired
+    private MessageService messageService;
+
+    @Autowired
     RabbitTemplate template;
 
     final Logger logger = LoggerFactory.getLogger(ClientHomeStationController.class);
@@ -66,7 +70,8 @@ public class ClientHomeStationController {
             logger.warn("User not found. Redirect to main page");
             return "redirect:/";
         }
-
+        // TODO додати в меню інформацію по повідомленням - всі/нові
+        messageService.setQuantityMessage(model, clientService.getClientDetail(user));
         // дивимося його групи
         // відповідним чином виводимо пункти меню
         // Заповнюємо поля для форми
