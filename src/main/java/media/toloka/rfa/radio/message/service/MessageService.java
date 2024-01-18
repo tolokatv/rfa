@@ -30,6 +30,15 @@ public class MessageService {
         return repoMessages.findMessagesByFromOrTomOrderBySendDesc(clientdetail, clientdetail);
     }
 
+    // отримали загальну кількість повідомлень для клієнта.
+    public Long GetQuantityAllMessage(Clientdetail clientdetail) {
+        return GetMessages(clientdetail).size();
+    }
+    // отримали загальну кількість нових повідомлень для клієнта.
+    public Long GetQuantityNewMessage(Clientdetail clientdetail) {
+        return GetNewMessages(clientdetail).size();
+    }
+
     public List<Messages> GetNewMessages(Clientdetail clientdetail) {
 //            return repoMessages.findMessagesByReadingAndTom(true,clientdetail);
         List<Messages> msg = repoMessages.findMessagesByReadAndTom(null, clientdetail);

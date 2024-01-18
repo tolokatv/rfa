@@ -41,7 +41,7 @@ public class ClientHomeInfoController {
 //            @ModelAttribute User user,
             Model model ) {
         Users frmuser = clientService.GetCurrentUser();
-        if (frmuser == null) { // TODO перевірити щодо отримання значення у разі незалогіненого користувача
+        if (frmuser == null) {
             return "redirect:/";
         }
         // Витягуєм користувача

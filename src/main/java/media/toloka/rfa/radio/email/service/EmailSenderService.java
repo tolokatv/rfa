@@ -2,6 +2,7 @@ package media.toloka.rfa.radio.email.service;
 
 
 //import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.MailException;
 import media.toloka.rfa.radio.email.model.Mail;
 import org.slf4j.Logger;
@@ -29,14 +30,22 @@ public class EmailSenderService {
     @Autowired
     private SpringTemplateEngine templateEngine;
 
+    @Value("${media.toloka.rfa..mail.smtphost}")
+    private String mailhost;
+    @Value("${media.toloka.rfa.mail.smtpport}")
+    private int mailport;
+    @Value("${media.toloka.rfa.mail.protocol}")
+    private int mailprotocol;
+    @Value("${media.toloka.rfa.mail.defaultencoding}")
+    private int maildefaultencoding;
+
     public void sendEmail(Mail mail) throws MessagingException //, IOException
     {
         JavaMailSenderImpl emailSender = new JavaMailSenderImpl();
-//         TODO взяти всі параметри з файлу конфігурації
-        emailSender.setHost("gate.iw.com.ua");
-        emailSender.setPort(25);
-        emailSender.setProtocol("smtp");
-        emailSender.setDefaultEncoding("UTF-8");
+        emailSender.setHost(mailhost);
+        emailSender.setPort(mailport);
+        emailSender.setProtocol(mailprotocol);
+        emailSender.setDefaultEncoding(maildefaultencoding);
 
 //        emailSender.setJavaMailProperties();
         jakarta.mail.internet.MimeMessage message = emailSender.createMimeMessage();

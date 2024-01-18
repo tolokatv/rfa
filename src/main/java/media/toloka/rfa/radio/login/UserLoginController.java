@@ -126,7 +126,6 @@ public class UserLoginController {
         if (newUser == null) {
             newUser = new Users();
             // додали групу для користувача
-            // TODO Якщо у користувача декілька груп, то у формі передбачити вибір групи з якої працюємо.
             // Роль беремо зі форми. Визначається статусом радіобутона.
             Roles role = new Roles();
             switch (formuser.getGroup()) {
