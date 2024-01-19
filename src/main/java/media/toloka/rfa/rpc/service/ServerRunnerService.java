@@ -77,11 +77,6 @@ public class ServerRunnerService {
     @Value("${media.toloka.rfa.server.libretime.output.mobile}")
     private String libretime_output_mobile;
 
-
-
-
-
-
     @Autowired
             private StationService stationService;
     @Autowired
