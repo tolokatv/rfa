@@ -149,7 +149,7 @@ public class ServerRunnerService {
         env.put("LIBRETIME_OUTPUT_MOBILE", libretime_output_mobile);
 
 
-        pb.directory(new File(server_rundir));
+//        pb.directory(new File(server_rundir));
 //        File log = new File("/home/ysv/log.txt");
         pb.redirectErrorStream(true);
 //        pb.redirectOutput(ProcessBuilder.Redirect.appendTo(log));
