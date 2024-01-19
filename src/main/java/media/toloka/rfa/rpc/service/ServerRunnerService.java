@@ -98,7 +98,7 @@ public class ServerRunnerService {
         String homedirectory = env.get("HOME");
 
         // Призначаємо значення env
-        env.put("CLIENT_DIR", clientdir);
+        env.put("CLIENT_DIR", homedirectory + clientdir);
 //        env.remove("OTHERVAR");
         env.put("CLIENT_UUID", station.getClientdetail().getUuid());
         env.put("STATION_UUID", station.getUuid());
