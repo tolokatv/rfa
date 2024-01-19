@@ -110,15 +110,15 @@ public class ServerRunnerService {
         env.put("STATION_SHOW_PORT", station.getShow().toString());
         env.put("STATION_ID", station.getRadio_id().toString());
         env.put("LIBRETIME_VERSION", "4.0.0");
-        env.put("RABBITMQ_DEFAULT_PASS", station.getUuid());
-        env.put("RABBITMQ_QUEUE", station.getUuid());
-        env.put("RABBITMQ_VROOT", station.getUuid());
-        env.put("POSTGRES_PASSWORD", station.getUuid());
+        env.put("RABBITMQ_DEFAULT_PASS", station.getDbname());
+        env.put("RABBITMQ_QUEUE", station.getDbname());
+        env.put("RABBITMQ_VROOT", station.getDbname());
+        env.put("POSTGRES_PASSWORD", station.getDbname());
 
 //        public_url
-        env.put("PUBLIC_URL", station.getUuid());
-        env.put("LIBRETIME_API_KEY", UUID.randomUUID().toString());
-        env.put("LIBRETIME_SECRET_KEY", UUID.randomUUID().toString());
+        env.put("PUBLIC_URL", "https://" + station.getUuid());
+        env.put("LIBRETIME_API_KEY", station.getDbname());
+        env.put("LIBRETIME_SECRET_KEY", station.getDbname());
         env.put("LIBRETIME_TIMEZONE", libretime_timezone);
         env.put("LIBRETIME_PATH", libretime_path);
         env.put("LIBRETIME_POSTGRESQL_HOST", libretime_postgresql_host);
