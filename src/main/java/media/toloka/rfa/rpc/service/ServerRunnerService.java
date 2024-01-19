@@ -100,6 +100,8 @@ public class ServerRunnerService {
         Station station = gson.fromJson(rpcJob.getRjobdata(), Station.class);
         ProcessBuilder pb = new ProcessBuilder( createStationCommand);
         Map<String, String> env = pb.environment();
+        String homedirectory = env.get("HOME");
+
         // Призначаємо значення env
         env.put("CLIENT_DIR", clientdir);
 //        env.remove("OTHERVAR");
