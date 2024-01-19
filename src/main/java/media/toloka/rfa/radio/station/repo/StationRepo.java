@@ -15,4 +15,5 @@ public interface StationRepo extends JpaRepository<Station, Long> {
 
     Station save(Station station);
 
+    Station getStationByDbname(String rstring);
 }

@@ -1,5 +1,6 @@
 package media.toloka.rfa.radio.station.service;
 
+import media.toloka.rfa.config.RfaService;
 import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 
@@ -23,6 +24,12 @@ public class StationService {
 
     @Autowired
     private ClientService clientService;
+
+//    @Autowired
+//    private StationService stationService;
+
+    @Autowired
+    private RfaService rfaService;
 
     public List<Station> listAll() {
         return stationRepo.findAll();
@@ -57,6 +64,7 @@ public class StationService {
             Station station = new Station();
             station.setName(null);
             station.setClientdetail(clientService.getClientDetail(clientService.GetCurrentUser()));
+            SetStationDBName(station);
             station.setUuid(UUID.randomUUID().toString());
             station.setCreatedate(LocalDateTime.now());
             saveStation(station);
@@ -65,6 +73,17 @@ public class StationService {
             return null;
         }
     }
+
+    public void SetStationDBName(Station st) {
+        while (true) {
+            String  rstring = rfaService.GetRandomString(32);
+            if (getStationDBName(rstring) == null) {
+                st.setDbname(rstring);
+                return;
+            }
+        }
+    }
+
 
     // Перевіряємо можливість створення станції
     private boolean CheckPossibilityCreateStation(Clientdetail clientDetail) {
@@ -88,6 +107,11 @@ public class StationService {
         // Це оплачена станція на платному контракті
         // У станції проплачено нормальне імʼя
         // на рахунку достатньо коштів для роботи станції протягом 4-х тижнів
+    }
+
+    public Station getStationDBName(String rstring) {
+        // перевіряємо, чи є станція з таким імʼям бази для Libretime
+        return stationRepo.getStationByDbname(rstring);
     }
 
 //    public void saveStation(Station station) {

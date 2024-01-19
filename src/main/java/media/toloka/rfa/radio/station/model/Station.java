@@ -17,6 +17,7 @@ public class Station {
     @GeneratedValue
     private Long radio_id;
     private String name;
+    private String dbname;
     private boolean enable = false;
     private LocalDateTime startdate;
     private LocalDateTime createdate;

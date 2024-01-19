@@ -1,6 +1,7 @@
 package media.toloka.rfa.rpc.service;
 
 import com.google.gson.Gson;
+import media.toloka.rfa.config.RfaService;
 import media.toloka.rfa.config.gson.service.GsonService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.message.service.MessageService;
@@ -18,7 +19,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import static media.toloka.rfa.radio.history.model.EHistoryType.History_StatiionCreate;
-import static media.toloka.rfa.rpc.model.ERPCJobType.JOB_STATION_ALLOCATE;
 
 @Service
 public class RPCService {
@@ -44,10 +44,23 @@ public class RPCService {
     @Autowired
     RabbitTemplate template;
 
+    @Autowired
+    private RfaService rfaService;
+
     @Value("${rabbitmq.queue}")
     private String queueName;
 
     final Logger logger = LoggerFactory.getLogger(RPCService.class);
+
+    public void SetStationDBName(Station st) {
+        while (true) {
+            String  rstring = rfaService.GetRandomString(32);
+            if (stationService.getStationDBName(rstring) == null) {
+                st.setDbname(rstring);
+                return;
+            }
+        }
+    }
 
     public void JobCreateStation (RPCJob rjob) {
 //        logger.info(rjob);
@@ -57,6 +70,10 @@ public class RPCService {
         String sStation = rjob.getRjobdata();
         Gson gStation = gsonService.CreateGson();
         Station newRadio = gStation.fromJson(sStation, Station.class);
+
+        // генеруємо випадковий рядок символів для імені бази
+        SetStationDBName(newRadio);
+
 
         // саме тут створюємо новий обʼєкт - радіостанція
         newRadio = poolPortsService.AttachPort(user,newRadio, EServerPortType.PORT_MAIN);
