@@ -98,7 +98,7 @@ public class ServerRunnerService {
         Gson gson = gsonService.CreateGson();
 //        rpcJob.getRjobdata()
         Station station = gson.fromJson(rpcJob.getRjobdata(), Station.class);
-        ProcessBuilder pb = new ProcessBuilder( createStationCommand);
+        ProcessBuilder pb = new ProcessBuilder("bash", "-c", createStationCommand);
         Map<String, String> env = pb.environment();
         String homedirectory = env.get("HOME");
 
