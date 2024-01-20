@@ -13,11 +13,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.io.BufferedReader;
-import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.Map;
-import java.util.UUID;
 
 @Service
 public class ServerRunnerService {
@@ -113,16 +111,9 @@ public class ServerRunnerService {
         return 0;
     }
 
-    public void AllocateStationOnServer(RPCJob rpcJob) {
-
-        Gson gson = gsonService.CreateGson();
-//        rpcJob.getRjobdata()
-        Station station = gson.fromJson(rpcJob.getRjobdata(), Station.class);
-        ProcessBuilder pb = new ProcessBuilder("bash", "-c", createStationCommand);
-        Map<String, String> env = pb.environment();
-        String homedirectory = env.get("HOME");
-
+    public void SetEnvironmentForProcessBuilder(Map<String, String> env, Station station) {
         // Призначаємо значення env
+        String homedirectory = env.get("HOME");
         env.put("CLIENT_DIR", homedirectory + clientdir);
 //        env.remove("OTHERVAR");
         env.put("CLIENT_UUID", station.getClientdetail().getUuid());
@@ -131,14 +122,16 @@ public class ServerRunnerService {
         env.put("STATION_MASTER_PORT", station.getMain().toString());
         env.put("STATION_SHOW_PORT", station.getShow().toString());
         env.put("STATION_ID", station.getRadio_id().toString());
+
         env.put("LIBRETIME_VERSION", "4.0.0");
+
         env.put("RABBITMQ_DEFAULT_PASS", station.getDbname());
         env.put("RABBITMQ_QUEUE", station.getDbname());
         env.put("RABBITMQ_VROOT", station.getDbname());
-        env.put("POSTGRES_PASSWORD", station.getDbname());
 
-//        public_url
+        env.put("POSTGRES_PASSWORD", station.getDbname());
         env.put("PUBLIC_URL", "https://" + station.getDbname());
+
         env.put("LIBRETIME_API_KEY", station.getDbname());
         env.put("LIBRETIME_SECRET_KEY", station.getDbname());
         env.put("LIBRETIME_TIMEZONE", libretime_timezone);
@@ -169,6 +162,16 @@ public class ServerRunnerService {
         env.put("LIBRETIME_OUTPUT_SITE", libretime_output_site);
         env.put("LIBRETIME_OUTPUT_GENRE", libretime_output_genre);
         env.put("LIBRETIME_OUTPUT_MOBILE", libretime_output_mobile);
+    }
+
+    public void AllocateStationOnServer(RPCJob rpcJob) {
+
+        Gson gson = gsonService.CreateGson();
+//        rpcJob.getRjobdata()
+        Station station = gson.fromJson(rpcJob.getRjobdata(), Station.class);
+        ProcessBuilder pb = new ProcessBuilder("bash", "-c", createStationCommand);
+        Map<String, String> env = pb.environment();
+        SetEnvironmentForProcessBuilder(env, station);
 
 
 //        pb.directory(new File(server_rundir));
