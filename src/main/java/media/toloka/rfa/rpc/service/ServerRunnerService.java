@@ -84,9 +84,34 @@ public class ServerRunnerService {
     @Autowired
             private GsonService gsonService;
 
-
-
     Logger logger = LoggerFactory.getLogger(ServerRunnerService.class);
+
+
+
+    //======================================================================
+    public Integer  StationGetStatus(RPCJob rpcJob) {
+        return 0;
+    }
+
+    public Integer  StationPrepareNginx(RPCJob rpcJob) {
+        return 0;
+    }
+
+    public Integer  StationStart(RPCJob rpcJob) {
+        return 0;
+    }
+
+    public Integer  StationStop(RPCJob rpcJob) {
+        return 0;
+    }
+
+    public Integer StationMigrateLibretimeOnInstall(RPCJob rpcJob) {
+        return 0;
+    }
+
+    public Integer StationMigrateToNewVersion(RPCJob rpcJob) {
+        return 0;
+    }
 
     public void AllocateStationOnServer(RPCJob rpcJob) {
 
@@ -113,7 +138,7 @@ public class ServerRunnerService {
         env.put("POSTGRES_PASSWORD", station.getDbname());
 
 //        public_url
-        env.put("PUBLIC_URL", "https://" + station.getUuid());
+        env.put("PUBLIC_URL", "https://" + station.getDbname());
         env.put("LIBRETIME_API_KEY", station.getDbname());
         env.put("LIBRETIME_SECRET_KEY", station.getDbname());
         env.put("LIBRETIME_TIMEZONE", libretime_timezone);
