@@ -36,6 +36,14 @@ public class ServerRunnerService {
 
     @Value("${media.toloka.rfa.server.migrateStationCommand}")
     private String migrateStationCommand;
+    @Value("${media.toloka.rfa.server.startStationCommand}")
+    private String startStationCommand;
+    @Value("${media.toloka.rfa.server.stopStationCommand}")
+    private String stopStationCommand;
+    @Value("${media.toloka.rfa.server.psStationCommand}")
+    private String psStationCommand;
+    @Value("${media.toloka.rfa.server.logsStationCommand}")
+    private String logStationCommand;
     @Value("${media.toloka.rfa.server.libretime.timezone}")
     private String libretime_timezone;
     @Value("${media.toloka.rfa.server.libretime.path}")
@@ -103,12 +111,105 @@ public class ServerRunnerService {
         return;
     }
 
-    public Integer  StationStart(RPCJob rpcJob) {
-        return 0;
+    public void  StationStart(RPCJob rpcJob) {
+        Gson gson = gsonService.CreateGson();
+        Station station = gson.fromJson(rpcJob.getRjobdata(), Station.class);
+        //    docker-compose run --rm api libretime-api migrate
+        ProcessBuilder pb = new ProcessBuilder("bash", "-c", startStationCommand);
+        Map<String, String> env = pb.environment();
+        SetEnvironmentForProcessBuilder(env, station);
+        String server_workdir;
+
+        server_workdir = env.get("HOME")+ clientdir + "/" + env.get("CLIENT_UUID") + "/" +env.get("STATION_UUID");
+        logger.info("============== Start Station {}", server_workdir);
+        pb.directory(new File(server_workdir));
+        pb.redirectErrorStream(true);
+//        pb.redirectOutput(ProcessBuilder.Redirect.appendTo(log));
+        try {
+            Process p = pb.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            // виводимо на консоль
+            String line;
+            while ((line = reader.readLine()) != null) {
+                logger.info(line);
+            }
+//            try {
+            int exitcode = p.waitFor();
+            logger.info("=========================== Migrate Init LibreTime: exit code = {}", String.valueOf(exitcode)  );
+//            } catch (InterruptedException e){
+//                logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
+//                e.printStackTrace();
+//            }
+        } catch (IOException e) {
+            logger.warn(" Щось пішло не так при виконанні завдання в операційній системі");
+            e.printStackTrace();
+        } catch (InterruptedException e){
+            logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
+            e.printStackTrace();
+        }
+//        }
+        //================================================================
+        // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
+        // Наступний крок: Міграція моделі перед першим запуском LibreTime
+        rpcJob.setRJobType(JOB_STATION_STOP); // set job type
+        String strgson = gson.toJson(rpcJob).toString();
+        template.convertAndSend(queueName,gson.toJson(rpcJob).toString());
+        // TODO Занести в історию запись про проведення міграції з кодом завершення.
+
+
+
+        return ;
     }
 
-    public Integer  StationStop(RPCJob rpcJob) {
-        return 0;
+    public void  StationStop(RPCJob rpcJob) {
+        Gson gson = gsonService.CreateGson();
+        Station station = gson.fromJson(rpcJob.getRjobdata(), Station.class);
+        //    docker-compose run --rm api libretime-api migrate
+        ProcessBuilder pb = new ProcessBuilder("bash", "-c", stopStationCommand);
+        Map<String, String> env = pb.environment();
+        SetEnvironmentForProcessBuilder(env, station);
+        String server_workdir;
+
+        server_workdir = env.get("HOME")+ clientdir + "/" + env.get("CLIENT_UUID") + "/" +env.get("STATION_UUID");
+        logger.info("============== Start Station {}", server_workdir);
+        pb.directory(new File(server_workdir));
+        pb.redirectErrorStream(true);
+//        pb.redirectOutput(ProcessBuilder.Redirect.appendTo(log));
+        try {
+            Process p = pb.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            // виводимо на консоль
+            String line;
+            while ((line = reader.readLine()) != null) {
+                logger.info(line);
+            }
+//            try {
+            int exitcode = p.waitFor();
+            logger.info("=========================== Migrate Init LibreTime: exit code = {}", String.valueOf(exitcode)  );
+//            } catch (InterruptedException e){
+//                logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
+//                e.printStackTrace();
+//            }
+        } catch (IOException e) {
+            logger.warn(" Щось пішло не так при виконанні завдання в операційній системі");
+            e.printStackTrace();
+        } catch (InterruptedException e){
+            logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
+            e.printStackTrace();
+        }
+//        }
+        //================================================================
+        // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
+        // Наступний крок: Міграція моделі перед першим запуском LibreTime
+//        rpcJob.setRJobType(JOB_STATION_STOP); // set job type
+//        String strgson = gson.toJson(rpcJob).toString();
+//        template.convertAndSend(queueName,gson.toJson(rpcJob).toString());
+//        // TODO Занести в історию запись про проведення міграції з кодом завершення.
+
+
+
+        return;
+
     }
 
     public void StationMigrateLibretimeOnInstall(RPCJob rpcJob) {
@@ -151,7 +252,7 @@ public class ServerRunnerService {
         //================================================================
         // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
         // Наступний крок: Міграція моделі перед першим запуском LibreTime
-        rpcJob.setRJobType(JOB_STATION_PREPARE_NGINX); // set job type
+        rpcJob.setRJobType(JOB_STATION_START); // set job type
         String strgson = gson.toJson(rpcJob).toString();
         template.convertAndSend(queueName,gson.toJson(rpcJob).toString());
         // TODO Занести в історию запись про проведення міграції з кодом завершення.

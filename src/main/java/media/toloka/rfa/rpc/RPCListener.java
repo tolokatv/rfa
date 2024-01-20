@@ -60,16 +60,27 @@ Logger logger = LoggerFactory.getLogger(RPCListener.class);
             case JOB_STATION_CREATE:
 //                logger.info("======= RADIO CREATE  {}    {}", rjob.getRJobType().label, rjob.getRjobdata());
                 serviceRPC.JobCreateStation(rjob);
+                logger.info("+++++++++++++++++  JOB_STATION_CREATE");
 //                serviceRPC.SendMessageToUser(user,null,msg);
                 break;
             case JOB_STATION_ALLOCATE:
+                logger.info("+++++++++++++++++  JOB_STATION_ALLOCATE");
                 serverRunner.AllocateStationOnServer(rjob);
                 break;
             case JOB_STATION_LIBRETIME_MIGRATE:
+                logger.info("+++++++++++++++++  JOB_STATION_LIBRETIME_MIGRATE");
                 serverRunner.StationMigrateLibretimeOnInstall(rjob);
                 break;
             case JOB_STATION_PREPARE_NGINX:
                 serverRunner.StationPrepareNginx(rjob);
+                break;
+            case JOB_STATION_START:
+                logger.info("+++++++++++++++++  JOB_STATION_START");
+                serverRunner.StationStart(rjob);
+                break;
+            case JOB_STATION_STOP:
+                logger.info("+++++++++++++++++  JOB_STATION_STOP");
+                serverRunner.StationStop(rjob);
                 break;
             case JOB_CONTRACT_CREATE:
                 logger.info("======= {}    {}", rjob.getRJobType().label, rjob.getRjobdata());
