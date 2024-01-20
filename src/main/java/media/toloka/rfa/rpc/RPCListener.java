@@ -21,6 +21,8 @@ import org.springframework.stereotype.Component;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import static media.toloka.rfa.rpc.model.ERPCJobType.JOB_STATION_PREPARE_NGINX;
+
 @Component
 public class RPCListener {
 
@@ -62,6 +64,12 @@ Logger logger = LoggerFactory.getLogger(RPCListener.class);
                 break;
             case JOB_STATION_ALLOCATE:
                 serverRunner.AllocateStationOnServer(rjob);
+                break;
+            case JOB_STATION_LIBRETIME_MIGRATE:
+                serverRunner.StationMigrateLibretimeOnInstall(rjob);
+                break;
+            case JOB_STATION_PREPARE_NGINX:
+                serverRunner.StationPrepareNginx(rjob);
                 break;
             case JOB_CONTRACT_CREATE:
                 logger.info("======= {}    {}", rjob.getRJobType().label, rjob.getRjobdata());
