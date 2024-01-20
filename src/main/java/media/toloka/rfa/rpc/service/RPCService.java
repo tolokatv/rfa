@@ -1,7 +1,7 @@
 package media.toloka.rfa.rpc.service;
 
 import com.google.gson.Gson;
-import media.toloka.rfa.config.RfaService;
+import media.toloka.rfa.service.RfaService;
 import media.toloka.rfa.config.gson.service.GsonService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.message.service.MessageService;
@@ -54,7 +54,7 @@ public class RPCService {
 
     public void SetStationDBName(Station st) {
         while (true) {
-            String  rstring = rfaService.GetRandomString(32);
+            String  rstring = rfaService.GetRandomString(16);
             if (stationService.getStationDBName(rstring) == null) {
                 st.setDbname(rstring);
                 return;

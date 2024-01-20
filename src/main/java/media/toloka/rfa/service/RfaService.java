@@ -1,4 +1,4 @@
-package media.toloka.rfa.config;
+package media.toloka.rfa.service;
 
 import org.springframework.stereotype.Service;
 

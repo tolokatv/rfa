@@ -1,6 +1,6 @@
 package media.toloka.rfa.radio.station.service;
 
-import media.toloka.rfa.config.RfaService;
+import media.toloka.rfa.service.RfaService;
 import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 
@@ -76,7 +76,7 @@ public class StationService {
 
     public void SetStationDBName(Station st) {
         while (true) {
-            String  rstring = rfaService.GetRandomString(32);
+            String  rstring = rfaService.GetRandomString(16);
             if (getStationDBName(rstring) == null) {
                 st.setDbname(rstring);
                 return;
