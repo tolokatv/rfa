@@ -23,6 +23,7 @@ public class Station {
     private LocalDateTime createdate;
     private LocalDateTime lastpaydate;
     public Integer guiport;
+    public String guiserver;
     public Integer main;
     public Integer show;
     @ManyToOne(cascade = CascadeType.ALL)

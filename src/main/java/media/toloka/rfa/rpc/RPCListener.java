@@ -59,7 +59,7 @@ Logger logger = LoggerFactory.getLogger(RPCListener.class);
         switch (rjob.getRJobType()) {
             case JOB_STATION_CREATE:
 //                logger.info("======= RADIO CREATE  {}    {}", rjob.getRJobType().label, rjob.getRjobdata());
-                serviceRPC.JobCreateStation(rjob);
+                serviceRPC.JobCreateStation(rjob); // from Client Page. Next step
                 logger.info("+++++++++++++++++  JOB_STATION_CREATE");
 //                serviceRPC.SendMessageToUser(user,null,msg);
                 break;

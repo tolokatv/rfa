@@ -17,6 +17,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Map;
 
 @Service
 //@RequiredArgsConstructor
@@ -55,7 +56,7 @@ public class EmailSenderService {
             helper = new MimeMessageHelper(message,
                     MimeMessageHelper.MULTIPART_MODE_MIXED_RELATED,
                     StandardCharsets.UTF_8.name());
-            String html = getHtmlContent(mail);
+            String html = getHtmlContent(mail); // тут отримуємо текст після обробки THYMELEAF
             helper.setTo(mail.getTo());
             helper.setFrom(mail.getFrom());
             helper.setSubject(mail.getSubject());
@@ -84,5 +85,10 @@ public class EmailSenderService {
         return templateEngine.process(mail.getHtmlTemplate().getTemplate(), context);
     }
 
+    public String getTextContent(String template, Map<String, Object> props) {
+        Context context = new Context();
+        context.setVariables(props); //
+        return templateEngine.process(template, context);
+    }
 
 }

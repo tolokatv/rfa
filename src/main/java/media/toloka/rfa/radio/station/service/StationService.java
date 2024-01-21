@@ -8,6 +8,7 @@ import media.toloka.rfa.radio.station.model.Station;
 import media.toloka.rfa.radio.station.repo.StationRepo;
 import media.toloka.rfa.security.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -30,6 +31,9 @@ public class StationService {
 
     @Autowired
     private RfaService rfaService;
+
+    @Value("${media.toloka.rfa.server.libretime.guiserver}")
+    private String guiserver;
 
     public List<Station> listAll() {
         return stationRepo.findAll();
@@ -66,6 +70,7 @@ public class StationService {
             station.setClientdetail(clientService.getClientDetail(clientService.GetCurrentUser()));
             SetStationDBName(station);
             station.setUuid(UUID.randomUUID().toString());
+            station.setGuiserver(guiserver);
             station.setCreatedate(LocalDateTime.now());
             saveStation(station);
             return station;

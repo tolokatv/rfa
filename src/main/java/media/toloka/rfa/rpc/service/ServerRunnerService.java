@@ -3,6 +3,7 @@ package media.toloka.rfa.rpc.service;
 import com.google.gson.Gson;
 import media.toloka.rfa.config.gson.service.GsonService;
 import media.toloka.rfa.radio.client.service.ClientService;
+import media.toloka.rfa.radio.email.service.EmailSenderService;
 import media.toloka.rfa.radio.station.model.Station;
 import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.rpc.model.RPCJob;
@@ -17,6 +18,9 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.HashMap;
 import java.util.Map;
 
 import static media.toloka.rfa.rpc.model.ERPCJobType.*;
@@ -33,6 +37,9 @@ public class ServerRunnerService {
     private String server_rundir;
     @Value("${media.toloka.rfa.server.createStationCommand}")
     private String createStationCommand;
+
+    @Value("${media.toloka.rfa.server.preparenginxforstationcommand}")
+    private String preparenginxforstationcommand;
 
     @Value("${media.toloka.rfa.server.migrateStationCommand}")
     private String migrateStationCommand;
@@ -90,12 +97,18 @@ public class ServerRunnerService {
     @Value("${media.toloka.rfa.server.libretime.output.mobile}")
     private String libretime_output_mobile;
 
+    @Value("${media.toloka.rfa.server.nginxtemplate}")
+    private String nginxtemplate;
+
+
     @Autowired
             private StationService stationService;
     @Autowired
             private ClientService clientService;
     @Autowired
             private GsonService gsonService;
+    @Autowired
+            private EmailSenderService emailSenderService;
 
     Logger logger = LoggerFactory.getLogger(ServerRunnerService.class);
 
@@ -108,20 +121,89 @@ public class ServerRunnerService {
     }
 
     public void  StationPrepareNginx(RPCJob rpcJob) {
+        Gson gson = gsonService.CreateGson();
+        Station station = gson.fromJson(rpcJob.getRjobdata(), Station.class);
+        //    docker-compose run --rm api libretime-api migrate
+        ProcessBuilder pb = new ProcessBuilder("bash", "-c", preparenginxforstationcommand);
+        Map<String, String> env = pb.environment();
+        // працюємо з темплейтом для Nginx
+        Map<String, Object> props = new HashMap<>();
+        props.put("stationname",station.getDbname());
+        props.put("guiport", station.getGuiport());
+        props.put("servergui",station.getGuiserver());
+        String nginxconfig = emailSenderService.getTextContent(nginxtemplate,props);
+        // Записуємо файл конфігурації в робочий каталог станції
+        try {
+            logger.info("============== ПИШИМО ФАЙЛ КОНФІГУРАЦІЇ ДЛЯ NGINX: " + env.get("HOME")
+                    + clientdir
+                    + "/"
+                    + env.get("CLIENT_UUID")
+                    + "/"
+                    +env.get("STATION_UUID")
+                    + "/"
+                    + station.getDbname() + ".rfa.toloka.media");
+            Files.write(Paths.get(
+                    env.get("HOME")
+                        + clientdir
+                        + "/"
+                        + env.get("CLIENT_UUID")
+                        + "/"
+                        +env.get("STATION_UUID")
+                        + "/"
+                        + station.getDbname() + ".rfa.toloka.media"
+                    ),
+                    nginxconfig.getBytes());
+        } catch (IOException e) {
+            logger.info("================= Щось пішло не так при запису файлу конфігурації для Nginx.");
+            e.printStackTrace();
+        }
+        //================================
+        SetEnvironmentForProcessBuilder(env, station);
+        pb.directory(new File(env.get("HOME")+ clientdir + "/" + env.get("CLIENT_UUID") + "/" +env.get("STATION_UUID")));
+        pb.redirectErrorStream(true);
+        try {
+            Process p = pb.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            // виводимо на консоль
+            String line;
+            while ((line = reader.readLine()) != null) {
+                logger.info(line);
+            }
+//            try {
+            int exitcode = p.waitFor();
+            logger.info("=========================== PREPARE NGINX: exit code = {}", String.valueOf(exitcode)  );
+//            } catch (InterruptedException e){
+//                logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
+//                e.printStackTrace();
+//            }
+        } catch (IOException e) {
+            logger.warn(" Щось пішло не так при виконанні завдання в операційній системі");
+            e.printStackTrace();
+        } catch (InterruptedException e){
+            logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
+            e.printStackTrace();
+        }
+//        }
+        //================================================================
+        // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
+        // Наступний крок: Міграція моделі перед першим запуском LibreTime
+        rpcJob.setRJobType(JOB_STATION_START); // set job type
+        String strgson = gson.toJson(rpcJob).toString();
+        template.convertAndSend(queueName,gson.toJson(rpcJob).toString());
+        // TODO Занести в історию запись про проведення міграції з кодом завершення.
         return;
     }
 
     public void  StationStart(RPCJob rpcJob) {
         Gson gson = gsonService.CreateGson();
         Station station = gson.fromJson(rpcJob.getRjobdata(), Station.class);
-        //    docker-compose run --rm api libretime-api migrate
         ProcessBuilder pb = new ProcessBuilder("bash", "-c", startStationCommand);
         Map<String, String> env = pb.environment();
         SetEnvironmentForProcessBuilder(env, station);
         String server_workdir;
 
         server_workdir = env.get("HOME")+ clientdir + "/" + env.get("CLIENT_UUID") + "/" +env.get("STATION_UUID");
-        logger.info("============== Start Station {}", server_workdir);
+//        logger.info("============== Start Station {}", server_workdir);
         pb.directory(new File(server_workdir));
         pb.redirectErrorStream(true);
 //        pb.redirectOutput(ProcessBuilder.Redirect.appendTo(log));
@@ -252,7 +334,7 @@ public class ServerRunnerService {
         //================================================================
         // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
         // Наступний крок: Міграція моделі перед першим запуском LibreTime
-        rpcJob.setRJobType(JOB_STATION_START); // set job type
+        rpcJob.setRJobType(JOB_STATION_PREPARE_NGINX); // set job type
         String strgson = gson.toJson(rpcJob).toString();
         template.convertAndSend(queueName,gson.toJson(rpcJob).toString());
         // TODO Занести в історию запись про проведення міграції з кодом завершення.
