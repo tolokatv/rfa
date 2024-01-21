@@ -1,5 +1,8 @@
 package media.toloka.rfa.config;
 
+// https://blog.codeleak.pl/2017/03/getting-started-with-thymeleaf-3-text.html
+
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.thymeleaf.spring6.SpringTemplateEngine;
@@ -11,10 +14,13 @@ import java.nio.charset.StandardCharsets;
 @Configuration
 public class ThymeleafTemplateConfig {
 
+    @Value("${media.toloka.rfa.server.dirconfigtemplate}")
+    private String dirconfigtemplate;
     @Bean
     public SpringTemplateEngine springTemplateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
         templateEngine.addTemplateResolver(htmlTemplateResolver());
+        templateEngine.addTemplateResolver(textTemplateResolver());
         return templateEngine;
     }
 
@@ -26,5 +32,16 @@ public class ThymeleafTemplateConfig {
         emailTemplateResolver.setTemplateMode(TemplateMode.HTML);
         emailTemplateResolver.setCharacterEncoding(StandardCharsets.UTF_8.name());
         return emailTemplateResolver;
+    }
+
+    private ClassLoaderTemplateResolver textTemplateResolver() {
+        ClassLoaderTemplateResolver texttemplateResolver = new ClassLoaderTemplateResolver();
+        texttemplateResolver.setPrefix(dirconfigtemplate);
+        texttemplateResolver.setSuffix(".txt");
+        texttemplateResolver.setTemplateMode(TemplateMode.TEXT);
+        texttemplateResolver.setCharacterEncoding("UTF8");
+        texttemplateResolver.setCheckExistence(true);
+        texttemplateResolver.setCacheable(false);
+        return texttemplateResolver;
     }
 }
