@@ -34,6 +34,7 @@ public class ThymeleafTemplateConfig {
         return emailTemplateResolver;
     }
 
+    @Bean
     private ClassLoaderTemplateResolver textTemplateResolver() {
         ClassLoaderTemplateResolver texttemplateResolver = new ClassLoaderTemplateResolver();
         texttemplateResolver.setPrefix(dirconfigtemplate);
