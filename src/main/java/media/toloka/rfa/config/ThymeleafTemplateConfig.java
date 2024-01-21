@@ -14,8 +14,8 @@ import java.nio.charset.StandardCharsets;
 @Configuration
 public class ThymeleafTemplateConfig {
 
-//    @Value("${media.toloka.rfa.server.dirconfigtemplate}")
-//    private String dirconfigtemplate;
+    @Value("${media.toloka.rfa.server.dirconfigtemplate}")
+    private String dirconfigtemplate;
     @Bean
     public SpringTemplateEngine springTemplateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
@@ -34,15 +34,15 @@ public class ThymeleafTemplateConfig {
         return emailTemplateResolver;
     }
 
-//    @Bean
-//    public ClassLoaderTemplateResolver textTemplateResolver() {
-//        ClassLoaderTemplateResolver texttemplateResolver = new ClassLoaderTemplateResolver();
-//        texttemplateResolver.setPrefix(dirconfigtemplate);
-//        texttemplateResolver.setSuffix(".txt");
-//        texttemplateResolver.setTemplateMode(TemplateMode.TEXT);
-//        texttemplateResolver.setCharacterEncoding("UTF8");
-//        texttemplateResolver.setCheckExistence(true);
-//        texttemplateResolver.setCacheable(false);
-//        return texttemplateResolver;
-//    }
+    @Bean
+    public ClassLoaderTemplateResolver textTemplateResolver() {
+        ClassLoaderTemplateResolver texttemplateResolver = new ClassLoaderTemplateResolver();
+        texttemplateResolver.setPrefix(dirconfigtemplate);
+        texttemplateResolver.setSuffix(".txt");
+        texttemplateResolver.setTemplateMode(TemplateMode.TEXT);
+        texttemplateResolver.setCharacterEncoding("UTF8");
+        texttemplateResolver.setCheckExistence(true);
+        texttemplateResolver.setCacheable(false);
+        return texttemplateResolver;
+    }
 }
