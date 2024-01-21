@@ -35,7 +35,7 @@ public class ThymeleafTemplateConfig {
     }
 
     @Bean
-    private ClassLoaderTemplateResolver textTemplateResolver() {
+    public ClassLoaderTemplateResolver textTemplateResolver() {
         ClassLoaderTemplateResolver texttemplateResolver = new ClassLoaderTemplateResolver();
         texttemplateResolver.setPrefix(dirconfigtemplate);
         texttemplateResolver.setSuffix(".txt");
