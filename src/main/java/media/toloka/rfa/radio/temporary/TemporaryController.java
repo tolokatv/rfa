@@ -8,7 +8,7 @@ import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.station.model.Station;
 import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.rpc.RPCListener;
-import media.toloka.rfa.rpc.model.ERPCJobType;
+//import media.toloka.rfa.rpc.model.ERPCJobType;
 import media.toloka.rfa.rpc.model.RPCJob;
 import media.toloka.rfa.rpc.service.ServerRunnerService;
 import media.toloka.rfa.security.model.Users;
@@ -20,7 +20,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
+//import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import static media.toloka.rfa.rpc.model.ERPCJobType.JOB_STATION_ALLOCATE;

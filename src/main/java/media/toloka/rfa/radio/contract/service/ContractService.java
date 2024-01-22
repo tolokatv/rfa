@@ -16,9 +16,6 @@ public class ContractService {
     @Autowired
     private ClientService clientService;
 
-
-
-
     @Autowired
     private ContractRepo contractRepo;
 //    public List<Contract> listContractByUser(Users user) {
@@ -30,6 +27,7 @@ public class ContractService {
     }
 
     public List<Contract> listContractByUser(Users user) {
+        // TODO Коли працюємо як сервіс, то clientService.GetCurrentUser() видасть null. Можуть бути проблеми
         Clientdetail cl = clientService.getClientDetail(clientService.GetCurrentUser());
         return contractRepo.findByClientdetail(cl);
     }
