@@ -45,6 +45,7 @@ public class ClientHomeInfoController {
 
 //    @Autowired
 //    private RepoUserDetail repoUserDetail;
+// TODO Додати роботу з адресами
 
     @GetMapping(value = "/user/usereditinfo")
     public String getUserHomeInfo(
