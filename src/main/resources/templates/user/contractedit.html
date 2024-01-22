@@ -1,0 +1,117 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+>
+<head>
+    <meta charset="utf-8" />
+    <!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Толока - радіо для всіх!</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link th:href="@{/css/bootstrap.min.css}"  th:rel="stylesheet" />
+    <link th:rel="stylesheet" th:href="@{/css/dropzone.min.css}"/>
+    <link th:rel="stylesheet" th:href="@{/css/toastr.min.css}"/>
+
+</head>
+<body>
+<!--<script src="/js/bootstrap.bundle.min.js"></script>-->
+
+<header>
+    <div th:insert="~{/fragments/user :: user_navbar}">  </div>
+</header>
+
+<div style="padding-top: 100px">
+    <div class="container-fluid">
+        <div class="row">
+
+            <div class="col-lg-12 col-sm-12">
+                <div th:insert="~{/fragments/user :: user_service}"> </div>
+            </div>
+        </div>
+
+        <div class="row" style="padding-top: 40px">
+            <!-- Колонка редагування контракту-->
+            <div class="col-lg-9 col-sm-12">
+                <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
+<!--                <div th:if="${message}">-->
+<!--                    <h2 th:text="${message}"/>-->
+<!--                </div>-->
+                <form th:action="@{/user/contractedit}" th:object="${contract}" method="post" >
+                    <div class="row align-items-stretch mb-5">
+                        <div class="form-group form-group-textarea mb-md-0">
+                            <div>
+                                <b>Номер контракту: </b><span th:text="${number}" ></span>
+                            </div>
+                            <div>
+                                <b>Тип контракту  </b>
+                                <select th:field="*{contractStatus}" class="form-control" id="contractStatus">
+                                    <option value="0">"============"</option>
+                                    <option th:each="option : ${options}" th:value="${contractStatus}" th:text="${option}"></option>
+                                </select>
+                            </div>
+                            <!-- Тип контракту Вільний, Комерційний-->
+
+                            <!-- Comment input-->
+                            <textarea th:field="*{usercomment}" class="form-control" id="usercomment" placeholder="Коментар *" value style="margin: 1.25rem; padding: 1.25rem; height: 15rem; " >
+                            </textarea>
+                        </div>
+
+                        <div class="text-center"> <!-- Button form -->
+                            <button class="btn btn-primary btn-xl text-uppercase" type="submit" >Зберегти</button>
+                        </div> <!-- Button form -->
+                    </div> <!-- Col for form -->
+                </form>
+            </div> <!-- Col -->
+        </div>  <!-- Row -->
+    </div> <!-- Container -->
+<!--    <div class="container">-->
+<!--        <div class="row">-->
+<!--            <div class="col-lg-8 mt-5">-->
+
+<!--                <div th:if="${message}">-->
+<!--                    <h2 th:text="${message}"/>-->
+<!--                </div>-->
+
+<!--                <div id="dropzone">-->
+<!--                    <form action="/uploadfile" class="dropzone needsclick" id="demo-upload" method="post">-->
+
+<!--                        <div class="dz-message needsclick">-->
+<!--                            <button type="button" class="dz-button">Перенсіть файл сюди або натисніть для вибору файла.</button>-->
+<!--                            <br/>-->
+<!--                        </div>-->
+
+<!--                    </form>-->
+<!--                </div>-->
+
+<!--            </div>-->
+<!--        </div>-->
+
+<!--    </div>-->
+</div>
+
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/popper.js}"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/dropzone.min.js}"></script>
+<script th:src="@{/js/toastr.min.js}"></script>
+
+<script>
+    Dropzone.autoDiscover = false;
+
+    $("#demo-upload").dropzone({
+        success : function(file, response) {
+            toastr.success('File ' + file.name + ' uploaded successfully');
+        }
+    });
+</script>
+<!--<script src="/js/bootstrap.bundle.min.js"></script>-->
+
+</body>
+</html>

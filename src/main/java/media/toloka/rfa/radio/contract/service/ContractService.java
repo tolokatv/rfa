@@ -33,4 +33,8 @@ public class ContractService {
         Clientdetail cl = clientService.getClientDetail(clientService.GetCurrentUser());
         return contractRepo.findByClientdetail(cl);
     }
+
+    public Contract GetContractById(Long id) {
+        return contractRepo.getById(id);
+    }
 }

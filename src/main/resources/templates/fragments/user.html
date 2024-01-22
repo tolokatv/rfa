@@ -159,7 +159,7 @@
                 <th scope="col">Номер угоди</th>
                 <th scope="col">Дата укладання</th>
                 <th scope="col">Дата останньої оплати</th>
-                <th scope="col">Історія дій</th>
+                <th scope="col">Дія</th>
             </tr>
         </thead>
     <tbody>
@@ -174,7 +174,7 @@
             <td><span th:text="${contract.number}"></span></td>
             <td><span th:text="${contract.createDate}"></span></td>
             <td><span th:text="${contract.lastPayDate}"></span></td>
-            <td>Подивитися</td>
+            <td><a th:href="@{/user/contractedit(id=${contract.id})}" class="btn btn-primary">Редагувати</a></td>
         </tr>
     </tbody>
 </table>

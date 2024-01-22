@@ -17,9 +17,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,22 +47,13 @@ public class ClientHomeContractController {
     final Logger logger = LoggerFactory.getLogger(ClientHomeContractController.class);
 
     @GetMapping(value = "/user/contract")
-    public String userHome(
+    public String ContractHome(
             Model model ) {
         Users user = clientService.GetCurrentUser();
         if (user == null) {
             logger.warn("User not found. Redirect to main page");
             return "redirect:/";
         }
-//        Authentication au;
-//        au = SecurityContextHolder.getContext().getAuthentication();
-//        Optional<Users> opt = userRepo.findUserByEmail(au.getName());
-//        // Якщо не залогінені, то переходимо на головну.
-//        if (opt.isEmpty()) {
-//            return "redirect:/";
-//        }
-//        // Витягуєм користувача
-//        Users user = opt.get();
         // дивимося його групи
         // відповідним чином виводимо пункти меню
         // Заповнюємо поля для форми
@@ -72,6 +65,55 @@ public class ClientHomeContractController {
         model.addAttribute("userID",    user.getId());
         model.addAttribute("userName",  user.getEmail());
         return "/user/contract";
+    }
+
+    @GetMapping(value = "/user/contractedit")
+    public String getEditContract(
+            @RequestParam(value = "id", required = true) Long id,
+            Model model ) {
+        // Редагуємо контракт
+        // передали id контракту
+        Contract contract = contractService.GetContractById(id);
+        if (contract == null) {
+            logger.info("Контракт з id={} не знайдено", id.toString());
+            // TODO Вивести в форму повідомлення, що контракт не знайдено
+            return "redirect:/user/contract";
+        }
+        List<String> options = new ArrayList<String>();
+        options.add(EContractStatus.CONTRACT_FREE.label);
+        options.add(EContractStatus.CONTRACT_PAY.label);
+        model.addAttribute("options", options);
+        model.addAttribute("contract",  contract);
+        model.addAttribute("info", "======= message ======");
+        return "/user/contractedit";
+    }
+
+
+
+
+    @PostMapping(value = "/user/contractedit")
+    public String postEditContract(
+            @ModelAttribute ("contract") Contract contract,
+            Model model ) {
+        // Редагуємо контракт
+        // передали id контракту
+//        Contract contract = contractService.GetContractById(id);
+        if (contract == null) {
+            logger.info("Контракт з id={} збережено", contract.getId().toString());
+            // TODO Вивести в форму повідомлення, що контракт збережено
+            return "redirect:/user/contract";
+        }
+//        List<String> options = new ArrayList<String>();
+//        options.add(EContractStatus.CONTRACT_FREE.label);
+//        options.add(EContractStatus.CONTRACT_PAY.label);
+//        model.addAttribute("options", options);
+//
+//
+//
+//        model.addAttribute("contract",  contract);
+//        model.addAttribute("info", "======= message ======");
+        logger.info("Контракт з UUID={} збережено", contract.getUuid());
+        return "redirect:/user/contract";
     }
 
     @GetMapping(value = "/user/createcontract")
@@ -91,6 +133,7 @@ public class ClientHomeContractController {
         model.addAttribute("contract",  ncontract);
         return "/user/createcontract";
     }
+
     @PostMapping(value = "/user/createcontract")
     public String postuserCreateContract(
             @ModelAttribute Contract contract,
