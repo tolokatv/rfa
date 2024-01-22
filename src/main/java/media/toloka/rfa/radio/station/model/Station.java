@@ -16,6 +16,7 @@ public class Station {
     @Id
     @GeneratedValue
     private Long radio_id;
+    private EServerState serverState;
     private String name;
     private String dbname;
     private boolean enable = false;
@@ -33,5 +34,8 @@ public class Station {
     private String icecastdescription;
     private String icecastsite;
     private String icecastgenre;
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Contract contract;
+
 }
 

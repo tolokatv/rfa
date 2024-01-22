@@ -4,6 +4,7 @@ package media.toloka.rfa.radio.contract;
 
 import lombok.extern.slf4j.Slf4j;
 import media.toloka.rfa.radio.contract.model.Contract;
+import media.toloka.rfa.radio.contract.model.EContractStatus;
 import media.toloka.rfa.radio.contract.service.ContractService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.security.model.Users;
@@ -84,6 +85,7 @@ public class ClientHomeContractController {
             return "redirect:/";
         }
         Contract ncontract = new Contract();
+        ncontract.setContractStatus(EContractStatus.CONTRACT_FREE);
         ncontract.setNumber( UUID.randomUUID().toString());
         ncontract.setClientdetail(clientService.getClientDetail(clientService.GetCurrentUser()));
         model.addAttribute("contract",  ncontract);
@@ -100,6 +102,7 @@ public class ClientHomeContractController {
         }
         // Працюємо з новим контрактом.
         Contract ncontract = new Contract();
+        ncontract.setContractStatus(EContractStatus.CONTRACT_FREE);
         ncontract.setNumber(UUID.randomUUID().toString());
         ncontract.setUuid(ncontract.getNumber());
         ncontract.setCreateDate(LocalDateTime.now());

@@ -128,23 +128,20 @@ public class ServerRunnerService {
         ProcessBuilder pb = new ProcessBuilder("bash", "-c", preparenginxforstationcommand);
         Map<String, String> env = pb.environment();
         // працюємо з темплейтом для Nginx
+        // TODO зробити роботу з текстовим шаблоном!!!!
         Map<String, Object> props = new HashMap<>();
         props.put("stationname",station.getDbname());
         props.put("guiport", station.getGuiport());
         props.put("servergui",station.getGuiserver());
         String nginxconfig = emailSenderService.getTextContent(nginxtemplate,props);
         // Записуємо файл конфігурації в робочий каталог станції
-        env.put("CLIENT_UUID", station.getClientdetail().getUuid());
-        env.put("STATION_UUID", station.getUuid());
-
         String pathConfigFile = env.get("HOME") + clientdir + "/" + station.getClientdetail().getUuid() + "/"
                 + station.getUuid() + "/" + station.getDbname() + ".rfa.toloka.media";
         try {
-            logger.info("============== ПИШИМО ФАЙЛ КОНФІГУРАЦІЇ ДЛЯ NGINX: "
-                    + pathConfigFile
-            );
+            logger.info("============== ПИШИМО ФАЙЛ КОНФІГУРАЦІЇ ДЛЯ NGINX: " + pathConfigFile );
             //записуємо файл конфігурації Nginx в каталог користувача
             Files.write(Paths.get(pathConfigFile), nginxconfig.getBytes() );
+
         } catch (IOException e) {
             logger.info("================= Щось пішло не так при запису файлу конфігурації для Nginx.");
             e.printStackTrace();

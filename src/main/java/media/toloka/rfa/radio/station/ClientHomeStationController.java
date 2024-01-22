@@ -71,18 +71,19 @@ public class ClientHomeStationController {
 //            logger.warn("User not found. Redirect to main page");
             return "redirect:/";
         }
-        // відправляємо завдання на створення радіостанції.
-        RPCJob rjob = new RPCJob();
-        rjob.setRJobType(ERPCJobType.JOB_STATION_CREATE); // set job type
-        rjob.setUser(user);
-        // Додаємо станцію і передаємо на виконання на віддалений сервіс
-        Station station = stationService.CreateStation();
+        Station station = stationService.CreateStation(model);
         if (station == null) {
             // Станцію створити не можемо. Показуємо про це повідомлення.
             logger.info("Не можемо створити станцію для користувача {}", user.getEmail());
             // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
+            // TODO зробити запис в журнал
             return "redirect:/user/stations";
         }
+        // відправляємо завдання на створення радіостанції.
+        RPCJob rjob = new RPCJob();
+        rjob.setRJobType(ERPCJobType.JOB_STATION_CREATE); // Створюємо необхідну інформацію в базі для станції
+        rjob.setUser(user);
+        // Додаємо станцію і передаємо на виконання на віддалений сервіс
 
         Gson gstation = gsonService.CreateGson();
         rjob.setRjobdata(gstation.toJson(station).toString());
