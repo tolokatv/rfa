@@ -57,17 +57,15 @@ Logger logger = LoggerFactory.getLogger(RPCListener.class);
         // TODO тут обробляємо завдання з фронтенда.
 //        logger.info("+++++++++++++++++  Recive message from QUEUES.");
         switch (rjob.getRJobType()) {
-            case JOB_STATION_CREATE:
-//                logger.info("======= RADIO CREATE  {}    {}", rjob.getRJobType().label, rjob.getRjobdata());
+            case JOB_STATION_CREATE:  // Заповнюємо базу необхідною інформацією
                 serviceRPC.JobCreateStation(rjob); // from Client Page. Next step
                 logger.info("+++++++++++++++++  JOB_STATION_CREATE");
-//                serviceRPC.SendMessageToUser(user,null,msg);
                 break;
-            case JOB_STATION_ALLOCATE:
+            case JOB_STATION_ALLOCATE: //
                 logger.info("+++++++++++++++++  JOB_STATION_ALLOCATE");
                 serverRunner.AllocateStationOnServer(rjob);
                 break;
-            case JOB_STATION_LIBRETIME_MIGRATE:
+            case JOB_STATION_LIBRETIME_MIGRATE: // Після розміщення станції запускаємо першу процедуру міграції
                 logger.info("+++++++++++++++++  JOB_STATION_LIBRETIME_MIGRATE");
                 serverRunner.StationMigrateLibretimeOnInstall(rjob);
                 break;

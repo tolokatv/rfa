@@ -113,13 +113,14 @@ public class ServerRunnerService {
     Logger logger = LoggerFactory.getLogger(ServerRunnerService.class);
 
     @Autowired
-    RabbitTemplate template;
+    RabbitTemplate template; // працюємо з Thymeleaf - відправка пошти, формування файлів конфігурації
 
     //======================================================================
     public Integer  StationGetStatus(RPCJob rpcJob) {
         return 0;
     }
 
+    // Формуємо файли конфігурації для Nginx, перезавантажуємо конфігурацію сервера.
     public void  StationPrepareNginx(RPCJob rpcJob) {
         Gson gson = gsonService.CreateGson();
         Station station = gson.fromJson(rpcJob.getRjobdata(), Station.class);
@@ -133,26 +134,17 @@ public class ServerRunnerService {
         props.put("servergui",station.getGuiserver());
         String nginxconfig = emailSenderService.getTextContent(nginxtemplate,props);
         // Записуємо файл конфігурації в робочий каталог станції
+        env.put("CLIENT_UUID", station.getClientdetail().getUuid());
+        env.put("STATION_UUID", station.getUuid());
+
+        String pathConfigFile = env.get("HOME") + clientdir + "/" + station.getClientdetail().getUuid() + "/"
+                + station.getUuid() + "/" + station.getDbname() + ".rfa.toloka.media";
         try {
-            logger.info("============== ПИШИМО ФАЙЛ КОНФІГУРАЦІЇ ДЛЯ NGINX: " + env.get("HOME")
-                    + clientdir
-                    + "/"
-                    + env.get("CLIENT_UUID")
-                    + "/"
-                    +env.get("STATION_UUID")
-                    + "/"
-                    + station.getDbname() + ".rfa.toloka.media");
-            Files.write(Paths.get(
-                    env.get("HOME")
-                        + clientdir
-                        + "/"
-                        + env.get("CLIENT_UUID")
-                        + "/"
-                        +env.get("STATION_UUID")
-                        + "/"
-                        + station.getDbname() + ".rfa.toloka.media"
-                    ),
-                    nginxconfig.getBytes());
+            logger.info("============== ПИШИМО ФАЙЛ КОНФІГУРАЦІЇ ДЛЯ NGINX: "
+                    + pathConfigFile
+            );
+            //записуємо файл конфігурації Nginx в каталог користувача
+            Files.write(Paths.get(pathConfigFile), nginxconfig.getBytes() );
         } catch (IOException e) {
             logger.info("================= Щось пішло не так при запису файлу конфігурації для Nginx.");
             e.printStackTrace();
@@ -345,7 +337,7 @@ public class ServerRunnerService {
     }
 
     public void SetEnvironmentForProcessBuilder(Map<String, String> env, Station station) {
-        // Призначаємо значення env
+        // Призначаємо значення env для виконання скрипту
         String homedirectory = env.get("HOME");
         env.put("CLIENT_DIR", homedirectory + clientdir);
 //        env.remove("OTHERVAR");
@@ -406,15 +398,10 @@ public class ServerRunnerService {
         Map<String, String> env = pb.environment();
         SetEnvironmentForProcessBuilder(env, station);
 
-
-//        pb.directory(new File(server_rundir));
-//        File log = new File("/home/ysv/log.txt");
         pb.redirectErrorStream(true);
-//        pb.redirectOutput(ProcessBuilder.Redirect.appendTo(log));
         try {
             Process p = pb.start();
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            // виводимо на консоль
             String line;
             while ((line = reader.readLine()) != null) {
                 logger.info(line);

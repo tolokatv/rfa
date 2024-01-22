@@ -88,6 +88,7 @@ public class EmailSenderService {
     public String getTextContent(String template, Map<String, Object> props) {
         Context context = new Context();
         context.setVariables(props); //
+//        templateEngine.
         return templateEngine.process(template, context);
     }
 

@@ -1,5 +1,5 @@
 server {
-    server_name phmunflwmhwntaft.rfa.toloka.media;
+    server_name [[${stationname}]].rfa.toloka.media;
 
     # root        /radio/rfa/html;
     charset     utf-8;
@@ -9,7 +9,7 @@ server {
         proxy_set_header X-Forwarded-Proto $scheme;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header Host $http_host;
-        proxy_pass http://localhost:8102;
+        proxy_pass http://[[${servergui}]]:[[${guiport}]];
         # proxy_redirect off;
     }
 
@@ -21,13 +21,13 @@ server {
 
 }
 server {
-    if ($host = phmunflwmhwntaft.rfa.toloka.media) {
+    if ($host = [[${stationname}]].rfa.toloka.media) {
         return 301 https://$host$request_uri;
     } # managed by Certbot
 
 
     listen 80;
-    server_name phmunflwmhwntaft.rfa.toloka.media;
+    server_name [[${stationname}]].rfa.toloka.media;
     return 404; # managed by Certbot
 
 

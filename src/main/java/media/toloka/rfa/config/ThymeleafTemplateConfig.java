@@ -16,10 +16,20 @@ public class ThymeleafTemplateConfig {
 
     @Value("${media.toloka.rfa.server.dirconfigtemplate}")
     private String dirconfigtemplate;
+
     @Bean
-    public SpringTemplateEngine springTemplateEngine() {
+    public SpringTemplateEngine htmlspringTemplateEngine() {
         SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+//        templateEngine.addTemplateResolver(textTemplateResolver());
         templateEngine.addTemplateResolver(htmlTemplateResolver());
+//        templateEngine.addTemplateResolver(textTemplateResolver());
+        return templateEngine;
+    }
+    @Bean
+    public SpringTemplateEngine textspringTemplateEngine() {
+        SpringTemplateEngine templateEngine = new SpringTemplateEngine();
+        templateEngine.addTemplateResolver(textTemplateResolver());
+//        templateEngine.addTemplateResolver(htmlTemplateResolver());
 //        templateEngine.addTemplateResolver(textTemplateResolver());
         return templateEngine;
     }
