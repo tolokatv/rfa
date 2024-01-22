@@ -3,6 +3,7 @@ package media.toloka.rfa.radio.client.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import media.toloka.rfa.radio.contract.model.Contract;
+import media.toloka.rfa.radio.document.model.Documents;
 import media.toloka.rfa.radio.history.model.History;
 import media.toloka.rfa.security.model.Users;
 
@@ -32,7 +33,7 @@ public class Clientdetail {
     private LocalDateTime confirmDate;
     @Column
     private String comments;
-//    @Column
+
     @ElementCollection
     @OneToMany(cascade = CascadeType.ALL)
     private List<Clientaddress> clientaddressList;
@@ -44,20 +45,11 @@ public class Clientdetail {
     @ElementCollection
     @OneToMany(cascade = CascadeType.ALL)
     private List<History> historyList;
-//    @ElementCollection
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private List<Contract> listcontract;
-//    @Column
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private List<Track> listTracks;
-//
-//    @Column
-//    private List<Album> listAlbums;
 
-//    @Column(unique = true, nullable = false)
-//    @JoinColumn(name = "id")
-//@OneToOne(cascade = CascadeType.ALL)
-//    @OneToOne(mappedBy = "clientdetail")
+    @ElementCollection
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<Documents> documentslist;
+
     @ElementCollection
     @OneToOne(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
     private Users user;

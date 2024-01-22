@@ -46,14 +46,16 @@
                 <form th:action="@{/user/contractedit}" th:object="${contract}" method="post" >
                     <div class="row align-items-stretch mb-5">
                         <div class="form-group form-group-textarea mb-md-0">
+                            <input type="hidden" name="id" th:value="${contract.id}" />
                             <div>
                                 <b>Номер контракту: </b><span th:text="${number}" ></span>
                             </div>
                             <div>
                                 <b>Тип контракту  </b>
                                 <select th:field="*{contractStatus}" class="form-control" id="contractStatus">
-                                    <option value="0">"============"</option>
-                                    <option th:each="option : ${options}" th:value="${contractStatus}" th:text="${option}"></option>
+                                    <!--Світимо назву типу в залежності від типу контракту-->
+                                    <option th:text="${contractStatus}" th:value="${contractStatus}"></option>
+                                    <option th:each="option : ${options}" th:value="${option}" th:text="${option}"></option>
                                 </select>
                             </div>
                             <!-- Тип контракту Вільний, Комерційний-->
@@ -68,6 +70,7 @@
                         </div> <!-- Button form -->
                     </div> <!-- Col for form -->
                 </form>
+                <a th:href="@{/user/contract}" class="btn btn-primary">Повернутися</a>
             </div> <!-- Col -->
         </div>  <!-- Row -->
     </div> <!-- Container -->

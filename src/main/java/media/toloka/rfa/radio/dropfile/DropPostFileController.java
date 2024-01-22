@@ -60,7 +60,7 @@ public class DropPostFileController {
             logger.info("Завантаження файлу: Випадкова затримка {}",difference);
             try {
                 Thread.sleep(difference);
-                documentService.saveDocumentInfo(destination);
+                documentService.saveDocumentUploadInfo(destination);
                 historyService.saveHistory(History_DocumentCreate, " Завантажено файл: " + file.getOriginalFilename(), clientService.GetCurrentUser());
             }
             catch(InterruptedException e)

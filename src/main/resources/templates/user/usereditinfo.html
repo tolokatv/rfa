@@ -34,18 +34,20 @@
                     <div class="row mb-3">
                         <div class="col"> <!-- // перший стовбчик-->
                             <div class="form-outline">
+                                <input type="hidden" name="id" th:value="${userdetail.id}" />
                                 <input
-                                        name="userform.custname"
-                                        th:field="${custname}"
-                                        th:value="${custname}"
-                                        type="text" id="userform.custname" class="form-control" disabled />
-                                <label class="form-label" for="userform.custname">Імʼя</label>
+                                        name="userdetail.custname"
+                                        th:field="${userdetail.custname}"
+                                        th:value="${userdetail.custname}"
+                                        type="text" id="userdetail.custname" class="form-control" disabled />
+                                <label class="form-label" for="userdetail.custname">Імʼя</label>
                             </div>
                         </div>
                         <div class="col"> <!-- // другий стовбчик-->
                             <div class="form-outline">
                                 <input
-                                        th:field="${custsurname}"
+                                        th:field="${userdetail.custsurname}"
+                                        th:value="${userdetail.custsurname}"
                                         name="custsurname" type="text" id="custsurname"   class="form-control" disabled />
                                 <label class="form-label" for="custsurname">Призвище</label>
                             </div>
@@ -53,99 +55,26 @@
                     </div> <!-- // CustName CustSurName-->
                     <div class="row mb-3"> <!-- // Пошта для логіна -->
                         <div class="form-outline mb-4">
-                            <input th:field="${name}" name="name" type="email" id="name" class="form-control" disabled />
+                            <input th:field="${userdetail.user.email}" name="name" type="email" id="name" class="form-control" disabled />
                             <label class="form-label" for="name">Email</label>
                         </div>
                     </div> <!-- // Пошта для логіна -->
                     <div class="row mb-3"> <!-- // FirmName -->
                         <div class="form-outline mb-4">
-                            <input th:name="userdetail.adresses.firmname"
-                                   th:field="${userdetail.adresses.firmname}"
-                                   th:value="*{userdetail.adresses.firmname}"
+                            <input th:name="userdetail.firmname"
+                                   th:field="${userdetail.firmname}"
+                                   th:value="*{userdetail.firmname}"
                                    type="text"
-                                   id="userdetail.adresses.firmname"
+                                   id="userdetail.firmname"
                                    class="form-control" />
-                            <label class="form-label" for="userdetail.adresses.firmname">Найменування організації</label>
+                            <label class="form-label" for="userdetail.firmname">Найменування організації</label>
                         </div>
                     </div> <!-- // FirmName -->
-                    <div class="row mb-3"> <!-- // Вулиця Будинок Квартира Місто -->
-                        <div class="col">
-                            <div class="form-outline">
-                                <input th:field="${fuserdetail.adresses.street}" name="fuserdetail.adresses.street" id="fuserdetail.adresses.street" type="text"  class="form-control" />
-                                <label class="form-label" for="fuserdetail.adresses.street">Вулиця</label>
-                            </div>
-                        </div> <!-- // Вулиця  -->
-                        <div class="col">
-                            <div class="form-outline">
-                                <input th:field="${fuserdetail.adresses.buildnumber}" name="fuserdetail.adresses.buildnumber" type="text" id="fuserdetail.adresses.buildnumber" class="form-control" />
-                                <label class="form-label" for="fuserdetail.adresses.buildnumber">Будинок</label>
-                            </div>
-                        </div> <!-- // Будинок -->
-                        <div class="col">
-                            <div class="form-outline">
-                                <input th:field="${fuserdetail.adresses.appartment}" name="fuserdetail.adresses.appartment" type="text" id="fuserdetail.adresses.appartment" class="form-control" />
-                                <label class="form-label" for="fuserdetail.adresses.appartment">Квартира/офіс</label>
-                            </div>
-                        </div> <!-- // Квартира -->
-                        <div class="col"> <!-- // Місто -->
-                            <div class="form-outline">
-                                <input th:field="${fuserdetail.adresses.cityname}" name="fuserdetail.adresses.cityname" type="text" id="fuserdetail.adresses.cityname" class="form-control" />
-                                <label class="form-label" for="fuserdetail.adresses.cityname">Місто</label>
-                            </div>
-                        </div> <!-- // Місто -->
-                    </div> <!-- // Вулиця Будинок Квартира -->
-                    <div class="row mb-3"> <!-- // Район Область країна індекс -->
-                        <div class="col">
-                            <div class="form-outline">
-                                <input th:field="${fuserdetail.adresses.area}" name="fuserdetail.adresses.cityname" type="text" id="form7Example6" class="form-control" />
-                                <label class="form-label" for="form7Example6">Район</label>
-                            </div>
-                        </div> <!-- // Район -->
-                        <div class="col">
-                            <div class="form-outline">
-                                <input th:field="${fuserdetail.adresses.region}" name="fuserdetail.adresses.area" type="text" id="form7Example7" class="form-control" />
-                                <label class="form-label" for="form7Example7">Область</label>
-                            </div>
-                        </div> <!-- // Область -->
-                        <div class="col">
-                            <div class="form-outline">
-                                <input th:field="${fuserdetail.adresses.country}" name="formaddress.region" type="text" id="form7Example8" class="form-control" />
-                                <label class="form-label" for="form7Example8">Країна</label>
-                            </div>
-                        </div> <!-- // країна -->
-                        <div class="col">
-                            <div class="form-outline">
-                                <input th:field="${fuserdetail.adresses.zip}" name="formaddress.zip" type="text" id="form7Example15" class="form-control" />
-                                <label class="form-label" for="form7Example15">Індекс</label>
-                            </div>
-                        </div> <!-- // індекс -->
-
-                    </div> <!-- // Район Область країна індекс -->
-                    <div class="row mb-3"> <!-- // Phone -->
-                        <div class="col">
-                            <div class="form-outline mb-4">
-                                <input th:field="${fuserdetail.adresses.phone}" name="formaddress.phone" type="text" id="formaddress.phone" class="form-control" />
-                                <label class="form-label" for="formaddress.phone">Телефон</label>
-                            </div>
-                        </div>
-                    </div> <!-- // Phone -->
-                    <div class="row mb-3"> <!-- // Comments -->
-                        <div class="col">
-                            <div class="form-outline mb-4">
-                                <textarea th:field="${fuserdetail.adresses.comment}" name="formaddress.comment"  class="form-control" id="form7Example13" rows="4"></textarea>
-                                <label class="form-label" for="form7Example13">Коментар до адреси</label>
-                            </div>
-                            <div class="form-outline mb-4">
-                                <textarea th:field="${fuserdetail.comments}" name="fuserdetail.comments" class="form-control" id="form7Example10"  rows="4"></textarea>
-                                <label class="form-label" for="form7Example10">Додаткова інформація</label>
-                            </div>
-                        </div>
-                    </div> <!-- // Comments -->
                     <div class="row mb-3">
                         <div class="form-check d-flex justify-content-center mb-2">
 <!--                            <input type="checkbox" name="confirm1" th:checked="*{confirm1}" />-->
-                            <input th:field="*{fuserdetail.adresses.confirminfo}" class=" form-check-input me-2" type="checkbox" value="" id="fuserdetail.adresses.confirminfo"  />
-                            <label class="form-check-label" for="fuserdetail.adresses.confirminfo">
+                            <input th:field="*{userdetail.confirminfo}" class=" form-check-input me-2" type="checkbox" value="" id="userdetail.confirminfo"  />
+                            <label class="form-check-label" for="userdetail.confirminfo">
                                 З умовами надання сервісу погоджуюся.
                             </label>
                         </div>

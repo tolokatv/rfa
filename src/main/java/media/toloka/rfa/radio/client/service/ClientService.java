@@ -67,11 +67,13 @@ public class ClientService {
 
     public void saveUser(Users user) {
         userRepository.save(user);
-//        return user.getId();
     }
 
     public Optional<Users> findById(Long idUser) {
         return userRepository.findById(idUser);
+    }
+    public Users getdById(Long idUser) {
+        return userRepository.getById(idUser);
     }
 
     public Documents GetDocument(Long idDocument) {
@@ -82,6 +84,10 @@ public class ClientService {
     public void saveDocument(Documents document) {
         // зберегли документ
         documentRepository.save(document);
+    }
+
+    public Clientdetail getClientDetailById(Long id) {
+        return clientDetailRepository.getById(id);
     }
 
     public Clientdetail getClientDetail(Users user) {
@@ -106,4 +112,7 @@ public class ClientService {
 
     }
 
+    public void SaveClientDetail(Clientdetail curuserdetail) {
+        clientDetailRepository.save(curuserdetail);
+    }
 }

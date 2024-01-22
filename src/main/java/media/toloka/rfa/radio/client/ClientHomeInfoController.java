@@ -5,6 +5,7 @@ import lombok.extern.slf4j.Slf4j;
 import media.toloka.rfa.radio.client.model.Clientaddress;
 import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
+import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +16,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.List;
+
+import static media.toloka.rfa.radio.history.model.EHistoryType.History_UserChangeConfirmInfo;
+import static media.toloka.rfa.radio.history.model.EHistoryType.History_UserInfoSave;
 
 @Slf4j
 @Controller
@@ -32,6 +38,10 @@ public class ClientHomeInfoController {
 //    private RepoTrack repoTrack;
     @Autowired
     private ClientService clientService;
+
+    @Autowired
+    private HistoryService historyService;
+
 
 //    @Autowired
 //    private RepoUserDetail repoUserDetail;
@@ -65,10 +75,12 @@ public class ClientHomeInfoController {
         if (userdetail.getConfirminfo() == null) {
             userdetail.setConfirminfo(false);
         }
+        List<Clientaddress> clientaddresses = userdetail.getClientaddressList();
 //        model.addAttribute("custname",  frmuser.getCustname());
 //        model.addAttribute("surname",   frmuser.getCustsurname());
 //        model.addAttribute("name",      frmuser.getName());
-//        model.addAttribute("fuserdetail", userdetail );
+        model.addAttribute("userdetail", userdetail );
+        model.addAttribute("clientaddresses", clientaddresses );
 //        model.addAttribute("address",   frmuser.getCustsurname());
 //        model.addAttribute("formaddress",   frmuser.getUserDetail().getAdresses());
 //        logger.info("Заповнили атрибути форми");
@@ -77,40 +89,26 @@ public class ClientHomeInfoController {
 
     @PostMapping(value = "/user/infosave")
     public String postuserHomeInfo(
-            @ModelAttribute Users userform,
+//            @ModelAttribute Users userform,
             @ModelAttribute Clientdetail fuserdetail,
-            @ModelAttribute Clientaddress faddress,
+//            @ModelAttribute Clientaddress faddress,
             Model model ) {
         // Витягуєм користувача
-        Users currentUser = clientService.GetCurrentUser();
-        if (currentUser == null) {
-            return "redirect:/"; //якийсь не правильний користувач. Відправляємо на головну сторінку.
-        }
-        Clientaddress ua;
-        Clientdetail curuserdetail = clientService.getClientDetail(currentUser);
-        // Заповнюємо поля для запису в базу
+        Clientdetail curuserdetail = clientService.getClientDetailById(fuserdetail.getId());
         if (curuserdetail == null) {
 //            logger.info("Додаємо UserDetail та UserAddress до структури користувача.");
             curuserdetail = new Clientdetail();
-            ua = new Clientaddress();
 //            curuserdetail.setUserid(currentUser.getId());
         }
-        if (curuserdetail.getClientaddressList().size() == 0) {
-            ua = new Clientaddress();
-        }
-//        else {
-//
-//            // Знайти тип адреси. Якщо немає, то додамо нову адресу.
-//
-//        }
+        curuserdetail.setFirmname( fuserdetail.getFirmname() );
+        curuserdetail.setComments( // коментарій до інформації про користувача
+                fuserdetail.getComments()
+        );
+
         /*
-        curuserdetail.getAdresses().add(ua);
 
         curuserdetail.getAdresses().setFirmname(
                 fuserdetail .getAdresses().getFirmname()
-        );
-        curuserdetail.getAdresses().setFirmname(
-                fuserdetail.getAdresses().getFirmname()
         );
         curuserdetail.getAdresses().setStreet(
                 fuserdetail.getAdresses().getStreet()
@@ -161,31 +159,21 @@ public class ClientHomeInfoController {
         // тестуємо
 //        Boolean b1 = getUsers.getUserDetail().getAdresses().getConfirminfo();
 //        Boolean b2 = userform.getUserDetail().getAdresses().getConfirminfo();
-/*
-        if (curuserdetail.getAdresses().getConfirminfo() != fuserdetail.getAdresses().getConfirminfo()) {
-            curuserdetail.getAdresses().setConfirminfo(
-                    fuserdetail.getAdresses().getConfirminfo()
+        if (curuserdetail.getConfirminfo() != fuserdetail.getConfirminfo()) {
+            curuserdetail.setConfirminfo(
+                    fuserdetail.getConfirminfo()
             ) ;
             // Зберігаємо історію
-            serviceUser.saveHistory( // працює
-                    History_UserChangeConfirmInfo,
-                    curuserdetail.getAdresses().getConfirminfo().toString(),
-                    getUsers
-                    );
-            curuserdetail.getAdresses().setConfirmDate(LocalDateTime.now());
-
-
+            historyService.saveHistory( History_UserChangeConfirmInfo, curuserdetail.getConfirminfo().toString(), curuserdetail.getUser() );
+            curuserdetail.setConfirmDate(LocalDateTime.now());
         }
+/*
 
         // Зберігаємо інформацію про користувача
-
-        repoUserDetail.save(curuserdetail);
-        serviceUser.saveHistory( // працює
-                History_UserInfoSave,
-                "UserInfoSave",
-                getUsers
-        );
 */
+        clientService.SaveClientDetail(curuserdetail);
+        historyService.saveHistory( History_UserInfoSave, "UserInfoSave", curuserdetail.getUser() );
+
         return "redirect:/user/user_page";
     }
 

@@ -38,7 +38,7 @@ public class ClientHomeDocumentsController {
         // дивимося його групи
         // відповідним чином виводимо пункти меню
         // Заповнюємо поля для форми
-        List<Documents> documents = documentService.listDocumentsByClientdetail(
+        List<Documents> documents = documentService.listDocumentsFromClientdetail(
                 clientService.getClientDetail(
                         clientService.GetCurrentUser()
                 )

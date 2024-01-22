@@ -14,10 +14,7 @@ import media.toloka.rfa.radio.client.service.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
@@ -25,6 +22,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
+import static media.toloka.rfa.radio.contract.model.EContractStatus.CONTRACT_FREE;
+import static media.toloka.rfa.radio.contract.model.EContractStatus.CONTRACT_PAY;
 import static media.toloka.rfa.radio.history.model.EHistoryType.History_UserCreateContract;
 
 
@@ -71,6 +70,11 @@ public class ClientHomeContractController {
     public String getEditContract(
             @RequestParam(value = "id", required = true) Long id,
             Model model ) {
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            logger.warn("User not found. Redirect to main page");
+            return "redirect:/";
+        }
         // Редагуємо контракт
         // передали id контракту
         Contract contract = contractService.GetContractById(id);
@@ -80,9 +84,10 @@ public class ClientHomeContractController {
             return "redirect:/user/contract";
         }
         List<String> options = new ArrayList<String>();
-        options.add(EContractStatus.CONTRACT_FREE.label);
-        options.add(EContractStatus.CONTRACT_PAY.label);
+        options.add("Безкоштовний");
+        options.add("Комерційний");
         model.addAttribute("options", options);
+
         model.addAttribute("contract",  contract);
         model.addAttribute("info", "======= message ======");
         return "/user/contractedit";
@@ -93,25 +98,30 @@ public class ClientHomeContractController {
 
     @PostMapping(value = "/user/contractedit")
     public String postEditContract(
-            @ModelAttribute ("contract") Contract contract,
+            @ModelAttribute ("contract") Contract fcontract,
+//            @PathVariable Long id,
             Model model ) {
         // Редагуємо контракт
         // передали id контракту
 //        Contract contract = contractService.GetContractById(id);
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            logger.warn("User not found. Redirect to main page");
+            return "redirect:/";
+        }
+        Contract contract = contractService.GetContractById(fcontract.getId());
         if (contract == null) {
-            logger.info("Контракт з id={} збережено", contract.getId().toString());
+            logger.info("Контракт з id={} не знайдено", fcontract.getId().toString());
             // TODO Вивести в форму повідомлення, що контракт збережено
             return "redirect:/user/contract";
         }
-//        List<String> options = new ArrayList<String>();
-//        options.add(EContractStatus.CONTRACT_FREE.label);
-//        options.add(EContractStatus.CONTRACT_PAY.label);
-//        model.addAttribute("options", options);
-//
-//
-//
-//        model.addAttribute("contract",  contract);
-//        model.addAttribute("info", "======= message ======");
+        if (fcontract.getContractStatus().label.equals(CONTRACT_FREE.label)) {
+            contract.setContractStatus(CONTRACT_FREE);
+        } else {
+            contract.setContractStatus(CONTRACT_PAY);
+        }
+        contract.setUsercomment(fcontract.getUsercomment());
+        contractService.saveContract(contract);
         logger.info("Контракт з UUID={} збережено", contract.getUuid());
         return "redirect:/user/contract";
     }
@@ -127,7 +137,7 @@ public class ClientHomeContractController {
             return "redirect:/";
         }
         Contract ncontract = new Contract();
-        ncontract.setContractStatus(EContractStatus.CONTRACT_FREE);
+        ncontract.setContractStatus(CONTRACT_FREE);
         ncontract.setNumber( UUID.randomUUID().toString());
         ncontract.setClientdetail(clientService.getClientDetail(clientService.GetCurrentUser()));
         model.addAttribute("contract",  ncontract);
@@ -145,7 +155,7 @@ public class ClientHomeContractController {
         }
         // Працюємо з новим контрактом.
         Contract ncontract = new Contract();
-        ncontract.setContractStatus(EContractStatus.CONTRACT_FREE);
+        ncontract.setContractStatus(CONTRACT_FREE);
         ncontract.setNumber(UUID.randomUUID().toString());
         ncontract.setUuid(ncontract.getNumber());
         ncontract.setCreateDate(LocalDateTime.now());
