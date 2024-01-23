@@ -442,6 +442,9 @@ public class ServerRunnerService {
         Station station = gson.fromJson(rjob.getRjobdata(), Station.class);
         ProcessBuilder pb = new ProcessBuilder("bash", "-c", psStationCommand);
         Map<String, String> env = pb.environment();
+        logger.info("Рядок {}",rjob.getRjobdata());
+        logger.info("Station {}",station);
+
         SetEnvironmentForProcessBuilder(env, station);
 
         pb.redirectErrorStream(true);
