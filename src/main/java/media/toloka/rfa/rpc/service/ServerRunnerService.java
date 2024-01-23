@@ -435,4 +435,32 @@ public class ServerRunnerService {
 //        // TODO Занести в історию запись о создании конфігураційних файлів
 
     }
+
+    public void StationGetPS(RPCJob rjob) {
+        Gson gson = gsonService.CreateGson();
+//        rpcJob.getRjobdata()
+        Station station = gson.fromJson(rjob.getRjobdata(), Station.class);
+        ProcessBuilder pb = new ProcessBuilder("bash", "-c", psStationCommand);
+        Map<String, String> env = pb.environment();
+        SetEnvironmentForProcessBuilder(env, station);
+
+        pb.redirectErrorStream(true);
+        try {
+            Process p = pb.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                logger.info(line);
+            }
+//            assert pb.redirectInput() == ProcessBuilder.Redirect.PIPE;
+//            assert pb.redirectOutput().file() == log;
+//            assert p.getInputStream().read() == -1;
+        } catch (IOException e) {
+            logger.warn(" Щось пішло не так при виконанні завдання в операційній системі");
+            e.printStackTrace();
+        }
+        //================================================================
+        // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
+//        // TODO Занести в історию запись
+    }
 }

@@ -170,4 +170,35 @@ public class ClientHomeStationController {
         template.convertAndSend(queueNameRabbitMQ,gson.toJson(rjob).toString());
         return "redirect:/user/stations";
     }
+
+
+    @GetMapping(value = "/user/psstation")
+    public String userPSStation(
+            @RequestParam(value = "id", required = true) Long id,
+            Model model ) {
+
+//        logger.info("Create New station.");
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+        Station station = stationService.GetStationById(id);
+        if (station == null) {
+            // Станцію створити не можемо. Показуємо про це повідомлення.
+            logger.info("Не можемо запустити станцію для користувача {}", user.getEmail());
+            // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
+            // TODO зробити запис в журнал
+            return "redirect:/user/stations";
+        }
+        RPCJob rjob = new RPCJob();
+        rjob.getJobchain().add(JOB_STATION_GET_PS);
+        rjob.setUser(user);
+        Gson gstation = gsonService.CreateGson();
+        rjob.setRjobdata(gstation.toJson(station).toString());
+        // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
+        Gson gson = gsonService.CreateGson();
+        String strgson = gson.toJson(rjob).toString();
+        template.convertAndSend(queueNameRabbitMQ,gson.toJson(rjob).toString());
+        return "redirect:/user/stations";
+    }
 }
