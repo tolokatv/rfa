@@ -19,6 +19,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import static media.toloka.rfa.rpc.model.ERPCJobType.*;
 
@@ -89,6 +90,73 @@ public class ClientHomeStationController {
         rjob.getJobchain().add(JOB_STATION_PREPARE_NGINX);
         rjob.getJobchain().add(JOB_STATION_LIBRETIME_MIGRATE);
         rjob.getJobchain().add(JOB_STATION_START);
+        rjob.getJobchain().add(JOB_STATION_STOP);
+//        rjob.setRJobType(JOB_STATION_CREATE); // Створюємо необхідну інформацію в базі для станції
+        rjob.setUser(user);
+        // Додаємо станцію і передаємо на виконання на віддалений сервіс
+
+        Gson gstation = gsonService.CreateGson();
+        rjob.setRjobdata(gstation.toJson(station).toString());
+        // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
+        Gson gson = gsonService.CreateGson();
+        String strgson = gson.toJson(rjob).toString();
+        template.convertAndSend(queueNameRabbitMQ,gson.toJson(rjob).toString());
+        return "redirect:/user/stations";
+    }
+
+    @GetMapping(value = "/user/startstation")
+    public String userStartStation(
+            @RequestParam(value = "id", required = true) Long id,
+            Model model ) {
+
+//        logger.info("Create New station.");
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+        Station station = stationService.GetStationById(id);
+        if (station == null) {
+            // Станцію створити не можемо. Показуємо про це повідомлення.
+            logger.info("Не можемо запустити станцію для користувача {}", user.getEmail());
+            // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
+            // TODO зробити запис в журнал
+            return "redirect:/user/stations";
+        }
+        RPCJob rjob = new RPCJob();
+        rjob.getJobchain().add(JOB_STATION_START);
+        rjob.setUser(user);
+        Gson gstation = gsonService.CreateGson();
+        rjob.setRjobdata(gstation.toJson(station).toString());
+        // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
+        Gson gson = gsonService.CreateGson();
+        String strgson = gson.toJson(rjob).toString();
+        template.convertAndSend(queueNameRabbitMQ,gson.toJson(rjob).toString());
+        return "redirect:/user/stations";
+    }
+
+    @GetMapping(value = "/user/stopstation")
+    public String userStopStation(
+            @RequestParam(value = "id", required = true) Long id,
+
+            Model model ) {
+
+//        logger.info("Create New station.");
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+//            logger.warn("User not found. Redirect to main page");
+            return "redirect:/";
+        }
+        Station station = stationService.GetStationById(id);
+        if (station == null) {
+            // Станцію створити не можемо. Показуємо про це повідомлення.
+            logger.info("Не можемо створити станцію для користувача {}", user.getEmail());
+            // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
+            // TODO зробити запис в журнал
+            return "redirect:/user/stations";
+        }
+//        clientService.getClientDetail(user).getStationList().add(station);
+        // відправляємо завдання на створення радіостанції.
+        RPCJob rjob = new RPCJob();
         rjob.getJobchain().add(JOB_STATION_STOP);
 //        rjob.setRJobType(JOB_STATION_CREATE); // Створюємо необхідну інформацію в базі для станції
         rjob.setUser(user);

@@ -143,7 +143,9 @@
                 <td><span th:text="${station.createdate}"></span></td>
                 <td><span th:text="${station.lastpaydate}"></span></td>
 <!--                <td><a href="/user/temporary@{/(id=${station.radio_id})}" class="btn btn-primary">Керувати</a></td>-->
-                <td><a th:href="@{/user/temporaryid(id=${station.radio_id})}" class="btn btn-primary">Керувати</a></td>
+                <td><a th:href="@{/user/temporaryid(id=${station.radio_id})}" class="btn btn-primary">Керувати</a>
+                    <a th:href="@{/user/startstation(id=${station.radio_id})}" class="btn btn-primary">Стартувати</a>
+                    <a th:href="@{/user/stopstation(id=${station.radio_id})}" class="btn btn-primary">Зупинити</a></td>
 <!--                <a th:href="@{/user/temporary(id='${station.radio_id}')}"-->
 
             </tr>
