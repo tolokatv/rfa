@@ -1,5 +1,7 @@
 package media.toloka.rfa.radio.station.service;
 
+import media.toloka.rfa.radio.contract.model.Contract;
+import media.toloka.rfa.radio.contract.service.ContractService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.station.ClientHomeStationController;
 import media.toloka.rfa.service.RfaService;
@@ -33,9 +35,8 @@ public class StationService {
 
     @Autowired
     private ClientService clientService;
-
-//    @Autowired
-//    private StationService stationService;
+    @Autowired
+    private ContractService contractService;
 
     @Autowired
     private RfaService rfaService;
@@ -82,6 +83,9 @@ public class StationService {
             station.setGuiserver(guiserver);
             station.setCreatedate(LocalDateTime.now());
             saveStation(station);
+            Clientdetail cld = station.getClientdetail();
+            cld.getStationList().add(station);
+            clientService.SaveClientDetail(cld);
             // TODO запис в журнал
 //            historyService.saveHistory(History_StatiionCreate, " Нова станція: "+station.getUuid(), clientService.getClientDetail().getUser());
             return station;
@@ -113,7 +117,9 @@ public class StationService {
         // - Коли є платні контракти
 
         //перевіряємо, чи створені угоди
-        if (clientDetail.getContractList().isEmpty()) {
+        List<Contract> contractList = contractService.FindContractByClientDetail(clientDetail);
+        if (contractList.isEmpty()) {
+//        if (clientDetail.getContractList().isEmpty()) {
             logger.info("Відсутні контракти. Буде неможливо приєднати станцію. Створіть контракт.");
             if (model != null) {
                 logger.info("Повідомлення для форми: Відсутні контракти. Буде неможливо приєднати станцію. Створіть контракт.");
@@ -148,26 +154,31 @@ public class StationService {
         // - Коли є платні контракти
     }
 
+//    private List<Station> FindStationByClientDetail(Clientdetail clientDetail) {
+//        return stationRepo.findStationByClientdetail(clientDetail.getId());
+//    }
+
+
     private boolean CheckPayContract(Clientdetail clientDetail,Model model) {
         // перевіряємо наявність платних контрактів і можливість приєднати до них станцію
         // У разі неможливості - формуємо відповідне повідомлення для форми
 
         // Дивимося, чи є комерційні контракти
 
-        logger.info("Відсутні платні контракти. Буде неможливо приєднати ще одну станцію.");
-        if (model != null) {
-            logger.info("Повідомлення для форми: Відсутні платні контракти. Буде неможливо приєднати ще одну станцію.");
-        }
+//        logger.info("Відсутні платні контракти. Буде неможливо приєднати ще одну станцію.");
+//        if (model != null) {
+//            logger.info("Повідомлення для форми: Відсутні платні контракти. Буде неможливо приєднати ще одну станцію.");
+//        }
         return true;
     }
 
     private boolean CheckFreeContract(Clientdetail clientDetail, Model model) {
         // model != null коли ми визиваємо з контролера, який повинен намалювати повідомлення
         // перевіряємо можливість приєднання станції до наявних контрактів
-        logger.info("Відсутні платні контракти. Буде неможливо приєднати ще одну станцію.");
-        if (model != null) {
-            logger.info("Повідомлення для форми: Відсутні платні контракти. Буде неможливо приєднати ще одну станцію.");
-        }
+//        logger.info("Відсутні платні контракти. Буде неможливо приєднати ще одну станцію.");
+//        if (model != null) {
+//            logger.info("Повідомлення для форми: Відсутні платні контракти. Буде неможливо приєднати ще одну станцію.");
+//        }
         return true;
     }
 

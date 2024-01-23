@@ -20,11 +20,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import static media.toloka.rfa.rpc.model.ERPCJobType.*;
+
 @Controller
 public class ClientHomeStationController {
 
     @Value("${rabbitmq.queue}")
-    private String queueName;
+    private String queueNameRabbitMQ;
 
     @Autowired
     private ClientService clientService;
@@ -79,9 +81,16 @@ public class ClientHomeStationController {
             // TODO зробити запис в журнал
             return "redirect:/user/stations";
         }
+//        clientService.getClientDetail(user).getStationList().add(station);
         // відправляємо завдання на створення радіостанції.
         RPCJob rjob = new RPCJob();
-        rjob.setRJobType(ERPCJobType.JOB_STATION_CREATE); // Створюємо необхідну інформацію в базі для станції
+        rjob.getJobchain().add(JOB_STATION_CREATE);
+        rjob.getJobchain().add(JOB_STATION_ALLOCATE);
+        rjob.getJobchain().add(JOB_STATION_PREPARE_NGINX);
+        rjob.getJobchain().add(JOB_STATION_LIBRETIME_MIGRATE);
+        rjob.getJobchain().add(JOB_STATION_START);
+        rjob.getJobchain().add(JOB_STATION_STOP);
+//        rjob.setRJobType(JOB_STATION_CREATE); // Створюємо необхідну інформацію в базі для станції
         rjob.setUser(user);
         // Додаємо станцію і передаємо на виконання на віддалений сервіс
 
@@ -90,7 +99,7 @@ public class ClientHomeStationController {
         // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
         Gson gson = gsonService.CreateGson();
         String strgson = gson.toJson(rjob).toString();
-        template.convertAndSend(queueName,gson.toJson(rjob).toString());
+        template.convertAndSend(queueNameRabbitMQ,gson.toJson(rjob).toString());
         return "redirect:/user/stations";
     }
 }

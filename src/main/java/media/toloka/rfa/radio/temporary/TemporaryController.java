@@ -23,11 +23,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 //import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import static media.toloka.rfa.rpc.model.ERPCJobType.JOB_STATION_ALLOCATE;
+import static media.toloka.rfa.rpc.model.ERPCJobType.*;
+import static media.toloka.rfa.rpc.model.ERPCJobType.JOB_STATION_STOP;
 
 @Controller
 public class TemporaryController {
 
+    @Value("${rabbitmq.queue}")
+    private String queueNameRabbitMQ;
 
     @Autowired
     private ServerRunnerService serverRunnerService;
@@ -89,12 +92,33 @@ public class TemporaryController {
             return "redirect:/user/stations";
         }
 
+
+
+//        RPCJob rjob = new RPCJob();
+//        rjob.getJobchain().add(JOB_STATION_CREATE);
+        rjob.getJobchain().add(JOB_STATION_ALLOCATE);
+        rjob.getJobchain().add(JOB_STATION_PREPARE_NGINX);
+        rjob.getJobchain().add(JOB_STATION_LIBRETIME_MIGRATE);
+        rjob.getJobchain().add(JOB_STATION_START);
+        rjob.getJobchain().add(JOB_STATION_STOP);
+//        rjob.setRJobType(JOB_STATION_CREATE); // Створюємо необхідну інформацію в базі для станції
+        rjob.setUser(user);
+        // Додаємо станцію і передаємо на виконання на віддалений сервіс
+
         Gson gstation = gsonService.CreateGson();
         rjob.setRjobdata(gstation.toJson(station).toString());
         // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
         Gson gson = gsonService.CreateGson();
         String strgson = gson.toJson(rjob).toString();
-        template.convertAndSend(queueName,gson.toJson(rjob).toString());
+        template.convertAndSend(queueNameRabbitMQ,gson.toJson(rjob).toString());
+//
+//
+//        Gson gstation = gsonService.CreateGson();
+//        rjob.setRjobdata(gstation.toJson(station).toString());
+//        // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
+//        Gson gson = gsonService.CreateGson();
+//        String strgson = gson.toJson(rjob).toString();
+//        template.convertAndSend(queueName,gson.toJson(rjob).toString());
 
         return "redirect:/user/temporary";
 //        return "redirect:/user/temporary";

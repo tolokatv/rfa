@@ -2,12 +2,8 @@ package media.toloka.rfa.rpc;
 
 
 import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import media.toloka.rfa.config.gson.LocalDateDeserializer;
-import media.toloka.rfa.config.gson.LocalDateSerializer;
-import media.toloka.rfa.config.gson.LocalDateTimeDeserializer;
-import media.toloka.rfa.config.gson.LocalDateTimeSerializer;
 import media.toloka.rfa.config.gson.service.GsonService;
+import media.toloka.rfa.rpc.model.ERPCJobType;
 import media.toloka.rfa.rpc.model.RPCJob;
 import media.toloka.rfa.rpc.service.RPCService;
 import media.toloka.rfa.rpc.service.ServerRunnerService;
@@ -18,11 +14,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-
-import static media.toloka.rfa.rpc.model.ERPCJobType.JOB_STATION_PREPARE_NGINX;
-
 @Component
 public class RPCListener {
 
@@ -30,7 +21,7 @@ public class RPCListener {
     private RPCService serviceRPC;
 
     @Autowired
-    private ServerRunnerService serverRunner;
+    private ServerRunnerService serverRunnerService;
 
     @Autowired
     RabbitTemplate template;
@@ -54,31 +45,34 @@ Logger logger = LoggerFactory.getLogger(RPCListener.class);
 
         Gson gson = gsonService.CreateGson();
         RPCJob rjob = gson.fromJson(message, RPCJob.class);
+
         // TODO тут обробляємо завдання з фронтенда.
 //        logger.info("+++++++++++++++++  Recive message from QUEUES.");
-        switch (rjob.getRJobType()) {
+        ERPCJobType curJob = rjob.getJobchain().poll();
+        switch (curJob) {
+//        switch (rjob.getRJobType()) {
             case JOB_STATION_CREATE:  // Заповнюємо базу необхідною інформацією
                 serviceRPC.JobCreateStation(rjob); // from Client Page. Next step
                 logger.info("+++++++++++++++++  JOB_STATION_CREATE");
                 break;
-            case JOB_STATION_ALLOCATE: //
+            case JOB_STATION_ALLOCATE: // розміщуємо каталоги на сервері, створюємо базу, користувачів у Postgresql та Rabbit.
                 logger.info("+++++++++++++++++  JOB_STATION_ALLOCATE");
-                serverRunner.AllocateStationOnServer(rjob);
+                serverRunnerService.AllocateStationOnServer(rjob);
                 break;
             case JOB_STATION_LIBRETIME_MIGRATE: // Після розміщення станції запускаємо першу процедуру міграції
                 logger.info("+++++++++++++++++  JOB_STATION_LIBRETIME_MIGRATE");
-                serverRunner.StationMigrateLibretimeOnInstall(rjob);
+                serverRunnerService.StationMigrateLibretimeOnInstall(rjob);
                 break;
             case JOB_STATION_PREPARE_NGINX:
-                serverRunner.StationPrepareNginx(rjob);
+                serverRunnerService.StationPrepareNginx(rjob);
                 break;
             case JOB_STATION_START:
                 logger.info("+++++++++++++++++  JOB_STATION_START");
-                serverRunner.StationStart(rjob);
+                serverRunnerService.StationStart(rjob);
                 break;
             case JOB_STATION_STOP:
                 logger.info("+++++++++++++++++  JOB_STATION_STOP");
-                serverRunner.StationStop(rjob);
+                serverRunnerService.StationStop(rjob);
                 break;
             case JOB_CONTRACT_CREATE:
                 logger.info("======= {}    {}", rjob.getRJobType().label, rjob.getRjobdata());
@@ -93,6 +87,7 @@ Logger logger = LoggerFactory.getLogger(RPCListener.class);
                 logger.info("======= {}    {}", rjob.getRJobType().label, rjob.getRjobdata());
                 break;
         }
+        serverRunnerService.CompletedPartRPCJob(rjob);
 
     }
 }

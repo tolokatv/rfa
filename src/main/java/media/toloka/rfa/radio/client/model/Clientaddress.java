@@ -34,6 +34,9 @@ public class Clientaddress {
     private String zip;
     private String phone;
     private String comment;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Clientdetail clientdetail;
 //    @OneToOne(cascade = CascadeType.ALL)
 //    @Column(nullable = false)
 //    @ElementCollection

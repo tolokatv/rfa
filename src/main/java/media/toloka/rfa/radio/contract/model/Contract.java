@@ -1,5 +1,6 @@
 package media.toloka.rfa.radio.contract.model;
 
+import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
 import media.toloka.rfa.radio.client.model.Clientdetail;
@@ -8,7 +9,11 @@ import media.toloka.rfa.security.model.Users;
 
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.UUID;
+
+import static media.toloka.rfa.radio.contract.model.EContractStatus.CONTRACT_FREE;
 
 @Data
 @Entity
@@ -20,19 +25,38 @@ public class Contract {
     @Column(name="id")
     private Long id;
     private EContractStatus contractStatus;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Clientdetail clientdetail;
     private String number;
     private String uuid;
     private LocalDateTime createDate;
     private LocalDateTime lastPayDate;
     private String usercomment;
-    @ElementCollection
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<Station> listStation;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Clientdetail clientdetail;
+
+//    @Expose
+    @OneToMany
+    private transient List<Station> stationList;
+
+    //    @ElementCollection
+//    @OneToMany(cascade = CascadeType.ALL)
+//    private List<Station> listStation;
+
 //    @OneToMany(cascade = CascadeType.ALL)
 //    private List<Radio> radios;
+
 //    @OneToMany(cascade = CascadeType.ALL)
 //    private List<History> history;
+
+
+    public Contract() {
+        this.contractStatus         = CONTRACT_FREE;
+        this.number                 = UUID.randomUUID().toString();
+        this.uuid                   = UUID.randomUUID().toString();
+        this.createDate             = LocalDateTime.now();
+        this.lastPayDate            = null;
+        this.usercomment            = "";
+//        this.listStation            = new ArrayList<Station>();
+    }
 
 }

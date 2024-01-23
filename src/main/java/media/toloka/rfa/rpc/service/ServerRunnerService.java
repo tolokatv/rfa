@@ -115,6 +115,22 @@ public class ServerRunnerService {
     @Autowired
     RabbitTemplate template; // працюємо з Thymeleaf - відправка пошти, формування файлів конфігурації
 
+    public void CompletedPartRPCJob (RPCJob rpcjob) {
+        // 1. перевіряємо, чи на верхівці стеку завдання, яке ми виконали - якщо так, то видаляємо.
+        // 2. якщо ще залишилися завдання, то ставимо в чергу на виконання.
+        if (rpcjob.getJobchain().isEmpty()) {
+            return;
+        }
+        // якщо в черзі є елементи, то відправляємо на виконання вибираючи з черги черговий елемент.
+
+//        rpcjob.setRJobType(rpcjob.getJobchain().poll()); // set job type
+        Gson gson = gsonService.CreateGson();
+        String strgson = gson.toJson(rpcjob).toString();
+        template.convertAndSend(queueName,gson.toJson(rpcjob).toString());
+        // TODO Занести в історию запись про проведення міграції з кодом завершення.
+        return;
+    }
+
     //======================================================================
     public Integer  StationGetStatus(RPCJob rpcJob) {
         return 0;
@@ -176,10 +192,10 @@ public class ServerRunnerService {
         //================================================================
         // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
         // Наступний крок: Міграція моделі перед першим запуском LibreTime
-        rpcJob.setRJobType(JOB_STATION_START); // set job type
-        String strgson = gson.toJson(rpcJob).toString();
-        template.convertAndSend(queueName,gson.toJson(rpcJob).toString());
-        // TODO Занести в історию запись про проведення міграції з кодом завершення.
+//        rpcJob.setRJobType(JOB_STATION_START); // set job type
+//        String strgson = gson.toJson(rpcJob).toString();
+//        template.convertAndSend(queueName,gson.toJson(rpcJob).toString());
+//        // TODO Занести в історию запись про проведення міграції з кодом завершення.
         return;
     }
 
@@ -222,10 +238,10 @@ public class ServerRunnerService {
         //================================================================
         // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
         // Наступний крок: Міграція моделі перед першим запуском LibreTime
-        rpcJob.setRJobType(JOB_STATION_STOP); // set job type
-        String strgson = gson.toJson(rpcJob).toString();
-        template.convertAndSend(queueName,gson.toJson(rpcJob).toString());
-        // TODO Занести в історию запись про проведення міграції з кодом завершення.
+//        rpcJob.setRJobType(JOB_STATION_STOP); // set job type
+//        String strgson = gson.toJson(rpcJob).toString();
+//        template.convertAndSend(queueName,gson.toJson(rpcJob).toString());
+//        // TODO Занести в історию запись про проведення міграції з кодом завершення.
 
 
 
@@ -323,10 +339,10 @@ public class ServerRunnerService {
         //================================================================
         // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
         // Наступний крок: Міграція моделі перед першим запуском LibreTime
-        rpcJob.setRJobType(JOB_STATION_PREPARE_NGINX); // set job type
-        String strgson = gson.toJson(rpcJob).toString();
-        template.convertAndSend(queueName,gson.toJson(rpcJob).toString());
-        // TODO Занести в історию запись про проведення міграції з кодом завершення.
+//        rpcJob.setRJobType(JOB_STATION_PREPARE_NGINX); // set job type
+//        String strgson = gson.toJson(rpcJob).toString();
+//        template.convertAndSend(queueName,gson.toJson(rpcJob).toString());
+//        // TODO Занести в історию запись про проведення міграції з кодом завершення.
     }
 
     public Integer StationMigrateToNewVersion(RPCJob rpcJob) {
@@ -413,10 +429,10 @@ public class ServerRunnerService {
         //================================================================
         // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
         // Наступний крок: Міграція моделі перед першим запуском LibreTime
-        rpcJob.setRJobType(JOB_STATION_LIBRETIME_MIGRATE); // set job type
-        String strgson = gson.toJson(rpcJob).toString();
-        template.convertAndSend(queueName,gson.toJson(rpcJob).toString());
-        // TODO Занести в історию запись о создании конфігураційних файлів
+//        rpcJob.setRJobType(JOB_STATION_LIBRETIME_MIGRATE); // set job type
+//        String strgson = gson.toJson(rpcJob).toString();
+//        template.convertAndSend(queueName,gson.toJson(rpcJob).toString());
+//        // TODO Занести в історию запись о создании конфігураційних файлів
 
     }
 }

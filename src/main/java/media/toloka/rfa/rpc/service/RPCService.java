@@ -1,6 +1,7 @@
 package media.toloka.rfa.rpc.service;
 
 import com.google.gson.Gson;
+import media.toloka.rfa.rpc.model.ERPCJobType;
 import media.toloka.rfa.service.RfaService;
 import media.toloka.rfa.config.gson.service.GsonService;
 import media.toloka.rfa.radio.history.service.HistoryService;
@@ -18,7 +19,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+import java.util.Queue;
+
 import static media.toloka.rfa.radio.history.model.EHistoryType.History_StatiionCreate;
+import static media.toloka.rfa.rpc.model.ERPCJobType.JOB_STATION_START;
 
 @Service
 public class RPCService {
@@ -62,6 +67,8 @@ public class RPCService {
         }
     }
 
+
+
     public void JobCreateStation (RPCJob rjob) {
 //        logger.info(rjob);
         // витягли користувача
@@ -91,6 +98,9 @@ public class RPCService {
                 newRadio.getCreatedate().toString() + " Create " + newRadio.getUuid().toString(),
                 user
                 );
+
+        Gson gstation = gsonService.CreateGson();
+        rjob.setRjobdata(gstation.toJson(newRadio).toString());
 //        rjob.setRJobType(JOB_STATION_ALLOCATE);
 //        Gson gson = gsonService.CreateGson();
 ////        String strgson = gson.toJson(rjob).toString();

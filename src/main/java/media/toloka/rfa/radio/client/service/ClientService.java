@@ -6,6 +6,7 @@ import media.toloka.rfa.radio.client.repository.ClientDetailRepository;
 import media.toloka.rfa.radio.client.repository.UserRepository;
 import media.toloka.rfa.radio.document.model.Documents;
 import media.toloka.rfa.radio.document.repo.DocumentRepository;
+import media.toloka.rfa.radio.station.model.Station;
 import media.toloka.rfa.security.model.ERole;
 import media.toloka.rfa.security.model.Roles;
 import media.toloka.rfa.security.model.Users;
@@ -31,11 +32,12 @@ public class ClientService {
     @Autowired
     private DocumentRepository documentRepository;
 
-//    public Optional<Users> getByEmail(String email) {
+    //    public Optional<Users> getByEmail(String email) {
     public Users getByEmail(String email) {
 //        return clientRepository.getClientByEmail(email);
         return userRepository.getUserByEmail(email);
     }
+
     public Users GetCurrentUser() {
         String email = SecurityContextHolder.getContext().getAuthentication().getName();
 //        Optional<Users> opt = clientRepository.getByUser(email); //ByEmail("ysv@toloka.kiev.ua") ;
@@ -49,11 +51,11 @@ public class ClientService {
 //        return clientRepository.getByUser(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
-    public List<Roles> getListRole () {
+    public List<Roles> getListRole() {
         return GetCurrentUser().getRoles();
     }
 
-    public boolean checkRole (ERole role) {
+    public boolean checkRole(ERole role) {
         List<Roles> roles = getListRole();
         Iterator<Roles> iterator = roles.iterator();
         while (iterator.hasNext()) {
@@ -72,6 +74,7 @@ public class ClientService {
     public Optional<Users> findById(Long idUser) {
         return userRepository.findById(idUser);
     }
+
     public Users getdById(Long idUser) {
         return userRepository.getById(idUser);
     }
@@ -94,15 +97,9 @@ public class ClientService {
         // витягли з бази деталі по клієнту
 //        Optional<Clientdetail> ocd = clientDetailRepository.getByUser(frmuser);
         return clientDetailRepository.getByUser(user);
-//        if (ocd.isEmpty()) {
-//            return null;
-//        }
-//        else {
-//            return ocd.get();
-//        }
     }
 
-    public void CreateClientsDetail(Users user,String name,String surname) {
+    public void CreateClientsDetail(Users user, String name, String surname) {
         Clientdetail clientdetail = new Clientdetail();
         clientdetail.setUser(user);
         clientdetail.setCustname(name);
@@ -116,3 +113,4 @@ public class ClientService {
         clientDetailRepository.save(curuserdetail);
     }
 }
+

@@ -35,4 +35,8 @@ public class ContractService {
     public Contract GetContractById(Long id) {
         return contractRepo.getById(id);
     }
+
+    public List<Contract> FindContractByClientDetail(Clientdetail clientDetail) {
+        return contractRepo.findByClientdetail(clientDetail);
+    }
 }

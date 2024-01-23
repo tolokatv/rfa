@@ -1,5 +1,6 @@
 package media.toloka.rfa.radio.station.model;
 
+import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
 import media.toloka.rfa.radio.client.model.Clientdetail;
@@ -27,15 +28,19 @@ public class Station {
     public String guiserver;
     public Integer main;
     public Integer show;
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Clientdetail clientdetail;
     private String uuid;
     private String icecastname;
     private String icecastdescription;
     private String icecastsite;
     private String icecastgenre;
+
+//    @Expose
     @ManyToOne(cascade = CascadeType.ALL)
-    private Contract contract;
+    private transient Contract contract;
+
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    private Clientdetail clientdetail;
 
 }
 

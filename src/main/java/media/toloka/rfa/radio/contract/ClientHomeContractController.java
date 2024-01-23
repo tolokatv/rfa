@@ -3,6 +3,7 @@ package media.toloka.rfa.radio.contract;
 // створення, оплата, закриття, пауза, зняття з паузи.
 
 import lombok.extern.slf4j.Slf4j;
+import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.radio.contract.model.Contract;
 import media.toloka.rfa.radio.contract.model.EContractStatus;
 import media.toloka.rfa.radio.contract.service.ContractService;
@@ -155,14 +156,17 @@ public class ClientHomeContractController {
         }
         // Працюємо з новим контрактом.
         Contract ncontract = new Contract();
-        ncontract.setContractStatus(CONTRACT_FREE);
-        ncontract.setNumber(UUID.randomUUID().toString());
-        ncontract.setUuid(ncontract.getNumber());
-        ncontract.setCreateDate(LocalDateTime.now());
+//        ncontract.setContractStatus(CONTRACT_FREE);
+//        ncontract.setNumber(UUID.randomUUID().toString());
+//        ncontract.setUuid(ncontract.getNumber());
+//        ncontract.setCreateDate(LocalDateTime.now());
         ncontract.setLastPayDate(null);
         ncontract.setClientdetail(clientService.getClientDetail(clientService.GetCurrentUser()));
         ncontract.setUsercomment(contract.getUsercomment());
         contractService.saveContract(ncontract);
+        Clientdetail cl = clientService.getClientDetail(user);
+        cl.getContractList().add(ncontract);
+        clientService.SaveClientDetail(cl);
         historyService.saveHistory(History_UserCreateContract, " Новий контракт: "+ncontract.getNumber().toString(), user);
 
         return "redirect:/user/contract";
