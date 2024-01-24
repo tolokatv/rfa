@@ -4,6 +4,7 @@ package media.toloka.rfa.radio.station;
 import com.google.gson.Gson;
 import media.toloka.rfa.config.gson.service.GsonService;
 import media.toloka.rfa.radio.client.service.ClientService;
+import media.toloka.rfa.radio.contract.service.ContractService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.station.model.Station;
@@ -31,6 +32,9 @@ public class ClientHomeStationController {
 
     @Autowired
     private ClientService clientService;
+
+    @Autowired
+    private ContractService contractService;
 
     @Autowired
     private StationService stationService;
@@ -103,6 +107,34 @@ public class ClientHomeStationController {
         template.convertAndSend(queueNameRabbitMQ,gson.toJson(rjob).toString());
         return "redirect:/user/stations";
     }
+
+    @GetMapping(value = "/user/controlstation")
+    public String userControltStation(
+            @RequestParam(value = "id", required = true) Long id,
+            Model model ) {
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+        Station station;
+        station = stationService.GetStationById(id);
+        if (station == null) {
+            // Станцію створити не можемо. Показуємо про це повідомлення.
+            logger.info("userControltStation: Не можемо запустити станцію для користувача {}", user.getEmail());
+            // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
+            // TODO зробити запис в журнал
+            return "redirect:/user/stations";
+        }
+        // користувач та танція знайдені. Працюємо зі станцією.
+
+        model.addAttribute("contracts",  contractService.ListContractByUser(user));
+        model.addAttribute("linkstation",  stationService.GetURLStation(station));
+        model.addAttribute("station",  station);
+        return "/user/controlstation";
+    }
+
+
+
 
     @GetMapping(value = "/user/startstation")
     public String userStartStation(

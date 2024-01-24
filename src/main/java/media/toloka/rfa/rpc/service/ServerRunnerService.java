@@ -442,12 +442,9 @@ public class ServerRunnerService {
         Station station = gson.fromJson(rjob.getRjobdata(), Station.class);
         ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", psStationCommand);
         Map<String, String> env = pb.environment();
-        logger.info("Рядок {}",rjob.getRjobdata());
-        logger.info("Station {}",station);
-
         SetEnvironmentForProcessBuilder(env, station);
         String server_workdir = env.get("HOME")+ clientdir + "/" + env.get("CLIENT_UUID") + "/" +env.get("STATION_UUID");
-        logger.info("============== MIGRATE WORKER DIR {}", server_workdir);
+//        logger.info("============== MIGRATE WORKER DIR {}", server_workdir);
         pb.directory(new File(server_workdir));
         pb.redirectErrorStream(true);
         try {

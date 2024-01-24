@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <!--    <meta name="viewport" content="width=device-width, initial-scale=1">-->
+    <title>Толока - радіо для всіх!</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/css/bootstrap.min.css"  rel="stylesheet" />
+</head>
+<body>
+<div class="row">
+    <div class="col-md-8 mb-4">
+        <div class="card mb-4">
+            <div class="card-header py-3">
+                <h5 class="mb-0">Керування станцією</h5>
+            </div>
+            <div class="card-body">
+                <form>
+                    <input type="hidden" name="station.id" th:value="${station.radio_id}" />
+                    <!-- 2 column grid layout with text inputs for the first and last names -->
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="form-outline">
+                                <input type="text" id="station.name" th:value="${station.name}" th:text="${station.name}" class="form-control" />
+                                <label class="form-label" for="station.name">Назва станції</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-outline">
+                                <a th:value="${linkstation}" target="_blank">Ваша станція</a>
+                                <a th:href="${linkstation}" class="btn btn-primary">ПЕРЕЙТИ</a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Text input -->
+                    <div>
+                        <button type="button" class="btn btn-primary btn-lg btn-block">Зберегти</button>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-3 mb-3">
+        <div th:insert="~{/fragments/user :: userrecentactions}">  </div>
+    </div>
+</div>
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

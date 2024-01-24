@@ -47,6 +47,9 @@ public class StationService {
     @Value("${media.toloka.rfa.server.libretime.guiserver}")
     private String guiserver;
 
+    @Value("${media.toloka.rfa.station.basename}")
+    private String basestationurl;
+
     final Logger logger = LoggerFactory.getLogger(ClientHomeStationController.class);
 
 
@@ -204,6 +207,14 @@ public class StationService {
     public Station getStationDBName(String rstring) {
         // перевіряємо, чи є станція з таким імʼям бази для Libretime
         return stationRepo.getStationByDbname(rstring);
+    }
+
+    public Object GetURLStation(Station station) {
+        // формуємо актуальний лінк на станцію
+        String stationLinkURL;
+        // TODO передбачити нормальну назву станції
+        stationLinkURL = "https://" + station.getDbname() + "." + basestationurl;
+        return stationLinkURL;
     }
 
 //    public void saveStation(Station station) {

@@ -26,7 +26,7 @@ public class ContractService {
         contractRepo.save(contract);
     }
 
-    public List<Contract> listContractByUser(Users user) {
+    public List<Contract> ListContractByUser(Users user) {
         // TODO Коли працюємо як сервіс, то clientService.GetCurrentUser() видасть null. Можуть бути проблеми
         Clientdetail cl = clientService.getClientDetail(clientService.GetCurrentUser());
         return contractRepo.findByClientdetail(cl);

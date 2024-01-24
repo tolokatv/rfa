@@ -5,7 +5,6 @@ package media.toloka.rfa.radio.contract;
 import lombok.extern.slf4j.Slf4j;
 import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.radio.contract.model.Contract;
-import media.toloka.rfa.radio.contract.model.EContractStatus;
 import media.toloka.rfa.radio.contract.service.ContractService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.security.model.Users;
@@ -16,8 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
-import java.time.LocalDateTime;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +54,7 @@ public class ClientHomeContractController {
         // дивимося його групи
         // відповідним чином виводимо пункти меню
         // Заповнюємо поля для форми
-        List<Contract> contracts = contractService.listContractByUser(user);
+        List<Contract> contracts = contractService.ListContractByUser(user);
         //==========================================================
         // Бавимося
         //==========================================================

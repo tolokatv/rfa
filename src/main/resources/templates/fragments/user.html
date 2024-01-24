@@ -142,8 +142,7 @@
                 <td><span th:text="${station.radio_id}"></span></td>
                 <td><span th:text="${station.createdate}"></span></td>
                 <td><span th:text="${station.lastpaydate}"></span></td>
-<!--                <td><a href="/user/temporary@{/(id=${station.radio_id})}" class="btn btn-primary">Керувати</a></td>-->
-                <td><a th:href="@{/user/temporaryid(id=${station.radio_id})}" class="btn btn-primary">Керувати</a>
+                <td><a th:href="@{/user/controlstation(id=${station.radio_id})}" class="btn btn-primary">Керувати</a>
                     <a th:href="@{/user/startstation(id=${station.radio_id})}" class="btn btn-primary">Стартувати</a>
                     <a th:href="@{/user/stopstation(id=${station.radio_id})}" class="btn btn-primary">Зупинити</a>
                     <a th:href="@{/user/psstation(id=${station.radio_id})}" class="btn btn-primary">PS</a>
@@ -175,7 +174,7 @@
                     <i class="fas fa-circle-info fa-stack-1x fa-inverse"></i>
                 </span>
             </td>
-            <td><span th:text="${contract.number}"></span></td>
+            <td><span th:text="${contract.uuid}"></span></td>
             <td><span th:text="${contract.createDate}"></span></td>
             <td><span th:text="${contract.lastPayDate}"></span></td>
             <td><a th:href="@{/user/contractedit(id=${contract.id})}" class="btn btn-primary">Редагувати</a></td>
