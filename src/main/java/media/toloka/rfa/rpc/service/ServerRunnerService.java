@@ -23,8 +23,6 @@ import java.nio.file.Paths;
 import java.util.HashMap;
 import java.util.Map;
 
-import static media.toloka.rfa.rpc.model.ERPCJobType.*;
-
 @Service
 public class ServerRunnerService {
     // беремо з файлу конфігурації всю інформацію щодо параметрів стосовно файлової системи:
@@ -359,7 +357,7 @@ public class ServerRunnerService {
         env.put("STATION_WEB_PORT", station.getGuiport().toString());
         env.put("STATION_MASTER_PORT", station.getMain().toString());
         env.put("STATION_SHOW_PORT", station.getShow().toString());
-        env.put("STATION_ID", station.getRadio_id().toString());
+        env.put("STATION_ID", station.getId().toString());
 
         env.put("LIBRETIME_VERSION", "4.0.0");
 

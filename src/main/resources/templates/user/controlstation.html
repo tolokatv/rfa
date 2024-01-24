@@ -26,19 +26,19 @@
                 <h5 class="mb-0">Керування станцією</h5>
             </div>
             <div class="card-body">
-                <form>
-                    <input type="hidden" name="station.id" th:value="${station.radio_id}" />
+                <form th:action="@{/user/stationsave}" method="post">
+<!--                <form th:action="@{/user/stationsave}" th:object="${station}" method="post">-->
+                    <input type="text" id="station.radio_id" name="station.radio_id" th:value="${station.radio_id}" class="form-control"/>
                     <!-- 2 column grid layout with text inputs for the first and last names -->
                     <div class="row mb-4">
                         <div class="col">
                             <div class="form-outline">
-                                <input type="text" id="station.name" th:value="${station.name}" th:text="${station.name}" class="form-control" />
-                                <label class="form-label" for="station.name">Назва станції</label>
+                                <input type="text" name="station.name" id="station.name" th:value="${station.name}" th:text="${station.name}" class="form-control" />
+<!--                                <label class="form-label" for="name">Назва станції</label>-->
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-outline">
-                                <a th:value="${linkstation}" target="_blank">Ваша станція</a>
                                 <a th:href="${linkstation}" class="btn btn-primary">ПЕРЕЙТИ</a>
                             </div>
                         </div>
@@ -46,8 +46,9 @@
 
                     <!-- Text input -->
                     <div>
-                        <button type="button" class="btn btn-primary btn-lg btn-block">Зберегти</button>
-
+<!--                        <button type="submit" class="btn btn-primary btn-lg btn-block">Зберегти</button>-->
+                        <button type="submit" class="btn btn-primary btn-block">Зберегти</button>
+                        <a href="/user/stations" class="btn btn-primary btn-block">Повернутися</a>
                     </div>
                 </form>
             </div>

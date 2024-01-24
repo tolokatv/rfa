@@ -9,7 +9,6 @@ import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.station.model.Station;
 import media.toloka.rfa.radio.station.service.StationService;
-import media.toloka.rfa.rpc.model.ERPCJobType;
 import media.toloka.rfa.rpc.model.RPCJob;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
@@ -20,6 +19,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import static media.toloka.rfa.rpc.model.ERPCJobType.*;
@@ -68,6 +69,7 @@ public class ClientHomeStationController {
         return "/user/stations";
     }
 
+
     @GetMapping(value = "/user/createstation")
     public String userCreateStation(
             Model model ) {
@@ -81,7 +83,7 @@ public class ClientHomeStationController {
         Station station = stationService.CreateStation(model);
         if (station == null) {
             // Станцію створити не можемо. Показуємо про це повідомлення.
-            logger.info("Не можемо створити станцію для користувача {}", user.getEmail());
+            logger.info("ClientHomeStationController: Не можемо створити станцію для користувача {}", user.getEmail());
             // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
             // TODO зробити запис в журнал
             return "redirect:/user/stations";
@@ -108,19 +110,22 @@ public class ClientHomeStationController {
         return "redirect:/user/stations";
     }
 
+
+
     @GetMapping(value = "/user/controlstation")
     public String userControltStation(
             @RequestParam(value = "id", required = true) Long id,
+            @ModelAttribute Station station,
             Model model ) {
         Users user = clientService.GetCurrentUser();
         if (user == null) {
             return "redirect:/";
         }
-        Station station;
-        station = stationService.GetStationById(id);
-        if (station == null) {
+        Station mstation;
+        mstation = stationService.GetStationById(id);
+        if (mstation == null) {
             // Станцію створити не можемо. Показуємо про це повідомлення.
-            logger.info("userControltStation: Не можемо запустити станцію для користувача {}", user.getEmail());
+            logger.info("ClientHomeStationController:  Не можемо запустити станцію для користувача {}", user.getEmail());
             // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
             // TODO зробити запис в журнал
             return "redirect:/user/stations";
@@ -128,11 +133,43 @@ public class ClientHomeStationController {
         // користувач та танція знайдені. Працюємо зі станцією.
 
         model.addAttribute("contracts",  contractService.ListContractByUser(user));
-        model.addAttribute("linkstation",  stationService.GetURLStation(station));
-        model.addAttribute("station",  station);
+        model.addAttribute("linkstation",  stationService.GetURLStation(mstation));
+        model.addAttribute("station",  mstation);
         return "/user/controlstation";
     }
 
+    @PostMapping(value = "/user/stationsave")
+    public String userHomeStationSave(
+            @ModelAttribute Station station,
+            Model model ) {
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            logger.warn("ClientHomeStationController: User not found. Redirect to main page");
+            return "redirect:/";
+        }
+
+        if (station == null) {
+            // Станцію створити не можемо. Показуємо про це повідомлення.
+            logger.info("userControltStation: Не можемо зберегти станцію id={} для користувача {}", station.getId(), user.getEmail());
+            // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
+            // TODO зробити запис в журнал
+            return "redirect:/user/stations";
+        }
+
+        Station nstation;
+        if (station.getId() != null) {
+            nstation = stationService.GetStationById(station.getId());
+        } else {
+            logger.info("ClientHomeStationController:  Не можемо зберегти станцію id={} для користувача {}", station.getId(), user.getEmail());
+            // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
+            // TODO зробити запис в журнал
+            return "redirect:/user/stations";
+        }
+        // TODO додати запис в журнал
+        nstation.setName(station.getName());
+        stationService.saveStation(nstation);
+        return "redirect:/user/stations";
+    }
 
 
 
@@ -149,7 +186,7 @@ public class ClientHomeStationController {
         Station station = stationService.GetStationById(id);
         if (station == null) {
             // Станцію створити не можемо. Показуємо про це повідомлення.
-            logger.info("Не можемо запустити станцію для користувача {}", user.getEmail());
+            logger.info("ClientHomeStationController: Не можемо запустити станцію для користувача {}", user.getEmail());
             // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
             // TODO зробити запис в журнал
             return "redirect:/user/stations";
@@ -181,7 +218,7 @@ public class ClientHomeStationController {
         Station station = stationService.GetStationById(id);
         if (station == null) {
             // Станцію створити не можемо. Показуємо про це повідомлення.
-            logger.info("Не можемо створити станцію для користувача {}", user.getEmail());
+            logger.info("ClientHomeStationController:  Не можемо створити станцію для користувача {}", user.getEmail());
             // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
             // TODO зробити запис в журнал
             return "redirect:/user/stations";
@@ -217,7 +254,7 @@ public class ClientHomeStationController {
         Station station = stationService.GetStationById(id);
         if (station == null) {
             // Станцію створити не можемо. Показуємо про це повідомлення.
-            logger.info("Не можемо запустити станцію для користувача {}", user.getEmail());
+            logger.info("ClientHomeStationController:  Не можемо запустити станцію для користувача {}", user.getEmail());
             // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
             // TODO зробити запис в журнал
             return "redirect:/user/stations";

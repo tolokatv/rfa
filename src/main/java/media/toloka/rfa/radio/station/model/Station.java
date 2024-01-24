@@ -1,13 +1,12 @@
 package media.toloka.rfa.radio.station.model;
 
-import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
 import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.radio.contract.model.Contract;
-import media.toloka.rfa.security.model.Users;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -16,7 +15,7 @@ public class Station {
 
     @Id
     @GeneratedValue
-    private Long radio_id;
+    private Long id;
     private EServerState serverState;
     private String name;
     private String dbname;
@@ -34,13 +33,17 @@ public class Station {
     private String icecastsite;
     private String icecastgenre;
 
-//    @Expose
     @ManyToOne(cascade = CascadeType.ALL)
     private transient Contract contract;
-
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Clientdetail clientdetail;
 
+
+    public Station() {
+        this.uuid= UUID.randomUUID().toString();
+        this.name=this.uuid;
+        this.createdate=LocalDateTime.now();
+    }
 }
 
