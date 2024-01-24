@@ -19,27 +19,76 @@
     <link href="/css/bootstrap.min.css"  rel="stylesheet" />
 </head>
 <body>
-<div class="row">
+<header>
+    <div th:insert="~{/fragments/user :: user_navbar}">  </div>
+</header>
+<div class="row"  style="padding-top: 100px">
     <div class="col-md-8 mb-4">
         <div class="card mb-4">
             <div class="card-header py-3">
                 <h5 class="mb-0">Керування станцією</h5>
             </div>
             <div class="card-body">
-                <form th:action="@{/user/stationsave}" method="post">
-<!--                <form th:action="@{/user/stationsave}" th:object="${station}" method="post">-->
-                    <input type="text" id="station.id" name="station.id" th:value="${station.id}" class="form-control"/>
+                <form th:action="@{/user/stationsave}" th:object="${station}" method="post">
+<!--                <form th:action="@{/user/stationsave}" method="post">-->
+
                     <!-- 2 column grid layout with text inputs for the first and last names -->
                     <div class="row mb-4">
                         <div class="col">
                             <div class="form-outline">
-                                <input type="text" name="station.name" id="station.name" th:value="${station.name}" th:text="${station.name}" class="form-control" />
-<!--                                <label class="form-label" for="name">Назва станції</label>-->
+                                <input type="hidden" name="id" id="id" th:value="${station.id}" />
+                                <input type="text" name="name" id="name" th:value="${station.name}" class="form-control" />
+                                <label class="form-label" for="name">Найменування Станції</label>
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-outline">
                                 <a th:href="${linkstation}" class="btn btn-primary">ПЕРЕЙТИ</a>
+                                <a th:href="@{/user/startstation(id=${station.id})}" class="btn btn-primary">Стартувати</a>
+                                <a th:href="@{/user/stopstation(id=${station.id})}" class="btn btn-primary">Зупинити</a>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="form-outline">
+                                Дата сворення станції:<span th:text="${station.createdate}" /><br>
+                                Дата останнього запуску:<span th:text="${station.startdate}" />
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-outline">
+                                Дата останньої оплати:<span th:text="${station.lastpaydate}" /><br>
+                                Стан станції зараз:
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="form-outline">
+                                <input type="text" name="icecastname" id="icecastname" th:value="${station.icecastname}" class="form-control" />
+                                <label class="form-label" for="icecastname">Icecast name</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-outline">
+                                <input type="text" name="icecastdescription" id="icecastdescription" th:value="${station.icecastdescription}" class="form-control" />
+                                <label class="form-label" for="icecastdescription">Icecast description</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-4">
+                        <div class="col">
+                            <div class="form-outline">
+                                <input type="text" name="icecastsite" id="icecastsite" th:value="${station.icecastsite}" class="form-control" />
+                                <label class="form-label" for="icecastsite">Site for Icecast</label>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-outline">
+                                <input type="text" name="icecastgenre" id="icecastgenre" th:value="${station.icecastgenre}" class="form-control" />
+                                <label class="form-label" for="icecastgenre">Icecast genre</label>
                             </div>
                         </div>
                     </div>

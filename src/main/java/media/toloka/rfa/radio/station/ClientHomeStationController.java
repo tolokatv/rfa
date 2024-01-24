@@ -2,6 +2,7 @@ package media.toloka.rfa.radio.station;
 
 
 import com.google.gson.Gson;
+import lombok.Data;
 import media.toloka.rfa.config.gson.service.GsonService;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.contract.service.ContractService;
@@ -27,6 +28,12 @@ import static media.toloka.rfa.rpc.model.ERPCJobType.*;
 
 @Controller
 public class ClientHomeStationController {
+
+    @Data
+    private class FormStr {
+        private String name;
+        private Long id;
+    }
 
     @Value("${rabbitmq.queue}")
     private String queueNameRabbitMQ;
@@ -115,7 +122,7 @@ public class ClientHomeStationController {
     @GetMapping(value = "/user/controlstation")
     public String userControltStation(
             @RequestParam(value = "id", required = true) Long id,
-            @ModelAttribute Station station,
+//            @ModelAttribute Station station,
             Model model ) {
         Users user = clientService.GetCurrentUser();
         if (user == null) {
@@ -131,7 +138,9 @@ public class ClientHomeStationController {
             return "redirect:/user/stations";
         }
         // користувач та танція знайдені. Працюємо зі станцією.
-
+//        FormStr fstr = new FormStr();
+//        fstr.setId(mstation.getId());
+//        fstr.setName(mstation.getName());
         model.addAttribute("contracts",  contractService.ListContractByUser(user));
         model.addAttribute("linkstation",  stationService.GetURLStation(mstation));
         model.addAttribute("station",  mstation);
@@ -167,6 +176,10 @@ public class ClientHomeStationController {
         }
         // TODO додати запис в журнал
         nstation.setName(station.getName());
+        nstation.setIcecastdescription(station.getIcecastdescription());
+        nstation.setIcecastname(station.getIcecastname());
+        nstation.setIcecastgenre(station.getIcecastgenre());
+        nstation.setIcecastsite(station.getIcecastsite());
         stationService.saveStation(nstation);
         return "redirect:/user/stations";
     }
