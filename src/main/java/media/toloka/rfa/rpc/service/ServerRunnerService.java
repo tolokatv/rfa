@@ -440,7 +440,7 @@ public class ServerRunnerService {
         Gson gson = gsonService.CreateGson();
 //        rpcJob.getRjobdata()
         Station station = gson.fromJson(rjob.getRjobdata(), Station.class);
-        ProcessBuilder pb = new ProcessBuilder("bash", "-c", psStationCommand);
+        ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", psStationCommand);
         Map<String, String> env = pb.environment();
         logger.info("Рядок {}",rjob.getRjobdata());
         logger.info("Station {}",station);
