@@ -44,9 +44,12 @@ public class NavInterceptor implements HandlerInterceptor {
         // додали кількість повідомлень для меню
         // TODO Подивитися чому ми викликаємо цю процедуру декілька разів.
 //        ModelMap mm = modelAndView.getModelMap();
-        modelAndView.getModel().put("quantitynewmessage",  messageService.GetQuantityNewMessage(cd));
-        modelAndView.getModel().put("quantityallmessage",  messageService.GetQuantityAllMessage(cd));
-        modelAndView.getModel().put("danger",  "У Вас нові повідомлення: "+ valueOf(messageService.GetQuantityNewMessage(cd)));
+        int newmessage = messageService.GetQuantityNewMessage(cd);
+        if ( newmessage > 0 ) {
+            modelAndView.getModel().put("quantitynewmessage", newmessage);
+            modelAndView.getModel().put("quantityallmessage", messageService.GetQuantityAllMessage(cd));
+            modelAndView.getModel().put("danger", "У Вас нові повідомлення: " + valueOf(newmessage));
+        }
 //        mm.put("quantitynewmessage",  messageService.GetQuantityNewMessage(cd));
 //        mm.put("quantityallmessage",  messageService.GetQuantityAllMessage(cd));
 //        mm.put("danger",  "У Вас нові повідомлення: "+ valueOf(messageService.GetQuantityNewMessage(cd)));
