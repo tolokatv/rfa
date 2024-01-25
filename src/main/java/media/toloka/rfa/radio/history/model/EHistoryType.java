@@ -18,6 +18,7 @@ public enum EHistoryType {
     Hisrory_UserLock("UserLock"),
     Hisrory_UserUnLock("UserUnLock"),
     History_StatiionCreate("StationCreate"),
+    History_StatiionChange("StationChange"),
     History_StatiionPrepare("StationPrepare"),
     History_StatiionChangeStatus("StationChangeStatus"),
     History_StatiionChangeName("StationChangeName"),

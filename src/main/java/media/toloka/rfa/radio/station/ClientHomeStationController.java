@@ -24,6 +24,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.time.LocalDateTime;
+
+import static media.toloka.rfa.radio.history.model.EHistoryType.History_StatiionChange;
+import static media.toloka.rfa.radio.history.model.EHistoryType.History_StatiionCreate;
 import static media.toloka.rfa.rpc.model.ERPCJobType.*;
 
 @Controller
@@ -153,13 +157,13 @@ public class ClientHomeStationController {
             Model model ) {
         Users user = clientService.GetCurrentUser();
         if (user == null) {
-            logger.warn("ClientHomeStationController: User not found. Redirect to main page");
+            logger.warn("userHomeStationSave: User not found. Redirect to main page");
             return "redirect:/";
         }
 
         if (station == null) {
             // Станцію створити не можемо. Показуємо про це повідомлення.
-            logger.info("userControltStation: Не можемо зберегти станцію id={} для користувача {}", station.getId(), user.getEmail());
+            logger.info("userHomeStationSave: Не можемо зберегти станцію id={} для користувача {}", station.getId(), user.getEmail());
             // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
             // TODO зробити запис в журнал
             return "redirect:/user/stations";
@@ -169,18 +173,24 @@ public class ClientHomeStationController {
         if (station.getId() != null) {
             nstation = stationService.GetStationById(station.getId());
         } else {
-            logger.info("ClientHomeStationController:  Не можемо зберегти станцію id={} для користувача {}", station.getId(), user.getEmail());
-            // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
-            // TODO зробити запис в журнал
+            logger.info("userHomeStationSave:  Не можемо зберегти станцію id={} для користувача {}", station.getId(), user.getEmail());
             return "redirect:/user/stations";
         }
-        // TODO додати запис в журнал
+
         nstation.setName(station.getName());
         nstation.setIcecastdescription(station.getIcecastdescription());
         nstation.setIcecastname(station.getIcecastname());
         nstation.setIcecastgenre(station.getIcecastgenre());
         nstation.setIcecastsite(station.getIcecastsite());
+        nstation.setLastchangedate(LocalDateTime.now());
         stationService.saveStation(nstation);
+        // TODO додати запис в журнал
+        historyService.saveHistory(History_StatiionChange,
+                nstation.getUuid().toString() + ": " +nstation.getLastchangedate().toString() + " Збережено станцію " + nstation.getUuid().toString(),
+                user
+        );
+        // TODO відправити повідомлення на сторінку
+        model.addAttribute("success",  "Вашу станцію збережено в базу.");
         return "redirect:/user/stations";
     }
 
@@ -191,7 +201,6 @@ public class ClientHomeStationController {
             @RequestParam(value = "id", required = true) Long id,
             Model model ) {
 
-//        logger.info("Create New station.");
         Users user = clientService.GetCurrentUser();
         if (user == null) {
             return "redirect:/";
@@ -199,9 +208,8 @@ public class ClientHomeStationController {
         Station station = stationService.GetStationById(id);
         if (station == null) {
             // Станцію створити не можемо. Показуємо про це повідомлення.
-            logger.info("ClientHomeStationController: Не можемо запустити станцію для користувача {}", user.getEmail());
-            // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
-            // TODO зробити запис в журнал
+            logger.info("userStartStation: Не можемо запустити станцію для користувача {}", user.getEmail());
+            // TODO Відправити у форму повідомлення про неможливість запуску станції та кинути клієнту месседж
             return "redirect:/user/stations";
         }
         RPCJob rjob = new RPCJob();
@@ -222,28 +230,17 @@ public class ClientHomeStationController {
 
             Model model ) {
 
-//        logger.info("Create New station.");
         Users user = clientService.GetCurrentUser();
         if (user == null) {
-//            logger.warn("User not found. Redirect to main page");
             return "redirect:/";
         }
         Station station = stationService.GetStationById(id);
         if (station == null) {
-            // Станцію створити не можемо. Показуємо про це повідомлення.
-            logger.info("ClientHomeStationController:  Не можемо створити станцію для користувача {}", user.getEmail());
-            // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
-            // TODO зробити запис в журнал
             return "redirect:/user/stations";
         }
-//        clientService.getClientDetail(user).getStationList().add(station);
-        // відправляємо завдання на створення радіостанції.
         RPCJob rjob = new RPCJob();
         rjob.getJobchain().add(JOB_STATION_STOP);
-//        rjob.setRJobType(JOB_STATION_CREATE); // Створюємо необхідну інформацію в базі для станції
         rjob.setUser(user);
-        // Додаємо станцію і передаємо на виконання на віддалений сервіс
-
         Gson gstation = gsonService.CreateGson();
         rjob.setRjobdata(gstation.toJson(station).toString());
         // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
@@ -267,9 +264,7 @@ public class ClientHomeStationController {
         Station station = stationService.GetStationById(id);
         if (station == null) {
             // Станцію створити не можемо. Показуємо про це повідомлення.
-            logger.info("ClientHomeStationController:  Не можемо запустити станцію для користувача {}", user.getEmail());
-            // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
-            // TODO зробити запис в журнал
+            logger.info("userPSStation:  Не можемо перевірити стан станції для користувача {}", user.getEmail());
             return "redirect:/user/stations";
         }
         RPCJob rjob = new RPCJob();

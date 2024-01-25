@@ -26,7 +26,6 @@
 <!--<h1 style="padding-top: 100px">Сторінка керування станціями</h1>-->
 <section style="padding-top: 100px">
     <div th:insert="~{/fragments/user :: user_service}">  </div>
-
 </section>
 
 
@@ -36,6 +35,7 @@
         <div class="row">
             <!-- Колонка керування радіо-->
             <div class="col-lg-9 col-sm-12">
+                <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
                 <div class="card" >
                     <div class="card-header"><h4>Ваше радіо</h4></div>
                     <div class="card-body">

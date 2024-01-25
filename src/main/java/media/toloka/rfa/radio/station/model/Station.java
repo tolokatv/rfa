@@ -23,6 +23,7 @@ public class Station {
     private LocalDateTime startdate;
     private LocalDateTime createdate;
     private LocalDateTime lastpaydate;
+    private LocalDateTime lastchangedate;
     public Integer guiport;
     public String guiserver;
     public Integer main;

@@ -96,6 +96,9 @@ public class ClientService {
     public Clientdetail getClientDetail(Users user) {
         // витягли з бази деталі по клієнту
 //        Optional<Clientdetail> ocd = clientDetailRepository.getByUser(frmuser);
+        if (user == null) {
+            return null;
+        }
         return clientDetailRepository.getByUser(user);
     }
 

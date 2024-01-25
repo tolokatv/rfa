@@ -60,7 +60,6 @@ public class MessageController {
         Users user = clientService.GetCurrentUser();
         Clientdetail cd = clientService.getClientDetail(user);
         messageService.SendMessageToUser(cd, null, message.getBody());
-        logger.info("============== Message Save {} ",message);
         model.addAttribute("rd",  messageService.GetMessages(cd).size());
         model.addAttribute("nrd",  messageService.GetNewMessages(cd).size());
         return "redirect:/usermessage";
