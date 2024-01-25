@@ -13,6 +13,8 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import static java.lang.String.valueOf;
+
 @Component
 public class NavInterceptor implements HandlerInterceptor {
 
@@ -41,10 +43,16 @@ public class NavInterceptor implements HandlerInterceptor {
         }
         // додали кількість повідомлень для меню
         // TODO Подивитися чому ми викликаємо цю процедуру декілька разів.
-        ModelMap mm = modelAndView.getModelMap();
-        mm.addAttribute("quantityallmessage",  messageService.GetQuantityAllMessage(cd));
-        mm.addAttribute("quantitynewmessage",  messageService.GetQuantityNewMessage(cd));
-        logger.info("Handle Interseptor all={} new={} ",messageService.GetQuantityAllMessage(cd), messageService.GetQuantityNewMessage(cd) );
+//        ModelMap mm = modelAndView.getModelMap();
+        modelAndView.getModel().put("quantitynewmessage",  messageService.GetQuantityNewMessage(cd));
+        modelAndView.getModel().put("quantityallmessage",  messageService.GetQuantityAllMessage(cd));
+        modelAndView.getModel().put("danger",  "У Вас нові повідомлення: "+ valueOf(messageService.GetQuantityNewMessage(cd)));
+//        mm.put("quantitynewmessage",  messageService.GetQuantityNewMessage(cd));
+//        mm.put("quantityallmessage",  messageService.GetQuantityAllMessage(cd));
+//        mm.put("danger",  "У Вас нові повідомлення: "+ valueOf(messageService.GetQuantityNewMessage(cd)));
+//        mm.addAttribute("quantityallmessage",  messageService.GetQuantityAllMessage(cd));
+//        mm.addAttribute("quantitynewmessage",  messageService.GetQuantityNewMessage(cd));
+//        logger.info("Handle Interseptor all={} new={} ",messageService.GetQuantityAllMessage(cd), messageService.GetQuantityNewMessage(cd) );
 //        modelAndView.
     }
 }
