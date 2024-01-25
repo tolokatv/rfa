@@ -75,7 +75,7 @@ public class ClientHomeStationController {
             return "redirect:/";
         }
         // TODO додати в меню інформацію по повідомленням - всі/нові
-        messageService.setNavQuantityMessage(model, clientService.getClientDetail(user)); // встановили кількість повідомлень для меню.
+//        messageService.setNavQuantityMessage(model, clientService.getClientDetail(user)); // встановили кількість повідомлень для меню.
         model.addAttribute("stations",  stationService.GetListStationByUser(user));
         return "/user/stations";
     }
