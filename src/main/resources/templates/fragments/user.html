@@ -140,8 +140,9 @@
                 </span>
                 </td>
                 <td><span th:text="${station.name}"></span></td>
-                <td><span th:text="${station.createdate}"></span></td>
-                <td><span th:text="${station.lastpaydate}"></span></td>
+<!--                <td><span th:text="${station.createdate}"></span></td>-->
+                <td><span th:text="${#temporals.format(station.createdate)}"></span></td>
+                <td><span th:text="${#temporals.format(station.lastpaydate)}"></span></td>
                 <td><a th:href="@{/user/controlstation(id=${station.id})}" class="btn btn-primary">Керувати</a>
                 </td>
 <!--                <a th:href="@{/user/temporary(id='${station.id}')}"-->
@@ -172,8 +173,8 @@
                 </span>
             </td>
             <td><span th:text="${contract.uuid}"></span></td>
-            <td><span th:text="${contract.createDate}"></span></td>
-            <td><span th:text="${contract.lastPayDate}"></span></td>
+            <td><span th:text="${#temporals.format(contract.createDate)}"></span></td>
+            <td><span th:text="${#temporals.format(contract.lastPayDate)}"></span></td>
             <td><a th:href="@{/user/contractedit(id=${contract.id})}" class="btn btn-primary">Редагувати</a></td>
         </tr>
     </tbody>
@@ -226,7 +227,7 @@
 <!--                            </span>-->
             </td>
             <td><span th:text="${document.documentType}"></span></td>
-            <td><span th:text="${document.loadDate}"></span></td>
+            <td><span th:text="#temporals.format(document.loadDate)}"></span></td>
             <td><span><a th:href="@{'/user/documentedit/' + ${document.id}}" >Редагувати</a></span></td>
 <!--            <td><span><a th:href="@{/user/documentedit/{idDocument}(idDocument=${document.id})}" >Редагувати</a></span></td>-->
         </tr>
