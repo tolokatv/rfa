@@ -4,6 +4,7 @@ package media.toloka.rfa.radio.station;
 import com.google.gson.Gson;
 import lombok.Data;
 import media.toloka.rfa.config.gson.service.GsonService;
+import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.contract.service.ContractService;
 import media.toloka.rfa.radio.history.service.HistoryService;
@@ -87,27 +88,33 @@ public class ClientHomeStationController {
 
 //        logger.info("Create New station.");
         Users user = clientService.GetCurrentUser();
+        Clientdetail clientdetail = clientService.getClientDetail(user);
         if (user == null) {
 //            logger.warn("User not found. Redirect to main page");
             return "/user/createstation";
         }
-        if (stationService.CheckCreate(user) == false) {
+        if (stationService.CreateCheckConfirminfo(clientdetail) == false) {
             // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
             // TODO зробити запис в журнал
             // TODO Вісвітити повідомлення для користувача з причинами неможливості створити станцію
-            model.addAttribute("danger", "Неможливо створити станцію! Ви не надали згоду з правилами користування сервісом. Відмітте поле \"З умовами надання сервісу погоджуюся\"");
-            return "redirect:/user/stations";
+            model.addAttribute("warning", "Неможливо створити станцію! Ви не надали згоду з правилами користування сервісом. " +
+                    "У Профайлі відмітте поле \"З умовами надання сервісу погоджуюся\".");
+            return "/user/stations";
+        }
+        if (stationService.CreateCheckAddress(clientdetail) == false) {
+            model.addAttribute("warning", "Неможливо створити станцію! У Профайлі відсутня поштова адреса.");
+            return "/user/stations";
         }
         Station station = stationService.CreateStation(model);
         if (station == null) {
-            // Станцію створити не можемо. Показуємо про це повідомлення.
-            logger.info("ClientHomeStationController: Не можемо створити станцію для користувача {}", user.getEmail());
-            // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
-            // TODO зробити запис в журнал
+            logger.info("Не можемо створити станцію для користувача {}. ", user.getEmail());
+            model.addAttribute("warning", "Не можемо створити станцію. Повідомте про це службі підтримки.");
             return "/user/stations";
         }
-//        clientService.getClientDetail(user).getStationList().add(station);
-        // відправляємо завдання на створення радіостанції.
+        historyService.saveHistory(History_StatiionCreate, " Нова станція: "
+                        +station.getUuid()
+                        +"для користувача " + clientdetail.getUser().getEmail(),
+                clientdetail.getUser());
         RPCJob rjob = new RPCJob();
         rjob.getJobchain().add(JOB_STATION_CREATE);
         rjob.getJobchain().add(JOB_STATION_ALLOCATE);

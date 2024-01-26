@@ -1,5 +1,6 @@
 package media.toloka.rfa.radio.station.service;
 
+import media.toloka.rfa.radio.client.model.Clientaddress;
 import media.toloka.rfa.radio.contract.model.Contract;
 import media.toloka.rfa.radio.contract.service.ContractService;
 import media.toloka.rfa.radio.history.service.HistoryService;
@@ -214,12 +215,13 @@ public class StationService {
         return stationLinkURL;
     }
 
-    public boolean CheckCreate(Users user) {
-        //
-        Clientdetail cd = clientService.getClientDetail(user);
-        if (cd.getConfirminfo() != true) {
+    public boolean CreateCheckConfirminfo(Clientdetail cd) {
+        if (cd.getConfirminfo() != true) { return false; }
+        return true;
+    }
 
-            return false;}
+    public boolean CreateCheckAddress(Clientdetail clientdetail) {
+        if( clientdetail.getClientaddressList().isEmpty() ) { return false; }
         return true;
     }
 

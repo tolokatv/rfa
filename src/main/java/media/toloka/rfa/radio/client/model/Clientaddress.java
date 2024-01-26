@@ -22,7 +22,8 @@ public class Clientaddress {
     @GeneratedValue
     @Column(name="id")
     private Long id;
-    private EClientAddressType userAddressType;
+    private String shortaddress; // коротке найменування адреси
+    private EClientAddressType userAddressType; // поштовий, офіційний
     private String street;
     private String buildnumber;
     private String korpus;
@@ -34,6 +35,7 @@ public class Clientaddress {
     private String zip;
     private String phone;
     private String comment;
+    private boolean cheked;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Clientdetail clientdetail;

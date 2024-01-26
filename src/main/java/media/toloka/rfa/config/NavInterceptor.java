@@ -26,6 +26,17 @@ public class NavInterceptor implements HandlerInterceptor {
     final Logger logger = LoggerFactory.getLogger(NavInterceptor.class);
 
     @Override
+    public boolean preHandle(
+            HttpServletRequest request,
+            HttpServletResponse response,
+            Object handler) throws Exception {
+
+//        logger.info("[preHandle][" + request + "]" + "[" + request.getMethod()
+//                + "]" + request.getRequestURI());
+
+        return true;
+    }
+    @Override
     public void postHandle(
             HttpServletRequest request,
             HttpServletResponse response,
@@ -43,13 +54,14 @@ public class NavInterceptor implements HandlerInterceptor {
         }
         // додали кількість повідомлень для меню
         // TODO Подивитися чому ми викликаємо цю процедуру декілька разів.
-        return;
-//        ModelMap mm = modelAndView.getModelMap();
-//        int newmessage = messageService.GetQuantityNewMessage(cd);
-//        if ( newmessage > 0 ) {
-//            modelAndView.getModel().put("quantitynewmessage", newmessage);
-//            modelAndView.getModel().put("quantityallmessage", messageService.GetQuantityAllMessage(cd));
-//            modelAndView.getModel().put("danger", "У Вас нові повідомлення: " + valueOf(newmessage));
-//        }
+//        return;
+        ModelMap mm = modelAndView.getModelMap();
+        int newmessage = messageService.GetQuantityNewMessage(cd);
+        if ( newmessage > 0 ) {
+            // виставляємо для навбара та повідомлень на сторінці кількість і наявність нових повідомлень
+            modelAndView.getModel().put("quantitynewmessage", newmessage);
+            modelAndView.getModel().put("quantityallmessage", messageService.GetQuantityAllMessage(cd));
+            modelAndView.getModel().put("danger", "У Вас нові повідомлення: " + valueOf(newmessage));
+        }
     }
 }

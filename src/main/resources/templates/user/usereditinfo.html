@@ -24,14 +24,13 @@
 </header>
 
 <div class="row" style="padding-top: 100px">
+    <div class="row">
+        <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
+    </div>
+
     <!--                    <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>-->
-    <div class="alert alert-danger" role="alert" th:text="${warning}" th:if="${warning}"></div>
     <form th:action="@{/user/infosave}"  method="post">
-        <div class="col-md-8 mb-4">
-            <div class="row text-center" style="padding-top: 20px">
-                <div class="col align-center">
-                </div>
-            </div>
+        <div class="col-md-7 mb-4">
             <div class="card">
                     <div class="card-header py-3">
                         <h5 class="mb-0">Ваша Інформація</h5>
@@ -62,7 +61,7 @@
                     <div class="row mb-3"> <!-- // Пошта для логіна -->
                         <div class="form-outline mb-4">
                             <input th:field="${userdetail.user.email}" name="name" type="email" id="name" class="form-control" disabled />
-                            <label class="form-label" for="name">Email</label>
+                            <label class="form-label" for="name">Електронна пошта</label>
                         </div>
                     </div> <!-- // Пошта для логіна -->
                     <div class="row mb-3"> <!-- // FirmName -->
@@ -73,9 +72,14 @@
                                    type="text"
                                    id="userdetail.firmname"
                                    class="form-control" />
-                            <label class="form-label" for="userdetail.firmname">Найменування організації</label>
+                            <label class="form-label" for="userdetail.firmname">Найменування організації (якщо юридична особа)</label>
                         </div>
                     </div> <!-- // FirmName -->
+                    <div class="row mb-3"> <!-- Адреса -->
+                        <div class="form-outline mb-4">
+
+                        </div>
+                    </div> <!-- Адреса -->
                     <div class="row mb-3">
                         <div class="form-check d-flex justify-content-center mb-2">
 <!--                            <input type="checkbox" name="confirm1" th:checked="*{confirm1}" />-->
@@ -97,7 +101,7 @@
         </div>
     </form>
 <!--    =========================================-->
-    <div class="col-md-4 mb-4">
+    <div class="col-md-3 mb-3">
         <div th:insert="~{/fragments/user :: userrecentactions}">  </div>
     </div>
 </div>

@@ -57,7 +57,6 @@ public class ClientHomeInfoController {
             userdetail.setClientaddressList(new ArrayList<Clientaddress>());
             userdetail.getClientaddressList().add(new Clientaddress());
         }
-
         logger.info("Додали UserDetail та UserAddress до структури користувача. Заповнюємо атрибут форми");
         if (userdetail.getConfirminfo() == null) {
             userdetail.setConfirminfo(false);

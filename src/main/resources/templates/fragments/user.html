@@ -110,7 +110,7 @@
                         <p class="card-text">Документація, служба підтримки. </p>
                     </div>
                     <div class="card-footer text-muted">
-                        <a href="/user/home/usergetinfo" class="btn btn-primary">Ваша інформація</a>
+                        <a href="/user/home/usergetinfo" class="btn btn-primary">Профайл</a>
                     </div>
                 </div>
             </div>
@@ -151,6 +151,29 @@
             </tbody>
         </table>
     </div>
+<!--============= Ваші станції ========================-->
+<div th:fragment="listaddress">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Адреса</th>
+            <th scope="col">Імʼя станції</th>
+            <th scope="col">Дія</th>
+        </tr>
+        </thead>
+        <tbody>
+        <a href="/user/createaddress" class="btn btn-primary">Створити адресу</a>
+
+        <tr th:each="addresse : ${clientaddresses}">
+            <td><a th:href="@{/user/adderessedit(id=${addresse.id})}" class="btn btn-primary">Змінити</a>
+            <td><span th:text="${addresse.short}"></span></td>
+            </td>
+            <!--                <a th:href="@{/user/temporary(id='${station.id}')}"-->
+
+        </tr>
+        </tbody>
+    </table>
+</div>
 <!--============ Таблиця контрактів=========================-->
 <div th:fragment="listcontract">
     <table class="table">
