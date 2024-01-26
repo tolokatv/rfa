@@ -24,8 +24,14 @@
 </header>
 
 <div class="row" style="padding-top: 100px">
+    <!--                    <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>-->
+    <div class="alert alert-danger" role="alert" th:text="${warning}" th:if="${warning}"></div>
     <form th:action="@{/user/infosave}"  method="post">
         <div class="col-md-8 mb-4">
+            <div class="row text-center" style="padding-top: 20px">
+                <div class="col align-center">
+                </div>
+            </div>
             <div class="card">
                     <div class="card-header py-3">
                         <h5 class="mb-0">Ваша Інформація</h5>

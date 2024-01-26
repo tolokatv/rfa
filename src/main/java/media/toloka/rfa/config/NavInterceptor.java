@@ -43,19 +43,13 @@ public class NavInterceptor implements HandlerInterceptor {
         }
         // додали кількість повідомлень для меню
         // TODO Подивитися чому ми викликаємо цю процедуру декілька разів.
+        return;
 //        ModelMap mm = modelAndView.getModelMap();
-        int newmessage = messageService.GetQuantityNewMessage(cd);
-        if ( newmessage > 0 ) {
-            modelAndView.getModel().put("quantitynewmessage", newmessage);
-            modelAndView.getModel().put("quantityallmessage", messageService.GetQuantityAllMessage(cd));
-            modelAndView.getModel().put("danger", "У Вас нові повідомлення: " + valueOf(newmessage));
-        }
-//        mm.put("quantitynewmessage",  messageService.GetQuantityNewMessage(cd));
-//        mm.put("quantityallmessage",  messageService.GetQuantityAllMessage(cd));
-//        mm.put("danger",  "У Вас нові повідомлення: "+ valueOf(messageService.GetQuantityNewMessage(cd)));
-//        mm.addAttribute("quantityallmessage",  messageService.GetQuantityAllMessage(cd));
-//        mm.addAttribute("quantitynewmessage",  messageService.GetQuantityNewMessage(cd));
-//        logger.info("Handle Interseptor all={} new={} ",messageService.GetQuantityAllMessage(cd), messageService.GetQuantityNewMessage(cd) );
-//        modelAndView.
+//        int newmessage = messageService.GetQuantityNewMessage(cd);
+//        if ( newmessage > 0 ) {
+//            modelAndView.getModel().put("quantitynewmessage", newmessage);
+//            modelAndView.getModel().put("quantityallmessage", messageService.GetQuantityAllMessage(cd));
+//            modelAndView.getModel().put("danger", "У Вас нові повідомлення: " + valueOf(newmessage));
+//        }
     }
 }

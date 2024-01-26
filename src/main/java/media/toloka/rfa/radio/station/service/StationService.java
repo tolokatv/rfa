@@ -23,9 +23,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import static media.toloka.rfa.radio.history.model.EHistoryType.History_StatiionCreate;
-import static media.toloka.rfa.radio.history.model.EHistoryType.History_UserCreateContract;
-
 @Service
 @Transactional
 public class StationService {
@@ -215,6 +212,15 @@ public class StationService {
         // TODO передбачити нормальну назву станції
         stationLinkURL = "https://" + station.getDbname() + "." + basestationurl;
         return stationLinkURL;
+    }
+
+    public boolean CheckCreate(Users user) {
+        //
+        Clientdetail cd = clientService.getClientDetail(user);
+        if (cd.getConfirminfo() != true) {
+
+            return false;}
+        return true;
     }
 
 //    public void saveStation(Station station) {

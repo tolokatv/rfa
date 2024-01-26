@@ -89,7 +89,14 @@ public class ClientHomeStationController {
         Users user = clientService.GetCurrentUser();
         if (user == null) {
 //            logger.warn("User not found. Redirect to main page");
-            return "redirect:/";
+            return "/user/createstation";
+        }
+        if (stationService.CheckCreate(user) == false) {
+            // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
+            // TODO зробити запис в журнал
+            // TODO Вісвітити повідомлення для користувача з причинами неможливості створити станцію
+            model.addAttribute("danger", "Неможливо створити станцію! Ви не надали згоду з правилами користування сервісом. Відмітте поле \"З умовами надання сервісу погоджуюся\"");
+            return "redirect:/user/stations";
         }
         Station station = stationService.CreateStation(model);
         if (station == null) {
@@ -97,7 +104,7 @@ public class ClientHomeStationController {
             logger.info("ClientHomeStationController: Не можемо створити станцію для користувача {}", user.getEmail());
             // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
             // TODO зробити запис в журнал
-            return "redirect:/user/stations";
+            return "/user/stations";
         }
 //        clientService.getClientDetail(user).getStationList().add(station);
         // відправляємо завдання на створення радіостанції.

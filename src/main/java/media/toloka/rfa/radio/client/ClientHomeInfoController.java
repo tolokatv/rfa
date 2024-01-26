@@ -28,23 +28,13 @@ import static media.toloka.rfa.radio.history.model.EHistoryType.History_UserInfo
 public class ClientHomeInfoController {
 
     final Logger logger = LoggerFactory.getLogger(ClientHomeInfoController.class);
-//    @Autowired
-//    private UserRepository userRepo;
-//    @Autowired
-//    private RepoRadio repoRadio;
-//    @Autowired
-//    private RepoAlbum repoAlbum;
-//    @Autowired
-//    private RepoTrack repoTrack;
+
     @Autowired
     private ClientService clientService;
 
     @Autowired
     private HistoryService historyService;
 
-
-//    @Autowired
-//    private RepoUserDetail repoUserDetail;
 // TODO Додати роботу з адресами
 
     @GetMapping(value = "/user/usereditinfo")
@@ -64,33 +54,22 @@ public class ClientHomeInfoController {
         if ( userdetail == null) {
             logger.info("Додаємо UserDetail та UserAddress до структури користувача.");
             userdetail = new Clientdetail();
-//            userdetail.setUserid(frmuser.getId());
-//            userdetail.getAdresses()new List<UserAddress>);
             userdetail.setClientaddressList(new ArrayList<Clientaddress>());
             userdetail.getClientaddressList().add(new Clientaddress());
         }
-//        else if (userdetail.getAdresses() == null) {
-//            userdetail.setAdresses(new UserAddress());
-//        }
+
         logger.info("Додали UserDetail та UserAddress до структури користувача. Заповнюємо атрибут форми");
         if (userdetail.getConfirminfo() == null) {
             userdetail.setConfirminfo(false);
         }
         List<Clientaddress> clientaddresses = userdetail.getClientaddressList();
-//        model.addAttribute("custname",  frmuser.getCustname());
-//        model.addAttribute("surname",   frmuser.getCustsurname());
-//        model.addAttribute("name",      frmuser.getName());
         model.addAttribute("userdetail", userdetail );
         model.addAttribute("clientaddresses", clientaddresses );
-//        model.addAttribute("address",   frmuser.getCustsurname());
-//        model.addAttribute("formaddress",   frmuser.getUserDetail().getAdresses());
-//        logger.info("Заповнили атрибути форми");
         return "/user/usereditinfo";
     }
 
     @PostMapping(value = "/user/infosave")
     public String postuserHomeInfo(
-//            @ModelAttribute Users userform,
             @ModelAttribute Clientdetail fuserdetail,
 //            @ModelAttribute Clientaddress faddress,
             Model model ) {
