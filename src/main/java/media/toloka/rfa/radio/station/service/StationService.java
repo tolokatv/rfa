@@ -1,6 +1,5 @@
 package media.toloka.rfa.radio.station.service;
 
-import media.toloka.rfa.radio.client.model.Clientaddress;
 import media.toloka.rfa.radio.contract.model.Contract;
 import media.toloka.rfa.radio.contract.service.ContractService;
 import media.toloka.rfa.radio.history.service.HistoryService;
@@ -22,7 +21,10 @@ import org.springframework.ui.Model;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.ListIterator;
 import java.util.UUID;
+
+import static media.toloka.rfa.radio.contract.model.EContractStatus.CONTRACT_PAY;
 
 @Service
 @Transactional
@@ -223,6 +225,20 @@ public class StationService {
     public boolean CreateCheckAddress(Clientdetail clientdetail) {
         if( clientdetail.getClientaddressList().isEmpty() ) { return false; }
         return true;
+    }
+
+    public boolean HavePayContract(Clientdetail clientdetail) {
+        List<Contract> contractList = contractService.FindContractByClientDetail(clientdetail);
+//                clientdetail.getContractList();
+        // Getting ListIterator
+        ListIterator<Contract> contractIterator = contractList.listIterator();
+
+        // Traversing elements
+        while(contractIterator.hasNext()){
+            Contract contract = contractIterator.next();
+            if (contract.getContractStatus() == CONTRACT_PAY) { return true; }
+        }
+        return false;
     }
 
 //    public void saveStation(Station station) {

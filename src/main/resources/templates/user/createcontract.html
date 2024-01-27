@@ -74,6 +74,10 @@
 <!--                                <h3>Номер контракту</h3>-->
 <!--                                <span th:text="${contract.number}" id="number"></span>-->
 <!--                            </div>-->
+                            <div>
+                                <input th:field="*{contractname}" type="text"  class="form-control"  />
+                                <label class="form-label" for="contractname">Назва контракту</label>
+                            </div>
                             <!-- Message input-->
                             <textarea th:field="*{usercomment}"
                                       class="form-control"

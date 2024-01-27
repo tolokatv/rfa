@@ -105,6 +105,12 @@ public class ClientHomeStationController {
             model.addAttribute("warning", "Неможливо створити станцію! У Профайлі відсутня поштова адреса.");
             return "/user/stations";
         }
+
+        if (stationService.HavePayContract(clientdetail)  == false) {
+            // перевіряємо наявності безкоштовної станції
+            model.addAttribute("warning", "Неможливо створити станцію! У Вас вже є безкоштовна станція.");
+            return "/user/stations";        }
+
         Station station = stationService.CreateStation(model);
         if (station == null) {
             logger.info("Не можемо створити станцію для користувача {}. ", user.getEmail());

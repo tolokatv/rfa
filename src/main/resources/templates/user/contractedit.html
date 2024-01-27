@@ -29,13 +29,6 @@
 
 <div style="padding-top: 100px">
     <div class="container-fluid">
-        <div class="row">
-
-            <div class="col-lg-12 col-sm-12">
-                <div th:insert="~{/fragments/user :: user_service}"> </div>
-            </div>
-        </div>
-
         <div class="row" style="padding-top: 40px">
             <!-- Колонка редагування контракту-->
             <div class="col-lg-9 col-sm-12">
@@ -51,11 +44,15 @@
                                 <b>Номер контракту: </b><span th:text="${number}" ></span>
                             </div>
                             <div>
+                                <input th:field="*{contractname}" type="text"  class="form-control"  />
+                                <label class="form-label" for="contractname">Назва контракту</label>
+                            </div>
+                            <div>
                                 <b>Тип контракту  </b>
                                 <select th:field="*{contractStatus}" class="form-control" id="contractStatus">
                                     <!--Світимо назву типу в залежності від типу контракту-->
                                     <option th:text="${contractStatus}" th:value="${contractStatus}"></option>
-                                    <option th:each="option : ${options}" th:value="${option}" th:text="${option}"></option>
+                                    <option th:each="option : ${options}" th:value="${option}" th:text="${option.label}"></option>
                                 </select>
                             </div>
                             <!-- Тип контракту Вільний, Комерційний-->

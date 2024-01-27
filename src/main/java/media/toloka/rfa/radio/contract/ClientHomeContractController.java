@@ -5,6 +5,7 @@ package media.toloka.rfa.radio.contract;
 import lombok.extern.slf4j.Slf4j;
 import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.radio.contract.model.Contract;
+import media.toloka.rfa.radio.contract.model.EContractStatus;
 import media.toloka.rfa.radio.contract.service.ContractService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.security.model.Users;
@@ -81,9 +82,9 @@ public class ClientHomeContractController {
             // TODO Вивести в форму повідомлення, що контракт не знайдено
             return "redirect:/user/contract";
         }
-        List<String> options = new ArrayList<String>();
-        options.add("Безкоштовний");
-        options.add("Комерційний");
+        List<EContractStatus> options = new ArrayList<EContractStatus>();
+        options.add(CONTRACT_FREE);
+        options.add(CONTRACT_PAY);
         model.addAttribute("options", options);
 
         model.addAttribute("contract",  contract);
@@ -119,6 +120,7 @@ public class ClientHomeContractController {
             contract.setContractStatus(CONTRACT_PAY);
         }
         contract.setUsercomment(fcontract.getUsercomment());
+        contract.setContractname(fcontract.getContractname());
         contractService.saveContract(contract);
         logger.info("Контракт з UUID={} збережено", contract.getUuid());
         return "redirect:/user/contract";
@@ -160,6 +162,7 @@ public class ClientHomeContractController {
         ncontract.setLastPayDate(null);
         ncontract.setClientdetail(clientService.getClientDetail(clientService.GetCurrentUser()));
         ncontract.setUsercomment(contract.getUsercomment());
+        ncontract.setContractname(contract.getContractname());
         contractService.saveContract(ncontract);
         Clientdetail cl = clientService.getClientDetail(user);
         cl.getContractList().add(ncontract);

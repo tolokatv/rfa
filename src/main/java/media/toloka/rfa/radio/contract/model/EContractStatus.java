@@ -1,9 +1,9 @@
 package media.toloka.rfa.radio.contract.model;
 
 public enum EContractStatus {
-
-    CONTRACT_FREE("CONTRACT_FREE"),
-    CONTRACT_PAY("CONTRACT_PAY");
+// TODO винести низву типу контракту до application.property
+    CONTRACT_FREE("Безкоштовний"),
+    CONTRACT_PAY("Комерційний");
 
     public final String label;
 

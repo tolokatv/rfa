@@ -29,6 +29,7 @@ public class Contract {
     private String uuid;
     private LocalDateTime createDate;
     private LocalDateTime lastPayDate;
+    private String contractname;
     private String usercomment;
 
     @ManyToOne(cascade = CascadeType.ALL)

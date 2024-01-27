@@ -179,6 +179,7 @@
         <thead>
         <tr>
             <th scope="col">Стан</th>
+            <th scope="col">Назва</th>
             <th scope="col">Номер угоди</th>
             <th scope="col">Дата укладання</th>
             <th scope="col">Дата останньої оплати</th>
@@ -194,6 +195,7 @@
                     <i class="fas fa-circle-info fa-stack-1x fa-inverse"></i>
                 </span>
             </td>
+            <td><span th:text="${contract.contractname}"></span></td>
             <td><span th:text="${contract.uuid}"></span></td>
             <td><span th:text="${#temporals.format(contract.createDate)}"></span></td>
             <td><span th:text="${#temporals.format(contract.lastPayDate)}"></span></td>
