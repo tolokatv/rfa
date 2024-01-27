@@ -7,6 +7,7 @@ import media.toloka.rfa.security.model.Users;
 
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Entity
@@ -16,7 +17,7 @@ public class Documents {
     @Id
     @GeneratedValue
     private Long id;
-    private LocalDateTime loaddate;
+    private Date loaddate;
     private String pathToDocument;
     private EDocumentStatus status;
     private String documenttype;
@@ -29,7 +30,7 @@ public class Documents {
     private Clientdetail clientdetail;
 
     public Documents() {
-        this.loaddate = LocalDateTime.now();
+        this.loaddate = new Date();
         this.status = EDocumentStatus.STATUS_LOADED;
     }
 }

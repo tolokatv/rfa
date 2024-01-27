@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Controller
 @EnableWebMvc
@@ -41,7 +42,7 @@ public class RootController {
         mfs.setEmail(rootQuestionForm.getEmail());
         mfs.setPhone(rootQuestionForm.getPhone());
         mfs.setMessage(rootQuestionForm.getMessage());
-        mfs.setContact_datetime(LocalDateTime.now());
+        mfs.setContact_datetime(new Date());
         smfs.save(mfs);
 
         return "redirect:/#contact";

@@ -12,6 +12,7 @@ import media.toloka.rfa.security.model.Users;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -34,16 +35,16 @@ public class Clientdetail {
     @Column
     private Boolean confirminfo;
     @Column
-    private LocalDateTime confirmDate;
+    private Date confirmDate;
     @Column
-    private LocalDateTime createdate;
+    private Date createdate;
     @Column
     private String comments;
 
     @Expose
     @ElementCollection
     @OneToMany(cascade = CascadeType.ALL)
-    private List<Clientaddress> clientaddressList;
+    private transient List<Clientaddress> clientaddressList;
 
 //    @Expose
     @ElementCollection
@@ -81,7 +82,7 @@ public class Clientdetail {
         this.documentslist      = new ArrayList<Documents>();
         this.stationList        = new ArrayList<Station>();
         this.uuid               = UUID.randomUUID().toString();
-        this.createdate         = LocalDateTime.now();
+        this.createdate         = new Date();
         this.confirminfo        = false;
         this.comments           = "";
         this.custname           = "";

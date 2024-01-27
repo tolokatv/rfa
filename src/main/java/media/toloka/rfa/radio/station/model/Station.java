@@ -6,6 +6,7 @@ import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.radio.contract.model.Contract;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -21,10 +22,10 @@ public class Station {
     private String name;
     private String dbname;
     private boolean enable = false;
-    private LocalDateTime startdate;
-    private LocalDateTime createdate;
-    private LocalDateTime lastpaydate;
-    private LocalDateTime lastchangedate;
+    private Date startdate;
+    private Date createdate;
+    private Date lastpaydate;
+    private Date lastchangedate;
     public Integer guiport;
     public String guiserver;
     public Integer main;
@@ -48,8 +49,8 @@ public class Station {
     public Station() {
         this.uuid= UUID.randomUUID().toString();
         this.name=this.uuid;
-        this.createdate=LocalDateTime.now();
-        this.lastchangedate=LocalDateTime.now();
+        this.createdate=new Date();
+        this.lastchangedate=new Date();
     }
 }
 

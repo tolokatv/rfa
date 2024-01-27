@@ -7,6 +7,7 @@ import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.security.model.Users;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Entity
@@ -19,11 +20,15 @@ public class History {
 //    @Column(name="id")
     private Long            id;
     private EHistoryType historyType;
-    private LocalDateTime   dateAction;
+    private Date dateAction;
     private String          action;
     private String          comment;
 
     @ManyToOne(cascade = CascadeType.ALL)
     private Clientdetail clientdetail;
+
+    public History() {
+        this.dateAction = new Date();
+    }
 
 }

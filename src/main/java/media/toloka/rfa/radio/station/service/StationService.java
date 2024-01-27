@@ -20,6 +20,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.UUID;
@@ -84,7 +85,7 @@ public class StationService {
             SetStationDBName(station);
             station.setUuid(UUID.randomUUID().toString());
             station.setGuiserver(guiserver);
-            station.setCreatedate(LocalDateTime.now());
+            station.setCreatedate(new Date());
             saveStation(station);
             Clientdetail cld = station.getClientdetail();
             cld.getStationList().add(station);

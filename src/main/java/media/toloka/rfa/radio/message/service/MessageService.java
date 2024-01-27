@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
 
@@ -51,7 +52,7 @@ public class MessageService {
         // формуємо повідомлення
         Messages um = new Messages();
         um.setBody(message);
-        um.setSend(LocalDateTime.now());
+        um.setSend(new Date());
         um.setReading(true);
         um.setFrom(from);
         um.setTom(to);
@@ -73,7 +74,7 @@ public class MessageService {
             if (msg.getRead() != null) {
                 msg.setReading(false);
             }
-            msg.setRead(LocalDateTime.now());
+            msg.setRead(new Date());
             SaveMessage(msg);
         }
     }

@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 import static media.toloka.rfa.radio.history.model.EHistoryType.History_StatiionChange;
 import static media.toloka.rfa.radio.history.model.EHistoryType.History_StatiionCreate;
@@ -202,7 +203,7 @@ public class ClientHomeStationController {
         nstation.setIcecastname(station.getIcecastname());
         nstation.setIcecastgenre(station.getIcecastgenre());
         nstation.setIcecastsite(station.getIcecastsite());
-        nstation.setLastchangedate(LocalDateTime.now());
+        nstation.setLastchangedate(new Date());
         stationService.saveStation(nstation);
         // TODO додати запис в журнал
         historyService.saveHistory(History_StatiionChange,

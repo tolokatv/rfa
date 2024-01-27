@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 
 @Data
@@ -21,6 +22,6 @@ public class MessageFromSite {
     private String email;
     private String phone;
     private String message;
-    private LocalDateTime contact_datetime;
+    private Date contact_datetime;
 
 }

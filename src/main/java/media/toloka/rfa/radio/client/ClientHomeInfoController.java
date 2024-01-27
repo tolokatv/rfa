@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
+import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
 import static media.toloka.rfa.radio.history.model.EHistoryType.History_UserChangeConfirmInfo;
 import static media.toloka.rfa.radio.history.model.EHistoryType.History_UserInfoSave;
 
@@ -144,7 +146,7 @@ public class ClientHomeInfoController {
             ) ;
             // Зберігаємо історію
             historyService.saveHistory( History_UserChangeConfirmInfo, curuserdetail.getConfirminfo().toString(), curuserdetail.getUser() );
-            curuserdetail.setConfirmDate(LocalDateTime.now());
+            curuserdetail.setConfirmDate(new Date());
         }
 /*
 

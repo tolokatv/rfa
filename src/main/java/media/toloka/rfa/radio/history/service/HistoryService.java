@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Transactional
 @Service
@@ -25,7 +26,7 @@ public class HistoryService {
     public void saveHistory(EHistoryType type, String message, Users user) {
         // Записуємо в журнал подію
         History history = new History();
-        history.setDateAction(LocalDateTime.now());
+        history.setDateAction(new Date());
         history.setHistoryType(type);
         history.setAction(type.label);
         if (user != null) { // TODO А що робити в мікросервісі, де брати поточного користувача?

@@ -6,6 +6,7 @@ import lombok.ToString;
 import media.toloka.rfa.security.model.Users;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
@@ -15,7 +16,7 @@ import java.util.Queue;
 public class RPCJob {
     private ERPCJobType rJobType;
     //@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime rjobdate;
+    private Date rjobdate;
     private Users user;
     private Queue<ERPCJobType> jobchain;
     private String rjobdata;

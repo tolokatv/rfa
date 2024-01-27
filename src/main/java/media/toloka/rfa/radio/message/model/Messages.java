@@ -7,6 +7,7 @@ import media.toloka.rfa.security.model.Users;
 
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Entity
@@ -21,8 +22,8 @@ public class Messages {
     @ManyToOne
     private Clientdetail tom; // to user
     private boolean reading;
-    private LocalDateTime send;
-    private LocalDateTime read;
+    private Date send;
+    private Date read;
     @Column(columnDefinition="TEXT")
     private  String body;
 }

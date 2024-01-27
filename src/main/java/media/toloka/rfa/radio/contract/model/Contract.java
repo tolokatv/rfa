@@ -10,6 +10,7 @@ import media.toloka.rfa.security.model.Users;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -27,8 +28,8 @@ public class Contract {
     private EContractStatus contractStatus;
     private String number;
     private String uuid;
-    private LocalDateTime createDate;
-    private LocalDateTime lastPayDate;
+    private Date createDate;
+    private Date lastPayDate;
     private String contractname;
     private String usercomment;
 
@@ -54,7 +55,7 @@ public class Contract {
         this.contractStatus         = CONTRACT_FREE;
         this.number                 = UUID.randomUUID().toString();
         this.uuid                   = UUID.randomUUID().toString();
-        this.createDate             = LocalDateTime.now();
+        this.createDate             = new Date();
         this.lastPayDate            = null;
         this.usercomment            = "";
 //        this.listStation            = new ArrayList<Station>();
