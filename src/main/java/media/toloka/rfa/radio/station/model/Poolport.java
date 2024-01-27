@@ -1,9 +1,6 @@
 package media.toloka.rfa.radio.station.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 
@@ -16,7 +13,8 @@ public class Poolport {
     private Long id;
     private Integer port;
     private EServerPortType porttype;
-//    @ManyToOne
-//    private Radio station;
+
+    @ManyToOne
+    private Station station;
 }
 

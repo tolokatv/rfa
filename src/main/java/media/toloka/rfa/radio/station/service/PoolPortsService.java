@@ -10,6 +10,7 @@ import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import static media.toloka.rfa.radio.station.model.EServerPortType.PORT_FREE;
@@ -18,6 +19,13 @@ import static media.toloka.rfa.radio.station.model.EServerPortType.PORT_FREE;
 // сервіс, який обслуговує пулл портів для радіостанцій
 @Service
 public class PoolPortsService {
+
+    @Value("${media.toloka.rfa.server.libretime.firstguiport}")
+    private Integer firstguiport;
+
+    @Value("${media.toloka.rfa.server.libretime.firstshowport}")
+    private Integer firstshowport;
+    // TODO Рознести порти для трансляцій та GUI
 
     final Logger logger = LoggerFactory.getLogger(PoolPortsService.class);
 
@@ -68,10 +76,15 @@ public class PoolPortsService {
 
     private Poolport GetNewFreePort() {
         // вибираємо максимальний номер не зайнятого порту.
-        Integer newPort = poolPortRepo.findMaxPort();
+        Integer newPort = findMaxPort();
         Poolport sp = new Poolport();
         sp.setPort(newPort);
         return sp;
+    }
+
+    private Integer findMaxPort() {
+        Poolport top = poolPortRepo.findTopByOrderByPortDesc();
+        if (top != null) { return top.getPort()+1; } else { return firstguiport; }
     }
 
     public void SavePort(Poolport port) {

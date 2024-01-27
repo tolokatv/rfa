@@ -6,6 +6,7 @@ import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.radio.contract.model.Contract;
 
 import java.time.LocalDateTime;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -40,11 +41,15 @@ public class Station {
     @ManyToOne(cascade = CascadeType.ALL)
     private Clientdetail clientdetail;
 
+    @OneToMany
+    private List<Poolport> ports;
+
 
     public Station() {
         this.uuid= UUID.randomUUID().toString();
         this.name=this.uuid;
         this.createdate=LocalDateTime.now();
+        this.lastchangedate=LocalDateTime.now();
     }
 }
 
