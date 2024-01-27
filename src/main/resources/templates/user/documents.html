@@ -34,13 +34,35 @@
             <div class="col align-center">
                 <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
             </div>
-        </div>        <div class="row" style="padding-top: 40px">
+        </div>
+        <div class="row" style="padding-top: 40px">
             <!-- Колонка керування радіо-->
             <div class="col-lg-9 col-sm-12">
                 <div class="card" >
-                    <div class="card-header"><h4>Документи</h4></div>
+                    <div class="card-header"><h4>Ваші документи</h4></div>
                     <div class="card-body">
-                        <div th:insert="~{/fragments/user :: listdocuments}">  </div>
+                        <table class="table">
+                            <thead>
+                            <tr>
+                                <th scope="col">Стан</th>
+                                <th scope="col">Вид документу</th>
+                                <th scope="col">Дата завантаження</th>
+                                <th scope="col">Дія</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <a class="btn btn-primary" href="/user/userloaddocument">Завантажити</a>
+                            <!--    <tr th:if="${contracts.isEmpty()}">-->
+                            <!--        <a href="/user/createcontract" class="btn btn-primary">Створити контакт</a>-->
+                            <!--    </tr>-->
+                            <tr th:each="singledocument : ${documents}">
+                                <td><span th:text="${singledocument.status.label}"></span></td>
+                                <td><span th:text="${singledocument.documenttype}"></span></td>
+                                <td><span th:text="${#temporals.format(singledocument.loaddate)}"></span></td>
+                                <td><span><a th:href="@{'/user/documentedit/' + ${singledocument.id}}">Редагувати</a></span></td>
+                            </tr>
+                            </tbody>
+                        </table> </div>
                     </div>
                 </div>
             </div>

@@ -3,7 +3,9 @@ package media.toloka.rfa.radio.document;
 import lombok.extern.slf4j.Slf4j;
 
 import media.toloka.rfa.radio.client.service.ClientService;
+import media.toloka.rfa.radio.contract.model.EContractStatus;
 import media.toloka.rfa.radio.document.model.Documents;
+import media.toloka.rfa.radio.document.model.EDocumentStatus;
 import media.toloka.rfa.radio.document.service.DocumentService;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
@@ -17,6 +19,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static media.toloka.rfa.radio.contract.model.EContractStatus.CONTRACT_FREE;
+import static media.toloka.rfa.radio.contract.model.EContractStatus.CONTRACT_PAY;
+import static media.toloka.rfa.radio.document.model.EDocumentStatus.*;
 
 @Slf4j
 @Controller
@@ -43,6 +52,14 @@ public class ClientDocumentEditController {
         Documents doc = clientService.GetDocument(idDocument);
 //        logger.info("Document: {}",doc);
 //        doc.setDocumentType("Type document");
+        List<EDocumentStatus> options = new ArrayList<EDocumentStatus>();
+        options.add(STATUS_UNKNOWN);
+        options.add(STATUS_LOADED);
+        options.add(STATUS_REVIEW);
+        options.add(STATUS_APPROVED);
+        options.add(STATUS_REJECTED);
+        model.addAttribute("options", options);
+
         model.addAttribute("document", doc);
         model.addAttribute("ide", idDocument);
         model.addAttribute("user", user);
@@ -64,8 +81,11 @@ public class ClientDocumentEditController {
         }
         Documents curDocument = documentService.GetDocument(document.getId());
 //        if (cur)
-        curDocument.setDocumentType(document.getDocumentType());
+//        curDocument.setDocumentstatus(document.getDocumentstatus());
         curDocument.setUserComment(document.getUserComment());
+        curDocument.setDocumenttype(document.getDocumenttype());
+        // TODO Подумати, чи варто тут робити обробку зміни статусу у залежності від ролі користувача
+        curDocument.setStatus(document.getStatus());
         documentService.saveDocument(curDocument);
 
 

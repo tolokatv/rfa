@@ -221,7 +221,7 @@
         <thead>
         <tr>
             <th scope="col">Стан</th>
-            <th scope="col">Вид документу</th>
+<!--            <th scope="col">Вид документу</th>-->
             <th scope="col">Дата завантаження</th>
             <th scope="col">Дія</th>
         </tr>
@@ -231,28 +231,40 @@
         <!--    <tr th:if="${contracts.isEmpty()}">-->
         <!--        <a href="/user/createcontract" class="btn btn-primary">Створити контакт</a>-->
         <!--    </tr>-->
-        <tr th:each="document : ${documents}">
+        <tr th:each="singledocument : ${documents}">
 
             <!--        <th scope="row">1</th>-->
             <td>
+                <select th:field="${singledocument.status.label}">
+                    <option th:each="option : ${options}"
+                            th:value="${option}"
+                            th:text="#{${option.label}}">Wireframe</option>
+                </select>
 
-                <span>
-                    <th:block th:switch="${document.status}">
-                        <span th:case="0"> Не визначено</span>
-                        <span th:case="1"> Завантажено</span>
-                        <span th:case="2"> На розгляді</span>
-                        <span th:case="3"> Схвалено</span>
-                        <span th:case="4"> Відхилено</span>
-                    </th:block>
-                </span>
+<!--                -->
+<!--                <select th:field="${document.status}" class="form-control">-->
+<!--                    &lt;!&ndash;Світимо назву типу в залежності від типу контракту&ndash;&gt;-->
+<!--&lt;!&ndash;                    <option th:text="${document.status.label}" th:value="${document.status}"></option>&ndash;&gt;-->
+<!--                    <option th:each="option : ${options}" th:field="${option}" th:text="${option.label}"></option>-->
+<!--                </select>-->
+
+<!--                <span>-->
+<!--                    <th:block th:switch="${document.status}">-->
+<!--                        <span th:case="0"> Не визначено</span>-->
+<!--                        <span th:case="1"> Завантажено</span>-->
+<!--                        <span th:case="2"> На розгляді</span>-->
+<!--                        <span th:case="3"> Схвалено</span>-->
+<!--                        <span th:case="4"> Відхилено</span>-->
+<!--                    </th:block>-->
+<!--                </span>-->
                 <!--                            <span class="fa-stack ">-->
                 <!--                                <i class="fas fa-circle fa-stack-2x text-primary"></i>-->
                 <!--                                <i class="fas fa-circle-info fa-stack-1x fa-inverse"></i>-->
                 <!--                            </span>-->
             </td>
-            <td><span th:text="${document.documentType}"></span></td>
-            <td><span th:text="#temporals.format(document.loadDate)}"></span></td>
-            <td><span><a th:href="@{'/user/documentedit/' + ${document.id}}">Редагувати</a></span></td>
+<!--            <td><span th:text="${document.status}"></span></td>-->
+            <td><span th:text="${#temporals.format(singledocument.loaddate)}"></span></td>
+            <td><span><a th:href="@{'/user/documentedit/' + ${singledocument.id}}">Редагувати</a></span></td>
             <!--            <td><span><a th:href="@{/user/documentedit/{idDocument}(idDocument=${document.id})}" >Редагувати</a></span></td>-->
         </tr>
         </tbody>
@@ -261,26 +273,25 @@
 <!--============= Редагування документу ========================-->
 <div th:fragment="editdocument">
     <form class="mx-1 mx-md-4" method="post" th:action="@{/user/documentedit}" th:object="${document}">
-        <input name="id" th:value="${document.id}" type="hidden"/>
+        <input name="id" th:value="*{id}" type="hidden"/>
         <!--        <div class="dz-message needsclick">-->
         <!--        <th:block th:switch="${document.status}">-->
         <span class="form-label">Статус:
-            <th:block th:switch="${status}">
-                <span th:case="0"> Не визначено</span>
-                <span th:case="1"> Завантажено</span>
-                <span th:case="2"> На розгляді</span>
-                <span th:case="3"> Схвалено</span>
-                <span th:case="4"> Відхилено</span>
-            </th:block>
+            <select th:field="*{status}" class="form-control">
+                <option th:each="linetype : ${options}"  th:value="${linetype}" th:text="${linetype.label}" disabled>Wireframe</option>
+            </select>
         </span>
         <br>
 
-        <input class="form-control" id="documentType" name="documentType" th:value="${document.documentType}"
+        <input class="form-control"  th:field="${document.documenttype}"
                type="text"/>
-        <label class="form-label" for="documentType">Тип документу</label>
+        <label class="form-label" for="documenttype">Вкажіть тип документу  (паспорт, свідотство, угода тощо)</label>
 
         <input class="form-control" id="userComment" name="userComment" th:value="${document.userComment}" type="text"/>
         <label class="form-label" for="userComment">Коментар до документу</label>
+
+        <input class="form-control" th:field="*{adminComment}" type="text" disabled/>
+        <label class="form-label" for="adminComment">Коментар підтримки до документу</label>
 
         <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
             <button class="btn btn-primary btn-lg" type="submit">Записати зміни</button>

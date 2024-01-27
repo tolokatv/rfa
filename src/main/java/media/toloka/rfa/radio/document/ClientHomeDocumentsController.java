@@ -2,6 +2,7 @@ package media.toloka.rfa.radio.document;
 
 import lombok.extern.slf4j.Slf4j;
 
+import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.document.model.Documents;
 import media.toloka.rfa.radio.document.service.DocumentService;
@@ -30,26 +31,23 @@ public class ClientHomeDocumentsController {
             Model model) {
         Authentication au;
 //        au = SecurityContextHolder.getContext().getAuthentication().getName();
-        Users user = clientService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
+//        Users user = clientService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         // Якщо не залогінені, то переходимо на головну.
+        Users user = clientService.GetCurrentUser();
         if (user == null) {
             return "redirect:/";
         }
+        Clientdetail cd = clientService.getClientDetail(user);
         // дивимося його групи
         // відповідним чином виводимо пункти меню
         // Заповнюємо поля для форми
-        List<Documents> documents = documentService.listDocumentsFromClientdetail(
-                clientService.getClientDetail(
-                        clientService.GetCurrentUser()
-                )
-        );
-
+        List<Documents> documents = documentService.listDocumentsByClientdetail(cd);
         //==========================================================
         // Бавимося
         //==========================================================
         model.addAttribute("documents", documents);
-        model.addAttribute("userID", user.getId());
-        model.addAttribute("userName", user.getEmail());
+//        model.addAttribute("userID", user.getId());
+//        model.addAttribute("userName", user.getEmail());
         return "/user/documents";
     }
 

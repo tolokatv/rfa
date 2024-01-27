@@ -16,13 +16,20 @@ public class Documents {
     @Id
     @GeneratedValue
     private Long id;
-    private LocalDateTime loadDate;
+    private LocalDateTime loaddate;
     private String pathToDocument;
-    private EDocumentStatus status; // 0-завантажено, 1-завантажено, 2-на розгляді, 3 схвалено, 4 відхилено
-    private String documentType;
+    private EDocumentStatus status;
+    private String documenttype;
+    @Column(columnDefinition="TEXT")
     private String userComment;
+    @Column(columnDefinition="TEXT")
     private String adminComment;
 //    @ElementCollection
-    @ManyToOne(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Clientdetail clientdetail;
+
+    public Documents() {
+        this.loaddate = LocalDateTime.now();
+        this.status = EDocumentStatus.STATUS_LOADED;
+    }
 }

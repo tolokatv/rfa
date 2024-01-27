@@ -29,12 +29,13 @@ public class DocumentService {
         documentRepository.save(document);
     }
 
-    public List<Documents> listDocumentsFromClientdetail(Clientdetail cl) {
+//    public List<Documents> listDocumentsFromClientdetail(Clientdetail cl) {
 //        return documentRepository.findDocumentByClientdetail(cl) ;
-        return cl.getDocumentslist();
-    }
+//        return cl.getDocumentslist();
+//    }
     public List<Documents> listDocumentsByClientdetail(Clientdetail cl) {
-        return documentRepository.findDocumentByClientdetail(cl) ;
+        List<Documents> ld = documentRepository.findByClientdetail(cl) ;
+        return ld;
     }
 
     public void saveDocumentUploadInfo(Path destination) {
@@ -42,7 +43,6 @@ public class DocumentService {
         doc.setStatus(EDocumentStatus.STATUS_LOADED);
         doc.setPathToDocument(destination.getFileName().toString());
         doc.setClientdetail(clientService.getClientDetail(clientService.GetCurrentUser()));
-        doc.setLoadDate(LocalDateTime.now());
         documentRepository.save(doc);
     }
 }
