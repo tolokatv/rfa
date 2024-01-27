@@ -1,18 +1,20 @@
-package media.toloka.rfa.model;
+package media.toloka.rfa.radio.contract.model;
 
+import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
-import media.toloka.rfa.model.enumerate.EContractStatus;
-//import media.toloka.rfa.radio.station.model.Station;
-//import media.toloka.rfa.security.model.Users;
-//
-//
-//import java.time.LocalDateTime;
-//import java.util.ArrayList;
+import media.toloka.rfa.radio.client.model.Clientdetail;
+import media.toloka.rfa.radio.station.model.Station;
+import media.toloka.rfa.security.model.Users;
+
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
-import static media.toloka.rfa.model.enumerate.EContractStatus.CONTRACT_FREE;
+import static media.toloka.rfa.radio.contract.model.EContractStatus.CONTRACT_FREE;
 
 @Data
 @Entity
@@ -31,12 +33,12 @@ public class Contract {
     private String contractname;
     private String usercomment;
 
-//    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Clientdetail clientdetail;
 
 //    @Expose
-//    @OneToMany
-//    private transient List<Station> stationList;
+    @OneToMany
+    private transient List<Station> stationList;
 
     //    @ElementCollection
 //    @OneToMany(cascade = CascadeType.ALL)
@@ -55,6 +57,8 @@ public class Contract {
         this.uuid                   = UUID.randomUUID().toString();
         this.createDate             = new Date();
         this.lastPayDate            = null;
+        this.usercomment            = "";
+//        this.listStation            = new ArrayList<Station>();
     }
 
 }

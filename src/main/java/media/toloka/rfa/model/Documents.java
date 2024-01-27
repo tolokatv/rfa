@@ -1,9 +1,12 @@
-package media.toloka.rfa.model;
+package media.toloka.rfa.radio.document.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import media.toloka.rfa.model.enumerate.EDocumentStatus;
+import media.toloka.rfa.radio.client.model.Clientdetail;
+import media.toloka.rfa.security.model.Users;
 
+
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -23,7 +26,7 @@ public class Documents {
     @Column(columnDefinition="TEXT")
     private String adminComment;
 //    @ElementCollection
-//    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.ALL)
     private Clientdetail clientdetail;
 
     public Documents() {

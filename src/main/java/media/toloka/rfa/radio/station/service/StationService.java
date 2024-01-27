@@ -1,16 +1,15 @@
 package media.toloka.rfa.radio.station.service;
 
-import media.toloka.rfa.model.Contract;
+import media.toloka.rfa.radio.contract.model.Contract;
 import media.toloka.rfa.radio.contract.service.ContractService;
-import media.toloka.rfa.model.enumerate.EHistoryType;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.station.ClientHomeStationController;
 import media.toloka.rfa.service.RfaService;
-import media.toloka.rfa.model.Clientdetail;
+import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 
-import media.toloka.rfa.model.Station;
-import media.toloka.rfa.repository.StationRepo;
+import media.toloka.rfa.radio.station.model.Station;
+import media.toloka.rfa.radio.station.repo.StationRepo;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,12 +19,13 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.UUID;
 
-import static media.toloka.rfa.model.enumerate.EContractStatus.CONTRACT_PAY;
+import static media.toloka.rfa.radio.contract.model.EContractStatus.CONTRACT_PAY;
 
 @Service
 @Transactional
@@ -71,29 +71,27 @@ public class StationService {
     }
 
     public List<Station> GetListStationByUser(Users user) { // TODO Виправити.  На віддаленому сервері ми працюємо без користувача
-        Clientdetail cl = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
+        Clientdetail cl = clientService.getClientDetail(clientService.GetCurrentUser());
         return stationRepo.findStationByClientdetail(cl);
 //        findStationByUser(user);
     }
 
     public Station CreateStation(Model model) {
-        Clientdetail clientdetail = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
-
-        if(CheckPossibilityCreateStation(clientdetail,model ) == true ) {
+        if(CheckPossibilityCreateStation(clientService.getClientDetail(clientService.GetCurrentUser()),model ) == true ) {
 
             Station station = new Station();
             station.setName(null);
-            station.setClientdetail(clientdetail);
+            station.setClientdetail(clientService.getClientDetail(clientService.GetCurrentUser()));
             SetStationDBName(station);
             station.setUuid(UUID.randomUUID().toString());
             station.setGuiserver(guiserver);
             station.setCreatedate(new Date());
             saveStation(station);
-
-//            cld.getStationList().add(station);
-//            clientService.SaveClientDetail(cld);
+            Clientdetail cld = station.getClientdetail();
+            cld.getStationList().add(station);
+            clientService.SaveClientDetail(cld);
             // TODO запис в журнал
-            historyService.saveHistory(EHistoryType.History_StatiionCreate, " Нова станція: "+station.getUuid(), clientService.GetUserById(clientdetail.getUser())  );
+//            historyService.saveHistory(History_StatiionCreate, " Нова станція: "+station.getUuid(), clientService.getClientDetail().getUser());
             return station;
         } else {
             // не змогли створити станцію
@@ -226,7 +224,7 @@ public class StationService {
     }
 
     public boolean CreateCheckAddress(Clientdetail clientdetail) {
-        if( clientService.GetAddressList(clientdetail).isEmpty() ) { return false; }
+        if( clientdetail.getClientaddressList().isEmpty() ) { return false; }
         return true;
     }
 
