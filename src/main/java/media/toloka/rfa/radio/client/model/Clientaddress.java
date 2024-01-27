@@ -23,7 +23,7 @@ public class Clientaddress {
     @Column(name="id")
     private Long id;
     private String shortaddress; // коротке найменування адреси
-    private EClientAddressType userAddressType; // поштовий, офіційний
+    private EClientAddressType userAddressType; // поштовий, офіційний, домашній
     private String street;
     private String buildnumber;
     private String korpus;
@@ -35,6 +35,7 @@ public class Clientaddress {
     private String zip;
     private String phone;
     private String comment;
+    private boolean mainaddress;
     private boolean cheked;
 
     @ManyToOne(cascade = CascadeType.ALL)
@@ -46,5 +47,10 @@ public class Clientaddress {
 //    private Clientdetail clientdetail;
 //    @OneToOne
 //    private Users user;
+    public Clientaddress(){
+        this.shortaddress="";
+        this.street="";
+    }
+
 
 }

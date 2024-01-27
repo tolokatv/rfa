@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+>
+<head>
+    <meta charset="utf-8" />
+    <!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />-->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Толока - радіо для всіх!</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/css/bootstrap.min.css"  rel="stylesheet" />
+</head>
+<body>
+ПРАЦЮЄМО З АДРЕСОЮ
+<header>
+    <div th:insert="~{/fragments/user :: user_navbar}">  </div>
+</header>
+
+<div class="row" style="padding-top: 100px">
+    <div class="row">
+        <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
+    </div>
+
+    <!--                    <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>-->
+    <form th:action="@{/user/createaddress}"  method="post" th:object="${clientaddress}">
+<!--    <form th:action="@{/user/address}"  method="post" >-->
+        <div class="col-md-7 mb-4">
+            <div class="card">
+                <div class="card-header py-3">
+                    <h5 class="mb-0">Ваша адреса</h5>
+                </div>
+                <div class="card-body">
+                    <div class="row mb-3">
+                        <div class="col"> <!-- // перший стовбчик-->
+                            <div class="form-outline">
+                                <input type="hidden" th:field="*{id}"/>
+                                <input th:field="*{shortaddress}" type="text"  class="form-control"  />
+                                <label class="form-label" for="shortaddress">Назва адреси</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col"> <!-- // перший стовбчик-->
+                            <div class="form-outline">
+<!--                                <input type="hidden" th:field="${clientaddress.id}" />-->
+                                <input th:field="*{street}" type="text"  class="form-control"  />
+                                <label class="form-label" for="street">Вулиця</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row mb-3">
+                        <div class="col"> <!-- // перший стовбчик-->
+                            <div class="form-outline">
+                                <input th:field="*{buildnumber}" type="text"  class="form-control"  />
+                                <label class="form-label" for="buildnumber">Номер будинку</label>
+                            </div>
+                        </div>
+                        <div class="col"> <!-- // другий стовбчик-->
+                            <div class="form-outline">
+                                <input th:field="*{korpus}" type="text"  class="form-control"  />
+                                <label class="form-label" for="korpus">Корпус</label>
+                            </div>
+                        </div>
+                        <div class="col"> <!-- // перший стовбчик-->
+                            <div class="form-outline">
+                                <input th:field="*{appartment}" type="text"  class="form-control"  />
+                                <label class="form-label" for="appartment">Квартира або офіс</label>
+                            </div>
+                        </div>
+                    </div> <!-- ROW  -->
+                    <div class="row mb-3"> <!-- 2 ROW  -->
+                        <div class="col"> <!-- // перший стовбчик-->
+                            <div class="form-outline">
+                                <!--                                <input type="hidden" th:field="${clientaddress.id}" />-->
+                                <input th:field="*{cityname}" type="text"  class="form-control"  />
+                                <label class="form-label" for="cityname">Місто</label>
+                            </div>
+                        </div>
+                        <div class="col"> <!-- // перший стовбчик-->
+                            <div class="form-outline">
+                                <input th:field="*{area}" type="text"  class="form-control"  />
+                                <label class="form-label" for="area">Район</label>
+                            </div>
+                        </div>
+                        <div class="col"> <!-- // другий стовбчик-->
+                            <div class="form-outline">
+                                <input th:field="*{region}" type="text"  class="form-control"  />
+                                <label class="form-label" for="region">Область</label>
+                            </div>
+                        </div>
+                    </div> <!-- ROW  -->
+                    <div class="row mb-3"> <!-- 2 ROW  -->
+                        <div class="col"> <!-- // перший стовбчик-->
+                            <div class="form-outline">
+                                <input th:field="*{country}" type="text"  class="form-control"  />
+                                <label class="form-label" for="country">Країна</label>
+                            </div>
+                        </div>
+                        <div class="col"> <!-- // перший стовбчик-->
+                            <div class="form-outline">
+                                <input th:field="*{zip}" type="text"  class="form-control"  />
+                                <label class="form-label" for="zip">Індекс</label>
+                            </div>
+                        </div>
+                        <div class="col"> <!-- // перший стовбчик-->
+                            <div class="form-outline">
+                                <input th:field="*{phone}" type="text"  class="form-control"  />
+                                <label class="form-label" for="phone">Телефон</label>
+                            </div>
+                        </div>
+                    </div> <!-- ROW  -->
+                </div>
+                <div class="card-footer">
+                    <div class="col"> <!-- // перший стовбчик-->
+                        <button type="submit" class="btn btn-primary btn-lg btn-block" >
+                            Зберегти
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <!--    =========================================-->
+    <div class="col-md-3 mb-3">
+        <div th:insert="~{/fragments/user :: userrecentactions}">  </div>
+    </div>
+</div>
+
+
+</body>
+</html>

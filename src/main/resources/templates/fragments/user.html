@@ -5,39 +5,39 @@
     <title>Title</title>
 </head>
 <body>
-<section th:fragment="user_navbar" >
+<section th:fragment="user_navbar">
     <div class="container-fluid ">
         <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
             <!-- Navbar content -->
             <div class="container-fluid">
                 <!--                    <a class="navbar-brand" href="#">Радіо для Всіх!</a>-->
-                <a class="navbar-brand" href="/"><img src="/assets/rfa-logo.png" alt="..." /></a>
+                <a class="navbar-brand" href="/"><img alt="..." src="/assets/rfa-logo.png"/></a>
             </div>
-            <div sec:authorize="hasRole('ROLE_CREATER')" class="collapse navbar-collapse" id="navbarCreater">
-<!--                <div sec:authorize="hasRole('ROLE_CREATER')">-->
-<!--                <div sec:authorize="hasRole('Creater')">-->
-                    <ul  class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="/creater/home">Головна</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/creater/tracks">Треки</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/creater/albums">Альбоми</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/creater/info">Інформація</a></li>
-                    </ul>
-            </div>
-                <div sec:authorize="hasRole('ROLE_USER')">
-                    <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a class="nav-link" href="/user/user_page">Головна</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/user/userstations">Станції</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/user/contract">Угоди</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/user/documents">Документи</a></li>
-                    </ul>
-                </div>
+            <div class="collapse navbar-collapse" id="navbarCreater" sec:authorize="hasRole('ROLE_CREATER')">
+                <!--                <div sec:authorize="hasRole('ROLE_CREATER')">-->
+                <!--                <div sec:authorize="hasRole('Creater')">-->
                 <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="/#contact">Повідомлення</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/#contact">Підтримка</a></li>
-                    <li class="nav-item"><a class="nav-link" th:href="@{/logout}" >Вихід</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/creater/home">Головна</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/creater/tracks">Треки</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/creater/albums">Альбоми</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/creater/info">Інформація</a></li>
                 </ul>
             </div>
-        </nav>
+            <div sec:authorize="hasRole('ROLE_USER')">
+                <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                    <li class="nav-item"><a class="nav-link" href="/user/user_page">Головна</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/user/userstations">Станції</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/user/contract">Угоди</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/user/documents">Документи</a></li>
+                </ul>
+            </div>
+            <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                <li class="nav-item"><a class="nav-link" href="/#contact">Повідомлення</a></li>
+                <li class="nav-item"><a class="nav-link" href="/#contact">Підтримка</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/logout}">Вихід</a></li>
+            </ul>
+    </div>
+    </nav>
     </div>
 </section>
 <!--================= Сервіси користувача ====================-->
@@ -56,7 +56,7 @@
                         <p class="card-text">Створити, зупинити, відновити роботу, видалити.</p>
                     </div>
                     <div class="card-footer text-muted">
-                        <a href="/user/home/managestations" class="btn btn-primary">Керувати станціями</a>
+                        <a class="btn btn-primary" href="/user/home/managestations">Керувати станціями</a>
                     </div>
                 </div>
             </div>
@@ -74,7 +74,7 @@
                         <p class="card-text">Створити угоду, подивитися стан, зупинити, історія. </p>
                     </div>
                     <div class="card-footer text-muted">
-                        <a href="/user/home/managecontract" class="btn btn-primary">Керувати угодами</a>
+                        <a class="btn btn-primary" href="/user/home/managecontract">Керувати угодами</a>
                     </div>
                 </div>
             </div>
@@ -92,7 +92,7 @@
                         <p class="card-text">Завантаження, схвалення, видалення... </p>
                     </div>
                     <div class="card-footer text-muted">
-                        <a href="/user/home/documents" class="btn btn-primary">Ваші документи</a>
+                        <a class="btn btn-primary" href="/user/home/documents">Ваші документи</a>
                     </div>
                 </div>
             </div>
@@ -110,7 +110,7 @@
                         <p class="card-text">Документація, служба підтримки. </p>
                     </div>
                     <div class="card-footer text-muted">
-                        <a href="/user/home/usergetinfo" class="btn btn-primary">Профайл</a>
+                        <a class="btn btn-primary" href="/user/home/usergetinfo">Профайл</a>
                     </div>
                 </div>
             </div>
@@ -118,55 +118,54 @@
     </div>
 </div>
 <!--============= Ваші станції ========================-->
-    <div th:fragment="liststation">
-        <table class="table">
-            <thead>
-            <tr>
-                <th scope="col">Стан</th>
-                <th scope="col">Імʼя станції</th>
-                <th scope="col">Дата створення</th>
-                <th scope="col">Дата останньої оплати</th>
-                <th scope="col">Дії</th>
-            </tr>
-            </thead>
-            <tbody>
-            <a href="/user/createstation" class="btn btn-primary">Створити радіо станцію</a>
+<div th:fragment="liststation">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Стан</th>
+            <th scope="col">Імʼя станції</th>
+            <th scope="col">Дата створення</th>
+            <th scope="col">Дата останньої оплати</th>
+            <th scope="col">Дії</th>
+        </tr>
+        </thead>
+        <tbody>
+        <a class="btn btn-primary" href="/user/createstation">Створити радіо станцію</a>
 
-            <tr th:each="station : ${stations}">
-                <td>
+        <tr th:each="station : ${stations}">
+            <td>
                 <span class="fa-stack ">
                     <i class="fas fa-circle fa-stack-2x text-primary"></i>
                     <i class="fas fa-circle-info fa-stack-1x fa-inverse"></i>
                 </span>
-                </td>
-                <td><span th:text="${station.name}"></span></td>
-<!--                <td><span th:text="${station.createdate}"></span></td>-->
-                <td><span th:text="${#temporals.format(station.createdate)}"></span></td>
-                <td><span th:text="${#temporals.format(station.lastpaydate)}"></span></td>
-                <td><a th:href="@{/user/controlstation(id=${station.id})}" class="btn btn-primary">Керувати</a>
-                </td>
-<!--                <a th:href="@{/user/temporary(id='${station.id}')}"-->
+            </td>
+            <td><span th:text="${station.name}"></span></td>
+            <!--                <td><span th:text="${station.createdate}"></span></td>-->
+            <td><span th:text="${#temporals.format(station.createdate)}"></span></td>
+            <td><span th:text="${#temporals.format(station.lastpaydate)}"></span></td>
+            <td><a class="btn btn-primary" th:href="@{/user/controlstation(id=${station.id})}">Керувати</a>
+            </td>
+            <!--                <a th:href="@{/user/temporary(id='${station.id}')}"-->
 
-            </tr>
-            </tbody>
-        </table>
-    </div>
+        </tr>
+        </tbody>
+    </table>
+</div>
 <!--============= Ваші станції ========================-->
 <div th:fragment="listaddress">
     <table class="table">
         <thead>
         <tr>
-            <th scope="col">Адреса</th>
-            <th scope="col">Імʼя станції</th>
             <th scope="col">Дія</th>
+            <th scope="col">Назва адреси</th>
         </tr>
         </thead>
         <tbody>
-        <a href="/user/createaddress" class="btn btn-primary">Створити адресу</a>
+        <a class="btn btn-primary" href="/user/createaddress?id=0">Створити адресу</a>
 
         <tr th:each="addresse : ${clientaddresses}">
-            <td><a th:href="@{/user/adderessedit(id=${addresse.id})}" class="btn btn-primary">Змінити</a>
-            <td><span th:text="${addresse.short}"></span></td>
+            <td><a class="btn btn-primary" th:href="@{/user/createaddress(id=${addresse.id})}">Змінити</a>
+            <td><span th:text="${addresse.shortaddress}"></span></td>
             </td>
             <!--                <a th:href="@{/user/temporary(id='${station.id}')}"-->
 
@@ -178,16 +177,16 @@
 <div th:fragment="listcontract">
     <table class="table">
         <thead>
-            <tr>
-                <th scope="col">Стан</th>
-                <th scope="col">Номер угоди</th>
-                <th scope="col">Дата укладання</th>
-                <th scope="col">Дата останньої оплати</th>
-                <th scope="col">Дія</th>
-            </tr>
+        <tr>
+            <th scope="col">Стан</th>
+            <th scope="col">Номер угоди</th>
+            <th scope="col">Дата укладання</th>
+            <th scope="col">Дата останньої оплати</th>
+            <th scope="col">Дія</th>
+        </tr>
         </thead>
-    <tbody>
-        <a href="/user/createcontract" class="btn btn-primary">Створити угоду</a>
+        <tbody>
+        <a class="btn btn-primary" href="/user/createcontract">Створити угоду</a>
         <tr th:each="contract : ${contracts}">
             <td>
                 <span class="fa-stack ">
@@ -198,14 +197,14 @@
             <td><span th:text="${contract.uuid}"></span></td>
             <td><span th:text="${#temporals.format(contract.createDate)}"></span></td>
             <td><span th:text="${#temporals.format(contract.lastPayDate)}"></span></td>
-            <td><a th:href="@{/user/contractedit(id=${contract.id})}" class="btn btn-primary">Редагувати</a></td>
+            <td><a class="btn btn-primary" th:href="@{/user/contractedit(id=${contract.id})}">Редагувати</a></td>
         </tr>
-    </tbody>
-</table>
+        </tbody>
+    </table>
 </div>
 <!--============= Останні операції з контрактами ========================-->
 <div th:fragment="userrecentactions">
-    <div class="card" >
+    <div class="card">
         <div class="card-header"><h3>Останні операції</h3></div>
         <ul class="list-group list-group-flush">
             <li class="list-group-item">An item</li>
@@ -226,7 +225,7 @@
         </tr>
         </thead>
         <tbody>
-        <a href="/user/userloaddocument" class="btn btn-primary">Завантажити</a>
+        <a class="btn btn-primary" href="/user/userloaddocument">Завантажити</a>
         <!--    <tr th:if="${contracts.isEmpty()}">-->
         <!--        <a href="/user/createcontract" class="btn btn-primary">Створити контакт</a>-->
         <!--    </tr>-->
@@ -244,25 +243,25 @@
                         <span th:case="4"> Відхилено</span>
                     </th:block>
                 </span>
-<!--                            <span class="fa-stack ">-->
-<!--                                <i class="fas fa-circle fa-stack-2x text-primary"></i>-->
-<!--                                <i class="fas fa-circle-info fa-stack-1x fa-inverse"></i>-->
-<!--                            </span>-->
+                <!--                            <span class="fa-stack ">-->
+                <!--                                <i class="fas fa-circle fa-stack-2x text-primary"></i>-->
+                <!--                                <i class="fas fa-circle-info fa-stack-1x fa-inverse"></i>-->
+                <!--                            </span>-->
             </td>
             <td><span th:text="${document.documentType}"></span></td>
             <td><span th:text="#temporals.format(document.loadDate)}"></span></td>
-            <td><span><a th:href="@{'/user/documentedit/' + ${document.id}}" >Редагувати</a></span></td>
-<!--            <td><span><a th:href="@{/user/documentedit/{idDocument}(idDocument=${document.id})}" >Редагувати</a></span></td>-->
+            <td><span><a th:href="@{'/user/documentedit/' + ${document.id}}">Редагувати</a></span></td>
+            <!--            <td><span><a th:href="@{/user/documentedit/{idDocument}(idDocument=${document.id})}" >Редагувати</a></span></td>-->
         </tr>
         </tbody>
     </table>
 </div>
 <!--============= Редагування документу ========================-->
 <div th:fragment="editdocument">
-    <form th:action="@{/user/documentedit}"  th:object="${document}" method="post" class="mx-1 mx-md-4">
-        <input type="hidden" name="id" th:value="${document.id}" />
-<!--        <div class="dz-message needsclick">-->
-<!--        <th:block th:switch="${document.status}">-->
+    <form class="mx-1 mx-md-4" method="post" th:action="@{/user/documentedit}" th:object="${document}">
+        <input name="id" th:value="${document.id}" type="hidden"/>
+        <!--        <div class="dz-message needsclick">-->
+        <!--        <th:block th:switch="${document.status}">-->
         <span class="form-label">Статус:
             <th:block th:switch="${status}">
                 <span th:case="0"> Не визначено</span>
@@ -274,14 +273,15 @@
         </span>
         <br>
 
-        <input type="text" id="documentType" name="documentType" th:value="${document.documentType}" class="form-control" />
+        <input class="form-control" id="documentType" name="documentType" th:value="${document.documentType}"
+               type="text"/>
         <label class="form-label" for="documentType">Тип документу</label>
 
-        <input type="text" id="userComment" name="userComment" th:value="${document.userComment}" class="form-control" />
+        <input class="form-control" id="userComment" name="userComment" th:value="${document.userComment}" type="text"/>
         <label class="form-label" for="userComment">Коментар до документу</label>
 
         <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
-            <button type="submit" class="btn btn-primary btn-lg">Записати зміни</button>
+            <button class="btn btn-primary btn-lg" type="submit">Записати зміни</button>
         </div>
 
     </form>

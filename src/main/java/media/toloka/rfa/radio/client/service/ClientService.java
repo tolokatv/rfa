@@ -1,5 +1,6 @@
 package media.toloka.rfa.radio.client.service;
 
+import media.toloka.rfa.radio.client.model.Clientaddress;
 import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.radio.client.repository.ClientAddressRepository;
 import media.toloka.rfa.radio.client.repository.ClientDetailRepository;
@@ -114,6 +115,14 @@ public class ClientService {
 
     public void SaveClientDetail(Clientdetail curuserdetail) {
         clientDetailRepository.save(curuserdetail);
+    }
+
+    public Clientaddress GetAddress(Long id) {
+        return clientAddressRepository.getById(id);
+    }
+
+    public void SaveAddress(Clientaddress fclientaddress) {
+        clientAddressRepository.save(fclientaddress);
     }
 }
 

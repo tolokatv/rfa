@@ -45,16 +45,13 @@ public class NavInterceptor implements HandlerInterceptor {
         if (modelAndView == null) {
             return;
         }
-        // your code
         Clientdetail cd;
         cd = clientService.getClientDetail(clientService.GetCurrentUser());
         if (cd == null) {
-            logger.info("Handle Interseptor cd = null");
             return;
         }
         // додали кількість повідомлень для меню
         // TODO Подивитися чому ми викликаємо цю процедуру декілька разів.
-//        return;
         ModelMap mm = modelAndView.getModelMap();
         int newmessage = messageService.GetQuantityNewMessage(cd);
         if ( newmessage > 0 ) {
