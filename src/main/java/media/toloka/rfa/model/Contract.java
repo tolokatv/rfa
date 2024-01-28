@@ -10,11 +10,10 @@ import media.toloka.rfa.security.model.Users;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static media.toloka.rfa.radio.contract.model.EContractStatus.CONTRACT_FREE;
+import static media.toloka.rfa.model.enumerate.EContractStatus.CONTRACT_FREE;
 
 @Data
 @Entity
@@ -37,8 +36,8 @@ public class Contract {
     private Clientdetail clientdetail;
 
 //    @Expose
-    @OneToMany
-    private transient List<Station> stationList;
+//    @OneToMany
+//    private transient List<Station> stationList;
 
     //    @ElementCollection
 //    @OneToMany(cascade = CascadeType.ALL)

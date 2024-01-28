@@ -2,11 +2,8 @@ package media.toloka.rfa.radio.document.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import media.toloka.rfa.radio.client.model.Clientdetail;
-import media.toloka.rfa.security.model.Users;
+import media.toloka.rfa.model.enumerate.EDocumentStatus;
 
-
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
