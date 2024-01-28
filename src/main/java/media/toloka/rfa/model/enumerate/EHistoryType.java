@@ -1,4 +1,4 @@
-package media.toloka.rfa.radio.history.model;
+package media.toloka.rfa.model.enumerate;
 
 public enum EHistoryType {
     History_UserChangeConfirmInfo("UserChangeConfirmInfo"),

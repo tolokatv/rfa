@@ -1,4 +1,4 @@
-package media.toloka.rfa.radio.email.model;
+package media.toloka.rfa.model;
 
 
 import lombok.Getter;

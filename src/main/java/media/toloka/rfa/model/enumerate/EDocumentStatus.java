@@ -1,4 +1,4 @@
-package media.toloka.rfa.radio.document.model;
+package media.toloka.rfa.model.enumerate;
 
 public enum EDocumentStatus {
 

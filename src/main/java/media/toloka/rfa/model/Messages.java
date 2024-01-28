@@ -1,12 +1,10 @@
-package media.toloka.rfa.radio.message.model;
+package media.toloka.rfa.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import media.toloka.rfa.radio.client.model.Clientdetail;
-import media.toloka.rfa.security.model.Users;
+import media.toloka.rfa.model.Clientdetail;
 
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -24,6 +22,8 @@ public class Messages {
     private boolean reading;
     private Date send;
     private Date read;
-    @Column(columnDefinition="TEXT")
-    private  String body;
+    @Column(columnDefinition = "TEXT")
+    private String body;
+    @ManyToOne
+    private Rooms room;
 }

@@ -197,8 +197,10 @@
             </td>
             <td><span th:text="${contract.contractname}"></span></td>
             <td><span th:text="${contract.uuid}"></span></td>
-            <td><span th:text="${#temporals.format(contract.createDate)}"></span></td>
-            <td><span th:text="${#temporals.format(contract.lastPayDate)}"></span></td>
+            <td><span th:text="${contract.createDate}"></span></td>
+            <td><span th:text="${contract.lastPayDate}"></span></td>
+<!--            <td><span th:text="${#temporals.format(contract.createDate)}"></span></td>-->
+<!--            <td><span th:text="${#temporals.format(contract.lastPayDate)}"></span></td>-->
             <td><a class="btn btn-primary" th:href="@{/user/contractedit(id=${contract.id})}">Редагувати</a></td>
         </tr>
         </tbody>

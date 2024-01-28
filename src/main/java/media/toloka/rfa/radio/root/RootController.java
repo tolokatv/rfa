@@ -2,7 +2,7 @@ package media.toloka.rfa.radio.root;
 
 //import media.toloka.rfa.radio.model.MessageFromSite;
 //import media.toloka.rfa.service.ServiceMessageFromSite;
-import media.toloka.rfa.radio.root.model.MessageFromSite;
+import media.toloka.rfa.model.MessageFromSite;
 import media.toloka.rfa.radio.root.service.ServiceMessageFromSite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,11 +11,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
 //import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Controller

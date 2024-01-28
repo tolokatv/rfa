@@ -1,7 +1,7 @@
 package media.toloka.rfa.config;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import media.toloka.rfa.radio.client.model.Clientdetail;
+import media.toloka.rfa.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.message.service.MessageService;
 import org.slf4j.Logger;
@@ -46,7 +46,7 @@ public class NavInterceptor implements HandlerInterceptor {
             return;
         }
         Clientdetail cd;
-        cd = clientService.getClientDetail(clientService.GetCurrentUser());
+        cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
         if (cd == null) {
             return;
         }

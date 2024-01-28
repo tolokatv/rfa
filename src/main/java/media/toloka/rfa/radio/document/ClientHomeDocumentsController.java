@@ -2,14 +2,13 @@ package media.toloka.rfa.radio.document;
 
 import lombok.extern.slf4j.Slf4j;
 
-import media.toloka.rfa.radio.client.model.Clientdetail;
+import media.toloka.rfa.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
-import media.toloka.rfa.radio.document.model.Documents;
+import media.toloka.rfa.model.Documents;
 import media.toloka.rfa.radio.document.service.DocumentService;
 import media.toloka.rfa.security.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -37,7 +36,7 @@ public class ClientHomeDocumentsController {
         if (user == null) {
             return "redirect:/";
         }
-        Clientdetail cd = clientService.getClientDetail(user);
+        Clientdetail cd = clientService.GetClientDetailByUser(user);
         // дивимося його групи
         // відповідним чином виводимо пункти меню
         // Заповнюємо поля для форми

@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import media.toloka.rfa.config.gson.service.GsonService;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.email.service.EmailSenderService;
-import media.toloka.rfa.radio.station.model.Station;
+import media.toloka.rfa.model.Station;
 import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.rpc.model.RPCJob;
 import org.slf4j.Logger;

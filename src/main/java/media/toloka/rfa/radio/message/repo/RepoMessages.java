@@ -1,7 +1,7 @@
 package media.toloka.rfa.radio.message.repo;
 
-import media.toloka.rfa.radio.client.model.Clientdetail;
-import media.toloka.rfa.radio.message.model.Messages;
+import media.toloka.rfa.model.Clientdetail;
+import media.toloka.rfa.model.Messages;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;

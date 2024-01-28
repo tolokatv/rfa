@@ -1,4 +1,4 @@
-package media.toloka.rfa.radio.station.model;
+package media.toloka.rfa.model.enumerate;
 
 public enum EServerState {
 

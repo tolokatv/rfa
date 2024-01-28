@@ -1,9 +1,9 @@
 package media.toloka.rfa.radio.message;
 
 
-import media.toloka.rfa.radio.client.model.Clientdetail;
+import media.toloka.rfa.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
-import media.toloka.rfa.radio.message.model.Messages;
+import media.toloka.rfa.model.Messages;
 import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
@@ -40,13 +40,14 @@ public class MessageController {
             return "redirect:/";
         }
         // ====================== Готуємо інформацію для сторінки
-        model.addAttribute("currentUserID", clientService.getClientDetail(clientService.GetCurrentUser()).getId());
-        List<Messages> listAllMessage = messageService.GetMessagesDesc(clientService.getClientDetail(clientService.GetCurrentUser()));
-        List<Messages> listNewMessages = messageService.GetNewMessages(clientService.getClientDetail(clientService.GetCurrentUser()));
+        Clientdetail clientdetail = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
+        model.addAttribute("currentUserID", clientdetail.getId());
+        List<Messages> listAllMessage = messageService.GetMessagesDesc(clientdetail);
+        List<Messages> listNewMessages = messageService.GetNewMessages(clientdetail);
         model.addAttribute("listAllMessage",  listAllMessage);
         model.addAttribute("rd",  listAllMessage.size());
         model.addAttribute("nrd",  listNewMessages.size());
-        messageService.SetReadingAllMessages(clientService.getClientDetail(clientService.GetCurrentUser()));
+        messageService.SetReadingAllMessages(clientdetail);
         model.addAttribute("message", new Messages());
         return "/communication/usermessage";
     }
@@ -58,7 +59,7 @@ public class MessageController {
     ) {
         // TODO у майбутньому потрібно забезпечити надсилання повідомлень не тільки в підтримку.
         Users user = clientService.GetCurrentUser();
-        Clientdetail cd = clientService.getClientDetail(user);
+        Clientdetail cd = clientService.GetClientDetailByUser(user);
         messageService.SendMessageToUser(cd, null, message.getBody());
         model.addAttribute("rd",  messageService.GetMessages(cd).size());
         model.addAttribute("nrd",  messageService.GetNewMessages(cd).size());

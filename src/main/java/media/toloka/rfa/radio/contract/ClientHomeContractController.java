@@ -3,9 +3,9 @@ package media.toloka.rfa.radio.contract;
 // створення, оплата, закриття, пауза, зняття з паузи.
 
 import lombok.extern.slf4j.Slf4j;
-import media.toloka.rfa.radio.client.model.Clientdetail;
-import media.toloka.rfa.radio.contract.model.Contract;
-import media.toloka.rfa.radio.contract.model.EContractStatus;
+import media.toloka.rfa.model.Clientdetail;
+import media.toloka.rfa.model.Contract;
+import media.toloka.rfa.model.enumerate.EContractStatus;
 import media.toloka.rfa.radio.contract.service.ContractService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.security.model.Users;
@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static media.toloka.rfa.radio.contract.model.EContractStatus.CONTRACT_FREE;
-import static media.toloka.rfa.radio.contract.model.EContractStatus.CONTRACT_PAY;
-import static media.toloka.rfa.radio.history.model.EHistoryType.History_UserCreateContract;
+import static media.toloka.rfa.model.enumerate.EContractStatus.CONTRACT_FREE;
+import static media.toloka.rfa.model.enumerate.EContractStatus.CONTRACT_PAY;
+import static media.toloka.rfa.model.enumerate.EHistoryType.History_UserCreateContract;
 
 
 @Slf4j
@@ -39,8 +39,6 @@ public class ClientHomeContractController {
     @Autowired
     private ContractService contractService;
 
-//    @Autowired
-//    private IUserService iuserService;
 
     final Logger logger = LoggerFactory.getLogger(ClientHomeContractController.class);
 
@@ -139,7 +137,7 @@ public class ClientHomeContractController {
         Contract ncontract = new Contract();
         ncontract.setContractStatus(CONTRACT_FREE);
         ncontract.setNumber( UUID.randomUUID().toString());
-        ncontract.setClientdetail(clientService.getClientDetail(clientService.GetCurrentUser()));
+        ncontract.setClientdetail(clientService.GetClientDetailByUser(clientService.GetCurrentUser()));
         model.addAttribute("contract",  ncontract);
         return "/user/createcontract";
     }
@@ -160,12 +158,12 @@ public class ClientHomeContractController {
 //        ncontract.setUuid(ncontract.getNumber());
 //        ncontract.setCreateDate(LocalDateTime.now());
         ncontract.setLastPayDate(null);
-        ncontract.setClientdetail(clientService.getClientDetail(clientService.GetCurrentUser()));
+        ncontract.setClientdetail(clientService.GetClientDetailByUser(clientService.GetCurrentUser()));
         ncontract.setUsercomment(contract.getUsercomment());
         ncontract.setContractname(contract.getContractname());
         contractService.saveContract(ncontract);
-        Clientdetail cl = clientService.getClientDetail(user);
-        cl.getContractList().add(ncontract);
+        Clientdetail cl = clientService.GetClientDetailByUser(user);
+//        cl.getContractList().add(ncontract);
         clientService.SaveClientDetail(cl);
         historyService.saveHistory(History_UserCreateContract, " Новий контракт: "+ncontract.getNumber().toString(), user);
 

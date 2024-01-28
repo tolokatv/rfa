@@ -1,13 +1,12 @@
 package media.toloka.rfa.rpc.service;
 
 import com.google.gson.Gson;
-import media.toloka.rfa.rpc.model.ERPCJobType;
 import media.toloka.rfa.service.RfaService;
 import media.toloka.rfa.config.gson.service.GsonService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.message.service.MessageService;
-import media.toloka.rfa.radio.station.model.EServerPortType;
-import media.toloka.rfa.radio.station.model.Station;
+import media.toloka.rfa.model.enumerate.EServerPortType;
+import media.toloka.rfa.model.Station;
 import media.toloka.rfa.radio.station.service.PoolPortsService;
 import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.rpc.model.RPCJob;
@@ -19,11 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Queue;
-
-import static media.toloka.rfa.radio.history.model.EHistoryType.History_StatiionCreate;
-import static media.toloka.rfa.rpc.model.ERPCJobType.JOB_STATION_START;
+import static media.toloka.rfa.model.enumerate.EHistoryType.History_StatiionCreate;
 
 @Service
 public class RPCService {

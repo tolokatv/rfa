@@ -1,11 +1,9 @@
-package media.toloka.rfa.radio.station.model;
+package media.toloka.rfa.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import media.toloka.rfa.radio.client.model.Clientdetail;
-import media.toloka.rfa.radio.contract.model.Contract;
+import media.toloka.rfa.model.enumerate.EServerState;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -35,11 +33,9 @@ public class Station {
     private String icecastdescription;
     private String icecastsite;
     private String icecastgenre;
-
-    @ManyToOne(cascade = CascadeType.ALL)
     private transient Contract contract;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+//    @ManyToOne(cascade = CascadeType.ALL)
     private Clientdetail clientdetail;
 
     @OneToMany

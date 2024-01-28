@@ -1,4 +1,4 @@
-package media.toloka.rfa.radio.contract.model;
+package media.toloka.rfa.model.enumerate;
 
 public enum EContractStatus {
 // TODO винести низву типу контракту до application.property

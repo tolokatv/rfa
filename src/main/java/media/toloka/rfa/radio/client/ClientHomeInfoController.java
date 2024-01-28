@@ -2,8 +2,8 @@ package media.toloka.rfa.radio.client;
 
 import lombok.extern.slf4j.Slf4j;
 
-import media.toloka.rfa.radio.client.model.Clientaddress;
-import media.toloka.rfa.radio.client.model.Clientdetail;
+import media.toloka.rfa.model.Clientaddress;
+import media.toloka.rfa.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.security.model.Users;
@@ -16,14 +16,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import static com.fasterxml.jackson.databind.type.LogicalType.DateTime;
-import static media.toloka.rfa.radio.history.model.EHistoryType.History_UserChangeConfirmInfo;
-import static media.toloka.rfa.radio.history.model.EHistoryType.History_UserInfoSave;
+import static media.toloka.rfa.model.enumerate.EHistoryType.History_UserChangeConfirmInfo;
+import static media.toloka.rfa.model.enumerate.EHistoryType.History_UserInfoSave;
 
 @Slf4j
 @Controller
@@ -43,8 +40,8 @@ public class ClientHomeInfoController {
     public String getUserHomeInfo(
 //            @ModelAttribute User user,
             Model model ) {
-        Users frmuser = clientService.GetCurrentUser();
-        if (frmuser == null) {
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
             return "redirect:/";
         }
         // Витягуєм користувача
@@ -52,30 +49,30 @@ public class ClientHomeInfoController {
         // дивимося його групи
         // відповідним чином виводимо пункти меню
         // Заповнюємо поля для форми
-        Clientdetail userdetail = clientService.getClientDetail(frmuser);
-        if ( userdetail == null) {
-            logger.info("Додаємо UserDetail та UserAddress до структури користувача.");
-            userdetail = new Clientdetail();
-            userdetail.setClientaddressList(new ArrayList<Clientaddress>());
-            userdetail.getClientaddressList().add(new Clientaddress());
+        Clientdetail clientdetail = clientService.GetClientDetailByUser(user);
+        if ( clientdetail == null) {
+//            logger.info("Додаємо UserDetail та UserAddress до структури користувача.");
+            clientdetail = new Clientdetail();
+//            logger.info("Додали UserDetail та UserAddress до структури користувача. Заповнюємо атрибут форми");
         }
-        logger.info("Додали UserDetail та UserAddress до структури користувача. Заповнюємо атрибут форми");
-        if (userdetail.getConfirminfo() == null) {
-            userdetail.setConfirminfo(false);
+
+        if (clientdetail.getConfirminfo() == null) {
+            clientdetail.setConfirminfo(false);
         }
-        List<Clientaddress> clientaddresses = userdetail.getClientaddressList();
-        model.addAttribute("userdetail", userdetail );
-        model.addAttribute("clientaddresses", clientaddresses );
+
+        List<Clientaddress> clientaddresslist = clientService.GetAddressList(clientdetail);
+        model.addAttribute("clientdetail", clientdetail );
+        model.addAttribute("clientaddresses", clientaddresslist );
         return "/user/usereditinfo";
     }
 
     @PostMapping(value = "/user/infosave")
     public String postuserHomeInfo(
             @ModelAttribute Clientdetail fuserdetail,
-//            @ModelAttribute Clientaddress faddress,
             Model model ) {
         // Витягуєм користувача
-        Clientdetail curuserdetail = clientService.getClientDetailById(fuserdetail.getId());
+//        Clientdetail curuserdetail = clientService.GetClientDetailByUser(fuserdetail);
+        Clientdetail curuserdetail = clientService.GetClientDetailById(fuserdetail.getId());
         if (curuserdetail == null) {
 //            logger.info("Додаємо UserDetail та UserAddress до структури користувача.");
             curuserdetail = new Clientdetail();
@@ -86,75 +83,15 @@ public class ClientHomeInfoController {
                 fuserdetail.getComments()
         );
 
-        /*
-
-        curuserdetail.getAdresses().setFirmname(
-                fuserdetail .getAdresses().getFirmname()
-        );
-        curuserdetail.getAdresses().setStreet(
-                fuserdetail.getAdresses().getStreet()
-        );
-        curuserdetail.getAdresses().setBuildnumber( // коментарій до інформації про адресу
-                fuserdetail.getAdresses().getBuildnumber()
-        );
-        curuserdetail.getAdresses().setKorpus( // коментарій до інформації про адресу
-               fuserdetail.getAdresses().getKorpus()
-        );
-        curuserdetail.getAdresses().setAppartment( // коментарій до інформації про адресу
-                fuserdetail.getAdresses().getAppartment()
-        );
-        curuserdetail.getAdresses().setCityname( // коментарій до інформації про адресу
-                fuserdetail.getAdresses().getCityname()
-        );
-        curuserdetail.getAdresses().setArea( // коментарій до інформації про адресу
-                fuserdetail.getAdresses().getArea()
-        );
-        curuserdetail.getAdresses().setRegion( // коментарій до інформації про адресу
-                fuserdetail.getAdresses().getRegion()
-        );
-        curuserdetail.getAdresses().setCountry( // коментарій до інформації про адресу
-                fuserdetail.getAdresses().getCountry()
-        );
-        curuserdetail.getAdresses().setZip( // коментарій до інформації про адресу
-                fuserdetail.getAdresses().getZip()
-        );
-        curuserdetail.getAdresses().setPhone( // коментарій до інформації про адресу
-                fuserdetail.getAdresses().getPhone()
-        );
-        curuserdetail.getAdresses().setComment( // коментарій до інформації про адресу
-                fuserdetail.getAdresses().getComment()
-        );
-
-        curuserdetail.setComments( // коментарій до інформації про користувача
-                fuserdetail.getComments()
-        );
-
-        */
-
-//        getUser.getUserDetail().getAdresses().setUser( // коментарій до інформації про адресу
-//                userform.getUserDetail().getAdresses().getUser()
-//        );
-//        getUser.getUserDetail().setUser( // коментарій до інформації про адресу
-//                userform.getUserDetail().іуеUser(user)
-//        );
-        // тестуємо
-//        Boolean b1 = getUsers.getUserDetail().getAdresses().getConfirminfo();
-//        Boolean b2 = userform.getUserDetail().getAdresses().getConfirminfo();
         if (curuserdetail.getConfirminfo() != fuserdetail.getConfirminfo()) {
             curuserdetail.setConfirminfo(
                     fuserdetail.getConfirminfo()
             ) ;
-            // Зберігаємо історію
-            historyService.saveHistory( History_UserChangeConfirmInfo, curuserdetail.getConfirminfo().toString(), curuserdetail.getUser() );
+            historyService.saveHistory( History_UserChangeConfirmInfo, curuserdetail.getConfirminfo().toString(), clientService.GetUserById(curuserdetail.getUser()) );
             curuserdetail.setConfirmDate(new Date());
         }
-/*
-
-        // Зберігаємо інформацію про користувача
-*/
         clientService.SaveClientDetail(curuserdetail);
-        historyService.saveHistory( History_UserInfoSave, "UserInfoSave", curuserdetail.getUser() );
-
+        historyService.saveHistory( History_UserInfoSave, "UserInfoSave", clientService.GetUserById(curuserdetail.getUser()) );
         return "redirect:/user/user_page";
     }
 

@@ -6,15 +6,13 @@ package media.toloka.rfa.radio.login;
 //import jakarta.mail.MessagingException;
 import lombok.Getter;
 import lombok.Setter;
-import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
-import media.toloka.rfa.radio.email.model.Mail;
+import media.toloka.rfa.model.Mail;
 import media.toloka.rfa.radio.email.service.EmailSenderService;
 import media.toloka.rfa.radio.history.service.HistoryService;
-import media.toloka.rfa.radio.login.model.Token;
+import media.toloka.rfa.model.Token;
 import media.toloka.rfa.radio.login.service.TokenService;
 import media.toloka.rfa.radio.root.RootController;
-import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.security.model.Roles;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
@@ -33,7 +31,7 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.util.*;
 
-import static media.toloka.rfa.radio.history.model.EHistoryType.*;
+import static media.toloka.rfa.model.enumerate.EHistoryType.*;
 import static media.toloka.rfa.security.model.ERole.*;
 
 //import static media.toloka.rfa.radio.model.EHistoryType.*;
@@ -120,7 +118,8 @@ public class UserLoginController {
 //        String frmgrp = userDTO.getEmail();
         // намагаємося знайти пошту в базі
 //        Optional<Users> opt = clientService.findUserByEmail(email);
-        Users newUser = clientService.getByEmail(email);
+        Users newUser = clientService.GetUserByEmail(email);
+
         // перевіряємо, чи є цей емайл в базі
 //        if (opt.isEmpty()) {
         if (newUser == null) {
@@ -147,7 +146,7 @@ public class UserLoginController {
             // зберігаємо користувача в базу
             newUser.setPassword("*");
             newUser.setEmail(formuser.getEmail());
-            clientService.saveUser(newUser);
+            clientService.SaveUser(newUser);
 
             clientService.CreateClientsDetail(newUser,formuser.getCustname(),formuser.getCustsurname());
             String token = UUID.randomUUID().toString();
@@ -214,7 +213,7 @@ public class UserLoginController {
         // Забираємо з форми email користувача
         String email = userDTO.getEmail();
         // намагаємося знайти пошту в базі кристувачів
-        Users  user = clientService.getByEmail(email);
+        Users  user = clientService.GetUserByEmail(email);
         // перевіряємо, чи є цей емайл в базі
         if (user != null) {  // користувач є в базі
             // формуємо токен та зберігаємо в базу
@@ -293,7 +292,7 @@ public class UserLoginController {
             Users myuser = myToken.getUser();
             // TODO перевірити чи не залочено користувача
             myuser.setPassword(passwordEncoder.encode(psw));
-            clientService.saveUser(myuser);
+            clientService.SaveUser(myuser);
             historyService.saveHistory(History_UserSetPassword, "Встановили новий пароль", myuser);
             serviceToken.delete(myToken);
         } else {
@@ -314,7 +313,7 @@ public class UserLoginController {
             @ModelAttribute Users user,
             Model model
     ) { // тут напевно робота з поштою
-        clientService.saveUser(user);
+        clientService.SaveUser(user);
 //        Long id = clientService.getByEmail(user.getEmail()).getId();
 //        String message = "Користувача '" + clientService.getByEmail(user.getEmail()).getEmail() + "' збережено!";
         String message = "Користувача '" + user.getEmail() + "' збережено!";

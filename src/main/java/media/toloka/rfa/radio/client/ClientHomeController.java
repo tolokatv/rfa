@@ -43,9 +43,10 @@ public class ClientHomeController {
         Authentication au;
         au = SecurityContextHolder.getContext().getAuthentication();
 //        Optional<Users> opt = ClientService.getByEmail(au.getName());
-        Users user = clientService.getByEmail(au.getName());
+//        Users user = clientService.getByEmail(au.getName());
         // Якщо не залогінені, то переходимо на головну.
 //        if (opt.isEmpty()) {
+        Users user = clientService.GetCurrentUser();
         if (user == null) {
             return "redirect:/";
         }

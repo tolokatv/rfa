@@ -4,12 +4,12 @@ package media.toloka.rfa.radio.station;
 import com.google.gson.Gson;
 import lombok.Data;
 import media.toloka.rfa.config.gson.service.GsonService;
-import media.toloka.rfa.radio.client.model.Clientdetail;
+import media.toloka.rfa.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.contract.service.ContractService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.message.service.MessageService;
-import media.toloka.rfa.radio.station.model.Station;
+import media.toloka.rfa.model.Station;
 import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.rpc.model.RPCJob;
 import media.toloka.rfa.security.model.Users;
@@ -25,11 +25,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
-import static media.toloka.rfa.radio.history.model.EHistoryType.History_StatiionChange;
-import static media.toloka.rfa.radio.history.model.EHistoryType.History_StatiionCreate;
+import static media.toloka.rfa.model.enumerate.EHistoryType.History_StatiionChange;
+import static media.toloka.rfa.model.enumerate.EHistoryType.History_StatiionCreate;
 import static media.toloka.rfa.rpc.model.ERPCJobType.*;
 
 @Controller
@@ -89,7 +88,7 @@ public class ClientHomeStationController {
 
 //        logger.info("Create New station.");
         Users user = clientService.GetCurrentUser();
-        Clientdetail clientdetail = clientService.getClientDetail(user);
+        Clientdetail clientdetail = clientService.GetClientDetailByUser(user);
         if (user == null) {
 //            logger.warn("User not found. Redirect to main page");
             return "/user/createstation";
@@ -120,8 +119,8 @@ public class ClientHomeStationController {
         }
         historyService.saveHistory(History_StatiionCreate, " Нова станція: "
                         +station.getUuid()
-                        +"для користувача " + clientdetail.getUser().getEmail(),
-                clientdetail.getUser());
+                        +"для користувача " + clientService.GetUserById(clientdetail.getUser()).getEmail(),
+                clientService.GetUserById(  clientdetail.getUser()));
         RPCJob rjob = new RPCJob();
         rjob.getJobchain().add(JOB_STATION_CREATE);
         rjob.getJobchain().add(JOB_STATION_ALLOCATE);

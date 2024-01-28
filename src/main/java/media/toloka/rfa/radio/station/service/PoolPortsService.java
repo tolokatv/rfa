@@ -1,9 +1,9 @@
 package media.toloka.rfa.radio.station.service;
 
 
-import media.toloka.rfa.radio.station.model.EServerPortType;
-import media.toloka.rfa.radio.station.model.Poolport;
-import media.toloka.rfa.radio.station.model.Station;
+import media.toloka.rfa.model.enumerate.EServerPortType;
+import media.toloka.rfa.model.Poolport;
+import media.toloka.rfa.model.Station;
 import media.toloka.rfa.radio.station.repo.PoolPortRepo;
 import media.toloka.rfa.radio.station.repo.StationRepo;
 import media.toloka.rfa.security.model.Users;
@@ -13,7 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import static media.toloka.rfa.radio.station.model.EServerPortType.PORT_FREE;
+import static media.toloka.rfa.model.enumerate.EServerPortType.PORT_FREE;
 
 
 // сервіс, який обслуговує пулл портів для радіостанцій

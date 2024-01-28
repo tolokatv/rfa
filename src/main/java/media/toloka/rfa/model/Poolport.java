@@ -1,7 +1,8 @@
-package media.toloka.rfa.radio.station.model;
+package media.toloka.rfa.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import media.toloka.rfa.model.enumerate.EServerPortType;
 
 
 @Data

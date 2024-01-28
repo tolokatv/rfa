@@ -1,7 +1,7 @@
 package media.toloka.rfa.radio.login.repo;
 
 
-import media.toloka.rfa.radio.login.model.Token;
+import media.toloka.rfa.model.Token;
 import media.toloka.rfa.security.model.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 

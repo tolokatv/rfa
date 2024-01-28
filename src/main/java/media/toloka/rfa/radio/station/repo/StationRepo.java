@@ -1,9 +1,8 @@
 package media.toloka.rfa.radio.station.repo;
 
 
-import media.toloka.rfa.radio.client.model.Clientdetail;
-import media.toloka.rfa.radio.station.model.Station;
-import media.toloka.rfa.security.model.Users;
+import media.toloka.rfa.model.Clientdetail;
+import media.toloka.rfa.model.Station;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

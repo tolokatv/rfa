@@ -2,11 +2,8 @@ package media.toloka.rfa.security.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import media.toloka.rfa.radio.client.model.Clientdetail;
 
 import java.util.List;
-//import jakarta.persistence.*;
-//import lombok.Data;
 
 
 @Data

@@ -1,7 +1,7 @@
 package media.toloka.rfa.radio.client;
 
-import media.toloka.rfa.radio.client.model.Clientaddress;
-import media.toloka.rfa.radio.client.model.Clientdetail;
+import media.toloka.rfa.model.Clientaddress;
+import media.toloka.rfa.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.security.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,17 +50,17 @@ public class ClientAddressEditController {
             return "redirect:/";
         }
 
-        Clientdetail cd = clientService.getClientDetail(clientService.GetCurrentUser());
+        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
         if (fclientaddress.getId() == null) {
             fclientaddress.setClientdetail(cd);
             clientService.SaveAddress(fclientaddress);
-            cd.getClientaddressList().add(fclientaddress);
+            clientService.GetAddressList(cd).add(fclientaddress);
             clientService.SaveClientDetail(cd);
         } else {
             clientService.SaveAddress(fclientaddress);
         }
 
-        List<Clientaddress> clientaddresslist = clientService.getClientDetail(clientService.GetCurrentUser()).getClientaddressList();
+        List<Clientaddress> clientaddresslist = clientService.GetAddressList(cd);
         model.addAttribute("clientaddresses", clientaddresslist );
         return "redirect:/user/usereditinfo";
     }
