@@ -20,20 +20,13 @@ public class Token {
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column
     private Long id;
-
-//    @Column
-//    private String name;
-
     @Column
     private String token;
-
     @OneToOne(targetEntity = Users.class, fetch = FetchType.EAGER)
 //    @JoinColumn(nullable = false, name = "id")
     private Users user;
-
     @Column
     private Date expiryDate = calculateExpiryDate(EXPIRATION);
-
     public Date calculateExpiryDate(int expiryTimeInMinutes) {
         Calendar cal = Calendar.getInstance();
         cal.setTime(new Timestamp(cal.getTime().getTime()));
@@ -41,8 +34,4 @@ public class Token {
 //        cal.add(Calendar.HOUR, expiryTimeInMinutes);
         return new Date(cal.getTime().getTime());
     }
-
-    // ===================================
-
-
 }

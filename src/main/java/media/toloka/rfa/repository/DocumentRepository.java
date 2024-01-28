@@ -1,4 +1,4 @@
-package media.toloka.rfa.radio.document.repo;
+package media.toloka.rfa.repository;
 
 
 
@@ -13,6 +13,6 @@ public interface DocumentRepository extends JpaRepository<Documents, Long> {
 
     List<Documents> findByClientdetail(Clientdetail clientdetail);
 
-    Documents findDocumentById(Long id);
+    Documents getById(Long id);
 
 }

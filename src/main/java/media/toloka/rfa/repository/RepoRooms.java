@@ -1,4 +1,4 @@
-package media.toloka.rfa.radio.message.repo;
+package media.toloka.rfa.repository;
 
 import media.toloka.rfa.model.Rooms;
 import org.springframework.data.jpa.repository.JpaRepository;

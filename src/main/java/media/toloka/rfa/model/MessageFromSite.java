@@ -9,7 +9,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name="site_message")
+@Table(name="rootsitemessage")
 public class MessageFromSite {
 
 // приймаємо повідомлення з форми на сайті

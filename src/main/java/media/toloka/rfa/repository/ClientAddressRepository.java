@@ -1,4 +1,4 @@
-package media.toloka.rfa.radio.client.repository;
+package media.toloka.rfa.repository;
 
 
 import media.toloka.rfa.model.Clientaddress;

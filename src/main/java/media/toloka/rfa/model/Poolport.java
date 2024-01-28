@@ -15,7 +15,7 @@ public class Poolport {
     private Integer port;
     private EServerPortType porttype;
 
-    @ManyToOne
+//    @ManyToOne
     private Station station;
 }
 

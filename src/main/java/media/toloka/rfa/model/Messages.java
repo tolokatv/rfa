@@ -15,15 +15,15 @@ public class Messages {
     @GeneratedValue
     @Column
     private Long id;
-    @ManyToOne
+//    @ManyToOne
     private Clientdetail from; // from user
-    @ManyToOne
+//    @ManyToOne
     private Clientdetail tom; // to user
     private boolean reading;
     private Date send;
     private Date read;
     @Column(columnDefinition = "TEXT")
     private String body;
-    @ManyToOne
+//    @ManyToOne
     private Rooms room;
 }

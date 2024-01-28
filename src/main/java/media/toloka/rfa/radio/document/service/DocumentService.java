@@ -4,7 +4,7 @@ import media.toloka.rfa.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.model.Documents;
 import media.toloka.rfa.model.enumerate.EDocumentStatus;
-import media.toloka.rfa.radio.document.repo.DocumentRepository;
+import media.toloka.rfa.repository.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

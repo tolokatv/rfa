@@ -23,7 +23,7 @@ public class Documents {
     @Column(columnDefinition="TEXT")
     private String adminComment;
 //    @ElementCollection
-    @ManyToOne(cascade = CascadeType.ALL)
+//    @ManyToOne(cascade = CascadeType.ALL)
     private Clientdetail clientdetail;
 
     public Documents() {

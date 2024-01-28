@@ -31,7 +31,7 @@ public class Contract {
     private String contractname;
     private String usercomment;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+//    @ManyToOne(cascade = CascadeType.ALL)
     private Clientdetail clientdetail;
 
 //    @Expose

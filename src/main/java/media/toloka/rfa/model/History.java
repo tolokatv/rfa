@@ -22,7 +22,7 @@ public class History {
     private String          action;
     private String          comment;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+//    @ManyToOne(cascade = CascadeType.ALL)
     private Clientdetail clientdetail;
 
     public History() {

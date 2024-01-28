@@ -10,7 +10,7 @@ import media.toloka.rfa.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 
 import media.toloka.rfa.model.Station;
-import media.toloka.rfa.radio.station.repo.StationRepo;
+import media.toloka.rfa.repository.StationRepo;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

@@ -1,4 +1,4 @@
-package media.toloka.rfa.radio.history.repository;
+package media.toloka.rfa.repository;
 
 import media.toloka.rfa.model.History;
 import org.springframework.data.jpa.repository.JpaRepository;

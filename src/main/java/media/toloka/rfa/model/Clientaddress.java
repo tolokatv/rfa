@@ -28,7 +28,7 @@ public class Clientaddress {
     private String comment;
     private boolean mainaddress;
     private boolean cheked;
-    @ManyToOne(cascade = CascadeType.ALL)
+//    @ManyToOne(cascade = CascadeType.ALL)
     private Clientdetail clientdetail;
 
 }

@@ -1,4 +1,4 @@
-package media.toloka.rfa.radio.message.repo;
+package media.toloka.rfa.repository;
 
 import media.toloka.rfa.model.Clientdetail;
 import media.toloka.rfa.model.Messages;

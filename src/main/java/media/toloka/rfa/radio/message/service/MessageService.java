@@ -1,10 +1,10 @@
 package media.toloka.rfa.radio.message.service;
 
 import media.toloka.rfa.model.Clientdetail;
-import media.toloka.rfa.radio.history.repository.RepoHistory;
+import media.toloka.rfa.repository.RepoHistory;
 import media.toloka.rfa.model.Messages;
-import media.toloka.rfa.radio.message.repo.RepoMessages;
-import media.toloka.rfa.radio.message.repo.RepoRooms;
+import media.toloka.rfa.repository.RepoMessages;
+import media.toloka.rfa.repository.RepoRooms;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
