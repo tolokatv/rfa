@@ -11,6 +11,7 @@ import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Contract;
 import media.toloka.rfa.radio.model.Station;
+import media.toloka.rfa.radio.model.enumerate.EContractStatus;
 import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.rpc.model.RPCJob;
 import media.toloka.rfa.security.model.Users;
@@ -258,7 +259,7 @@ public class ClientHomeStationController {
             model.addAttribute("success", "Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail() + " Перевірте, чи приєднана вона до контракту.");
             return "redirect:/user/stations";
         }
-        if (station.getContract().getClientdetail().getAccount() < 0 ) {
+        if ((station.getContract().getClientdetail().getAccount() < 0 ) && (station.getContract().getContractStatus() == EContractStatus.CONTRACT_PAY)) {
             // todo перевірити гроші на рахунку і проплачений термін
             logger.info("Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail() + " Перевірте, чи достатньо коштів на рахунку");
             model.addAttribute("success", "Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail() + " Перевірте, чи достатньо коштів на рахунку");
