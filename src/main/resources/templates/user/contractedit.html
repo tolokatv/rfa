@@ -41,7 +41,7 @@
                         <div class="form-group form-group-textarea mb-md-0">
                             <input type="hidden" name="id" th:value="${contract.id}" />
                             <div>
-                                <b>Номер контракту: </b><span th:text="${number}" ></span>
+                                <b>Номер контракту: </b><span th:text="*{number}" ></span>
                             </div>
                             <div>
                                 <input th:field="*{contractname}" type="text"  class="form-control"  />
@@ -55,6 +55,53 @@
                                     <option th:each="option : ${options}" th:value="${option}" th:text="${option.label}"></option>
                                 </select>
                             </div>
+                            <div>
+                                Станції в Контракті
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Дії</th>
+                                        <th scope="col">Імʼя станції</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="station : ${stationContractList}">
+                                        <td>
+                                            <span th:text="${station.name}" />
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary" th:href="@{/user/delstationfromcontract(id=${station.id}, cnt=${contract.id})}">Видалити з контракту</a>
+                                        </td>
+                                        <!--                <a th:href="@{/user/temporary(id='${station.id}')}"-->
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div>
+                                Станції без контракту.
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+                                        <th scope="col">Дії</th>
+                                        <th scope="col">Імʼя станції</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr th:each="station : ${stationWoContract}">
+                                        <td>
+                                            <span th:text="${station.name}" />
+                                        </td>
+                                        <td>
+                                            <a class="btn btn-primary" th:href="@{/user/addstationtocontract(id=${station.id}, cnt=${contract.id})}">Додати до контракту</a>
+                                        </td>
+                                        <!--                <a th:href="@{/user/temporary(id='${station.id}')}"-->
+
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
                             <!-- Тип контракту Вільний, Комерційний-->
 
                             <!-- Comment input-->

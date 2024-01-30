@@ -1,5 +1,6 @@
 package media.toloka.rfa.radio.model;
 
+import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
@@ -14,13 +15,18 @@ import java.util.Date;
 @ToString
 public class History {
 
+    @Expose
     @Id
     @GeneratedValue
 //    @Column(name="id")
     private Long            id;
+    @Expose
     private EHistoryType historyType;
+    @Expose
     private Date dateAction;
+    @Expose
     private String          action;
+    @Expose
     private String          comment;
 
     @ToString.Exclude

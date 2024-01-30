@@ -52,12 +52,14 @@ Logger logger = LoggerFactory.getLogger(RPCListener.class);
         switch (curJob) {
 //        switch (rjob.getRJobType()) {
             case JOB_STATION_CREATE:  // Заповнюємо базу необхідною інформацією
+                logger.info("+++++++++++++++++ START JOB_STATION_CREATE");
                 serviceRPC.JobCreateStation(rjob); // from Client Page. Next step
-                logger.info("+++++++++++++++++  JOB_STATION_CREATE");
+                logger.info("+++++++++++++++++ END JOB_STATION_CREATE");
                 break;
             case JOB_STATION_ALLOCATE: // розміщуємо каталоги на сервері, створюємо базу, користувачів у Postgresql та Rabbit.
+                logger.info("+++++++++++++++++ START JOB_STATION_ALLOCATE");
                 serverRunnerService.AllocateStationOnServer(rjob);
-                logger.info("+++++++++++++++++  JOB_STATION_ALLOCATE");
+                logger.info("+++++++++++++++++ END JOB_STATION_ALLOCATE");
                 break;
             case JOB_STATION_LIBRETIME_MIGRATE: // Після розміщення станції запускаємо першу процедуру міграції
                 serverRunnerService.StationMigrateLibretimeOnInstall(rjob);

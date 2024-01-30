@@ -16,10 +16,13 @@ public class GsonService {
     public Gson CreateGson() {
         // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
         GsonBuilder gbuilder = new GsonBuilder();
+//        Gson gson = new GsonBuilder()
+//                .excludeFieldsWithoutExposeAnnotation()
+//                .create();
         gbuilder.registerTypeAdapter(LocalDate.class, new LocalDateSerializer());
         gbuilder.registerTypeAdapter(LocalDate.class, new LocalDateDeserializer());
         gbuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeSerializer());
         gbuilder.registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer());
-        return gbuilder.setPrettyPrinting().create();
+        return gbuilder.setPrettyPrinting().excludeFieldsWithoutExposeAnnotation().create();
     }
 }

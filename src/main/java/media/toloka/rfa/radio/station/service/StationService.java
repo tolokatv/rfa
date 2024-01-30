@@ -91,18 +91,11 @@ public class StationService {
             station.setClientdetail(clientdetail);
             clientdetail.getStationList().add(station);
             clientService.SaveClientDetail(clientdetail);
-            saveStation(station);
-//            Clientdetail cld = station.getClientdetail();
-//            cld.getStationList().add(station);
-//            clientService.SaveClientDetail(cld);
+//            saveStation(station);
             // TODO запис в журнал
             historyService.saveHistory(History_StatiionCreate, " Нова станція: "+station.getUuid(), clientdetail.getUser());
             return station;
-//        } else {
-//            // не змогли створити станцію
-//            logger.info("З якоїсь причини не можемо створити станцію. Дивіться повідомлення. ");
-//            return null;
-//        }
+
     }
 
     public void SetStationDBName(Station st) {
@@ -250,6 +243,11 @@ public class StationService {
         if (clientdetail.getStationList().isEmpty()) {return true; }
 
         return false;
+    }
+
+    public List<Station> GetListStationByClientAndContract(Clientdetail clientdetail, Contract contract) {
+        List<Station> ls = stationRepo.findStationByClientdetailAndContract(clientdetail, contract);
+        return ls;
     }
 
 //    public void saveStation(Station station) {

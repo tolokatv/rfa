@@ -2,6 +2,7 @@ package media.toloka.rfa.radio.model;
 
 //import com.google.gson.annotations.Expose;
 
+import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
@@ -22,13 +23,21 @@ public class Contract {
     @Id
     @GeneratedValue
     @Column(name="id")
+    @Expose
     private Long id;
+    @Expose
     private EContractStatus contractStatus;
+    @Expose
     private String number;
+    @Expose
     private String uuid;
+    @Expose
     private Date createDate;
+    @Expose
     private Date lastPayDate;
+    @Expose
     private String contractname;
+    @Expose
     private String usercomment;
 
     @ToString.Exclude
@@ -38,7 +47,7 @@ public class Contract {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "contract", fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
-    private List<Station> contractstationList = new ArrayList<>();
+    private List<Station> stationList = new ArrayList<>();
 
 
     //    @ElementCollection

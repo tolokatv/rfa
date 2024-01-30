@@ -2,6 +2,7 @@ package media.toloka.rfa.radio.repository;
 
 
 import media.toloka.rfa.radio.model.Clientdetail;
+import media.toloka.rfa.radio.model.Contract;
 import media.toloka.rfa.radio.model.Station;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
@@ -15,4 +16,7 @@ public interface StationRepo extends JpaRepository<Station, Long> {
     Station save(Station station);
 
     Station getStationByDbname(String rstring);
+
+    List<Station> findStationByContract(Contract contract);
+    List<Station> findStationByClientdetailAndContract(Clientdetail clientdetail, Contract contract);
 }

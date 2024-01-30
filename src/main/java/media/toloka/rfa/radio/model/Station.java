@@ -1,5 +1,6 @@
 package media.toloka.rfa.radio.model;
 
+import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
@@ -18,23 +19,41 @@ public class Station {
 
     @Id
     @GeneratedValue
+    @Expose
     private Long id;
+    @Expose
     private EServerState serverState;
+    @Expose
     private String name;
+    @Expose
     private String dbname;
+    @Expose
     private boolean enable = false;
+    @Expose
     private Date startdate;
+    @Expose
     private Date createdate;
+    @Expose
     private Date lastpaydate;
+    @Expose
     private Date lastchangedate;
+    @Expose
     public Integer guiport;
+    @Expose
     public String guiserver;
+    @Expose
     public Integer main;
+    @Expose
     public Integer show;
+    @Expose
     private String uuid;
+    @Expose
     private String icecastname;
+    @Expose
     private String icecastdescription;
+    @Expose
     private String icecastsite;
+    @Expose
     private String icecastgenre;
 //    private transient Contract contract;
 
@@ -49,6 +68,7 @@ public class Station {
     @JoinColumn(name = "contract_id")
     private Contract contract;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "station", fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
     private List<Poolport> ports = new ArrayList<>();
 

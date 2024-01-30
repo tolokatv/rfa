@@ -141,8 +141,8 @@
             </td>
             <td><span th:text="${station.name}"></span></td>
             <!--                <td><span th:text="${station.createdate}"></span></td>-->
-            <td><span th:text="${#temporals.format(station.createdate)}"></span></td>
-            <td><span th:text="${#temporals.format(station.lastpaydate)}"></span></td>
+            <td><span th:text="${#dates.format(station.createdate, 'dd-MM-yyyy HH:mm' )}"></span></td>
+            <td><span th:text="${#dates.format(station.lastpaydate, 'dd-MM-yyyy HH:mm')}"></span></td>
             <td><a class="btn btn-primary" th:href="@{/user/controlstation(id=${station.id})}">Керувати</a>
             </td>
             <!--                <a th:href="@{/user/temporary(id='${station.id}')}"-->

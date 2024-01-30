@@ -1,5 +1,6 @@
 package media.toloka.rfa.radio.model;
 
+import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
@@ -14,13 +15,20 @@ public class Documents {
 
     @Id
     @GeneratedValue
+    @Expose
     private Long id;
+    @Expose
     private Date loaddate;
+    @Expose
     private String pathToDocument;
+    @Expose
     private EDocumentStatus status;
+    @Expose
     private String documenttype;
+    @Expose
     @Column(columnDefinition="TEXT")
     private String userComment;
+    @Expose
     @Column(columnDefinition="TEXT")
     private String adminComment;
 //    @ElementCollection

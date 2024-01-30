@@ -1,6 +1,7 @@
 package media.toloka.rfa.radio.model;
 
 //import jakarta.persistence.*;
+import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
 import media.toloka.rfa.security.model.Users;
@@ -17,15 +18,26 @@ import java.util.UUID;
 public class Clientdetail {
     @Id
     @GeneratedValue
+    @Expose
     private Long id;
+    @Expose
     private String custname;
+    @Expose
     private String custsurname;
+    @Expose
     private String firmname;
+    @Expose
     private String uuid;
+    @Expose
     private Boolean confirminfo;
+    @Expose
     private Date confirmDate;
+    @Expose
     private Date createdate;
+    @Expose
     private String comments;
+    @Expose
+    private Double account = 0.0;
 
 //    @Expose
 //    @ElementCollection
@@ -44,14 +56,8 @@ public class Clientdetail {
     @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     private  List<Station> stationList = new ArrayList<>();
 
-//    @Expose
-//    @ElementCollection
-//    @Column(unique=true)
-
-
-//    @PrimaryKeyJoinColumn
-@OneToOne(cascade = {CascadeType.ALL})
-private  Users user;
+    @OneToOne(cascade = {CascadeType.ALL})
+    private  Users user;
 //    @ElementCollection
 //    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 //    private List<Station> stationList;

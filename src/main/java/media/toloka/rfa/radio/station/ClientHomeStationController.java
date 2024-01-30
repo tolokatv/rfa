@@ -148,11 +148,15 @@ public class ClientHomeStationController {
         // Додаємо станцію і передаємо на виконання на віддалений сервіс
 
         Gson gstation = gsonService.CreateGson();
-        rjob.setRjobdata(gstation.toJson(station).toString());
+
+        String strStation = gstation.toJson(station).toString();
+        rjob.setRjobdata(strStation);
         // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
+        logger.info("Rjob : {}",strStation);
         Gson gson = gsonService.CreateGson();
         String strgson = gson.toJson(rjob).toString();
-        template.convertAndSend(queueNameRabbitMQ,gson.toJson(rjob).toString());
+        logger.info("Str to rabbit {}",strgson);
+//        template.convertAndSend(queueNameRabbitMQ,gson.toJson(rjob).toString());
         return "redirect:/user/stations";
     }
 

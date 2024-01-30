@@ -2,6 +2,7 @@ package media.toloka.rfa.radio.model;
 
 
 //import jakarta.persistence.*;
+import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
@@ -16,21 +17,37 @@ public class Clientaddress {
 
     @Id
     @GeneratedValue
+    @Expose
     private Long id;
+    @Expose
     private String shortaddress; // коротке найменування адреси
+    @Expose
     private EClientAddressType userAddressType; // поштовий, офіційний, домашній
+    @Expose
     private String street;
+    @Expose
     private String buildnumber;
+    @Expose
     private String korpus;
+    @Expose
     private String appartment;
+    @Expose
     private String cityname;
+    @Expose
     private String area;
+    @Expose
     private String region;
+    @Expose
     private String country;
+    @Expose
     private String zip;
+    @Expose
     private String phone;
+    @Expose
     private String comment;
+    @Expose
     private boolean mainaddress;
+    @Expose
     private boolean cheked;
 
     @ToString.Exclude

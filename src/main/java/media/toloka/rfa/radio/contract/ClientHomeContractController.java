@@ -5,9 +5,12 @@ package media.toloka.rfa.radio.contract;
 import lombok.extern.slf4j.Slf4j;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Contract;
+import media.toloka.rfa.radio.model.Station;
 import media.toloka.rfa.radio.model.enumerate.EContractStatus;
+//import media.toloka.rfa.radio.model.enumerate.EHistoryType;
 import media.toloka.rfa.radio.contract.service.ContractService;
 import media.toloka.rfa.radio.history.service.HistoryService;
+import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +27,7 @@ import java.util.UUID;
 import static media.toloka.rfa.radio.model.enumerate.EContractStatus.CONTRACT_FREE;
 import static media.toloka.rfa.radio.model.enumerate.EContractStatus.CONTRACT_PAY;
 import static media.toloka.rfa.radio.model.enumerate.EHistoryType.History_UserCreateContract;
+import static media.toloka.rfa.radio.model.enumerate.EHistoryType.History_StatiionChange;
 
 
 @Slf4j
@@ -39,6 +43,8 @@ public class ClientHomeContractController {
     @Autowired
     private ContractService contractService;
 
+    @Autowired
+    private StationService stationService;
 
     final Logger logger = LoggerFactory.getLogger(ClientHomeContractController.class);
 
@@ -80,17 +86,100 @@ public class ClientHomeContractController {
             // TODO Вивести в форму повідомлення, що контракт не знайдено
             return "redirect:/user/contract";
         }
+        List<Station> stationContractList = stationService.GetListStationByClientAndContract(user.getClientdetail(), contract);
+        List<Station> stationWoContract = stationService.GetListStationByClientAndContract(user.getClientdetail(), null);
+
+
         List<EContractStatus> options = new ArrayList<EContractStatus>();
         options.add(CONTRACT_FREE);
         options.add(CONTRACT_PAY);
         model.addAttribute("options", options);
 
+        model.addAttribute("stationContractList",  stationContractList);
+        model.addAttribute("stationWoContract",  stationWoContract);
         model.addAttribute("contract",  contract);
-        model.addAttribute("info", "======= message ======");
+//        model.addAttribute("info", "======= message ======");
+        return "/user/contractedit";
+    }
+
+    @GetMapping(value = "/user/delstationfromcontract")
+    public String postDelStationFromContract (
+            @RequestParam(value = "id", required = true) Long id,
+            @RequestParam(value = "cnt", required = true) Long contract_id,
+            Model model
+    ) {
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            logger.warn("User not found. Redirect to main page");
+            return "redirect:/";
+        }
+        Contract contract = contractService.GetContractById(contract_id);
+        Station station = stationService.GetStationById(id);
+        station.setContract(null);
+        stationService.saveStation(station);
+        historyService.saveHistory(History_StatiionChange,
+                " Видалили станцію "+ station.getUuid()
+                + " з контракту " + contract.getUuid(),
+                user);
+
+        List<Station> stationContractList = stationService.GetListStationByClientAndContract(user.getClientdetail(), contract);
+        List<Station> stationWoContract = stationService.GetListStationByClientAndContract(user.getClientdetail(), null);
+
+
+        List<EContractStatus> options = new ArrayList<EContractStatus>();
+        options.add(CONTRACT_FREE);
+        options.add(CONTRACT_PAY);
+        model.addAttribute("options", options);
+
+        model.addAttribute("stationContractList",  stationContractList);
+        model.addAttribute("stationWoContract",  stationWoContract);
+        model.addAttribute("contract",  contract);
+
         return "/user/contractedit";
     }
 
 
+
+    @GetMapping(value = "/user/addstationtocontract")
+    public String postAddStationToContract (
+            @RequestParam(value = "id", required = true) Long id,
+            @RequestParam(value = "cnt", required = true) Long contract_id,
+            Model model
+    ) {
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            logger.warn("User not found. Redirect to main page");
+            return "redirect:/";
+        }
+        Contract contract = contractService.GetContractById(contract_id);
+        Station station = stationService.GetStationById(id);
+        if ((contract.getContractStatus() == CONTRACT_FREE) && (contract.getStationList().size() > 0)) {
+            // Не можемо додати на безкоштовний контакт більше однієї станції.
+            logger.info("Не можемо додати на безкоштовний контакт більше однієї станції. ");
+            model.addAttribute("warning",  "Не можемо додати на контакт більше однієї тестової станції. ");
+        } else {
+            station.setContract(contract);
+            stationService.saveStation(station);
+            historyService.saveHistory(History_StatiionChange,
+                    " Додали станцію "+ station.getUuid()
+                            + " до контракту " + contract.getUuid(),
+                    user);
+        }
+
+        List<EContractStatus> options = new ArrayList<EContractStatus>();
+        options.add(CONTRACT_FREE);
+        options.add(CONTRACT_PAY);
+        model.addAttribute("options", options);
+
+        List<Station> stationContractList = stationService.GetListStationByClientAndContract(user.getClientdetail(), contract);
+        List<Station> stationWoContract = stationService.GetListStationByClientAndContract(user.getClientdetail(), null);
+
+        model.addAttribute("stationContractList",  stationContractList);
+        model.addAttribute("stationWoContract",  stationWoContract);
+        model.addAttribute("contract",  contract);
+
+        return "/user/contractedit";
+    }
 
 
     @PostMapping(value = "/user/contractedit")
@@ -151,6 +240,7 @@ public class ClientHomeContractController {
             logger.warn("User not found. Redirect to main page");
             return "redirect:/";
         }
+        Clientdetail clientdetail = user.getClientdetail();
         // Працюємо з новим контрактом.
         Contract ncontract = new Contract();
 //        ncontract.setContractStatus(CONTRACT_FREE);
@@ -161,6 +251,10 @@ public class ClientHomeContractController {
         ncontract.setClientdetail(clientService.GetClientDetailByUser(clientService.GetCurrentUser()));
         ncontract.setUsercomment(contract.getUsercomment());
         ncontract.setContractname(contract.getContractname());
+
+        if (clientdetail.getContractList().size() > 0) {
+            ncontract.setContractStatus(CONTRACT_PAY);
+        }
         contractService.saveContract(ncontract);
         Clientdetail cl = clientService.GetClientDetailByUser(user);
 //        cl.getContractList().add(ncontract);
