@@ -19,7 +19,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Random;
 
-import static media.toloka.rfa.model.enumerate.EHistoryType.History_DocumentCreate;
+import static media.toloka.rfa.radio.model.enumerate.EHistoryType.History_DocumentCreate;
 
 
 @Slf4j

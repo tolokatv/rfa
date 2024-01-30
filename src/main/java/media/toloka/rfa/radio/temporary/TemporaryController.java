@@ -2,10 +2,10 @@ package media.toloka.rfa.radio.temporary;
 
 import com.google.gson.Gson;
 import media.toloka.rfa.config.gson.service.GsonService;
-import media.toloka.rfa.model.Clientdetail;
+import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.message.service.MessageService;
-import media.toloka.rfa.model.Station;
+import media.toloka.rfa.radio.model.Station;
 import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.rpc.RPCListener;
 //import media.toloka.rfa.rpc.model.ERPCJobType;
@@ -79,7 +79,7 @@ public class TemporaryController {
 
 //        messageService.setQuantityMessage(clientService.getClientDetail(clientService.GetCurrentUser()));
         Station station = stationService.GetStationById(id);
-        Clientdetail cd = station.getClientdetail();
+        Clientdetail cd = station.getClientdetailrfa();
 
         // відправляємо завдання на створення радіостанції.
         RPCJob rjob = new RPCJob();

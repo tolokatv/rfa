@@ -1,4 +1,4 @@
-package media.toloka.rfa.model.enumerate;
+package media.toloka.rfa.radio.model.enumerate;
 
 public enum EClientAddressType {
     ADDRESS_PRIVATE("ADDRESS_PRIVATE"),

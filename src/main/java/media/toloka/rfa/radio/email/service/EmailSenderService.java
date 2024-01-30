@@ -3,7 +3,7 @@ package media.toloka.rfa.radio.email.service;
 
 //import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import media.toloka.rfa.model.Mail;
+import media.toloka.rfa.radio.model.Mail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

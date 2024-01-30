@@ -1,9 +1,9 @@
 package media.toloka.rfa.radio.message;
 
 
-import media.toloka.rfa.model.Clientdetail;
+import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
-import media.toloka.rfa.model.Messages;
+import media.toloka.rfa.radio.model.Messages;
 import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
@@ -40,14 +40,14 @@ public class MessageController {
             return "redirect:/";
         }
         // ====================== Готуємо інформацію для сторінки
-        Clientdetail clientdetail = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
-        model.addAttribute("currentUserID", clientdetail.getId());
-        List<Messages> listAllMessage = messageService.GetMessagesDesc(clientdetail);
-        List<Messages> listNewMessages = messageService.GetNewMessages(clientdetail);
+        Clientdetail Clientdetailrfa = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
+        model.addAttribute("currentUserID", Clientdetailrfa.getId());
+        List<Messages> listAllMessage = messageService.GetMessagesDesc(Clientdetailrfa);
+        List<Messages> listNewMessages = messageService.GetNewMessages(Clientdetailrfa);
         model.addAttribute("listAllMessage",  listAllMessage);
         model.addAttribute("rd",  listAllMessage.size());
         model.addAttribute("nrd",  listNewMessages.size());
-        messageService.SetReadingAllMessages(clientdetail);
+        messageService.SetReadingAllMessages(Clientdetailrfa);
         model.addAttribute("message", new Messages());
         return "/communication/usermessage";
     }

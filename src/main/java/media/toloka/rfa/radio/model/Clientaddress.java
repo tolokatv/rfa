@@ -1,17 +1,20 @@
-package media.toloka.rfa.model;
+package media.toloka.rfa.radio.model;
 
+
+//import jakarta.persistence.*;
 import jakarta.persistence.*;
 import lombok.Data;
-import media.toloka.rfa.model.enumerate.EClientAddressType;
+import lombok.ToString;
+import media.toloka.rfa.radio.model.enumerate.EClientAddressType;
+//import javax.persistence.Id;
 
 @Data
 @Entity
-@Table
+//@Table
 public class Clientaddress {
 
     @Id
     @GeneratedValue
-    @Column(name="id")
     private Long id;
     private String shortaddress; // коротке найменування адреси
     private EClientAddressType userAddressType; // поштовий, офіційний, домашній
@@ -28,7 +31,10 @@ public class Clientaddress {
     private String comment;
     private boolean mainaddress;
     private boolean cheked;
-//    @ManyToOne(cascade = CascadeType.ALL)
+
+    @ToString.Exclude
+    @ManyToOne(optional = false, cascade = {CascadeType.ALL}) //, cascade = {CascadeType.ALL}
+    @JoinColumn(name = "clientdetail_id")
     private Clientdetail clientdetail;
 
 }

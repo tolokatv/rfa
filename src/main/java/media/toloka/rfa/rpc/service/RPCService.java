@@ -5,8 +5,8 @@ import media.toloka.rfa.service.RfaService;
 import media.toloka.rfa.config.gson.service.GsonService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.message.service.MessageService;
-import media.toloka.rfa.model.enumerate.EServerPortType;
-import media.toloka.rfa.model.Station;
+import media.toloka.rfa.radio.model.enumerate.EServerPortType;
+import media.toloka.rfa.radio.model.Station;
 import media.toloka.rfa.radio.station.service.PoolPortsService;
 import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.rpc.model.RPCJob;
@@ -18,7 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import static media.toloka.rfa.model.enumerate.EHistoryType.History_StatiionCreate;
+import static media.toloka.rfa.radio.model.enumerate.EHistoryType.History_StatiionCreate;
 
 @Service
 public class RPCService {
@@ -55,7 +55,7 @@ public class RPCService {
     public void SetStationDBName(Station st) {
         while (true) {
             String  rstring = rfaService.GetRandomString(16);
-            if (stationService.getStationDBName(rstring) == null) {
+            if (stationService.GetStationDBName(rstring) == null) {
                 st.setDbname(rstring);
                 return;
             }

@@ -3,9 +3,9 @@ package media.toloka.rfa.radio.contract;
 // створення, оплата, закриття, пауза, зняття з паузи.
 
 import lombok.extern.slf4j.Slf4j;
-import media.toloka.rfa.model.Clientdetail;
-import media.toloka.rfa.model.Contract;
-import media.toloka.rfa.model.enumerate.EContractStatus;
+import media.toloka.rfa.radio.model.Clientdetail;
+import media.toloka.rfa.radio.model.Contract;
+import media.toloka.rfa.radio.model.enumerate.EContractStatus;
 import media.toloka.rfa.radio.contract.service.ContractService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.security.model.Users;
@@ -21,9 +21,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import static media.toloka.rfa.model.enumerate.EContractStatus.CONTRACT_FREE;
-import static media.toloka.rfa.model.enumerate.EContractStatus.CONTRACT_PAY;
-import static media.toloka.rfa.model.enumerate.EHistoryType.History_UserCreateContract;
+import static media.toloka.rfa.radio.model.enumerate.EContractStatus.CONTRACT_FREE;
+import static media.toloka.rfa.radio.model.enumerate.EContractStatus.CONTRACT_PAY;
+import static media.toloka.rfa.radio.model.enumerate.EHistoryType.History_UserCreateContract;
 
 
 @Slf4j

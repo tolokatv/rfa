@@ -1,8 +1,8 @@
-package media.toloka.rfa.radio.document.model;
+package media.toloka.rfa.radio.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import media.toloka.rfa.model.enumerate.EDocumentStatus;
+import media.toloka.rfa.radio.model.enumerate.EDocumentStatus;
 
 import java.util.Date;
 
@@ -24,7 +24,7 @@ public class Documents {
     private String adminComment;
 //    @ElementCollection
     @ManyToOne(cascade = CascadeType.ALL)
-    private Clientdetail clientdetail;
+    private Clientdetail Clientdetailrfa;
 
     public Documents() {
         this.loaddate = new Date();

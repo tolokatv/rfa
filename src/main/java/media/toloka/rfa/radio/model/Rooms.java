@@ -1,4 +1,4 @@
-package media.toloka.rfa.model;
+package media.toloka.rfa.radio.model;
 
 import jakarta.persistence.*;
 import lombok.Data;

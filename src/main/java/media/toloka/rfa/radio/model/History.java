@@ -1,9 +1,10 @@
-package media.toloka.rfa.radio.history.model;
+package media.toloka.rfa.radio.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
-import media.toloka.rfa.model.enumerate.EHistoryType;
+import media.toloka.rfa.radio.model.enumerate.EHistoryType;
+
 
 import java.util.Date;
 
@@ -23,7 +24,7 @@ public class History {
     private String          comment;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    private Clientdetail clientdetail;
+    private Clientdetail Clientdetailrfa;
 
     public History() {
         this.dateAction = new Date();

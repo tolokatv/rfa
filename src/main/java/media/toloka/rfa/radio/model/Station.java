@@ -1,11 +1,12 @@
-package media.toloka.rfa.radio.station.model;
+package media.toloka.rfa.radio.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import media.toloka.rfa.radio.client.model.Clientdetail;
-import media.toloka.rfa.radio.contract.model.Contract;
+import lombok.ToString;
+import media.toloka.rfa.radio.model.enumerate.EServerState;
 
-import java.time.LocalDateTime;
+
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -35,15 +36,21 @@ public class Station {
     private String icecastdescription;
     private String icecastsite;
     private String icecastgenre;
-
-    @ManyToOne(cascade = CascadeType.ALL)
     private transient Contract contract;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+
+    @ToString.Exclude
+    @ManyToOne(optional = false, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "clientdetail_id")
     private Clientdetail clientdetail;
 
-    @OneToMany
-    private List<Poolport> ports;
+    @ToString.Exclude
+    @ManyToOne(optional = true, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "contract_id")
+    private Contract contract;
+
+    @OneToMany(mappedBy = "station", fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
+    private List<Poolport> ports = new ArrayList<>();
 
 
     public Station() {

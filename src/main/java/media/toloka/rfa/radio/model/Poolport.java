@@ -1,8 +1,8 @@
-package media.toloka.rfa.model;
+package media.toloka.rfa.radio.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
-import media.toloka.rfa.model.enumerate.EServerPortType;
+import media.toloka.rfa.radio.model.enumerate.EServerPortType;
 
 
 @Data
@@ -15,7 +15,8 @@ public class Poolport {
     private Integer port;
     private EServerPortType porttype;
 
-//    @ManyToOne
+    @ManyToOne
+    @JoinColumn(name = "station_id")
     private Station station;
 }
 

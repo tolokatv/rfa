@@ -1,16 +1,15 @@
 package media.toloka.rfa.radio.message.service;
 
-import media.toloka.rfa.radio.client.model.Clientdetail;
-import media.toloka.rfa.radio.history.repository.RepoHistory;
-import media.toloka.rfa.radio.message.model.Messages;
-import media.toloka.rfa.radio.message.repo.RepoMessages;
-import media.toloka.rfa.radio.message.repo.RepoRooms;
+import media.toloka.rfa.radio.model.Clientdetail;
+import media.toloka.rfa.radio.model.Messages;
+import media.toloka.rfa.repository.RepoHistory;
+import media.toloka.rfa.repository.RepoMessages;
+import media.toloka.rfa.repository.RepoRooms;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;

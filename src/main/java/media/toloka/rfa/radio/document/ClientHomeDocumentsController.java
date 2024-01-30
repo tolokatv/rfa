@@ -2,9 +2,9 @@ package media.toloka.rfa.radio.document;
 
 import lombok.extern.slf4j.Slf4j;
 
-import media.toloka.rfa.model.Clientdetail;
+import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
-import media.toloka.rfa.model.Documents;
+import media.toloka.rfa.radio.model.Documents;
 import media.toloka.rfa.radio.document.service.DocumentService;
 import media.toloka.rfa.security.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;

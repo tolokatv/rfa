@@ -1,7 +1,7 @@
 package media.toloka.rfa.radio.client;
 
-import media.toloka.rfa.model.Clientaddress;
-import media.toloka.rfa.model.Clientdetail;
+import media.toloka.rfa.radio.model.Clientaddress;
+import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.security.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;

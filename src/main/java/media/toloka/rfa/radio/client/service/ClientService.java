@@ -1,16 +1,15 @@
 package media.toloka.rfa.radio.client.service;
 
-import media.toloka.rfa.model.Clientaddress;
-import media.toloka.rfa.model.Clientdetail;
+import media.toloka.rfa.radio.model.Clientaddress;
+import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.client.ClientHomeInfoController;
 import media.toloka.rfa.repository.ClientAddressRepository;
 import media.toloka.rfa.repository.ClientDetailRepository;
-//import media.toloka.rfa.repository.ClientRepository;
+import media.toloka.rfa.repository.UserRepository;
 import media.toloka.rfa.repository.DocumentRepository;
 import media.toloka.rfa.security.model.ERole;
 import media.toloka.rfa.security.model.Roles;
 import media.toloka.rfa.security.model.Users;
-import media.toloka.rfa.security.repository.UserSecurityRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,13 +23,12 @@ import java.util.UUID;
 @Service
 public class ClientService {
 
-
+    @Autowired
+    private UserRepository userRepository;
     @Autowired
     private ClientDetailRepository clientDetailRepository;
     @Autowired
     private ClientAddressRepository clientAddressRepository;
-    @Autowired
-    private UserSecurityRepository userSecurityRepository;
 
     @Autowired
     private DocumentRepository documentRepository;
@@ -40,7 +38,7 @@ public class ClientService {
 
     public Users GetUserByEmail(String email) {
 //        List<Users> usersList =
-        return userSecurityRepository.getByEmail(email);
+        return userRepository.getUserByEmail(email);
     }
 
     public Users GetCurrentUser() {
@@ -65,8 +63,8 @@ public class ClientService {
         return false;
     }
 
-    public Users SaveUser(Users user) {
-        return userSecurityRepository.save(user);
+    public void SaveUser(Users user) {
+        userRepository.save(user);
     }
 
 //    public Optional<Users> findById(Long idUser) {
@@ -85,7 +83,7 @@ public class ClientService {
         if (user == null) {
             return null;
         }
-        List<Clientdetail> cdl = clientDetailRepository.getByUser(user.getId());
+        List<Clientdetail> cdl = clientDetailRepository.getByUser(user);
         if (cdl.isEmpty()) {
         return null;
         }
@@ -98,12 +96,12 @@ public class ClientService {
     }
 
     public void CreateClientsDetail(Users user, String name, String surname) {
-        Clientdetail clientdetail = new Clientdetail();
-        clientdetail.setUser(user.getId());
-        clientdetail.setCustname(name);
-        clientdetail.setCustsurname(surname);
-        clientdetail.setUuid(UUID.randomUUID().toString());
-        clientDetailRepository.save(clientdetail);
+        Clientdetail Clientdetailrfa = new Clientdetail();
+        Clientdetailrfa.setUser(user);
+        Clientdetailrfa.setCustname(name);
+        Clientdetailrfa.setCustsurname(surname);
+        Clientdetailrfa.setUuid(UUID.randomUUID().toString());
+        clientDetailRepository.save(Clientdetailrfa);
 
     }
 
@@ -119,10 +117,10 @@ public class ClientService {
         clientAddressRepository.save(fclientaddress);
     }
 
-    public List<Clientaddress> GetAddressList(Clientdetail clientdetail) { return clientAddressRepository.findByClientdetail(clientdetail); }
+    public List<Clientaddress> GetAddressList(Clientdetail Clientdetailrfa) { return clientAddressRepository.findByClientdetail(Clientdetailrfa); }
 
     public Users GetUserById(Long iduser) {
-        return userSecurityRepository.getById(iduser);
+        return userRepository.getById(iduser);
     }
 }
 

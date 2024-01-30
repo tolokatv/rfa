@@ -1,6 +1,6 @@
 package media.toloka.rfa.radio.dropfile.service;
 
-import media.toloka.rfa.model.Clientdetail;
+import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.dropfile.DropPostFileController;
 import media.toloka.rfa.security.model.Users;

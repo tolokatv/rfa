@@ -1,16 +1,15 @@
 package media.toloka.rfa.radio.history.service;
 
-import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
-import media.toloka.rfa.radio.history.model.EHistoryType;
-import media.toloka.rfa.radio.history.model.History;
-import media.toloka.rfa.radio.history.repository.RepoHistory;
+import media.toloka.rfa.radio.model.enumerate.EHistoryType;
+import media.toloka.rfa.radio.model.History;
+import media.toloka.rfa.radio.model.Clientdetail;
+import media.toloka.rfa.repository.RepoHistory;
 import media.toloka.rfa.security.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 
 @Transactional
@@ -30,8 +29,8 @@ public class HistoryService {
         history.setHistoryType(type);
         history.setAction(type.label);
         if (user != null) { // TODO А що робити в мікросервісі, де брати поточного користувача?
-            Clientdetail cd = clientService.getClientDetail(user);
-            history.setClientdetail(cd);
+            Clientdetail cd = clientService.GetClientDetailByUser(user);
+            history.setClientdetailrfa(cd);
         }
 
         history.setComment( history.getDateAction().toString()

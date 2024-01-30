@@ -1,7 +1,7 @@
 package media.toloka.rfa.config;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import media.toloka.rfa.model.Clientdetail;
+import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.message.service.MessageService;
 import org.slf4j.Logger;

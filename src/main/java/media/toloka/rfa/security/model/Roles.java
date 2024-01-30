@@ -11,5 +11,9 @@ public class Roles {
     @GeneratedValue
     private Long id;
     private ERole role;
+//    @ManyToOne
+//    @JoinColumn(name = "user_id")
+//    private Users user;
+
 
 }

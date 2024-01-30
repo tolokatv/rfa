@@ -1,19 +1,18 @@
-package media.toloka.rfa.radio.contract.model;
+package media.toloka.rfa.radio.model;
 
-import com.google.gson.annotations.Expose;
+//import com.google.gson.annotations.Expose;
+
 import jakarta.persistence.*;
 import lombok.Data;
-import media.toloka.rfa.radio.client.model.Clientdetail;
-import media.toloka.rfa.radio.station.model.Station;
-import media.toloka.rfa.security.model.Users;
+import lombok.ToString;
+import media.toloka.rfa.radio.model.enumerate.EContractStatus;
 
-
-import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
-import static media.toloka.rfa.model.enumerate.EContractStatus.CONTRACT_FREE;
+//import static media.toloka.rfa.radio.contract.model.EContractStatus.CONTRACT_FREE;
 
 @Data
 @Entity
@@ -32,12 +31,15 @@ public class Contract {
     private String contractname;
     private String usercomment;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ToString.Exclude
+    @ManyToOne(optional = false, fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "clientdetail_id")
     private Clientdetail clientdetail;
 
-//    @Expose
-//    @OneToMany
-//    private transient List<Station> stationList;
+    @ToString.Exclude
+    @OneToMany(mappedBy = "contract", fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
+    private List<Station> contractstationList = new ArrayList<>();
+
 
     //    @ElementCollection
 //    @OneToMany(cascade = CascadeType.ALL)
@@ -51,13 +53,11 @@ public class Contract {
 
 
     public Contract() {
-        this.contractStatus         = CONTRACT_FREE;
+        this.contractStatus         = EContractStatus.CONTRACT_FREE;
         this.number                 = UUID.randomUUID().toString();
         this.uuid                   = UUID.randomUUID().toString();
         this.createDate             = new Date();
         this.lastPayDate            = null;
-        this.usercomment            = "";
-//        this.listStation            = new ArrayList<Station>();
     }
 
 }

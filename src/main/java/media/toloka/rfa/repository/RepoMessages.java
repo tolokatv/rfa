@@ -1,7 +1,7 @@
 package media.toloka.rfa.repository;
 
-import media.toloka.rfa.model.Clientdetail;
-import media.toloka.rfa.model.Messages;
+import media.toloka.rfa.radio.model.Clientdetail;
+import media.toloka.rfa.radio.model.Messages;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.time.LocalDateTime;
@@ -16,5 +16,5 @@ public interface RepoMessages extends JpaRepository<Messages, Long> {
 
     List<Messages> findMessagesByFromOrTomOrderBySendDesc(Clientdetail userFrom, Clientdetail UserTo);
 
-    List<Messages> findMessagesByReadAndTom(LocalDateTime ldt, Clientdetail clientdetail);
+    List<Messages> findMessagesByReadAndTom(LocalDateTime ldt, Clientdetail Clientdetailrfa);
 }

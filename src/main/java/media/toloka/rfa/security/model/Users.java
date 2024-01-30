@@ -2,7 +2,9 @@ package media.toloka.rfa.security.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import media.toloka.rfa.radio.model.Clientdetail;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,7 +21,10 @@ public class Users {
     private String password;
     @Column
     @ElementCollection
-    @OneToMany(fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Roles> roles;
+//    @OneToMany(mappedBy="user", FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
+    private List<Roles> roles = new ArrayList<>();
 
+    @OneToOne(mappedBy = "user", cascade = {CascadeType.ALL})
+    private Clientdetail clientdetail = new Clientdetail();
 }

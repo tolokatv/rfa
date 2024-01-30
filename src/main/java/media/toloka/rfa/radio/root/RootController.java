@@ -2,7 +2,7 @@ package media.toloka.rfa.radio.root;
 
 //import media.toloka.rfa.radio.model.MessageFromSite;
 //import media.toloka.rfa.service.ServiceMessageFromSite;
-import media.toloka.rfa.radio.root.model.MessageFromSite;
+import media.toloka.rfa.radio.model.MessageFromSite;
 import media.toloka.rfa.radio.root.service.ServiceMessageFromSite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

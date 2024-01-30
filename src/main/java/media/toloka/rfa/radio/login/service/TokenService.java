@@ -1,6 +1,6 @@
 package media.toloka.rfa.radio.login.service;
 
-import media.toloka.rfa.model.Token;
+import media.toloka.rfa.radio.model.Token;
 import media.toloka.rfa.repository.TokenRepository;
 import media.toloka.rfa.security.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -7,10 +7,10 @@ package media.toloka.rfa.radio.login;
 import lombok.Getter;
 import lombok.Setter;
 import media.toloka.rfa.radio.client.service.ClientService;
-import media.toloka.rfa.model.Mail;
+import media.toloka.rfa.radio.model.Mail;
 import media.toloka.rfa.radio.email.service.EmailSenderService;
 import media.toloka.rfa.radio.history.service.HistoryService;
-import media.toloka.rfa.model.Token;
+import media.toloka.rfa.radio.model.Token;
 import media.toloka.rfa.radio.login.service.TokenService;
 import media.toloka.rfa.radio.root.RootController;
 import media.toloka.rfa.security.model.Roles;
@@ -31,7 +31,8 @@ import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import java.util.*;
 
-import static media.toloka.rfa.model.enumerate.EHistoryType.*;
+import static media.toloka.rfa.radio.model.enumerate.EHistoryType.History_UserSendMailSetPassword;
+import static media.toloka.rfa.radio.model.enumerate.EHistoryType.History_UserSetPassword;
 import static media.toloka.rfa.security.model.ERole.*;
 
 //import static media.toloka.rfa.radio.model.EHistoryType.*;

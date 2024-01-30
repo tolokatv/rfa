@@ -1,15 +1,15 @@
 package media.toloka.rfa.radio.station.service;
 
-import media.toloka.rfa.radio.contract.model.Contract;
 import media.toloka.rfa.radio.contract.service.ContractService;
 import media.toloka.rfa.radio.history.service.HistoryService;
+import media.toloka.rfa.radio.model.Clientdetail;
+import media.toloka.rfa.radio.model.Contract;
 import media.toloka.rfa.radio.station.ClientHomeStationController;
 import media.toloka.rfa.service.RfaService;
-import media.toloka.rfa.radio.client.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 
-import media.toloka.rfa.radio.station.model.Station;
-import media.toloka.rfa.radio.station.repo.StationRepo;
+import media.toloka.rfa.radio.model.Station;
+import media.toloka.rfa.repository.StationRepo;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,13 +19,12 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
-import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.UUID;
 
-import static media.toloka.rfa.radio.contract.model.EContractStatus.CONTRACT_PAY;
+import static media.toloka.rfa.radio.model.enumerate.EContractStatus.CONTRACT_PAY;
 
 @Service
 @Transactional
@@ -71,25 +70,27 @@ public class StationService {
     }
 
     public List<Station> GetListStationByUser(Users user) { // TODO Виправити.  На віддаленому сервері ми працюємо без користувача
-        Clientdetail cl = clientService.getClientDetail(clientService.GetCurrentUser());
+        Clientdetail cl = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
         return stationRepo.findStationByClientdetail(cl);
 //        findStationByUser(user);
     }
 
     public Station CreateStation(Model model) {
-        if(CheckPossibilityCreateStation(clientService.getClientDetail(clientService.GetCurrentUser()),model ) == true ) {
+        // TODO правильно заповнити станцію
+
+        if(CheckPossibilityCreateStation(clientService.GetClientDetailByUser(clientService.GetCurrentUser()),model ) == true ) {
 
             Station station = new Station();
             station.setName(null);
-            station.setClientdetail(clientService.getClientDetail(clientService.GetCurrentUser()));
+//            station.setClientdetail(clientService.getClientDetail(clientService.GetCurrentUser()));
             SetStationDBName(station);
             station.setUuid(UUID.randomUUID().toString());
             station.setGuiserver(guiserver);
             station.setCreatedate(new Date());
             saveStation(station);
-            Clientdetail cld = station.getClientdetail();
-            cld.getStationList().add(station);
-            clientService.SaveClientDetail(cld);
+//            Clientdetail cld = station.getClientdetail();
+//            cld.getStationList().add(station);
+//            clientService.SaveClientDetail(cld);
             // TODO запис в журнал
 //            historyService.saveHistory(History_StatiionCreate, " Нова станція: "+station.getUuid(), clientService.getClientDetail().getUser());
             return station;
@@ -103,7 +104,7 @@ public class StationService {
     public void SetStationDBName(Station st) {
         while (true) {
             String  rstring = rfaService.GetRandomString(16);
-            if (getStationDBName(rstring) == null) {
+            if (GetStationDBName(rstring) == null) {
                 st.setDbname(rstring);
                 return;
             }
@@ -163,7 +164,7 @@ public class StationService {
 //    }
 
 
-    private boolean CheckPayContract(Clientdetail clientDetail,Model model) {
+    private boolean CheckPayContract(Clientdetail clientDetail, Model model) {
         // перевіряємо наявність платних контрактів і можливість приєднати до них станцію
         // У разі неможливості - формуємо відповідне повідомлення для форми
 
@@ -205,7 +206,7 @@ public class StationService {
         // на рахунку достатньо коштів для роботи станції протягом 4-х тижнів
     }
 
-    public Station getStationDBName(String rstring) {
+    public Station GetStationDBName(String rstring) {
         // перевіряємо, чи є станція з таким імʼям бази для Libretime
         return stationRepo.getStationByDbname(rstring);
     }

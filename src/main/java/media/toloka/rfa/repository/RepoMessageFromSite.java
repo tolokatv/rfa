@@ -1,6 +1,6 @@
 package media.toloka.rfa.repository;
 
-import media.toloka.rfa.model.MessageFromSite;
+import media.toloka.rfa.radio.model.MessageFromSite;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 
