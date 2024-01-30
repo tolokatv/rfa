@@ -9,6 +9,7 @@ import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -20,6 +21,9 @@ import java.util.List;
 
 @Controller
 public class MessageController {
+
+    @Value("media.toloka.rfa.support")
+    private String supportaddress;
     @Autowired
     private MessageService messageService;
 
@@ -60,7 +64,8 @@ public class MessageController {
         // TODO у майбутньому потрібно забезпечити надсилання повідомлень не тільки в підтримку.
         Users user = clientService.GetCurrentUser();
         Clientdetail cd = clientService.GetClientDetailByUser(user);
-        messageService.SendMessageToUser(cd, null, message.getBody());
+        Clientdetail cdto = clientService.GetClientDetailByUser(clientService.GetUserByEmail(supportaddress));
+        messageService.SendMessageToUser(cd, cdto, message.getBody());
         model.addAttribute("rd",  messageService.GetMessages(cd).size());
         model.addAttribute("nrd",  messageService.GetNewMessages(cd).size());
         return "redirect:/usermessage";

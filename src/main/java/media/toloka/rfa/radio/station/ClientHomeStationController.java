@@ -254,13 +254,13 @@ public class ClientHomeStationController {
         }
         Contract contract = station.getContract();
         if (contract == null) {
-            logger.info("Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail());
+            logger.info("Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail() + " Перевірте, чи приєднана вона до контракту.");
             model.addAttribute("warning", "Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail() + " Перевірте, чи приєднана вона до контракту.");
             return "redirect:/user/stations";
         }
         if (station.getContract().getClientdetail().getAccount() < 0 ) {
             // todo перевірити гроші на рахунку і проплачений термін
-            logger.info("Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail());
+            logger.info("Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail() + " Перевірте, чи достатньо коштів на рахунку");
             model.addAttribute("warning", "Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail() + " Перевірте, чи достатньо коштів на рахунку");
             return "redirect:/user/stations";
         }
