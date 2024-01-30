@@ -9,6 +9,7 @@ import media.toloka.rfa.radio.contract.service.ContractService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.model.Clientdetail;
+import media.toloka.rfa.radio.model.Contract;
 import media.toloka.rfa.radio.model.Station;
 import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.rpc.model.RPCJob;
@@ -249,6 +250,18 @@ public class ClientHomeStationController {
             // Станцію створити не можемо. Показуємо про це повідомлення.
             logger.info("userStartStation: Не можемо запустити станцію для користувача {}", user.getEmail());
             // TODO Відправити у форму повідомлення про неможливість запуску станції та кинути клієнту месседж
+            return "redirect:/user/stations";
+        }
+        Contract contract = station.getContract();
+        if (contract == null) {
+            logger.info("Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail());
+            model.addAttribute("warning", "Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail() + " Перевірте, чи приєднана вона до контракту.");
+            return "redirect:/user/stations";
+        }
+        if (station.getContract().getClientdetail().getAccount() < 0 ) {
+            // todo перевірити гроші на рахунку і проплачений термін
+            logger.info("Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail());
+            model.addAttribute("warning", "Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail() + " Перевірте, чи достатньо коштів на рахунку");
             return "redirect:/user/stations";
         }
         RPCJob rjob = new RPCJob();
