@@ -22,7 +22,7 @@ import java.util.List;
 @Controller
 public class MessageController {
 
-    @Value("media.toloka.rfa.support")
+    @Value("${media.toloka.rfa.support}")
     private String supportaddress;
     @Autowired
     private MessageService messageService;

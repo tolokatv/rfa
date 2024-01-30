@@ -4,6 +4,7 @@ package media.toloka.rfa.radio.model;
 import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 import media.toloka.rfa.security.model.Users;
 
 
@@ -41,21 +42,27 @@ public class Clientdetail {
 
 //    @Expose
 //    @ElementCollection
+    @ToString.Exclude
     @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = {CascadeType.ALL}) //,cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
     private  List<Clientaddress> clientaddressList = new ArrayList<>();
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = {CascadeType.ALL}) //,cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
     private  List<Contract> contractList = new ArrayList<>();
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     private List<History> historyList = new ArrayList<>();
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     private  List<Documents> documentslist = new ArrayList<>();
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
     private  List<Station> stationList = new ArrayList<>();
 
+    @ToString.Exclude
     @OneToOne(cascade = {CascadeType.ALL})
     private  Users user;
 //    @ElementCollection

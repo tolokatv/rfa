@@ -3,7 +3,7 @@ package media.toloka.rfa.radio.model;
 import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
-import lombok.ToString;
+
 
 
 import java.util.Date;
@@ -18,11 +18,11 @@ public class Messages {
     private Long id;
     @Expose
     @ManyToOne(optional = false, cascade = {CascadeType.ALL}) //, cascade = {CascadeType.ALL}
-    @JoinColumn(name = "from_id")
+//    @JoinColumn(name = "from_id")
     private Clientdetail from; // from user
     @Expose
     @ManyToOne(optional = false, cascade = {CascadeType.ALL}) //, cascade = {CascadeType.ALL}
-    @JoinColumn(name = "to_id")
+//    @JoinColumn(name = "to_id")
     private Clientdetail to; // to user
     @Expose
     private boolean reading;
@@ -34,12 +34,4 @@ public class Messages {
     @Column(columnDefinition = "TEXT")
     private String body;
 
-//    @ManyToOne(cascade = {CascadeType.ALL}) //, cascade = {CascadeType.ALL}
-//    @JoinColumn(name = "room_id")
-//    private Rooms room;
-
-//    @ToString.Exclude
-//    @ManyToOne(optional = false, cascade = {CascadeType.ALL}) //, cascade = {CascadeType.ALL}
-//    @JoinColumn(name = "clientdetail_id")
-//    private Clientdetail clientdetail;
 }
