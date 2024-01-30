@@ -79,7 +79,7 @@ public class TemporaryController {
 
 //        messageService.setQuantityMessage(clientService.getClientDetail(clientService.GetCurrentUser()));
         Station station = stationService.GetStationById(id);
-        Clientdetail cd = station.getClientdetailrfa();
+        Clientdetail cd = station.getClientdetail();
 
         // відправляємо завдання на створення радіостанції.
         RPCJob rjob = new RPCJob();

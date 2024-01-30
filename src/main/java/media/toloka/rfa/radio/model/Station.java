@@ -36,7 +36,7 @@ public class Station {
     private String icecastdescription;
     private String icecastsite;
     private String icecastgenre;
-    private transient Contract contract;
+//    private transient Contract contract;
 
 
     @ToString.Exclude

@@ -3,10 +3,10 @@ package media.toloka.rfa.radio.client.service;
 import media.toloka.rfa.radio.model.Clientaddress;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.client.ClientHomeInfoController;
-import media.toloka.rfa.repository.ClientAddressRepository;
-import media.toloka.rfa.repository.ClientDetailRepository;
-import media.toloka.rfa.repository.UserRepository;
-import media.toloka.rfa.repository.DocumentRepository;
+import media.toloka.rfa.radio.repository.ClientAddressRepository;
+import media.toloka.rfa.radio.repository.ClientDetailRepository;
+import media.toloka.rfa.radio.repository.UserRepository;
+import media.toloka.rfa.radio.repository.DocumentRepository;
 import media.toloka.rfa.security.model.ERole;
 import media.toloka.rfa.security.model.Roles;
 import media.toloka.rfa.security.model.Users;
@@ -48,6 +48,7 @@ public class ClientService {
     }
 
     public List<Roles> getListRole() {
+
         return GetCurrentUser().getRoles();
     }
 
@@ -64,6 +65,7 @@ public class ClientService {
     }
 
     public void SaveUser(Users user) {
+
         userRepository.save(user);
     }
 
@@ -76,10 +78,12 @@ public class ClientService {
 //    }
 
     public Clientdetail GetClientDetailById(Long id) {
+
         return clientDetailRepository.getById(id);
     }
 
     public Clientdetail GetClientDetailByUser(Users user) {
+        // todo якась херня :(
         if (user == null) {
             return null;
         }
@@ -96,31 +100,42 @@ public class ClientService {
     }
 
     public void CreateClientsDetail(Users user, String name, String surname) {
-        Clientdetail Clientdetailrfa = new Clientdetail();
-        Clientdetailrfa.setUser(user);
-        Clientdetailrfa.setCustname(name);
-        Clientdetailrfa.setCustsurname(surname);
-        Clientdetailrfa.setUuid(UUID.randomUUID().toString());
-        clientDetailRepository.save(Clientdetailrfa);
+        Clientdetail clientdetail = new Clientdetail();
+        clientdetail.setUser(user);
+        clientdetail.setCustname(name);
+        clientdetail.setCustsurname(surname);
+        clientdetail.setUuid(UUID.randomUUID().toString());
+        clientDetailRepository.save(clientdetail);
 
     }
 
     public void SaveClientDetail(Clientdetail curuserdetail) {
+
         clientDetailRepository.save(curuserdetail);
     }
 
     public Clientaddress GetAddress(Long id) {
-        return clientAddressRepository.getById(id);
+        return
+                clientAddressRepository.getById(id);
     }
 
     public void SaveAddress(Clientaddress fclientaddress) {
+
         clientAddressRepository.save(fclientaddress);
     }
 
-    public List<Clientaddress> GetAddressList(Clientdetail Clientdetailrfa) { return clientAddressRepository.findByClientdetail(Clientdetailrfa); }
+    public List<Clientaddress> GetAddressList(Clientdetail Clientdetailrfa) {
+        return clientAddressRepository.findByClientdetail(Clientdetailrfa);
+    }
 
     public Users GetUserById(Long iduser) {
+
         return userRepository.getById(iduser);
+    }
+
+    public List<Clientaddress> GetClientAddressList(Clientdetail clientdetail) {
+        List<Clientaddress> cal = clientAddressRepository.findByClientdetail(clientdetail);
+        return cal;
     }
 }
 

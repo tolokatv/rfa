@@ -51,12 +51,17 @@ public class ClientAddressEditController {
         }
 
         Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
+        Clientdetail cdf = fclientaddress.getClientdetail();
+
         if (fclientaddress.getId() == null) {
             fclientaddress.setClientdetail(cd);
             clientService.SaveAddress(fclientaddress);
             clientService.GetAddressList(cd).add(fclientaddress);
             clientService.SaveClientDetail(cd);
         } else {
+            // todo от тут фігню написав :(
+            fclientaddress.setClientdetail(cd);
+//            clientService.SaveClientDetail(cd);
             clientService.SaveAddress(fclientaddress);
         }
 

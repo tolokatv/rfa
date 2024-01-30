@@ -29,28 +29,20 @@ public class Clientdetail {
 
 //    @Expose
 //    @ElementCollection
-@OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = {CascadeType.ALL}) //,cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
-    private transient List<Clientaddress> clientaddressList = new ArrayList<>();
+    @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = {CascadeType.ALL}) //,cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
+    private  List<Clientaddress> clientaddressList = new ArrayList<>();
 
-//    @Expose
-//    @ElementCollection
-@OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = {CascadeType.ALL}) //,cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
-    private transient List<Contract> contractList;
+    @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = {CascadeType.ALL}) //,cascade = {CascadeType.ALL},fetch= FetchType.EAGER)
+    private  List<Contract> contractList = new ArrayList<>();
 
-//    @Expose
-//    @ElementCollection
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private transient List<History> historyList;
+    @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<History> historyList = new ArrayList<>();
 
-//    @Expose
-//    @ElementCollection
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private transient List<Documents> documentslist;
+    @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    private  List<Documents> documentslist = new ArrayList<>();
 
-//    @Expose
-//    @ElementCollection
-//    @OneToMany(cascade = CascadeType.ALL)
-//    private transient List<Station> stationList;
+    @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    private  List<Station> stationList = new ArrayList<>();
 
 //    @Expose
 //    @ElementCollection
@@ -58,9 +50,8 @@ public class Clientdetail {
 
 
 //    @PrimaryKeyJoinColumn
-//    @OneToOne(cascade = CascadeType.ALL)
-    private Users user;
-
+@OneToOne(cascade = {CascadeType.ALL})
+private  Users user;
 //    @ElementCollection
 //    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
 //    private List<Station> stationList;

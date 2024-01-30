@@ -9,6 +9,7 @@ import media.toloka.rfa.radio.model.enumerate.EClientAddressType;
 //import javax.persistence.Id;
 
 @Data
+@ToString
 @Entity
 //@Table
 public class Clientaddress {

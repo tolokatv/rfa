@@ -3,7 +3,7 @@ package media.toloka.rfa.radio.root.service;
 //import media.toloka.rfa.radio.model.MessageFromSite;
 //import media.toloka.rfa.radio.repo.user.RepoMessageFromSite;
 import media.toloka.rfa.radio.model.MessageFromSite;
-import media.toloka.rfa.repository.RepoMessageFromSite;
+import media.toloka.rfa.radio.repository.RepoMessageFromSite;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -9,7 +9,7 @@ import media.toloka.rfa.service.RfaService;
 import media.toloka.rfa.radio.client.service.ClientService;
 
 import media.toloka.rfa.radio.model.Station;
-import media.toloka.rfa.repository.StationRepo;
+import media.toloka.rfa.radio.repository.StationRepo;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +25,7 @@ import java.util.ListIterator;
 import java.util.UUID;
 
 import static media.toloka.rfa.radio.model.enumerate.EContractStatus.CONTRACT_PAY;
+import static media.toloka.rfa.radio.model.enumerate.EHistoryType.History_StatiionCreate;
 
 @Service
 @Transactional
@@ -75,10 +76,10 @@ public class StationService {
 //        findStationByUser(user);
     }
 
-    public Station CreateStation(Model model) {
+    public Station CreateStation(Clientdetail clientdetail) {
         // TODO правильно заповнити станцію
 
-        if(CheckPossibilityCreateStation(clientService.GetClientDetailByUser(clientService.GetCurrentUser()),model ) == true ) {
+//        if(CheckPossibilityCreateStation(clientService.GetClientDetailByUser(clientService.GetCurrentUser()),model ) == true ) {
 
             Station station = new Station();
             station.setName(null);
@@ -87,18 +88,21 @@ public class StationService {
             station.setUuid(UUID.randomUUID().toString());
             station.setGuiserver(guiserver);
             station.setCreatedate(new Date());
+            station.setClientdetail(clientdetail);
+            clientdetail.getStationList().add(station);
+            clientService.SaveClientDetail(clientdetail);
             saveStation(station);
 //            Clientdetail cld = station.getClientdetail();
 //            cld.getStationList().add(station);
 //            clientService.SaveClientDetail(cld);
             // TODO запис в журнал
-//            historyService.saveHistory(History_StatiionCreate, " Нова станція: "+station.getUuid(), clientService.getClientDetail().getUser());
+            historyService.saveHistory(History_StatiionCreate, " Нова станція: "+station.getUuid(), clientdetail.getUser());
             return station;
-        } else {
-            // не змогли створити станцію
-            logger.info("З якоїсь причини не можемо створити станцію. Дивіться повідомлення. ");
-            return null;
-        }
+//        } else {
+//            // не змогли створити станцію
+//            logger.info("З якоїсь причини не можемо створити станцію. Дивіться повідомлення. ");
+//            return null;
+//        }
     }
 
     public void SetStationDBName(Station st) {
@@ -225,7 +229,10 @@ public class StationService {
     }
 
     public boolean CreateCheckAddress(Clientdetail clientdetail) {
-        if( clientdetail.getClientaddressList().isEmpty() ) { return false; }
+        if (clientService.GetClientAddressList(clientdetail).isEmpty()) {
+//        if( clientdetail.getClientaddressList().isEmpty() ) {
+            return false;
+        }
         return true;
     }
 
@@ -235,11 +242,13 @@ public class StationService {
         // Getting ListIterator
         ListIterator<Contract> contractIterator = contractList.listIterator();
 
-        // Traversing elements
         while(contractIterator.hasNext()){
             Contract contract = contractIterator.next();
             if (contract.getContractStatus() == CONTRACT_PAY) { return true; }
         }
+
+        if (clientdetail.getStationList().isEmpty()) {return true; }
+
         return false;
     }
 

@@ -23,8 +23,10 @@ public class History {
     private String          action;
     private String          comment;
 
+    @ToString.Exclude
     @ManyToOne(cascade = CascadeType.ALL)
-    private Clientdetail Clientdetailrfa;
+    @JoinColumn(name = "clientdetail_id")
+    private Clientdetail clientdetail;
 
     public History() {
         this.dateAction = new Date();

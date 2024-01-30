@@ -2,9 +2,9 @@ package media.toloka.rfa.radio.message.service;
 
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Messages;
-import media.toloka.rfa.repository.RepoHistory;
-import media.toloka.rfa.repository.RepoMessages;
-import media.toloka.rfa.repository.RepoRooms;
+import media.toloka.rfa.radio.repository.RepoHistory;
+import media.toloka.rfa.radio.repository.RepoMessages;
+import media.toloka.rfa.radio.repository.RepoRooms;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,16 +19,16 @@ import java.util.ListIterator;
 public class MessageService {
     @Autowired
     private RepoMessages repoMessages;
-    @Autowired
-    private RepoRooms repoRooms;
+//    @Autowired
+//    private RepoRooms repoRooms;
     @Autowired
     private RepoHistory repoHistory;
 
     public List<Messages> GetMessages(Clientdetail clientdetail) {
-        return repoMessages.findMessagesByFromOrTom(clientdetail, clientdetail);
+        return repoMessages.findMessagesByFromOrTo(clientdetail, clientdetail);
     }
     public List<Messages> GetMessagesDesc(Clientdetail clientdetail) {
-        return repoMessages.findMessagesByFromOrTomOrderBySendDesc(clientdetail, clientdetail);
+        return repoMessages.findMessagesByFromOrToOrderBySendDesc(clientdetail, clientdetail);
     }
 
     // отримали загальну кількість повідомлень для клієнта.
@@ -42,7 +42,7 @@ public class MessageService {
 
     public List<Messages> GetNewMessages(Clientdetail clientdetail) {
 //            return repoMessages.findMessagesByReadingAndTom(true,clientdetail);
-        List<Messages> msg = repoMessages.findMessagesByReadAndTom(null, clientdetail);
+        List<Messages> msg = repoMessages.findMessagesByReadAndTo(null, clientdetail);
         return msg;
     }
 
@@ -54,7 +54,7 @@ public class MessageService {
         um.setSend(new Date());
         um.setReading(true);
         um.setFrom(from);
-        um.setTom(to);
+        um.setTo(to);
         // Надсилаємо повідомлення
         SaveMessage(um);
     }
@@ -65,7 +65,7 @@ public class MessageService {
 
     public void SetReadingAllMessages(Clientdetail cd) {
 
-        List<Messages> listNewMessages = repoMessages.findMessagesByReadingAndTom(true,cd);
+        List<Messages> listNewMessages = repoMessages.findMessagesByReadingAndTo(true,cd);
         ListIterator<Messages> listIterator = listNewMessages.listIterator();
 
         while(listIterator.hasNext()) {

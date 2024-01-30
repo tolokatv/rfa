@@ -1,4 +1,4 @@
-package media.toloka.rfa.repository;
+package media.toloka.rfa.radio.repository;
 
 
 import media.toloka.rfa.radio.model.Clientaddress;
@@ -11,7 +11,7 @@ public interface ClientAddressRepository extends JpaRepository<Clientaddress, Lo
 
     Clientaddress getById(Long id);
 
-    List<Clientaddress> findByClientdetail(Clientdetail Clientdetailrfa);
+    List<Clientaddress> findByClientdetail(Clientdetail Clientdetail);
 
     //Id(Long id);
 

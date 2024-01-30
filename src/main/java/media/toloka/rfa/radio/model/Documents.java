@@ -2,6 +2,7 @@ package media.toloka.rfa.radio.model;
 
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
 import media.toloka.rfa.radio.model.enumerate.EDocumentStatus;
 
 import java.util.Date;
@@ -23,8 +24,10 @@ public class Documents {
     @Column(columnDefinition="TEXT")
     private String adminComment;
 //    @ElementCollection
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Clientdetail Clientdetailrfa;
+    @ToString.Exclude
+    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "clientdetail_id")
+    private Clientdetail clientdetail;
 
     public Documents() {
         this.loaddate = new Date();

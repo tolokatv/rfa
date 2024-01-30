@@ -105,12 +105,28 @@ public class ClientHomeStationController {
             return "/user/stations";
         }
 
-        if (stationService.HavePayContract(clientdetail)  == false) {
-            // перевіряємо наявності безкоштовної станції
-            model.addAttribute("warning", "Неможливо створити станцію! У Вас вже є безкоштовна станція.");
-            return "/user/stations";        }
+        if (clientdetail.getStationList().size() > 0) {
+            if (stationService.HavePayContract(clientdetail) == false) {
+                // перевіряємо наявності безкоштовної станції
+                model.addAttribute("warning", "Неможливо створити станцію! У Вас немає комерційного контракту і вже є тестова станція");
+                return "/user/stations";
+            }
+        }
+//
+//        if (stationService.HavePayContract(clientdetail) == false) {
+//            // перевіряємо наявності безкоштовної станції
+//            model.addAttribute("warning", "Неможливо створити станцію! У Вас немає комерційного контракту і вже є тестова станція");
+//            return "/user/stations";
+//        }
+//        else {
+//            if (clientdetail.getStationList().size() > 0) {
+//                model.addAttribute("warning", "Неможливо створити станцію! У Вас вже є безкоштовна станція .");
+//                return "/user/stations";
+//            }
+//        }
 
-        Station station = stationService.CreateStation(model);
+
+        Station station = stationService.CreateStation(clientdetail);
         if (station == null) {
             logger.info("Не можемо створити станцію для користувача {}. ", user.getEmail());
             model.addAttribute("warning", "Не можемо створити станцію. Повідомте про це службі підтримки.");

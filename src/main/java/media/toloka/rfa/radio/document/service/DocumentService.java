@@ -3,7 +3,7 @@ package media.toloka.rfa.radio.document.service;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.model.enumerate.EDocumentStatus;
-import media.toloka.rfa.repository.DocumentRepository;
+import media.toloka.rfa.radio.repository.DocumentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import media.toloka.rfa.radio.model.Documents;
@@ -41,7 +41,7 @@ public class DocumentService {
         Documents doc = new Documents();
         doc.setStatus(EDocumentStatus.STATUS_LOADED);
         doc.setPathToDocument(destination.getFileName().toString());
-        doc.setClientdetailrfa(clientService.GetClientDetailByUser(clientService.GetCurrentUser()));
+        doc.setClientdetail(clientService.GetClientDetailByUser(clientService.GetCurrentUser()));
         documentRepository.save(doc);
     }
 }

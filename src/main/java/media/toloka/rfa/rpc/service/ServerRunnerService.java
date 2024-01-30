@@ -149,7 +149,7 @@ public class ServerRunnerService {
         props.put("servergui",station.getGuiserver());
         String nginxconfig = emailSenderService.getTextContent(nginxtemplate,props);
         // Записуємо файл конфігурації в робочий каталог станції
-        String pathConfigFile = env.get("HOME") + clientdir + "/" + station.getClientdetailrfa().getUuid() + "/"
+        String pathConfigFile = env.get("HOME") + clientdir + "/" + station.getClientdetail().getUuid() + "/"
                 + station.getUuid() + "/" + station.getDbname() + ".rfa.toloka.media";
         try {
             logger.info("============== ПИШИМО ФАЙЛ КОНФІГУРАЦІЇ ДЛЯ NGINX: " + pathConfigFile );
@@ -352,7 +352,7 @@ public class ServerRunnerService {
         String homedirectory = env.get("HOME");
         env.put("CLIENT_DIR", homedirectory + clientdir);
 //        env.remove("OTHERVAR");
-        env.put("CLIENT_UUID", station.getClientdetailrfa().getUuid());
+        env.put("CLIENT_UUID", station.getClientdetail().getUuid());
         env.put("STATION_UUID", station.getUuid());
         env.put("STATION_WEB_PORT", station.getGuiport().toString());
         env.put("STATION_MASTER_PORT", station.getMain().toString());
