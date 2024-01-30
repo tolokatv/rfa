@@ -59,7 +59,7 @@ public class PoolPortsService {
                     logger.info("Помилка при призначенні нового порту станції");
                     return null;
             }
-
+        sp.setStation(station);
         SavePort(sp);
         return  station;
     }
