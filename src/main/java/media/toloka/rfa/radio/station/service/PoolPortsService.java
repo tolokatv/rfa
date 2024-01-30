@@ -63,7 +63,8 @@ public class PoolPortsService {
                     return null;
             }
         sp.setStation(station);
-//        SavePort(sp);
+        SavePort(sp);
+//        station.getPorts().add(sp);
         return  station;
     }
 

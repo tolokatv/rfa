@@ -137,7 +137,8 @@ public class ServerRunnerService {
     // Формуємо файли конфігурації для Nginx, перезавантажуємо конфігурацію сервера.
     public void  StationPrepareNginx(RPCJob rpcJob) {
         Gson gson = gsonService.CreateGson();
-        Station station = gson.fromJson(rpcJob.getRjobdata(), Station.class);
+        Station tmpstation = gson.fromJson(rpcJob.getRjobdata(), Station.class);
+        Station station = stationService.GetStationById(tmpstation.getId());
         //    docker-compose run --rm api libretime-api migrate
         ProcessBuilder pb = new ProcessBuilder("bash", "-c", preparenginxforstationcommand);
         Map<String, String> env = pb.environment();
@@ -199,7 +200,8 @@ public class ServerRunnerService {
 
     public void  StationStart(RPCJob rpcJob) {
         Gson gson = gsonService.CreateGson();
-        Station station = gson.fromJson(rpcJob.getRjobdata(), Station.class);
+        Station tmpstation = gson.fromJson(rpcJob.getRjobdata(), Station.class);
+        Station station = stationService.GetStationById(tmpstation.getId());
         ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", startStationCommand);
         Map<String, String> env = pb.environment();
         SetEnvironmentForProcessBuilder(env, station);
@@ -248,7 +250,8 @@ public class ServerRunnerService {
 
     public void  StationStop(RPCJob rpcJob) {
         Gson gson = gsonService.CreateGson();
-        Station station = gson.fromJson(rpcJob.getRjobdata(), Station.class);
+        Station tmpstation = gson.fromJson(rpcJob.getRjobdata(), Station.class);
+        Station station = stationService.GetStationById(tmpstation.getId());
         //    docker-compose run --rm api libretime-api migrate
         ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", stopStationCommand);
         Map<String, String> env = pb.environment();
@@ -299,7 +302,8 @@ public class ServerRunnerService {
 
     public void StationMigrateLibretimeOnInstall(RPCJob rpcJob) {
         Gson gson = gsonService.CreateGson();
-        Station station = gson.fromJson(rpcJob.getRjobdata(), Station.class);
+        Station tmpstation = gson.fromJson(rpcJob.getRjobdata(), Station.class);
+        Station station = stationService.GetStationById(tmpstation.getId());
         //    docker-compose run --rm api libretime-api migrate
         ProcessBuilder pb = new ProcessBuilder("/bin/bash", "-c", migrateStationCommand);
         Map<String, String> env = pb.environment();
@@ -404,8 +408,9 @@ public class ServerRunnerService {
 
         Gson gson = gsonService.CreateGson();
 //        rpcJob.getRjobdata()
-        Station station = gson.fromJson(rpcJob.getRjobdata(), Station.class);
+        Station tmpstation = gson.fromJson(rpcJob.getRjobdata(), Station.class);
         ProcessBuilder pb = new ProcessBuilder("bash", "-c", createStationCommand);
+        Station station = stationService.GetStationById(tmpstation.getId());
         Map<String, String> env = pb.environment();
         SetEnvironmentForProcessBuilder(env, station);
 

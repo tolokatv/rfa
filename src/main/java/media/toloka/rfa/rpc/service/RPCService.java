@@ -71,8 +71,9 @@ public class RPCService {
         // Витягнути станцію з переданого gson
         String sStation = rjob.getRjobdata();
         Gson gStation = gsonService.CreateGson();
-        Station newRadio = gStation.fromJson(sStation, Station.class);
+        Station Radio = gStation.fromJson(sStation, Station.class);
 
+        Station newRadio = stationService.GetStationById(Radio.getId());
         // генеруємо випадковий рядок символів для імені бази
         SetStationDBName(newRadio);
 
