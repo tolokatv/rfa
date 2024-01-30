@@ -45,14 +45,17 @@ public class PoolPortsService {
         switch  (portType) {
                 case PORT_MAIN:
                     station.setMain(sp.getPort());
+                    station.getPorts().add(sp);
                     logger.info("MAIN призначення нового порту станції");
                     break;
                 case PORT_WEB:
                     station.setGuiport(sp.getPort());
+                    station.getPorts().add(sp);
                     logger.info("WEB призначення нового порту станції");
                     break;
                 case PORT_SHOW:
                     station.setShow(sp.getPort());
+                    station.getPorts().add(sp);
                     logger.info("SHOW призначення нового порту станції");
                     break;
                 default:
@@ -60,7 +63,7 @@ public class PoolPortsService {
                     return null;
             }
         sp.setStation(station);
-        SavePort(sp);
+//        SavePort(sp);
         return  station;
     }
 
