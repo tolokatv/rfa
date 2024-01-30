@@ -156,7 +156,7 @@ public class ClientHomeStationController {
         Gson gson = gsonService.CreateGson();
         String strgson = gson.toJson(rjob).toString();
         logger.info("Str to rabbit {}",strgson);
-//        template.convertAndSend(queueNameRabbitMQ,gson.toJson(rjob).toString());
+        template.convertAndSend(queueNameRabbitMQ,gson.toJson(rjob).toString());
         return "redirect:/user/stations";
     }
 
