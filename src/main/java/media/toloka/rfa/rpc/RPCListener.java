@@ -5,6 +5,7 @@ import com.google.gson.Gson;
 import media.toloka.rfa.config.gson.service.GsonService;
 import media.toloka.rfa.rpc.model.ERPCJobType;
 import media.toloka.rfa.rpc.model.RPCJob;
+import media.toloka.rfa.rpc.model.ResultJob;
 import media.toloka.rfa.rpc.service.RPCService;
 import media.toloka.rfa.rpc.service.ServerRunnerService;
 import org.slf4j.Logger;
@@ -42,7 +43,7 @@ Logger logger = LoggerFactory.getLogger(RPCListener.class);
 
     @RabbitListener(queues = "${rabbitmq.queue}")
     public void processedFromFront(String message) {
-
+        Long rc = 0L;
         Gson gson = gsonService.CreateGson();
         RPCJob rjob = gson.fromJson(message, RPCJob.class);
 
@@ -53,7 +54,8 @@ Logger logger = LoggerFactory.getLogger(RPCListener.class);
 //        switch (rjob.getRJobType()) {
             case JOB_STATION_CREATE:  // Заповнюємо базу необхідною інформацією
                 logger.info("+++++++++++++++++ START JOB_STATION_CREATE");
-                serviceRPC.JobCreateStation(rjob); // from Client Page. Next step
+                rc = serviceRPC.JobCreateStation(rjob); // from Client Page. Next step
+                rjob.getJobresilt().add(new ResultJob(rc, curJob));
                 logger.info("+++++++++++++++++ END JOB_STATION_CREATE");
                 break;
             case JOB_STATION_ALLOCATE: // розміщуємо каталоги на сервері, створюємо базу, користувачів у Postgresql та Rabbit.

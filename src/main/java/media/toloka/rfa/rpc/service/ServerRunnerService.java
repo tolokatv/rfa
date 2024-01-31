@@ -116,7 +116,9 @@ public class ServerRunnerService {
     public void CompletedPartRPCJob (RPCJob rpcjob) {
         // 1. перевіряємо, чи на верхівці стеку завдання, яке ми виконали - якщо так, то видаляємо.
         // 2. якщо ще залишилися завдання, то ставимо в чергу на виконання.
+
         if (rpcjob.getJobchain().isEmpty()) {
+            logger.info("Результат виконання Завдання: {}",rpcjob.getJobresilt().toString());
             return;
         }
         // якщо в черзі є елементи, то відправляємо на виконання вибираючи з черги черговий елемент.
@@ -229,6 +231,7 @@ public class ServerRunnerService {
 //            }
         } catch (IOException e) {
             logger.warn(" Щось пішло не так при виконанні завдання в операційній системі");
+
             e.printStackTrace();
         } catch (InterruptedException e){
             logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");

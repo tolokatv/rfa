@@ -64,7 +64,7 @@ public class RPCService {
 
 
 
-    public void JobCreateStation (RPCJob rjob) {
+    public Long JobCreateStation (RPCJob rjob) {
 //        logger.info(rjob);
         // витягли користувача
         Users user = rjob.getUser();
@@ -109,5 +109,6 @@ public class RPCService {
         // створили станцію
             // відправили повідомлення про створення станції
 //        serviceMessage.SendMessageToUser(null, user, msg);
+        return 0L;
     }
 }

@@ -7,10 +7,7 @@ import lombok.ToString;
 import media.toloka.rfa.security.model.Users;
 
 import java.time.LocalDateTime;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Queue;
+import java.util.*;
 
 @Data
 @ToString
@@ -27,7 +24,7 @@ public class RPCJob {
     @Expose
     private String rjobdata;
     @Expose
-    private String jobresilt;
+    private List<ResultJob> jobresilt = new ArrayList<>();
 
     public RPCJob() {
         this.rjobdate = new Date();
