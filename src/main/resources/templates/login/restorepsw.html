@@ -2,70 +2,107 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Відновлення паролю.</title>
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<!--    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>-->
 
     <!-- Optional theme -->
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">-->
 
 
 
 
-<!--    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />-->
-<!--    &lt;!&ndash; Font Awesome icons (free version)&ndash;&gt;-->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.2/css/fontawesome.min.css" integrity="sha384-BY+fdrpOd3gfeRvTSMT+VUZmA728cfF9Z2G42xpaRkUGu2i3DyzpTURDo5A6CaLK" crossorigin="anonymous">-->
 <!--    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>-->
-<!--    &lt;!&ndash; Google fonts&ndash;&gt;-->
-<!--    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />-->
-<!--    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />-->
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
 <!--    &lt;!&ndash; Core theme CSS (includes Bootstrap)&ndash;&gt;-->
 <!--    <link th:href = "@{/css/bootstrap.min.css}" rel="stylesheet">-->
-<!--    &lt;!&ndash;    <link href="css/styles.css" rel="stylesheet" />&ndash;&gt;-->
+<!--        <link href="css/styles.css" rel="stylesheet" />-->
 <!--    <link href="/css/my.css" rel="stylesheet" />-->
 </head>
 <body>
-<div th:insert="~{/fragments/navbar :: mynavbar}">  </div>
+<!--<div th:fragment="jnavbar">-->
+<div >
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="/"><img src="http://localhost:8080/assets/rfa-logo.png" alt="..." /></a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+<!--            <a class="navbar-brand" href="/"><img src="http://localhost:8080/assets/rfa-logo.png" alt="..." /></a>-->
+            <div class="collapse navbar-collapse" id="navbarScroll">
+                <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Наверх</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">Новини</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Інформація
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
+                            <li><a class="dropdown-item" href="#">Відповіді на запитання</a></li>
+                            <li><a class="dropdown-item" href="#">Служба підтримки</a></li>
+                            <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="#">Документація</a></li>
+                        </ul>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Про нас</a>
+                    </li>
+                </ul>
+                <form class="d-flex">
+                    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+                    <button class="btn btn-outline-success" type="submit">Search</button>
+                </form>
+            </div>
+        </div>
+    </nav>
+
+</div>
+
 <!-- MessageBox -->
-<div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
+<!--<div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>-->
 
 <!--<div class="section section-signup" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/now-ui-kit/master/assets/img/bg4.jpg'); background-size: cover; background-position: top center; min-height: 700px;">-->
 <!--<div class="container">-->
 
 <!--</div>-->
 <!--<div class="section section-signup" style="background-image: url('/assets/img/registerBG.jpg'); background-size: cover; background-position: top center; min-height: 700px;">-->
-<div class="section section-signup" style="background-image: url('http://localhost:8080/assets/img/registerBG.jpg'); background-size: cover; background-position: top center; min-height: 700px;">
-    <section class="md-100" >
-        <div class="container py-5 h-100 v-100" style="padding-top: 8rem!important;">
-            <div class="row d-flex justify-content-center align-items-center h-100">
-                <div class="col-12 col-md-9 col-lg-9 col-xl-6">
-                    <div class="card shadow-2-strong " style="border-radius: 1rem;">
-                        <div class="card-body p-5 text-center">
-                            <h3 class="mb-5">Відновлення паролю</h3>
-<!--                            <div th:if="${param.error}">-->
-<!--                                Помилка в імені та/або у паролі.-->
-<!--                            </div>-->
-<!--                            <div th:if="${param.logout}">-->
-<!--                                Ви Вийшли з системи.-->
-<!--                            </div>-->
-                            <div th:if="${msg}">
-                                <b th:text="${msg}" style="color: red;"></b><br>
+<div class="section " style="background-image: url('http://localhost:8080/assets/img/registerBG.jpg'); background-size: cover; background-position: top center; min-height: 700px;">
+    <section class="md-50" >
+        <div class=" text-center container-fluid" style="padding-top: 8rem!important;">
+            <div class="row text-center">
+                <div class=" col-12 col-md-9 col-lg-9 col-xl-6">
+                    <div class="card" style="width: 22rem;">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="card-title">Відновлення паролю</h5>
                             </div>
-                            <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
-                            <form th:action="@{/login/restorePsw}" method="post" th:object="${user}">
-                                <div class="form-outline mb-4">
-                                    <input type="email" id="typeEmailX-2" name="email" class="form-control form-control-lg" />
-                                    <label class="form-label" for="typeEmailX-2">Вкажіть Вашу пошту</label>
-                                </div>
-                                <button class="btn btn-primary btn-lg btn-block " type="submit" >Відновлення</button>
-                            </form>
-                            <hr class="my-4">
+                            <div class="card-body p-5 text-center">
 
-<!--                            <div th:if="${param.error}">-->
-<!--                                Відновити пароль?-->
-<!--                            </div>-->
-<!--                            <div>-->
-<!--                                Для продовження реєстрації<br>ми надіслали інструкції.<br><h3 style="color: red;">Перевірте свою пошту.</h3>-->
-<!--                            </div>-->
+                                <div th:if="${msg}">
+                                    <b th:text="${msg}" style="color: red;"></b><br>
+                                </div>
+                                <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
+                                <form th:action="@{/login/restorePsw}" method="post" th:object="${user}">
+                                    <div class="form-outline mb-4">
+                                        <input type="email" id="typeEmailX-2" name="email" class="form-control form-control-lg" />
+                                        <label class="form-label" for="typeEmailX-2">Вкажіть Вашу пошту</label>
+                                    </div>
+                                    <button class="btn btn-primary btn-lg btn-block " type="submit" >Відновлення</button>
+                                </form>
+                                <hr class="my-4">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -74,7 +111,7 @@
     </section>
 </div>
 <!-- Latest compiled and minified JavaScript -->
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <!--<script src="/js/bootstrap.bundle.min.js"></script>-->
 </body>
 </html>
