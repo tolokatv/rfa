@@ -137,7 +137,8 @@ public class ServerRunnerService {
     }
 
     // Формуємо файли конфігурації для Nginx, перезавантажуємо конфігурацію сервера.
-    public void  StationPrepareNginx(RPCJob rpcJob) {
+    public Long StationPrepareNginx(RPCJob rpcJob) {
+        Long rc = 129L;
         Gson gson = gsonService.CreateGson();
         Station tmpstation = gson.fromJson(rpcJob.getRjobdata(), Station.class);
         Station station = stationService.GetStationById(tmpstation.getId());
@@ -177,6 +178,7 @@ public class ServerRunnerService {
             }
 //            try {
             int exitcode = p.waitFor();
+            rc = Long.valueOf(exitcode);
             logger.info("=========================== PREPARE NGINX: exit code = {}", String.valueOf(exitcode)  );
 //            } catch (InterruptedException e){
 //                logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
@@ -197,10 +199,11 @@ public class ServerRunnerService {
 //        String strgson = gson.toJson(rpcJob).toString();
 //        template.convertAndSend(queueName,gson.toJson(rpcJob).toString());
 //        // TODO Занести в історию запись про проведення міграції з кодом завершення.
-        return;
+        return rc;
     }
 
-    public void  StationStart(RPCJob rpcJob) {
+    public Long StationStart(RPCJob rpcJob) {
+        Long rc = 129L;
         Gson gson = gsonService.CreateGson();
         Station tmpstation = gson.fromJson(rpcJob.getRjobdata(), Station.class);
         Station station = stationService.GetStationById(tmpstation.getId());
@@ -224,6 +227,7 @@ public class ServerRunnerService {
             }
 //            try {
             int exitcode = p.waitFor();
+            rc = Long.valueOf(exitcode);
             logger.info("=========================== Migrate Init LibreTime: exit code = {}", String.valueOf(exitcode)  );
 //            } catch (InterruptedException e){
 //                logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
@@ -248,10 +252,11 @@ public class ServerRunnerService {
 
 
 
-        return ;
+        return rc;
     }
 
-    public void  StationStop(RPCJob rpcJob) {
+    public Long  StationStop(RPCJob rpcJob) {
+        Long rc = 129L;
         Gson gson = gsonService.CreateGson();
         Station tmpstation = gson.fromJson(rpcJob.getRjobdata(), Station.class);
         Station station = stationService.GetStationById(tmpstation.getId());
@@ -276,6 +281,7 @@ public class ServerRunnerService {
             }
 //            try {
             int exitcode = p.waitFor();
+            rc = Long.valueOf(exitcode);
             logger.info("=========================== Migrate Init LibreTime: exit code = {}", String.valueOf(exitcode)  );
 //            } catch (InterruptedException e){
 //                logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
@@ -299,11 +305,12 @@ public class ServerRunnerService {
 
 
 
-        return;
+        return rc;
 
     }
 
-    public void StationMigrateLibretimeOnInstall(RPCJob rpcJob) {
+    public Long StationMigrateLibretimeOnInstall(RPCJob rpcJob) {
+        Long rc = 129L;
         Gson gson = gsonService.CreateGson();
         Station tmpstation = gson.fromJson(rpcJob.getRjobdata(), Station.class);
         Station station = stationService.GetStationById(tmpstation.getId());
@@ -328,6 +335,7 @@ public class ServerRunnerService {
             }
 //            try {
                 int exitcode = p.waitFor();
+                rc = Long.valueOf(exitcode);
                 logger.info("=========================== Migrate Init LibreTime: exit code = {}", String.valueOf(exitcode)  );
 //            } catch (InterruptedException e){
 //                logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
@@ -348,6 +356,7 @@ public class ServerRunnerService {
 //        String strgson = gson.toJson(rpcJob).toString();
 //        template.convertAndSend(queueName,gson.toJson(rpcJob).toString());
 //        // TODO Занести в історию запись про проведення міграції з кодом завершення.
+        return rc;
     }
 
     public Integer StationMigrateToNewVersion(RPCJob rpcJob) {
@@ -407,8 +416,8 @@ public class ServerRunnerService {
         env.put("LIBRETIME_OUTPUT_MOBILE", libretime_output_mobile);
     }
 
-    public void AllocateStationOnServer(RPCJob rpcJob) {
-
+    public Long AllocateStationOnServer(RPCJob rpcJob) {
+        Long rc = 129L;
         Gson gson = gsonService.CreateGson();
 //        rpcJob.getRjobdata()
         Station tmpstation = gson.fromJson(rpcJob.getRjobdata(), Station.class);
@@ -425,11 +434,16 @@ public class ServerRunnerService {
             while ((line = reader.readLine()) != null) {
                 logger.info(line);
             }
+            int exitcode = p.waitFor();
+            rc = Long.valueOf(exitcode);
 //            assert pb.redirectInput() == ProcessBuilder.Redirect.PIPE;
 //            assert pb.redirectOutput().file() == log;
 //            assert p.getInputStream().read() == -1;
         } catch (IOException e) {
             logger.warn(" Щось пішло не так при виконанні завдання в операційній системі");
+            e.printStackTrace();
+        } catch (InterruptedException e){
+            logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
             e.printStackTrace();
         }
         //================================================================
@@ -439,10 +453,11 @@ public class ServerRunnerService {
 //        String strgson = gson.toJson(rpcJob).toString();
 //        template.convertAndSend(queueName,gson.toJson(rpcJob).toString());
 //        // TODO Занести в історию запись о создании конфігураційних файлів
-
+        return rc;
     }
 
-    public void StationGetPS(RPCJob rjob) {
+    public Long StationGetPS(RPCJob rjob) {
+        Long rc = 129L;
         Gson gson = gsonService.CreateGson();
 //        rpcJob.getRjobdata()
         Station station = gson.fromJson(rjob.getRjobdata(), Station.class);
@@ -460,15 +475,21 @@ public class ServerRunnerService {
             while ((line = reader.readLine()) != null) {
                 logger.info(line);
             }
+            int exitcode = p.waitFor();
+            rc = Long.valueOf(exitcode);
 //            assert pb.redirectInput() == ProcessBuilder.Redirect.PIPE;
 //            assert pb.redirectOutput().file() == log;
 //            assert p.getInputStream().read() == -1;
         } catch (IOException e) {
             logger.warn(" Щось пішло не так при виконанні завдання в операційній системі");
             e.printStackTrace();
+        } catch (InterruptedException e){
+            logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
+            e.printStackTrace();
         }
         //================================================================
         // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
 //        // TODO Занести в історию запись
+        return rc;
     }
 }

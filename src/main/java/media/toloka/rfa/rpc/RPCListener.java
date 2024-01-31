@@ -60,28 +60,34 @@ Logger logger = LoggerFactory.getLogger(RPCListener.class);
                 break;
             case JOB_STATION_ALLOCATE: // розміщуємо каталоги на сервері, створюємо базу, користувачів у Postgresql та Rabbit.
                 logger.info("+++++++++++++++++ START JOB_STATION_ALLOCATE");
-                serverRunnerService.AllocateStationOnServer(rjob);
+                rc = serverRunnerService.AllocateStationOnServer(rjob);
+                rjob.getJobresilt().add(new ResultJob(rc, curJob));
                 logger.info("+++++++++++++++++ END JOB_STATION_ALLOCATE");
                 break;
             case JOB_STATION_LIBRETIME_MIGRATE: // Після розміщення станції запускаємо першу процедуру міграції
-                serverRunnerService.StationMigrateLibretimeOnInstall(rjob);
+                rc = serverRunnerService.StationMigrateLibretimeOnInstall(rjob);
+                rjob.getJobresilt().add(new ResultJob(rc, curJob));
                 logger.info("+++++++++++++++++  JOB_STATION_LIBRETIME_MIGRATE");
                 break;
             case JOB_STATION_PREPARE_NGINX:
-                serverRunnerService.StationPrepareNginx(rjob);
+                rc = serverRunnerService.StationPrepareNginx(rjob);
+                rjob.getJobresilt().add(new ResultJob(rc, curJob));
                 logger.info("+++++++++++++++++  JOB_STATION_PREPARE_NGINX");
                 break;
             case JOB_STATION_START:
-                serverRunnerService.StationStart(rjob);
+                rc = serverRunnerService.StationStart(rjob);
+                rjob.getJobresilt().add(new ResultJob(rc, curJob));
                 logger.info("+++++++++++++++++  JOB_STATION_START");
                 break;
             case JOB_STATION_STOP:
-                serverRunnerService.StationStop(rjob);
+                rc = serverRunnerService.StationStop(rjob);
+                rjob.getJobresilt().add(new ResultJob(rc, curJob));
                 logger.info("+++++++++++++++++  JOB_STATION_STOP");
                 break;
 
             case JOB_STATION_GET_PS:
-                serverRunnerService.StationGetPS(rjob);
+                rc = serverRunnerService.StationGetPS(rjob);
+                rjob.getJobresilt().add(new ResultJob(rc, curJob));
                 logger.info("+++++++++++++++++  JOB_STATION_GET_PS");
                 break;
             case JOB_CONTRACT_CREATE:
