@@ -225,7 +225,6 @@ public class ClientHomeStationController {
         nstation.setIcecastsite(station.getIcecastsite());
         nstation.setLastchangedate(new Date());
         stationService.saveStation(nstation);
-        // TODO додати запис в журнал
         historyService.saveHistory(History_StatiionChange,
                 nstation.getUuid().toString() + ": " +nstation.getLastchangedate().toString() + " Збережено станцію " + nstation.getUuid().toString(),
                 user
@@ -303,6 +302,40 @@ public class ClientHomeStationController {
         return "redirect:/user/stations";
     }
 
+    @GetMapping(value = "/user/deletestation")
+    public String userDelStation(
+            @RequestParam(value = "id", required = true) Long id,
+
+            Model model ) {
+
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+        Station station = stationService.GetStationById(id);
+        if (station == null) {
+            model.addAttribute("error", "Йой! Щось пішло не так. Ми вже працюємо над цим!");
+            return "redirect:/user/stations";
+        }
+        // todo Надіслати користувачу лист на підтвердження видалення станції
+        // виконаємо це через RPC :)
+
+        RPCJob rjob = new RPCJob();
+        rjob.getJobchain().add(JOB_STATION_DELETE);
+        rjob.setUser(user);
+        Gson gstation = gsonService.CreateGson();
+        rjob.setRjobdata(gstation.toJson(station).toString());
+        // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
+        Gson gson = gsonService.CreateGson();
+        String strgson = gson.toJson(rjob).toString();
+        template.convertAndSend(queueNameRabbitMQ,gson.toJson(rjob).toString());
+        model.addAttribute("success", "Вам надіслано листа на підтвердження видалення станції. Будь ласка, підтвердіть видалення");
+        historyService.saveHistory(History_StatiionChange,
+                station.getUuid().toString() + ":  Надіслано запит на видалення станції ",
+                user
+        );
+        return "redirect:/user/stations";
+    }
 
     @GetMapping(value = "/user/psstation")
     public String userPSStation(

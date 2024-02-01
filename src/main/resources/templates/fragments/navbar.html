@@ -44,7 +44,14 @@
                 <li class="nav-item"><a class="nav-link" href="/user/home/managestations">Станції</a></li>
                 <li class="nav-item"><a class="nav-link" href="/user/contract">Угоди</a></li>
                 <li class="nav-item"><a class="nav-link" href="/user/home/managecontract">Документи</a></li>
-                <li class="nav-item"><a class="nav-link" href="/usermessage">Повідомлення</a></li>
+                <li class="nav-item"><a class="nav-link" href="/usermessage">Повідомлення
+                    <span th:if="${quantitynewmessage gt 0} " th:text="'Нові: '+ ${quantitynewmessage}" style="color:red;font-size: 0.75em; font-weight: bold;"/>
+<!--                        (<span th:text="${quantitynewmessage}")/>)-->
+<!--                        /-->
+<!--                        <span th:text="${quantityallmessage}")/>-->
+<!--                        )-->
+<!--                    </span>-->
+                </a></li>
                 <li class="nav-item"><a class="nav-link" th:href="@{/logout}" >Вихід</a></li>
             </ul>
         </div>

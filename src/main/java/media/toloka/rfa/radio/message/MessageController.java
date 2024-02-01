@@ -37,6 +37,7 @@ public class MessageController {
             @ModelAttribute Messages messages,
             Model model
     ) {
+
         logger.info("============== Message Controller ");
         Users user = clientService.GetCurrentUser();
         if (user == null) {
