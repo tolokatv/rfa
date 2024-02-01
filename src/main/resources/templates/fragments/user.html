@@ -5,58 +5,23 @@
     <title>Title</title>
 </head>
 <body>
-<section th:fragment="user_navbar">
-    <div class="container-fluid ">
-        <nav class="navbar navbar-expand-lg bg-dark navbar-dark fixed-top">
-            <!-- Navbar content -->
-            <div class="container-fluid">
-                <!--                    <a class="navbar-brand" href="#">Радіо для Всіх!</a>-->
-                <a class="navbar-brand" href="/"><img alt="..." src="/assets/rfa-logo.png"/></a>
-            </div>
-            <div class="collapse navbar-collapse" id="navbarCreater" sec:authorize="hasRole('ROLE_CREATER')">
-                <!--                <div sec:authorize="hasRole('ROLE_CREATER')">-->
-                <!--                <div sec:authorize="hasRole('Creater')">-->
-                <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="/creater/home">Головна</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/creater/tracks">Треки</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/creater/albums">Альбоми</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/creater/info">Інформація</a></li>
-                </ul>
-            </div>
-            <div sec:authorize="hasRole('ROLE_USER')">
-                <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                    <li class="nav-item"><a class="nav-link" href="/user/user_page">Головна</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/user/userstations">Станції</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/user/contract">Угоди</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/user/documents">Документи</a></li>
-                </ul>
-            </div>
-            <ul class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
-                <li class="nav-item"><a class="nav-link" href="/#contact">Повідомлення</a></li>
-                <li class="nav-item"><a class="nav-link" href="/#contact">Підтримка</a></li>
-                <li class="nav-item"><a class="nav-link" th:href="@{/logout}">Вихід</a></li>
-            </ul>
-    </div>
-    </nav>
-    </div>
-</section>
 <!--================= Сервіси користувача ====================-->
 <div th:fragment="user_service">
     <div class="container-fluid">
         <div class="row text-center">
             <div class="col align-center">
                 <div class="card">
-                    <div class="card-header"><h3>Ваші станції.</h3></div>
+                    <div class="card-header"><h3>Станції</h3></div>
                     <div class="card-body">
-                    <span class="fa-stack fa-4x">
+                    <span class="fa-stack fa-2x">
                         <i class="fas fa-circle fa-stack-2x text-primary"></i>
                         <i class="fas fa-radio fa-stack-1x fa-inverse"></i>
                     </span>
-                        <h5 class="card-title">Вас чує весь світ!</h5>
-                        <p class="card-text">Створити, зупинити, відновити роботу, видалити.</p>
+<!--                        <h5 class="card-title">Вас чує весь світ!</h5>-->
+<!--                        <p class="card-text">Створити, зупинити, відновити роботу, видалити.</p>-->
                     </div>
                     <div class="card-footer text-muted">
-                        <a class="btn btn-primary" href="/user/home/managestations">Керувати станціями</a>
+                        <a class="btn btn-primary" href="/user/home/managestations">Керувати</a>
                     </div>
                 </div>
             </div>
@@ -66,30 +31,30 @@
                         <h3>Угоди</h3>
                     </div>
                     <div class="card-body">
-                    <span class="fa-stack fa-4x">
+                    <span class="fa-stack fa-2x">
                         <i class="fas fa-circle fa-stack-2x text-primary"></i>
                         <i class="fas fa-file-contract fa-stack-1x fa-inverse"></i>
                     </span>
-                        <h5 class="card-title">Угоди - стан, оплата, фінансові питання.</h5>
-                        <p class="card-text">Створити угоду, подивитися стан, зупинити, історія. </p>
+<!--                        <h5 class="card-title">Угоди</h5>-->
+<!--                        <p class="card-text">Створити угоду, подивитися стан, зупинити, історія. </p>-->
                     </div>
                     <div class="card-footer text-muted">
-                        <a class="btn btn-primary" href="/user/home/managecontract">Керувати угодами</a>
+                        <a class="btn btn-primary" href="/user/home/managecontract">Керувати</a>
                     </div>
                 </div>
             </div>
             <div class="col align-center">
                 <div class="card">
                     <div class="card-header">
-                        <h3>Документи</h3>
+                        <h3>Файли</h3>
                     </div>
                     <div class="card-body">
-                    <span class="fa-stack fa-4x">
+                    <span class="fa-stack fa-2x">
                         <i class="fas fa-circle fa-stack-2x text-primary"></i>
                         <i class="fas fa-comments fa-stack-1x fa-inverse"></i>
                     </span>
-                        <h5 class="card-title">Ваші документи</h5>
-                        <p class="card-text">Завантаження, схвалення, видалення... </p>
+<!--                        <h5 class="card-title">Ваші файли</h5>-->
+<!--                        <p class="card-text">Завантаження, схвалення, видалення... </p>-->
                     </div>
                     <div class="card-footer text-muted">
                         <a class="btn btn-primary" href="/user/home/documents">Ваші документи</a>
@@ -99,15 +64,15 @@
             <div class="col align-center">
                 <div class="card">
                     <div class="card-header">
-                        <h3>Підтримка</h3>
+                        <h3>Профайл</h3>
                     </div>
                     <div class="card-body">
-                    <span class="fa-stack fa-4x">
+                    <span class="fa-stack fa-2x">
                         <i class="fas fa-circle fa-stack-2x text-primary"></i>
                         <i class="fas fa-comments fa-stack-1x fa-inverse"></i>
                     </span>
-                        <h5 class="card-title">Профайл.</h5>
-                        <p class="card-text">Документація, служба підтримки. </p>
+<!--                        <h5 class="card-title">Профайл.</h5>-->
+<!--                        <p class="card-text">Документація, служба підтримки. </p>-->
                     </div>
                     <div class="card-footer text-muted">
                         <a class="btn btn-primary" href="/user/home/usergetinfo">Профайл</a>

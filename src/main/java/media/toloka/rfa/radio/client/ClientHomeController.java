@@ -31,33 +31,13 @@ public class ClientHomeController {
     @GetMapping(value = "/user/user_page")
     public String userHome(
             Model model ) {
-
-        // Додаемо сповіщення про не прочитані повідомлення
-//        Long numberNewMsg = Long.valueOf (messageService.GetNewMessages(clientService.getClientDetail(clientService.GetCurrentUser())).size());
-//        if (numberNewMsg > 0) {
-//            model.addAttribute("danger", "У Вас є нові повідомлення: "
-//                    + numberNewMsg.toString()
-//            );
-//        }
-
-        Authentication au;
-        au = SecurityContextHolder.getContext().getAuthentication();
-//        Optional<Users> opt = ClientService.getByEmail(au.getName());
-//        Users user = clientService.getByEmail(au.getName());
-        // Якщо не залогінені, то переходимо на головну.
-//        if (opt.isEmpty()) {
         Users user = clientService.GetCurrentUser();
         if (user == null) {
             return "redirect:/";
         }
-        // Витягуєм користувача
-//        Users user = opt.get();
-        // дивимося його групи
-        // відповідним чином виводимо пункти меню
-        // Заповнюємо поля для форми
         model.addAttribute("stations",  stationService.GetListStationByUser(user));
-        model.addAttribute("userID",    user.getId());
-        model.addAttribute("userName",  au.getName());
+//        model.addAttribute("userID",    user.getId());
+//        model.addAttribute("userName",  user.getName());
         return "/user/user_page";
     }
 
@@ -72,10 +52,10 @@ public class ClientHomeController {
 
     @GetMapping(value = "/user/home/managestations")
     public String UserManageStation(
-            @ModelAttribute Users user,
+//            @ModelAttribute Users user,
             Model model
     ) {
-        Long usri = user.getId();
+//        Long usri = user.getId();
         return "redirect:/user/stations";
     }
 
@@ -87,6 +67,7 @@ public class ClientHomeController {
         Long usri = user.getId();
         return "redirect:/user/contract";
     }
+
     @GetMapping(value = "/user/home/usergetinfo")
     public String UserGetInfo(
             @ModelAttribute Users user,
