@@ -47,11 +47,11 @@ public class MediaCardInfo {
     private Date startdate;
     @Expose
     private Date enddate;
-    @Expose
-    private Clientdetail clientdetail;
-    @Expose
-    private boolean apruve;
-    @Expose
-    private Clientdetail apruvercd;
+//    @Expose
+//    private Clientdetail clientdetail;
+//    @Expose
+//    private boolean apruve;
+//    @Expose
+//    private Clientdetail apruvercd;
 
 }
