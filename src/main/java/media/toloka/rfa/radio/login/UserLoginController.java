@@ -147,9 +147,8 @@ public class UserLoginController {
             // зберігаємо користувача в базу
             newUser.setPassword("*");
             newUser.setEmail(formuser.getEmail());
-            clientService.SaveUser(newUser);
-
             clientService.CreateClientsDetail(newUser,formuser.getCustname(),formuser.getCustsurname());
+            clientService.SaveUser(newUser);
             String token = UUID.randomUUID().toString();
             serviceToken.createVerificationToken(newUser, token);
 
@@ -158,13 +157,13 @@ public class UserLoginController {
             Mail mail;
             mail = new Mail();
             mail.setTo(newUser.getEmail());
-            mail.setFrom("rfa@toloka.kiev.ua");
+            mail.setFrom("support@rfa.toloka.media");
             mail.setSubject("Радіо для Всіх! Підтвердження реєстрації Вашої радіостанції на сервісі.");
             Map<String, Object> map1 = new HashMap<String, Object>();
 //                map1.put("name",(Object) userDTO.getEmail());
-//                map1.put("name", (Object) userDTO.getCustname() + " " + userDTO.getCustsurname()); // сформували імʼя та призвище для листа
+                map1.put("name", (Object) newUser.getClientdetail().getCustname() + " " + newUser.getClientdetail().getCustsurname()); // сформували імʼя та призвище для листа
             // TODO правильно сформувати імʼя для відсилання пошти.
-            map1.put("name", (Object) "УВАГА!!! Штучно Сформоване імʼя"); // сформували імʼя та призвище для листа
+//            map1.put("name", (Object) "УВАГА!!! Штучно Сформоване імʼя"); // сформували імʼя та призвище для листа
             map1.put("confirmationUrl", (Object) "https://rfa.toloka.media/login/setUserPassword?token=" + token); // сформували для переходу адресу з токеном
             mail.setHtmlTemplate(new Mail.HtmlTemplate("/mail/registerSetPassword", map1)); // заповнили обʼєкт для відсилання пошти
             // пробуємо надіслати
