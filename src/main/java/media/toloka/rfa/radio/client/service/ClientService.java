@@ -100,27 +100,24 @@ public class ClientService {
     }
 
     public void CreateClientsDetail(Users user, String name, String surname) {
-        Clientdetail clientdetail = new Clientdetail();
+//        Clientdetail clientdetail = new Clientdetail();
+        Clientdetail clientdetail = user.getClientdetail();
         clientdetail.setUser(user);
         clientdetail.setCustname(name);
         clientdetail.setCustsurname(surname);
         clientdetail.setUuid(UUID.randomUUID().toString());
-        clientDetailRepository.save(clientdetail);
-
+//        clientDetailRepository.save(clientdetail);
     }
 
     public void SaveClientDetail(Clientdetail curuserdetail) {
-
         clientDetailRepository.save(curuserdetail);
     }
 
     public Clientaddress GetAddress(Long id) {
-        return
-                clientAddressRepository.getById(id);
+        return clientAddressRepository.getById(id);
     }
 
     public void SaveAddress(Clientaddress fclientaddress) {
-
         clientAddressRepository.save(fclientaddress);
     }
 
@@ -129,7 +126,6 @@ public class ClientService {
     }
 
     public Users GetUserById(Long iduser) {
-
         return userRepository.getById(iduser);
     }
 

@@ -36,3 +36,5 @@ out/
 .vscode/
 /src/main/resources/upload/
 /.env
+/rfa.log
+/rfa.log.2024-02-02.0.gz
