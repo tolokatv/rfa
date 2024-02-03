@@ -133,7 +133,7 @@ public class RPCRESTController {
                     result.put(key,value);
                     logger.info("Статус сервісу {} = {} для станції {}",key,value,station.getUuid());
                 } else {
-                    result.put(key,"stoped");
+//                    result.put(key,"stoped");
                 }
             }
         }
