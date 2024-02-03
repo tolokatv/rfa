@@ -20,7 +20,8 @@
 </head>
 <body>
 <header>
-    <div th:insert="~{/fragments/user :: user_navbar}">  </div>
+<!--    <div th:insert="~{/fragments/user :: user_navbar}">  </div>-->
+    <div th:insert="~{/fragments/navbar :: mynavbar}">  </div>
 </header>
 <div class="row"  style="padding-top: 100px">
     <div class="col-md-8 mb-4">
@@ -46,6 +47,7 @@
                                 <a th:href="${linkstation}" class="btn btn-primary">ПЕРЕЙТИ</a>
                                 <a th:href="@{/user/startstation(id=${station.id})}" class="btn btn-primary">Стартувати</a>
                                 <a th:href="@{/user/stopstation(id=${station.id})}" class="btn btn-primary">Зупинити</a>
+                                <a th:href="@{/user/deletestation(id=${station.id})}" class="btn btn-primary">Видалити</a>
                             </div>
                         </div>
                     </div>

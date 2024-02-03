@@ -2,10 +2,9 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Відновлення паролю.</title>
 
-    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <!-- Google fonts-->
@@ -19,19 +18,26 @@
 <body>
 <div th:insert="~{/fragments/navbar :: mynavbar}">  </div>
 <!-- MessageBox -->
-<!--<div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>-->
+<div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
 
 <!--<div class="section section-signup" style="background-image: url('https://raw.githubusercontent.com/creativetimofficial/now-ui-kit/master/assets/img/bg4.jpg'); background-size: cover; background-position: top center; min-height: 700px;">-->
-<div class="section section-signup" style="background-image: url('/assets/img/LoginBG.jpg');
-background-size: cover; background-position: top center; min-height: 1200px;">
-    <div class="container py-5 h-100">
-        <div class="row d-flex justify-content-center align-items-center">
-            <div class="col col-10 text-center"  style="padding-top: 3rem">
-                    <div class="card shadow-2-strong " style="border-radius: 0.5rem;">
-                        <div class="card-header">
-                            <h3>Відновлення паролю</h3>
-                        </div>
-                        <div class="card-body" style="border-radius: 0,5rem;">
+<div class="section section-signup" style="background-image: url('/assets/img/registerBG.jpg'); background-size: cover; background-position: top center; min-height: 700px;">
+    <section class="vh-100" >
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+                    <div class="card shadow-2-strong " style="border-radius: 1rem;">
+                        <div class="card-body p-5 text-center">
+                            <h3 class="mb-5">Відновлення паролю</h3>
+<!--                            <div th:if="${param.error}">-->
+<!--                                Помилка в імені та/або у паролі.-->
+<!--                            </div>-->
+<!--                            <div th:if="${param.logout}">-->
+<!--                                Ви Вийшли з системи.-->
+<!--                            </div>-->
+                            <div th:if="${msg}">
+                                <b th:text="${msg}" style="color: red;"></b><br>
+                            </div>
                             <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
                             <form th:action="@{/login/restorePsw}" method="post" th:object="${user}">
                                 <div class="form-outline mb-4">
@@ -41,11 +47,19 @@ background-size: cover; background-position: top center; min-height: 1200px;">
                                 <button class="btn btn-primary btn-lg btn-block " type="submit" >Відновлення</button>
                             </form>
                             <hr class="my-4">
+
+<!--                            <div th:if="${param.error}">-->
+<!--                                Відновити пароль?-->
+<!--                            </div>-->
+<!--                            <div>-->
+<!--                                Для продовження реєстрації<br>ми надіслали інструкції.<br><h3 style="color: red;">Перевірте свою пошту.</h3>-->
+<!--                            </div>-->
                         </div>
                     </div>
+                </div>
             </div>
         </div>
-    </div>
+    </section>
 </div>
 <script src="/js/bootstrap.bundle.min.js"></script>
 </body>

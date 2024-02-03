@@ -84,6 +84,12 @@ Logger logger = LoggerFactory.getLogger(RPCListener.class);
                 rjob.getJobresilt().add(new ResultJob(rc, curJob));
                 logger.info("+++++++++++++++++  JOB_STATION_STOP");
                 break;
+            case JOB_STATION_DELETE:
+                // todo написати видалення станції
+                rc = -10255L;
+                rjob.getJobresilt().add(new ResultJob(rc, curJob));
+                logger.info("+++++++++++++++++  JOB_STATION_DELETE");
+                break;
 
             case JOB_STATION_GET_PS:
                 rc = serverRunnerService.StationGetPS(rjob);
@@ -91,16 +97,16 @@ Logger logger = LoggerFactory.getLogger(RPCListener.class);
                 logger.info("+++++++++++++++++  JOB_STATION_GET_PS");
                 break;
             case JOB_CONTRACT_CREATE:
-                logger.info("======= {}    {}", rjob.getRJobType().label, rjob.getRjobdata());
+                logger.info("======= {}    {}", rjob.getRJobType(), rjob.getRjobdata());
                 break;
             case JOB_CONTRACT_ADD_NAME:
-                logger.info("======= {}    {}", rjob.getRJobType().label, rjob.getRjobdata());
+                logger.info("======= {}    {}", rjob.getRJobType(), rjob.getRjobdata());
                 break;
             case JOB_CONTRACT_ADD_STATION:
-                logger.info("======= {}    {}", rjob.getRJobType().label, rjob.getRjobdata());
+                logger.info("======= {}    {}", rjob.getRJobType(), rjob.getRjobdata());
                 break;
             default:
-                logger.info("======= {}    {}", rjob.getRJobType().label, rjob.getRjobdata());
+                logger.info("RPC Listener CASE DEFAULT: ======= {}    {}", rjob.getRJobType(), rjob.getRjobdata());
                 break;
         }
         serverRunnerService.CompletedPartRPCJob(rjob);
