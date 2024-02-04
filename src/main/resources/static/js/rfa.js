@@ -12,7 +12,9 @@ let intervalId;
 window.addEventListener('DOMContentLoaded', event => {
 
 async function getStatus() {
-  const response = await fetch("https://rfa.toloka.media/api/1.0/ps/1352"+stationId);
+    let siteurl = "https://rfa.toloka.media/api/1.0/ps/1352"+stationId;
+    console.log(siteurl);
+  const response = await fetch(siteurl);
   const data = await response.json();
   console.log(data);
   console.log(stationId);
