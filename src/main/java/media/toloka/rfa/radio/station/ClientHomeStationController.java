@@ -76,8 +76,6 @@ public class ClientHomeStationController {
             logger.warn("User not found. Redirect to main page");
             return "redirect:/";
         }
-        // TODO додати в меню інформацію по повідомленням - всі/нові
-//        messageService.setNavQuantityMessage(model, clientService.getClientDetail(user)); // встановили кількість повідомлень для меню.
         model.addAttribute("stations",  stationService.GetListStationByUser(user));
         return "/user/stations";
     }
@@ -114,19 +112,6 @@ public class ClientHomeStationController {
                 return "/user/stations";
             }
         }
-//
-//        if (stationService.HavePayContract(clientdetail) == false) {
-//            // перевіряємо наявності безкоштовної станції
-//            model.addAttribute("warning", "Неможливо створити станцію! У Вас немає комерційного контракту і вже є тестова станція");
-//            return "/user/stations";
-//        }
-//        else {
-//            if (clientdetail.getStationList().size() > 0) {
-//                model.addAttribute("warning", "Неможливо створити станцію! У Вас вже є безкоштовна станція .");
-//                return "/user/stations";
-//            }
-//        }
-
 
         Station station = stationService.CreateStation(clientdetail);
         if (station == null) {
@@ -167,7 +152,6 @@ public class ClientHomeStationController {
     @GetMapping(value = "/user/controlstation")
     public String userControltStation(
             @RequestParam(value = "id", required = true) Long id,
-//            @ModelAttribute Station station,
             Model model ) {
         Users user = clientService.GetCurrentUser();
         if (user == null) {
@@ -180,12 +164,10 @@ public class ClientHomeStationController {
             logger.info("ClientHomeStationController:  Не можемо запустити станцію для користувача {}", user.getEmail());
             // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
             // TODO зробити запис в журнал
+            model.addAttribute("warning", "Не можемо знайти станцію (" + id.toString() + ") для користувача " + user.getEmail());
             return "redirect:/user/stations";
         }
-        // користувач та танція знайдені. Працюємо зі станцією.
-//        FormStr fstr = new FormStr();
-//        fstr.setId(mstation.getId());
-//        fstr.setName(mstation.getName());
+        // користувач та станція знайдені. Працюємо зі станцією.
         model.addAttribute("contracts",  contractService.ListContractByUser(user));
         model.addAttribute("linkstation",  stationService.GetURLStation(mstation));
         model.addAttribute("station",  mstation);
@@ -204,7 +186,8 @@ public class ClientHomeStationController {
 
         if (station == null) {
             // Станцію створити не можемо. Показуємо про це повідомлення.
-            logger.info("userHomeStationSave: Не можемо зберегти станцію id={} для користувача {}", station.getId(), user.getEmail());
+            logger.info("userHomeStationSave: Не можемо знайти станцію id={} для користувача {}", station.getId(), user.getEmail());
+            model.addAttribute("warning", "Не можемо знайти станцію (" + station.getId().toString() + ") для користувача " + user.getEmail());
             // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
             // TODO зробити запис в журнал
             return "redirect:/user/stations";
@@ -219,6 +202,7 @@ public class ClientHomeStationController {
         }
 
         nstation.setName(station.getName());
+
         nstation.setIcecastdescription(station.getIcecastdescription());
         nstation.setIcecastname(station.getIcecastname());
         nstation.setIcecastgenre(station.getIcecastgenre());

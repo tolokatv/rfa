@@ -8,8 +8,11 @@
 // https://rfa.toloka.media
 
 let intervalId;
+let curstatus;
 
 window.addEventListener('DOMContentLoaded', event => {
+
+function setkey
 
 async function getStatus() {
     let siteurl = "https://rfa.toloka.media/api/1.0/ps/"+stationId;

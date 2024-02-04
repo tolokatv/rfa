@@ -44,10 +44,16 @@
                         </div>
                         <div class="col">
                             <div class="form-outline">
-                                <a th:href="${linkstation}" id="toStation" class="btn btn-primary">ПЕРЕЙТИ</a>
-                                <a th:href="@{/user/startstation(id=${station.id})}" id="startStation" class="btn btn-primary">Стартувати</a>
-                                <a th:href="@{/user/stopstation(id=${station.id})}" id="stopStation" class="btn btn-primary">Зупинити</a>
-                                <a th:href="@{/user/deletestation(id=${station.id})}" class="btn btn-primary">Видалити</a>
+                                <style>
+                                    .disabled{
+                                        /*Disabled link style*/
+                                        color:black;
+                                    }
+                                </style>
+                                <a th:href="${linkstation}" id="toStation" class="btn btn-primary" target="_blank" aria-disabled="true">ПЕРЕЙТИ</a>
+                                <a th:href="@{/user/startstation(id=${station.id})}" id="startStation" class="btn btn-primary" disable="true">Стартувати</a>
+                                <a th:href="@{/user/stopstation(id=${station.id})}" id="stopStation" class="btn btn-primary" disable="true">Зупинити</a>
+                                <a th:href="@{/user/deletestation(id=${station.id})}" class="btn btn-primary" disable="true">Видалити</a>
                             </div>
                         </div>
                     </div>
