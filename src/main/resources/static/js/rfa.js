@@ -15,6 +15,7 @@ async function getStatus() {
   const response = await fetch("https://rfa.toloka.media/api/1.0/ps/1352");
   const data = await response.json();
   console.log(data);
+  console.log(stationId);
   return data;
 }
 

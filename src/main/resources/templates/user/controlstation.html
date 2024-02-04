@@ -44,9 +44,9 @@
                         </div>
                         <div class="col">
                             <div class="form-outline">
-                                <a th:href="${linkstation}" class="btn btn-primary">ПЕРЕЙТИ</a>
-                                <a th:href="@{/user/startstation(id=${station.id})}" class="btn btn-primary">Стартувати</a>
-                                <a th:href="@{/user/stopstation(id=${station.id})}" class="btn btn-primary">Зупинити</a>
+                                <a th:href="${linkstation}" id="toStation" class="btn btn-primary">ПЕРЕЙТИ</a>
+                                <a th:href="@{/user/startstation(id=${station.id})}" id="startStation" class="btn btn-primary">Стартувати</a>
+                                <a th:href="@{/user/stopstation(id=${station.id})}" id="stopStation" class="btn btn-primary">Зупинити</a>
                                 <a th:href="@{/user/deletestation(id=${station.id})}" class="btn btn-primary">Видалити</a>
                             </div>
                         </div>
