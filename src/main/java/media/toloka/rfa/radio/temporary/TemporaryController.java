@@ -55,15 +55,12 @@ public class TemporaryController {
 
     Logger logger = LoggerFactory.getLogger(RPCListener.class);
 
-    @GetMapping(value = "/user/temporary")
+
+
+    @GetMapping(value = "/user/stationstatus/{id}")
     public String userHomeStation(
             Model model ) {
-        messageService.setNavQuantityMessage
-                (model, clientService.GetClientDetailByUser(clientService.GetCurrentUser()));
-
-        model.addAttribute("stations",  stationService.GetListStationByUser(clientService.GetCurrentUser()));
-
-        return "/user/temporary";
+        return "/temporary/stationstatus";
     }
 
     @GetMapping(value = "/user/temporaryid")

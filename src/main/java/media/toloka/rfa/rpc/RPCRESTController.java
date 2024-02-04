@@ -1,13 +1,11 @@
-package media.toloka.rfa.rpc.service;
+package media.toloka.rfa.rpc;
 
 
 
-import com.google.gson.Gson;
 import media.toloka.rfa.config.gson.service.GsonService;
 import media.toloka.rfa.radio.model.Station;
 import media.toloka.rfa.radio.station.service.StationService;
-import media.toloka.rfa.rpc.RPCController;
-import media.toloka.rfa.rpc.model.RPCJob;
+import media.toloka.rfa.rpc.service.ServerRunnerService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -22,11 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.time.ZoneId;
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.*;
-
-import static media.toloka.rfa.rpc.model.ERPCJobType.JOB_STATION_START;
 
 @RestController
 public class RPCRESTController {
@@ -90,6 +84,9 @@ public class RPCRESTController {
             logger.info("GetStateStationREST: Йой! не знайшли станцію id={}",id);
             return null;
         }
+        // todo передбачити маршрутизацію на сервер, на якому виконується докер
+        // application.properties: media.toloka.rfa.server.libretime.guiserver=localhost
+        // сервер при завантаженні створює відповідну чергу в яку для нього надсилаються повідомлення
 
         ProcessBuilder pb = new ProcessBuilder("bash", "-c", "docker ps --format \"{{.State}} {{.CreatedAt}} {{.Names}}\"|grep "+station.getUuid());
         Map<String, String> env = pb.environment();
