@@ -128,13 +128,14 @@ public class RPCRESTController {
                     String value = resultString.substring(0,resultString.indexOf(" "));
                     count = count +value.indexOf("runn");
                     result.put(key,value);
-                    logger.info("Статус сервісу {} = {} для станції {}",key,value,station.getUuid());
-                } else {
-//                    result.put(key,"stoped");
+//                    logger.info("Статус сервісу {} = {} для станції {}",key,value,station.getUuid());
                 }
+//                else {
+//                    result.put(key,"stoped");
+//                }
             }
         }
-        result.put("status",String.valueOf(count) );
+//        result.put("status",String.valueOf(count) );
         return result;
     }
 }

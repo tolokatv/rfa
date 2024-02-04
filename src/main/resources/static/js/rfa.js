@@ -18,6 +18,6 @@ async function getStatus() {
   return data;
 }
 
-intervalId = setInterval(getStatus, 2000);
+intervalId = setInterval(getStatus, 500);
 
 });
