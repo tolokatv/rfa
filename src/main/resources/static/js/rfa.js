@@ -12,7 +12,7 @@ let curstatus;
 
 window.addEventListener('DOMContentLoaded', event => {
 
-function setkey
+//function setkey
 
 async function getStatus() {
     let siteurl = "https://rfa.toloka.media/api/1.0/ps/"+stationId;
