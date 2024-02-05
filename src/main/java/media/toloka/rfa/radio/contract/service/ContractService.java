@@ -39,4 +39,6 @@ public class ContractService {
     public List<Contract> FindContractByClientDetail(Clientdetail clientDetail) {
         return contractRepo.findByClientdetail(clientDetail);
     }
+
+
 }

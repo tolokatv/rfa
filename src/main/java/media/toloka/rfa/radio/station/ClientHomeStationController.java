@@ -106,14 +106,17 @@ public class ClientHomeStationController {
         }
 
         if (stationService.CreateCheckApruveAddress(clientdetail) == false) {
-            model.addAttribute("warning", "Неможливо створити станцію! У Профайлі відсутня схвалена адреса.");
+            model.addAttribute("warning", "Неможливо створити станцію! У Профайлі відсутня схвалена адреса. Дочекайтеся будь ласка схвалення адміністрацією сервісом.");
             return "/user/stations";
         }
 
         if (clientdetail.getStationList().size() > 0) {
             if (stationService.HavePayContract(clientdetail) == false) {
                 // перевіряємо наявності безкоштовної станції
-
+                if (stationService.CreateCheckFreeStation(clientdetail) == true) {
+                    model.addAttribute("warning", "Неможливо створити станцію! У Вас вже є тестова станція що додана до безкоштовного контракту");
+                    return "/user/stations";
+                }
                 model.addAttribute("warning", "Неможливо створити станцію! У Вас немає комерційного контракту і вже є тестова станція");
                 return "/user/stations";
             }

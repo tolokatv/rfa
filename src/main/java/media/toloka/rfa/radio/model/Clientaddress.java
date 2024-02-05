@@ -46,9 +46,9 @@ public class Clientaddress {
     @Expose
     private String comment;
     @Expose
-    private Boolean mainaddress;
+    private Boolean mainaddress = false;
     @Expose
-    private Boolean apruve;
+    private Boolean apruve = false;
 
     @ToString.Exclude
     @ManyToOne(optional = false, cascade = {CascadeType.ALL}) //, cascade = {CascadeType.ALL}

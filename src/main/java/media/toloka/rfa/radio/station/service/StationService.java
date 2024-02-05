@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.UUID;
 
+import static media.toloka.rfa.radio.model.enumerate.EContractStatus.CONTRACT_FREE;
 import static media.toloka.rfa.radio.model.enumerate.EContractStatus.CONTRACT_PAY;
 import static media.toloka.rfa.radio.model.enumerate.EHistoryType.History_StatiionCreate;
 
@@ -258,6 +259,17 @@ public class StationService {
 
         for (Clientaddress clientaddress : clientaddressList) {
             if (clientaddress.getApruve () == true) { return true; }
+        }
+        return false;
+    }
+
+    public boolean CreateCheckFreeStation(Clientdetail clientdetail) {
+//        List<Station> stationList = clientdetail.getStationList();
+        List<Contract> contractList = contractService.FindContractByClientDetail(clientdetail);
+        for (Contract contract : contractList) {
+            if (contract.getContractStatus() == CONTRACT_FREE) {
+                return contract.getStationList().isEmpty();
+            }
         }
         return false;
     }

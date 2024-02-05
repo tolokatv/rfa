@@ -1,19 +1,11 @@
 <!DOCTYPE html>
-<!--<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">-->
-
-
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:th="http://www.thymeleaf.org"
+      xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
-
 >
 <head>
     <meta charset="utf-8" />
-<!--    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />-->
     <meta name="viewport" content="width=device-width, initial-scale=1">
-
-<!--    <meta name="description" content="" />-->
-<!--    <meta name="author" content="" />-->
     <title>Толока - радіо для всіх!</title>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
@@ -23,198 +15,27 @@
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
     <!-- Core theme CSS (includes Bootstrap)-->
-    <link href="/css/bootstrap.min.css" rel="stylesheet" />
-<!--    <link href="css/styles.css" rel="stylesheet" />-->
-
+    <link href="/css/bootstrap.min.css"  rel="stylesheet" />
+    <!--    <link href="/css/infoblock.css"  rel="stylesheet" />-->
 </head>
 <body>
     <header>
-<!--        <div th:insert="~{/fragments/user :: user_navbar}">  </div>-->
         <div th:insert="~{/fragments/navbar :: mynavbar}">  </div>
     </header>
 
-<!--    <h2 style="padding-top: 100px">Welcome</h2>-->
-<!--    <p>Spring Security Thymeleaf tutorial</p>-->
-<!--    <div><span sec:authorize="hasRole('ROLE_ADMIN')">Text visible to not ROLE_ADMIN.</span></div>-->
-<!--    <div th:if="${#authorization.expression('hasRole(''CREATER'')')}">Text visible to CREATER.</div>-->
-<!--    <div sec:authorize="isAuthenticated()">Text visible only to authenticated users.</div>-->
-<!--    <div>-->
-<!--        Authenticated username:<span sec:authentication="name"></span>-->
-<!--    </div>-->
-<!--    <div>-->
-<!--        Authenticated user roles:<span sec:authentication="principal.authorities"></span>-->
-<!--    </div>-->
-<!--&lt;!&ndash;    <div><span th:text="${#authentication.principal.name}">Joe Coder</span></div>&ndash;&gt;-->
-<!--    <div>-->
-<!--        authentication.name:<span th:text="${#authentication.name}">Joe Coder</span>-->
-<!--    </div>-->
-<!--    <div>-->
-<!--        Logged user: <span sec:authentication="name">Bob</span>-->
-<!--    </div>-->
-
-
-
-<!--// User page container-->
-
-
-    <section style="padding-top: 100px">
-    <div class="container-fluid">
-        <div class="row text-center">
-            <div class="col align-center">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Ваші станції.</h3>
-                    </div>
-                    <div class="card-body">
-                    <span class="fa-stack fa-4x">
-                        <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fas fa-radio fa-stack-1x fa-inverse"></i>
-                    </span>
-                        <h5 class="card-title">Вас чує весь світ!</h5>
-                        <p class="card-text">Створити, зупинити, відновити роботу, видалити.</p>
-                    </div>
-                    <div class="card-footer text-muted">
-                        <a href="#" class="btn btn-primary">Керувати станціями.</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col align-center">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Угоди</h3>
-                    </div>
-                    <div class="card-body">
-                    <span class="fa-stack fa-4x">
-                        <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fas fa-file-contract fa-stack-1x fa-inverse"></i>
-                    </span>
-                        <h5 class="card-title">Угоди - стан, оплата, фінансові питання.</h5>
-                        <p class="card-text">Створити угоду, подивитися стан, зупинити, історія. </p>
-                    </div>
-                    <div class="card-footer text-muted">
-                        <a href="#" class="btn btn-primary">Керувати угодою</a>
-                    </div>
-                </div>
-            </div>
-            <div class="col align-center">
-                <div class="card">
-                    <div class="card-header">
-                        <h3>Підтримка</h3>
-                    </div>
-                    <div class="card-body">
-                    <span class="fa-stack fa-4x">
-                        <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                        <i class="fas fa-comments fa-stack-1x fa-inverse"></i>
-                    </span>
-                        <h5 class="card-title">Підтримка.</h5>
-                        <p class="card-text">Документація, служба підтримки. </p>
-                    </div>
-                    <div class="card-footer text-muted">
-                        <a href="#" class="btn btn-primary">Перейти куда-нибудь</a>
-                    </div>
+    <!--// User page container-->
+    <div style="padding-top: 100px">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col-lg-12 col-sm-12">
+                    <div th:insert="~{/fragments/creater :: service}"> </div>
                 </div>
             </div>
         </div>
     </div>
-</section>
-
-    <section>
-        <div class="container-fluid" style="padding-top: 20px">
-            <div class="row text-center">
-                <div class="col align-center">
-                    <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
-                </div>
-            </div>
-        </div>
-    </section>
 
 
-    <section style="padding-top: 20px">
-        <div class="container-fluid">
-            <div class="row">
-<!-- Колонка керування радіо-->
-                <div class="col-lg-9 col-sm-12">
-                    <h4>Ваші радіостанції</h4>
-                    <table class="table">
-                        <thead>
-                            <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Назва</th>
-                                <th scope="col">Посилання</th>
-                                <th scope="col">Стан</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <th scope="row">
-                                    1
-                                </th>
-                                <td>
-                                    Mark
-                                </td>
-                                <td>
-                                    Otto
-                                </td>
-                                <td>
-                                    <span class="fa-stack ">
-                                        <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                                        <i class="fas fa-check fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">2</th>
-                                <td>Jacob</td>
-                                <td>Thornton</td>
-                                <td>
-                                    <span class="fa-stack ">
-                                        <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                                        <i class="fas fa-circle-info fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </td>
-                            </tr>
-                            <tr>
-                                <th scope="row">3</th>
-                                <td colspan="2">Larry the Bird</td>
-                                <td>
-                                    <span class="fa-stack ">
-                                        <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                                        <i class="fas fa-xmark fa-stack-1x fa-inverse"></i>
-                                    </span>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-<!-- колонка медіа хаб-->
-                <div class="col-lg-3 col-sm-12">
-                    <div>
-                        <h3>Медіа Хаб</h3>
-                    </div>
-                    <div class="card" >
-                        <div class="card-header">
-                            Зорі хочуть
-                        </div>
-                        <ul class="list-group list-group-flush">
-                            <li class="list-group-item">An item</li>
-                            <li class="list-group-item">A second item</li>
-                            <li class="list-group-item">A third item</li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-    <section style="padding-top: 60px">
-        <div th:if="${userID}">
-            UserId: <b th:text="${userID}"></b><br>
-        </div>
-<div th:if="${userName}">
-UserName: <b th:text="${userName}"></b><br>
-</div>
 
-<a th:href="@{/logout}" >LOGOUT</a>
-</section>
 
 <script src="/js/bootstrap.bundle.min.js"></script>
 
