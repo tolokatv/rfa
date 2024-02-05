@@ -31,9 +31,6 @@
             </div>
             <div class="card-body">
                 <form th:action="@{/user/stationsave}" th:object="${station}" method="post">
-<!--                <form th:action="@{/user/stationsave}" method="post">-->
-
-                    <!-- 2 column grid layout with text inputs for the first and last names -->
                     <div class="row mb-4">
                         <div class="col">
                             <div class="form-outline">
@@ -67,7 +64,7 @@
                         <div class="col">
                             <div class="form-outline">
                                 Дата останньої оплати:<span th:text="${station.lastpaydate}" /><br>
-                                Стан станції зараз:
+                                Стан станції зараз: <b></b><span id="spanstationstate"></span></b>
                             </div>
                         </div>
                     </div>
