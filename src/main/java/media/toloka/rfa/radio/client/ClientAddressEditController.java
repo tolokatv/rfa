@@ -60,9 +60,29 @@ public class ClientAddressEditController {
             clientService.SaveClientDetail(cd);
         } else {
             // todo от тут фігню написав :(
-            fclientaddress.setClientdetail(cd);
-//            clientService.SaveClientDetail(cd);
-            clientService.SaveAddress(fclientaddress);
+            List<Clientaddress> clientaddressList = cd.getClientaddressList();
+            for (Clientaddress cal : clientaddressList) {
+                if (cal.getId() == fclientaddress.getId()) {
+                    cal.setShortaddress(fclientaddress.getShortaddress());
+                    cal.setUserAddressType(fclientaddress.getUserAddressType());
+                    cal.setStreet(fclientaddress.getStreet());
+                    cal.setBuildnumber(fclientaddress.getBuildnumber());
+                    cal.setKorpus(fclientaddress.getKorpus());
+                    cal.setAppartment(fclientaddress.getAppartment());
+                    cal.setCityname(fclientaddress.getCityname());
+                    cal.setArea(fclientaddress.getArea());
+                    cal.setRegion(fclientaddress.getRegion());
+                    cal.setCountry(fclientaddress.getCountry());
+                    cal.setZip(fclientaddress.getZip());
+                    cal.setPhone(fclientaddress.getPhone());
+                    cal.setComment(fclientaddress.getComment());
+                    cal.setMainaddress(fclientaddress.getMainaddress());
+                    cal.setApruve(fclientaddress.getApruve());
+                    break;
+                }
+            }
+            clientService.SaveClientDetail(cd);
+//            clientService.SaveAddress(fclientaddress);
         }
 
         List<Clientaddress> clientaddresslist = clientService.GetAddressList(cd);
