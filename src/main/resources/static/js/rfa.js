@@ -22,10 +22,10 @@ function getkeyhrev () {
     toloka.bstartdisplay = toloka.bstart.style.display;
     toloka.bstopdisplay = toloka.bstop.style.display;
 
+    toloka.blink.style.display = "none";
+    toloka.bstart.style.display = "none";
+    toloka.bstop.style.display = "none";
 
-    toloka.hreflink     = toloka.blink.href;
-    toloka.hrefstart    = toloka.bstart.href;
-    toloka.hrestop      = toloka.bstop.href;
     console.log(toloka);
 }
 
