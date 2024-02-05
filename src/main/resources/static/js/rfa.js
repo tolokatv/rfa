@@ -28,8 +28,6 @@ function getkeyhrev () {
     toloka.bstart.style.display = "none";
     toloka.bstop.style.display = "none";
     toloka.bdel.style.display = "none";
-
-    console.log(toloka);
 }
 
 
@@ -44,8 +42,6 @@ async function getStatus() {
     console.log(data);
     stationstate = data["status"];
     myspan = document.getElementById('spanstationstate');
-    console.log(stationstate);
-    console.log(toloka);
 
     switch (stationstate) {
         case '6':
