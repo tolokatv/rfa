@@ -13,7 +13,12 @@
 <body>
 <h1>Hello, world!</h1>
 <div id="statusstation" >
-    <a th:href="${linkstation}" id="toStation" class="btn btn-primary">ПЕРЕЙТИ</a>
+    <style>
+        .disable-link {
+            pointer-events: none;
+        }
+    </style>
+    <a th:href="${linkstation}" id="toStation" class="btn btn-primary disable-link">ПЕРЕЙТИ</a>
     <a th:href="@{/user/startstation(id=${station.id})}" id="startStation" class="btn btn-primary">Стартувати</a>
     <a th:href="@{/user/stopstation(id=${station.id})}" id="stopStation" class="btn btn-primary">Зупинити</a>
     <a th:href="@{/user/deletestation(id=${station.id})}" class="btn btn-primary">Видалити</a></div>

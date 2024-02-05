@@ -123,19 +123,17 @@ public class RPCRESTController {
             for (String resultString : resultStringList) {
                 int index = resultString.indexOf(key);
                 if (index != -1) {
-                // Знайшли строку сервісу
+                    // Знайшли строку сервісу
                     // витягуемо status контейнера
-                    String value = resultString.substring(0,resultString.indexOf(" "));
-                    count = count +value.indexOf("runn");
+                    String value = resultString.substring(0, resultString.indexOf(" "));
+                    if (value.indexOf("runn") != -1) {
+                        count = count + 1;
+                    }
                     result.put(key,value);
-//                    logger.info("Статус сервісу {} = {} для станції {}",key,value,station.getUuid());
                 }
-//                else {
-//                    result.put(key,"stoped");
-//                }
             }
         }
-//        result.put("status",String.valueOf(count) );
+        result.put("status",String.valueOf(count) );
         return result;
     }
 }
