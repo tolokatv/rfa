@@ -27,11 +27,11 @@ async function getStatus() {
     console.log(stationstate);
 
     switch (stationstate) {
-        case 6:
+        case '6':
             myspan.textContent = 'Всі сервіси працюють нормально.';
             myspan.setAttribute("style", "color:green;");
             break;
-        case 0:
+        case '0':
             myspan.textContent = 'Станція вимкнена';
             myspan.setAttribute("style", "color:red;");
             break;
@@ -43,6 +43,6 @@ async function getStatus() {
   return data;
 }
 
-intervalId = setInterval(getStatus, 500);
+intervalId = setInterval(getStatus, 3000);
 
 });
