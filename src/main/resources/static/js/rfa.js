@@ -17,14 +17,17 @@ function getkeyhrev () {
     toloka.blink = document.getElementById('toStation');
     toloka.bstart = document.getElementById('startStation');
     toloka.bstop = document.getElementById('stopStation');
+    toloka.bdel = document.getElementById('delStation');
 
     toloka.blinkdisplay = toloka.blink.style.display;
     toloka.bstartdisplay = toloka.bstart.style.display;
     toloka.bstopdisplay = toloka.bstop.style.display;
+    toloka.bdeldisplay = toloka.bdel.style.display;
 
     toloka.blink.style.display = "none";
     toloka.bstart.style.display = "none";
     toloka.bstop.style.display = "none";
+    toloka.bdel.style.display = "none";
 
     console.log(toloka);
 }
@@ -51,6 +54,7 @@ async function getStatus() {
             toloka.blink.style.display = toloka.blinkdisplay;
             toloka.bstart.style.display = "none";
             toloka.bstop.style.display = toloka.bstopdisplay;
+            toloka.bdel.style.display = "none";
             break;
         case '0':
             myspan.textContent = 'Станція вимкнена';
@@ -58,6 +62,7 @@ async function getStatus() {
             toloka.blink.style.display = "none";
             toloka.bstart.style.display = toloka.bstartdisplay
             toloka.bstop.style.display = "none";
+            toloka.bdel.style.display = toloka.bdeldisplay ;
             break;
         default:
             myspan.textContent = 'Станція в процесі запуску або зупинки';
@@ -65,6 +70,7 @@ async function getStatus() {
             toloka.blink.style.display = "none";
             toloka.bstart.style.display = "none";
             toloka.bstop.style.display = "none";
+            toloka.bdel.style.display = "none";
             break;
     }
   return data;
