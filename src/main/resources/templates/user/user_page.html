@@ -45,7 +45,8 @@
                     <div class="card" >
                         <div class="card-header"><h4>Ваше радіо</h4></div>
                         <div class="card-body">
-                            <div th:insert="~{/fragments/mediahub :: usermediahub}">  </div>
+                            <div th:insert="~{/fragments/infoblock :: cardtile}"/>
+<!--                            <div th:insert="~{/fragments/mediahub :: usermediahub}">  </div>-->
 <!--                            <div th:insert="~{/fragments/user :: liststation}">  </div>-->
                         </div>
                     </div>
@@ -53,13 +54,13 @@
                 <!-- колонка медіа хаб-->
                 <div class="col-lg-3 col-sm-12">
 <!--                    вставляем Медіа Хаб-->
-<!--                    <div th:insert="~{/fragments/mediahub :: usermediahub}">  </div>-->
+                    <div th:insert="~{/fragments/mediahub :: usermediahub}">  </div>
                 </div>
             </div>
         </div>
 </div>
 <!--<div th:insert="~{/fragments/infoblock :: textblock}"/>-->
-<div th:insert="~{/fragments/infoblock :: cardtile}"/>
+<!--<div th:insert="~{/fragments/infoblock :: cardtile}"/>-->
 
 
 
