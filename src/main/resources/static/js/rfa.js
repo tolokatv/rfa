@@ -29,16 +29,16 @@ async function getStatus() {
 
     switch (stationstate) {
         case 6:
-            myspan.value == 'Всі сервіси працюють нормально.';
+            myspan.value = 'Всі сервіси працюють нормально.';
             myspan.setAttribute("style", "color:green;");
             break;
         case 0:
-            myspan.value == 'Станція вимкнена';
+            myspan.value = 'Станція вимкнена';
             myspan.setAttribute("style", "color:red;");
             break;
         default:
-            myspan.value == 'Станція вимкнена';
-            myspan.setAttribute("style", "color:red;");
+            myspan.value = 'Станція в процесі запуску або зупинки';
+            myspan.setAttribute("style", "color:orange;");
             break;
     }
   return data;
