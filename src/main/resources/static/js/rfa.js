@@ -15,11 +15,14 @@ window.addEventListener('DOMContentLoaded', event => {
 
 function getkeyhrev () {
     toloka.blink = document.getElementById('toStation');
+    toloka.bstart = document.getElementById('startStation');
     toloka.bstop = document.getElementById('stoptStation');
-    toloka.bstart = document.getElementById('starttStation');
-    toloka.hreflink = toloka.blink.href;
-    toloka.hrefstart = toloka.bstart.href;
-    toloka.hrestop = toloka.bstop.href;
+    console.log(toloka);
+
+    toloka.hreflink     = toloka.blink.href;
+    toloka.hrefstart    = toloka.bstart.href;
+    toloka.hrestop      = toloka.bstop.href;
+    console.log(toloka);
 }
 
 
