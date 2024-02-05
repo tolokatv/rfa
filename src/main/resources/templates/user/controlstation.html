@@ -57,14 +57,14 @@
                     <div class="row mb-4">
                         <div class="col">
                             <div class="form-outline">
-                                Дата сворення станції:<span th:text=" '  ' + ${station.createdate}" /><br>
-                                Дата останнього запуску:<span th:text="'  ' + ${station.startdate}" />
+                                Дата сворення станції:<span th:text="${station.createdate}" /><br>
+                                Дата останнього запуску:<span th:text="${station.startdate}" />
                             </div>
                         </div>
                         <div class="col">
                             <div class="form-outline">
                                 Стан станції зараз: <b><span id="spanstationstate"></span></b><br>
-                                Дата останньої оплати:<span th:text="'  ' + ${station.lastpaydate}" />
+                                Дата останньої оплати:<span th:text="${station.lastpaydate}" />
 
                             </div>
                         </div>
