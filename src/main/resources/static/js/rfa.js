@@ -16,7 +16,7 @@ window.addEventListener('DOMContentLoaded', event => {
 function getkeyhrev () {
     toloka.blink = document.getElementById('toStation');
     toloka.bstart = document.getElementById('startStation');
-    toloka.bstop = document.getElementById('stoptStation');
+    toloka.bstop = document.getElementById('stopStation');
     console.log(toloka);
 
     toloka.hreflink     = toloka.blink.href;
