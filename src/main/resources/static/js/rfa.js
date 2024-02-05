@@ -17,7 +17,11 @@ function getkeyhrev () {
     toloka.blink = document.getElementById('toStation');
     toloka.bstart = document.getElementById('startStation');
     toloka.bstop = document.getElementById('stopStation');
-    console.log(toloka);
+
+    toloka.blinkdisplay = toloka.blink.style.display;
+    toloka.bstartdisplay = toloka.bstart.style.display;
+    toloka.bstopdisplay = toloka.bstop.style.display;
+
 
     toloka.hreflink     = toloka.blink.href;
     toloka.hrefstart    = toloka.bstart.href;
@@ -44,23 +48,23 @@ async function getStatus() {
         case '6':
             myspan.textContent = 'Всі сервіси працюють нормально.';
             myspan.setAttribute("style", "color:green;");
-            toloka.blink.href = toloka.hreflink;
-            toloka.bstart.href = "#";
-            toloka.bstop.href = toloka.hrestop;
+            toloka.blink.style.display = toloka.blinkdisplay;
+            toloka.bstart.style.display = "none";
+            toloka.bstop.style.display = toloka.bstopdisplay;
             break;
         case '0':
             myspan.textContent = 'Станція вимкнена';
             myspan.setAttribute("style", "color:red;");
-            toloka.blink.href = "#";
-            toloka.bstart.href = toloka.hrefstart;
-            toloka.bstop.href = "#";
+            toloka.blink.style.display = "none";
+            toloka.bstart.style.display = toloka.bstartdisplay
+            toloka.bstop.style.display = "none";
             break;
         default:
             myspan.textContent = 'Станція в процесі запуску або зупинки';
             myspan.setAttribute("style", "color:orange;");
-            toloka.blink.href = "#";
-            toloka.bstart.href = toloka.hrefstart;
-            toloka.bstop.href = toloka.hrestop;
+            toloka.blink.style.display = "none";
+            toloka.bstart.style.display = "none";
+            toloka.bstop.style.display = "none";
             break;
     }
   return data;
