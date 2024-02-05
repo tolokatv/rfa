@@ -9,10 +9,20 @@
 
 let intervalId;
 let curstatus;
+var toloka = {};
 
 window.addEventListener('DOMContentLoaded', event => {
 
-//function setkey
+function getkeyhrev () {
+    toloka.blink = document.getElementById('toStation');
+    toloka.bstop = document.getElementById('stoptStation');
+    toloka.bstart = document.getElementById('starttStation');
+    toloka.hreflink = toloka.blink.attribute.href;
+    toloka.hrefstart = toloka.bstart.attribute.href;
+    toloka.hrestop = toloka.bstop.attribute.href;
+}
+
+
 
 async function getStatus() {
     let siteurl = "https://rfa.toloka.media/api/1.0/ps/"+stationId;
@@ -25,6 +35,7 @@ async function getStatus() {
     stationstate = data["status"];
     myspan = document.getElementById('spanstationstate');
     console.log(stationstate);
+    console.log(toloka);
 
     switch (stationstate) {
         case '6':
@@ -43,6 +54,10 @@ async function getStatus() {
   return data;
 }
 
+
+getkeyhrev();
+
 intervalId = setInterval(getStatus, 3000);
+
 
 });

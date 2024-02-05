@@ -90,7 +90,7 @@ public class ClientHomeStationController {
         Clientdetail clientdetail = clientService.GetClientDetailByUser(user);
         if (user == null) {
 //            logger.warn("User not found. Redirect to main page");
-            return "/user/createstation";
+            return "redirect:/";
         }
         if (stationService.CreateCheckConfirminfo(clientdetail) == false) {
             // TODO Відправити у форму повідомлення про неможливість створення станції та кинути клієнту месседж
@@ -105,9 +105,15 @@ public class ClientHomeStationController {
             return "/user/stations";
         }
 
+        if (stationService.CreateCheckApruveAddress(clientdetail) == false) {
+            model.addAttribute("warning", "Неможливо створити станцію! У Профайлі відсутня схвалена адреса.");
+            return "/user/stations";
+        }
+
         if (clientdetail.getStationList().size() > 0) {
             if (stationService.HavePayContract(clientdetail) == false) {
                 // перевіряємо наявності безкоштовної станції
+
                 model.addAttribute("warning", "Неможливо створити станцію! У Вас немає комерційного контракту і вже є тестова станція");
                 return "/user/stations";
             }

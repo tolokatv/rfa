@@ -29,8 +29,6 @@ public class ClientHomeDocumentsController {
     public String userHome(
             Model model) {
         Authentication au;
-//        au = SecurityContextHolder.getContext().getAuthentication().getName();
-//        Users user = clientService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
         // Якщо не залогінені, то переходимо на головну.
         Users user = clientService.GetCurrentUser();
         if (user == null) {

@@ -2,6 +2,7 @@ package media.toloka.rfa.radio.station.service;
 
 import media.toloka.rfa.radio.contract.service.ContractService;
 import media.toloka.rfa.radio.history.service.HistoryService;
+import media.toloka.rfa.radio.model.Clientaddress;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Contract;
 import media.toloka.rfa.radio.station.ClientHomeStationController;
@@ -222,17 +223,19 @@ public class StationService {
     }
 
     public boolean CreateCheckAddress(Clientdetail clientdetail) {
-        if (clientService.GetClientAddressList(clientdetail).isEmpty()) {
+        List<Clientaddress> clientaddressList = clientService.GetClientAddressList(clientdetail);
+        if (clientaddressList.isEmpty()) {
 //        if( clientdetail.getClientaddressList().isEmpty() ) {
             return false;
         }
+        // перевіряємо чи є схвалені адреси
+//        List<Clientaddress> clientaddressList =
         return true;
     }
 
     public boolean HavePayContract(Clientdetail clientdetail) {
         List<Contract> contractList = contractService.FindContractByClientDetail(clientdetail);
-//                clientdetail.getContractList();
-        // Getting ListIterator
+
         ListIterator<Contract> contractIterator = contractList.listIterator();
 
         while(contractIterator.hasNext()){
@@ -248,6 +251,10 @@ public class StationService {
     public List<Station> GetListStationByClientAndContract(Clientdetail clientdetail, Contract contract) {
         List<Station> ls = stationRepo.findStationByClientdetailAndContract(clientdetail, contract);
         return ls;
+    }
+
+    public boolean CreateCheckApruveAddress(Clientdetail clientdetail) {
+
     }
 
 //    public void saveStation(Station station) {
