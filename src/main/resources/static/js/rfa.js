@@ -17,9 +17,9 @@ function getkeyhrev () {
     toloka.blink = document.getElementById('toStation');
     toloka.bstop = document.getElementById('stoptStation');
     toloka.bstart = document.getElementById('starttStation');
-    toloka.hreflink = toloka.blink.attribute.href;
-    toloka.hrefstart = toloka.bstart.attribute.href;
-    toloka.hrestop = toloka.bstop.attribute.href;
+    toloka.hreflink = toloka.blink.href;
+    toloka.hrefstart = toloka.bstart.href;
+    toloka.hrestop = toloka.bstop.href;
 }
 
 
