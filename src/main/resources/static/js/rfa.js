@@ -26,15 +26,20 @@ async function getStatus() {
     stationstate = data["status"];
     myspan = document.getElementById('spanstationstate');
     console.log(stationstate);
-    if (stationstate === 6) {
-        myspan.value == 'Всі сервіси працюють нормально.';
-        myspan.setAttribute("style", "color:green;");
-    } else if (stationstate === 6) {
-        myspan.value == 'Не всі сервіси працюють нормально.';
-        myspan.setAttribute("style", "color:orange;");
-    } else {
-        myspan.value == 'Станція вимкнена';
-        myspan.setAttribute("style", "color:red;");
+
+    switch (stationstate) {
+        case 6:
+            myspan.value == 'Всі сервіси працюють нормально.';
+            myspan.setAttribute("style", "color:green;");
+            break;
+        case 0:
+            myspan.value == 'Станція вимкнена';
+            myspan.setAttribute("style", "color:red;");
+            break;
+        default:
+            myspan.value == 'Станція вимкнена';
+            myspan.setAttribute("style", "color:red;");
+            break;
     }
   return data;
 }
