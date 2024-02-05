@@ -254,7 +254,12 @@ public class StationService {
     }
 
     public boolean CreateCheckApruveAddress(Clientdetail clientdetail) {
+        List<Clientaddress> clientaddressList = clientService.GetClientAddressList(clientdetail);
 
+        for (Clientaddress clientaddress : clientaddressList) {
+            if (clientaddress.getApruve () == true) { return true; }
+        }
+        return false;
     }
 
 //    public void saveStation(Station station) {
