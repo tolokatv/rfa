@@ -44,7 +44,16 @@ public class RPCConfig {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory(host);
         connectionFactory.setUsername(username);
         connectionFactory.setPassword(password);
-        connectionFactory.setVirtualHost(virtualHost);
+        String vhost = System.getenv("QRFA");
+        if (vhost != null) {
+            connectionFactory.setVirtualHost(vhost);
+            System.out.println("======================== QRFA = "+vhost);
+        } else {
+            connectionFactory.setVirtualHost(virtualHost);
+            System.out.println("======================== virtualHost = "+virtualHost);
+        }
+
+
         return connectionFactory;
     }
 
