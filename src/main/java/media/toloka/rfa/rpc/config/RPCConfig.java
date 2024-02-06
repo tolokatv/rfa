@@ -27,7 +27,9 @@ public class RPCConfig {
     private String password;
     @Value("${rabbitmq.host}")
     private String host;
-    @Value("${rabbitmq.virtualhost}")
+        @Value("${rabbitmq.virtualhost}")
+//    @Value("${QRFA}")
+//    @Value("#{environment.QRFA}")
     private String virtualHost;
     @Value("${rabbitmq.reply.timeout}")
     private Integer replyTimeout;

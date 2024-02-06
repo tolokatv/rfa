@@ -35,6 +35,8 @@ public class CreaterController {
     @GetMapping(value = "/creater/home")
     public String getUserHomeInfo(
             Model model ) {
+        String vhost = System.getenv("QRFA");
+        logger.info("======================== QRFA = {}",vhost);
 
         Users user = clientService.GetCurrentUser();
         if (user == null) {
