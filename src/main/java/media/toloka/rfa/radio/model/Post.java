@@ -19,6 +19,7 @@ public class Post {
     @Expose
     private String title;
     @Expose
+    @Column(columnDefinition = "TEXT")
     private String body;
     @Expose
     private Date createdate = new Date();

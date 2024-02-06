@@ -14,6 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -35,9 +36,6 @@ public class CreaterController {
     @GetMapping(value = "/creater/home")
     public String getUserHomeInfo(
             Model model ) {
-        String vhost = System.getenv("QRFA");
-        logger.info("======================== QRFA = {}",vhost);
-
         Users user = clientService.GetCurrentUser();
         if (user == null) {
             return "redirect:/";
@@ -49,4 +47,25 @@ public class CreaterController {
 
         return "/creater/home";
     }
+
+    @GetMapping(value = "/creater/editpost/{idPost}")
+    public String getCreaterEditPost(
+            @PathVariable Long idPost,
+            Model model ) {
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+
+        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
+        if (idPost == 0L ) {
+            logger.info("Створюємо новий пост");
+        }
+//        List<Post> posts = createrService.GetAllPostsByCreater(cd);
+//        model.addAttribute("posts", posts );
+
+        return "/creater/editpost";
+    }
+
+
 }
