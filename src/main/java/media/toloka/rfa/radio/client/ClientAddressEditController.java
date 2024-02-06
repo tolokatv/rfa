@@ -76,7 +76,7 @@ public class ClientAddressEditController {
                     cal.setZip(fclientaddress.getZip());
                     cal.setPhone(fclientaddress.getPhone());
                     cal.setComment(fclientaddress.getComment());
-                    cal.setMainaddress(fclientaddress.getMainaddress());
+//                    cal.setMainaddress(fclientaddress.getMainaddress());
 //                    cal.setApruve(fclientaddress.getApruve());
                     break;
                 }
