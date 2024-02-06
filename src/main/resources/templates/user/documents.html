@@ -47,7 +47,7 @@
                             <tr>
                                 <th scope="col">Стан</th>
                                 <th scope="col">Вид документу</th>
-                                <th scope="col">Дата завантаження</th>
+                                <th scope="col">Завантажено</th>
                                 <th scope="col">Дія</th>
                             </tr>
                             </thead>
@@ -59,7 +59,9 @@
                             <tr th:each="singledocument : ${documents}">
                                 <td><span th:text="${singledocument.status.label}"></span></td>
                                 <td><span th:text="${singledocument.documenttype}"></span></td>
-                                <td><span th:text="${#temporals.format(singledocument.loaddate)}"></span></td>
+<!--                                <td><span th:text="${#temporals.format(singledocument.loaddate)}"></span></td>-->
+                                <td><span th:text="${#dates.format(singledocument.loaddate, 'dd-MM-yyyy HH:mm')}"></span></td>
+
                                 <td><span><a th:href="@{'/user/documentedit/' + ${singledocument.id}}">Редагувати</a></span></td>
                             </tr>
                             </tbody>

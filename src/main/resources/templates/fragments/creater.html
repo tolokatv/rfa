@@ -55,7 +55,7 @@
             <div class="col align-center">
                 <div class="card">
                     <div class="card-header">
-                        <h3>Профайл</h3>
+                        <h3>Пости</h3>
                     </div>
                     <div class="card-body">
                         <span class="fa-stack fa-2x">
@@ -64,12 +64,68 @@
                         </span>
                     </div>
                     <div class="card-footer text-muted">
-                        <a class="btn btn-primary" href="/creater/profile">Профайл</a>
+                        <a class="btn btn-primary" href="/creater/profile">Керувати</a>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</div>
+
+<div th:fragment="listtrack">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Назва треку</th>
+            <th scope="col">Ім'я файлу</th>
+            <th scope="col">Дія</th>
+        </tr>
+        </thead>
+        <tbody>
+        <a class="btn btn-primary" href="/creator/uploadtrack">Завантажити трек</a>
+        <tr th:each="track : ${trackList}">
+            <td><span th:text="${track.name}"></span></td>
+            <td><span th:text="${track.patch}"></span></td>
+            <td><a class="btn btn-primary" th:href="@{/creater/edittrack(id=${track.id})}">Редагувати</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:fragment="listalbum">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Назва альбому</th>
+            <th scope="col">Дія</th>
+        </tr>
+        </thead>
+        <tbody>
+        <a class="btn btn-primary" href="/creator/uploadtrack">Створити альбом</a>
+        <tr th:each="album : ${albumList}">
+            <td><span th:text="${album.name}"></span></td>
+            <td><a class="btn btn-primary" th:href="@{/creater/editalbum(id=${album.id})}">Редагувати</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:fragment="listpost">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Заголовок</th>
+            <th scope="col">Редагувати</th>
+        </tr>
+        </thead>
+        <tbody>
+        <a class="btn btn-primary" href="/creator/uploadtrack">Створити пост</a>
+        <tr th:each="album : ${albumList}">
+            <td><span th:text="${album.name}"></span></td>
+            <td><a class="btn btn-primary" th:href="@{/creater/editalbum(id=${album.id})}">Редагувати</a></td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 
 </body>

@@ -63,11 +63,20 @@ public class Clientdetail {
     private  List<Station> stationList = new ArrayList<>();
 
     @ToString.Exclude
+    @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Album> albumList;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Track> trackList;
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Post> postList;
+
+    @ToString.Exclude
     @OneToOne(cascade = {CascadeType.ALL})
     private  Users user;
-//    @ElementCollection
-//    @OneToMany(fetch=FetchType.LAZY, cascade = CascadeType.ALL)
-//    private List<Station> stationList;
 
     public Clientdetail() {
 //        this.clientaddressList  = new ArrayList<Clientaddress>();

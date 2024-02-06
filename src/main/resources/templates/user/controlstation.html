@@ -52,6 +52,14 @@
                                 <a th:href="@{/user/stopstation(id=${station.id})}" id="stopStation" class="btn btn-primary" >Зупинити</a>
                                 <a th:href="@{/user/deletestation(id=${station.id})}" id="delStation"class="btn btn-primary" >Видалити</a>
                             </div>
+                            <div>
+                                <p>Посилання для програвача радіо:</p>
+                                <p><span th:text="'https://'+${station.dbname} + '.rfa.toloka.media:8443/'+${station.uuid} + '-main'" /></p>
+                                <p>Посилання для входу до системи керування станцією:</p>
+                                <p><span th:text="'https://'+${station.dbname} + '.rfa.toloka.media'" /></p>
+                                <p>Ці посилання Ви завжди можете скопіювати і вставити до адресного ряку броузера.</p>
+
+                            </div>
                         </div>
                     </div>
                     <div class="row mb-4">

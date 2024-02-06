@@ -54,7 +54,7 @@
 <!--                    <div><span th:text="${message.body}"> Title </span></div>-->
                         <div th:if="${message.from.id} == ${currentUserID}">
                             <p  class="text-start " style="background-color:#f3f3f3;">
-                                <span th:text="${message.send} + ' ' + ${message.from.custname} + ' ' + ${message.from.custsurname} + '->' + ${message.to.custname} + ' ' + ${message.to.custsurname}"/>
+                                <span th:text="${message.send} + ' ' + ${message.from.custname} + ' ' + ${message.from.custsurname} + ' -> ' + ${message.to.custname} + ' ' + ${message.to.custsurname}"/>
                                 <br>
                                 <span th:text="${message.body}"/>
                             </p>
@@ -63,14 +63,14 @@
                             <div th:if="${message.reading}" >
                                     <p  class="text-end" style="">
 <!--                                        <span th:text="${message.send}"/>-->
-                                        <span th:text="${message.send} + ' ' + ${message.from.custname} + ' ' + ${message.from.custsurname} + '->' + ${message.to.custname} + ' ' + ${message.to.custsurname}"/>
+                                        <span th:text="${message.send} + ' ' + ${message.from.custname} + ' ' + ${message.from.custsurname} + ' -> ' + ${message.to.custname} + ' ' + ${message.to.custsurname}"/>
                                         <br>
                                         <span th:text="${message.body}" style="color:#ff0000;"/>
                                     </p>
                             </div>
                             <div th:if="!(${message.reading})" >
                                 <p  class="text-end" style="">
-                                    <span th:text="${message.send} + ' ' + ${message.from.custname} + ' ' + ${message.from.custsurname} + '->' + ${message.to.custname} + ' ' + ${message.to.custsurname}"/>
+                                    <span th:text="${message.send} + ' ' + ${message.from.custname} + ' ' + ${message.from.custsurname} + ' -> ' + ${message.to.custname} + ' ' + ${message.to.custsurname}"/>
                                     <br>
                                     <span th:text="${message.body}"/>
                                 </p>
