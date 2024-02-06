@@ -20,10 +20,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
-import java.util.Date;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.UUID;
+import java.util.*;
 
 import static media.toloka.rfa.radio.model.enumerate.EContractStatus.CONTRACT_FREE;
 import static media.toloka.rfa.radio.model.enumerate.EContractStatus.CONTRACT_PAY;
@@ -65,6 +62,8 @@ public class StationService {
     }
 
     public Station GetStationById(long id) {
+        Optional<Station> optionalStation = stationRepo.findById(id);
+        if (optionalStation.isEmpty()) { return null;}
         return stationRepo.findById(id).get();
     }
 
