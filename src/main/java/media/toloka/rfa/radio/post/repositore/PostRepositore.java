@@ -9,4 +9,5 @@ import java.util.List;
 public interface PostRepositore extends JpaRepository<Post, Long> {
     List<Post> findByClientdetail(Clientdetail cd);
     Post getById(Long id);
+    List<Post>  findByApruve(Boolean apruve);
 }

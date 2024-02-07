@@ -231,7 +231,7 @@
             </td>
 <!--            <td><span th:text="${document.status}"></span></td>-->
 <!--            <td><span th:text="${#temporals.format(singledocument.loaddate)}"></span></td>-->
-            <td><span th:text="${#dates.format(singledocument.loaddate) 'dd-MM-yyyy HH:mm')}"></span></td>
+            <td><span th:text="${#dates.format(singledocument.loaddate 'dd-MM-yyyy HH:mm')}"></span></td>
             <td><span><a th:href="@{'/user/documentedit/' + ${singledocument.id}}">Редагувати</a></span></td>
             <!--            <td><span><a th:href="@{/user/documentedit/{idDocument}(idDocument=${document.id})}" >Редагувати</a></span></td>-->
         </tr>

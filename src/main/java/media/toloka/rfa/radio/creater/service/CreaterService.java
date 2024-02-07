@@ -44,4 +44,9 @@ public class CreaterService {
         List<Post> postList = postRepositore.findByClientdetail(cd);
         return postList;
     }
+
+    public List<Post> GetAllPostsByApruve(Boolean flag) {
+        List<Post> postList = postRepositore.findByApruve( flag);
+        return postList;
+    }
 }

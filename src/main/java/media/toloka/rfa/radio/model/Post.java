@@ -17,10 +17,10 @@ public class Post {
     @Expose
     private Long id;
     @Expose
-    private String title;
+    private String posttitle;
     @Expose
     @Column(columnDefinition = "TEXT")
-    private String body;
+    private String postbody;
     @Expose
     private Date createdate = new Date();
     @Expose

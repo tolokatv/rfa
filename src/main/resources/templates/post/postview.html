@@ -18,8 +18,8 @@
     <link href="/css/bootstrap.min.css"  rel="stylesheet" />
     <!--    <link href="/css/infoblock.css"  rel="stylesheet" />-->
     <!--    TinyMCE-->
-<!--    <script src="https://cdn.tiny.cloud/1/jfs2v9uma7vkxn632w42djz02jxqivtjdlovkkqzafgboa10/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>-->
-<!--    <script src="https://cdn.tiny.cloud/1/jfs2v9uma7vkxn632w42djz02jxqivtjdlovkkqzafgboa10/tinymce/6/plugins.min.js" referrerpolicy="origin"></script>-->
+    <!--    <script src="https://cdn.tiny.cloud/1/jfs2v9uma7vkxn632w42djz02jxqivtjdlovkkqzafgboa10/tinymce/5/tinymce.min.js" referrerpolicy="origin"></script>-->
+    <!--    <script src="https://cdn.tiny.cloud/1/jfs2v9uma7vkxn632w42djz02jxqivtjdlovkkqzafgboa10/tinymce/6/plugins.min.js" referrerpolicy="origin"></script>-->
     <script src="https://cdn.tiny.cloud/1/jfs2v9uma7vkxn632w42djz02jxqivtjdlovkkqzafgboa10/tinymce/6/tinymce.min.js" referrerpolicy="origin"></script>
 
 </head>
@@ -43,32 +43,8 @@
         <div class="row" style="padding-top: 20px">
             <!-- Колонка редагування посту -->
             <div class="col-lg-9 col-sm-12">
-                <form th:action="@{'/creater/editpost/'+${post.id}}"  method="post" th:object="${post}">
-                    <input type="hidden" th:field="*{id}"/>
-                    <input th:field="*{posttitle}" type="text"  class="form-control"  />
-                    <label class="form-label" for="posttitle">Заголовок посту</label>
-                    <script>
-                    tinymce.init({
-                      selector: 'textarea',
-                      plugins: 'ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
-                      toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-                      tinycomments_mode: 'embedded',
-                      tinycomments_author: 'Author name',
-                      mergetags_list: [
-                        { value: 'First.Name', title: 'First Name' },
-                        { value: 'Email', title: 'Email' },
-                      ],
-                      ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
-                    });
-                </script>
-                    <textarea th:field="*{postbody}">
-  Welcome to TinyMCE!
-                    </textarea>
-                    <hr>
-                    <button type="submit" class="btn btn-primary btn-lg btn-block" >
-                        Зберегти
-                    </button>
-                </form>
+                <h1 th:text="${post.posttitle}"></h1>
+                <div th:utext="${post.postbody}"></div>
             </div>
             <div class="col-lg-3 col-sm-12">
                 <!--                    вставляем Медіа Хаб-->
@@ -81,7 +57,7 @@
 
 
 
-    <script src="/js/bootstrap.bundle.min.js"></script>
+<script src="/js/bootstrap.bundle.min.js"></script>
 <!--    <script src="/js/tinymce.min.js"></script>-->
 </body>
 </html>

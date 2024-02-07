@@ -1,7 +1,10 @@
 package media.toloka.rfa.radio.client;
 
 import media.toloka.rfa.radio.client.service.ClientService;
+import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.message.service.MessageService;
+import media.toloka.rfa.radio.model.Post;
+import media.toloka.rfa.radio.post.service.PostService;
 import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.security.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import java.util.List;
 import java.util.Optional;
 
 @Controller
@@ -27,6 +31,12 @@ public class ClientHomeController {
     private StationService stationService;
 
     @Autowired
+    private CreaterService createrService;
+
+    @Autowired
+    private PostService postService;
+
+    @Autowired
     private MessageService messageService;
     @GetMapping(value = "/user/user_page")
     public String userHome(
@@ -35,7 +45,11 @@ public class ClientHomeController {
         if (user == null) {
             return "redirect:/";
         }
+
+        List<Post> posts = createrService.GetAllPostsByApruve(true);
+        model.addAttribute("posts", posts );
         model.addAttribute("stations",  stationService.GetListStationByUser(user));
+
 //        model.addAttribute("userID",    user.getId());
 //        model.addAttribute("userName",  user.getName());
         return "/user/user_page";

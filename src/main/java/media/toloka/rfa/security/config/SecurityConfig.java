@@ -34,6 +34,7 @@ public class SecurityConfig {
                         "/emit",
                         "/process/**",
                         "/seveform/**",
+                        "/post/**",
                         "/**"
                 ).permitAll()
                 .requestMatchers(
