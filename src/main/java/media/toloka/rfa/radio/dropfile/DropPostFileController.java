@@ -5,6 +5,7 @@ import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.document.service.DocumentService;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.history.service.HistoryService;
+import media.toloka.rfa.radio.model.Clientdetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,13 @@ public class DropPostFileController {
 //                throw new ExecutionControl.UserException("Empty file");
             logger.info("Завантаження файлу: Файл порожній");
         }
+        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
+        if (clientService.ClientCanDownloadFile(cd) == false) {
+            // клієнт з якоїсь причини не має права завантажувати файли
+            logger.warn("Клієнт {} не має права завантажувати файли.",cd.getUuid());
+            return;
+        }
+
 //        Path destination = Paths.get("/home/ysv/rfa/upload").resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
         Path destination = Paths.get(filesService.GetClientDirectory()).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
 //        Path destination = Paths.get("upload").resolve(file.getOriginalFilename()).normalize().toAbsolutePath();

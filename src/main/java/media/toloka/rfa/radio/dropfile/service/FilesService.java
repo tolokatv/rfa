@@ -28,4 +28,11 @@ public class FilesService {
 //        String str = clientService.getClientDetail(clientService.GetCurrentUser()).getUuid();
         return PATH.concat(sss);
     }
+
+//    public Boolean CheckClientDirectory(PATH clientDirectory) {
+//        // перевіряємо наявність та доступність каталогу.
+//        // якщо не існує - створюємо.
+//
+//
+//    }
 }

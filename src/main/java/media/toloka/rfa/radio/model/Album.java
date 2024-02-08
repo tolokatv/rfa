@@ -21,10 +21,20 @@ public class Album {
     private String name;
 
     @Expose
-    private Date createdate;
+    private String autor;
 
     @Expose
-    private Date albumrelisedate;
+    private Date createdate = new Date();
+
+    @Expose
+    private String albumrelisedate = new Date().toString();
+
+    @Expose
+    private String style;
+
+    @Expose
+    @Column(columnDefinition = "TEXT")
+    private String description;
 
     @ToString.Exclude
     @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.ALL})

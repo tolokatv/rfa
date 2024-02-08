@@ -133,5 +133,14 @@ public class ClientService {
         List<Clientaddress> cal = clientAddressRepository.findByClientdetail(clientdetail);
         return cal;
     }
+
+    public boolean ClientCanDownloadFile(Clientdetail cd) {
+        // перевіряємо, чи може клієнт завантажувати файли
+        // причини, чому може не мати права:
+        // - перевищено ліміт для зберігання;
+        // - помічено, що завантажує всяку дурню
+        // ..... Ще придумаю.
+        return true;
+    }
 }
 
