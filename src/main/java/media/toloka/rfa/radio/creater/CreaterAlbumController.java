@@ -94,8 +94,8 @@ public class CreaterAlbumController {
 
         createrService.SaveAlbum(album);
 
-        List<Album> albums = createrService.GetAllAlbumsByCreater(cd);
-        model.addAttribute("albums", albums );
+        List<Album> albumList = createrService.GetAllAlbumsByCreater(cd);
+        model.addAttribute("albumList", albumList );
         return "/creater/albums";
     }
 
