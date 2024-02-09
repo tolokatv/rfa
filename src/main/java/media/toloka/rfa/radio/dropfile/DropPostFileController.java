@@ -20,6 +20,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Random;
 
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static media.toloka.rfa.radio.model.enumerate.EHistoryType.History_DocumentCreate;
 
 
@@ -58,9 +59,10 @@ public class DropPostFileController {
 //        Path destination = Paths.get("/home/ysv/rfa/upload").resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
         Path destination = Paths.get(filesService.GetClientDirectory()).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
 //        Path destination = Paths.get("upload").resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
+        Boolean fileExist = Files.exists(destination);
         try {
             Files.createDirectories(destination.getParent());
-            Files.copy(file.getInputStream(), destination);
+            Files.copy(file.getInputStream(), destination, REPLACE_EXISTING);
             // Зберігаємо інформацію о файлі та привʼязуємо до користувача.
             Random random = new Random();
 //            long time = System.currentTimeMillis();
@@ -68,7 +70,9 @@ public class DropPostFileController {
             logger.info("Завантаження файлу: Випадкова затримка {}",difference);
             try {
                 Thread.sleep(difference);
-                documentService.saveDocumentUploadInfo(destination);
+                if (!fileExist) {
+                    documentService.saveDocumentUploadInfo(destination);
+                }
                 historyService.saveHistory(History_DocumentCreate, " Завантажено файл: " + file.getOriginalFilename(), clientService.GetCurrentUser());
             }
             catch(InterruptedException e)

@@ -75,12 +75,12 @@ public class CreaterDropPostFileController {
 //        temp = temp.normalize();
         Boolean fileExist = Files.exists(destination);
         try {
-            Path temp = Paths.get(filesService.GetClientDirectory());
-            Set<String> stringSet = filesService.listFilesUsingDirectoryStream(temp.toString());
-            Iterator iterate_value = stringSet.iterator();
-            while (iterate_value.hasNext()) {
-                System.out.println(iterate_value.next());
-            }
+//            Path temp = Paths.get(filesService.GetClientDirectory());
+//            Set<String> stringSet = filesService.listFilesUsingDirectoryStream(temp.toString());
+//            Iterator iterate_value = stringSet.iterator();
+//            while (iterate_value.hasNext()) {
+//                System.out.println(iterate_value.next());
+//            }
 
 
             Files.createDirectories(destination.getParent());
