@@ -142,5 +142,11 @@ public class ClientService {
         // ..... Ще придумаю.
         return true;
     }
+
+    public Clientdetail GetClientDetailByuuid(String clientUUID) {
+        Clientdetail cd = clientDetailRepository.getByUuid(clientUUID);
+        return cd;
+
+    }
 }
 

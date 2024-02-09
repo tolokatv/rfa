@@ -14,4 +14,6 @@ public interface ClientDetailRepository extends JpaRepository<Clientdetail, Long
 //    Optional<Clientdetail> findClientdetailByUser(Users user);
 //    Clientdetail getByUser(Users user);
     List<Clientdetail> getByUser(Users user);
+
+    Clientdetail getByUuid(String clientUUID);
 }
