@@ -143,7 +143,7 @@ public class ClientService {
         return true;
     }
 
-    public Clientdetail GetClientDetailByuuid(String clientUUID) {
+    public Clientdetail GetClientDetailByUuid(String clientUUID) {
         Clientdetail cd = clientDetailRepository.getByUuid(clientUUID);
         return cd;
 
