@@ -19,8 +19,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Iterator;
 import java.util.Random;
+import java.util.Set;
 
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static media.toloka.rfa.radio.model.enumerate.EHistoryType.History_DocumentCreate;
 
 
@@ -61,17 +64,36 @@ public class CreaterDropPostFileController {
         }
 
         Path destination = Paths.get(filesService.GetClientDirectory()).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
+//        Path temp = Paths.get(filesService.GetClientDirectory());
+//        Set<String> stringSet = filesService.listFilesUsingDirectoryStream(temp.toString());
+//        Iterator iterate_value = stringSet.iterator();
+//        while (iterate_value.hasNext()) {
+//            System.out.println(iterate_value.next());
+//        }
 
+//        temp = temp.resolve(file.getOriginalFilename());
+//        temp = temp.normalize();
+        Boolean fileExist = Files.exists(destination);
         try {
+            Path temp = Paths.get(filesService.GetClientDirectory());
+            Set<String> stringSet = filesService.listFilesUsingDirectoryStream(temp.toString());
+            Iterator iterate_value = stringSet.iterator();
+            while (iterate_value.hasNext()) {
+                System.out.println(iterate_value.next());
+            }
+
+
             Files.createDirectories(destination.getParent());
-            Files.copy(file.getInputStream(), destination);
+            Files.copy(file.getInputStream(), destination, REPLACE_EXISTING);
             // Зберігаємо інформацію о файлі та привʼязуємо до користувача.
             Random random = new Random();
             long difference = random.nextInt(1000);
             logger.info("Завантаження файлу: Випадкова затримка {}",difference);
             try {
                 Thread.sleep(difference);
-                createrService.SaveTrackUploadInfo(destination, cd);
+                if (!fileExist) {
+                    createrService.SaveTrackUploadInfo(destination, cd);
+                }
 
                 historyService.saveHistory(History_DocumentCreate, " Завантажено трек: " + file.getOriginalFilename(), clientService.GetCurrentUser());
             }
