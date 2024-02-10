@@ -5,6 +5,7 @@ import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.model.Clientdetail;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +18,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 //import org.apache.commons.io.IOUtils
 
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferByte;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import org.imgscalr.Scalr;
 
@@ -73,19 +76,44 @@ public class StoreSiteController {
 //        http://localhost:8080/store/thrumbal/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
         InputStream is = getClass()
                 .getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
-//        ByteArrayOutputStream thumbOutput = new ByteArrayOutputStream();
-//        BufferedImage thumbImg = null;
-//        BufferedImage img = ImageIO.read(is);
-//        thumbImg = Scalr.resize(img, Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, width, Scalr.OP_ANTIALIAS);
+        OutputStream os;
 
-
+        BufferedImage thumbImg = null;
+        BufferedImage img;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
-            return is.readAllBytes();
+             img = ImageIO.read(is);
+
+             //            return is.readAllBytes();
         } catch (IOException e) {
             logger.info("==================================== getStoreImage IOException");
             e.printStackTrace();
             return null;
         }
+        thumbImg = Scalr.resize(img, Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, 320, Scalr.OP_ANTIALIAS);
+        try {
+            ImageIO.write(thumbImg, FilenameUtils.getExtension(fileName), baos);
+
+            //            return is.readAllBytes();
+        } catch (IOException e) {
+            logger.info("==================================== getStoreImage IOException");
+            e.printStackTrace();
+            return null;
+        }
+//        ImageIO.write(thumbImg, orginalFile.getContentType().split("/")[1] , thumbOutput);
+//        ByteArrayOutputStream thumbOutput = new ByteArrayOutputStream();
+//        BufferedImage thumbImg = null;
+//        BufferedImage img = ImageIO.read(is);
+//        thumbImg = Scalr.resize(img, Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, width, Scalr.OP_ANTIALIAS);
+//        ImageIO.write(thumbImg, FilenameUtils.getExtension(fileName) , os);
+
+//        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+//        ImageIO.write(img, FilenameUtils.getExtension(fileName), baos);
+        byte[] bytes = baos.toByteArray();
+//        byte[] imageBytes = ((DataBufferByte) thumbImg.getData().getDataBuffer()).getData();
+        return bytes;
+//        return os..readAllBytes();
+//
     }
 
 
