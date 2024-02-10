@@ -3,8 +3,6 @@ package media.toloka.rfa.radio.dropfile.service;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.dropfile.DropPostFileController;
-import media.toloka.rfa.radio.model.Track;
-import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,16 +24,16 @@ public class FilesService {
     private ClientService clientService;
 
     @Value("${media.toloka.rfa.upload_directory}")
-    private String PATH;
+    private String PATHuploadDirectory;
 
-    final Logger logger = LoggerFactory.getLogger(DropPostFileController.class);
+    final Logger logger = LoggerFactory.getLogger(FilesService.class);
 
     public String GetClientDirectory() {
 //        Users usr = clientService.GetCurrentUser();
         Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
         String sss = cd.getUuid();
 //        String str = clientService.getClientDetail(clientService.GetCurrentUser()).getUuid();
-        return PATH.concat(sss);
+        return PATHuploadDirectory.concat(sss);
     }
 
     public String GetFileLink(String userUUID, String filename) {

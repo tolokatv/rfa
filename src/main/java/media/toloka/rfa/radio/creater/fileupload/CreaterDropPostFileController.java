@@ -10,6 +10,7 @@ import media.toloka.rfa.radio.model.Clientdetail;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -31,6 +32,9 @@ import static media.toloka.rfa.radio.model.enumerate.EHistoryType.History_Docume
 @RestController
 //@RequestMapping("/uploadfile")
 public class CreaterDropPostFileController {
+
+    @Value("${media.toloka.rfa.upload_directory}")
+    private String PATHuploadDirectory;
 
     @Autowired
     private ClientService clientService;
@@ -64,25 +68,8 @@ public class CreaterDropPostFileController {
         }
 
         Path destination = Paths.get(filesService.GetClientDirectory()).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
-//        Path temp = Paths.get(filesService.GetClientDirectory());
-//        Set<String> stringSet = filesService.listFilesUsingDirectoryStream(temp.toString());
-//        Iterator iterate_value = stringSet.iterator();
-//        while (iterate_value.hasNext()) {
-//            System.out.println(iterate_value.next());
-//        }
-
-//        temp = temp.resolve(file.getOriginalFilename());
-//        temp = temp.normalize();
         Boolean fileExist = Files.exists(destination);
         try {
-//            Path temp = Paths.get(filesService.GetClientDirectory());
-//            Set<String> stringSet = filesService.listFilesUsingDirectoryStream(temp.toString());
-//            Iterator iterate_value = stringSet.iterator();
-//            while (iterate_value.hasNext()) {
-//                System.out.println(iterate_value.next());
-//            }
-
-
             Files.createDirectories(destination.getParent());
             Files.copy(file.getInputStream(), destination, REPLACE_EXISTING);
             // Зберігаємо інформацію о файлі та привʼязуємо до користувача.
@@ -94,8 +81,49 @@ public class CreaterDropPostFileController {
                 if (!fileExist) {
                     createrService.SaveTrackUploadInfo(destination, cd);
                 }
-
                 historyService.saveHistory(History_DocumentCreate, " Завантажено трек: " + file.getOriginalFilename(), clientService.GetCurrentUser());
+            }
+            catch(InterruptedException e)
+            {
+                logger.info("--------- catch(InterruptedException e)");
+            }
+        } catch (IOException e) {
+            logger.info("Завантаження треку: Проблема збереження");
+            e.printStackTrace();
+        }
+        log.info("uploaded track " + file.getOriginalFilename());
+    }
+
+    @PostMapping(path = "/creater/albumcoverupload" ) // , produces = MediaType.APPLICATION_JSON_VALUE
+    public void uploadAlbumCover(@RequestParam("file") MultipartFile file) {
+
+        log.info("uploaded file " + file.getOriginalFilename());
+        if (file.isEmpty()) {
+//                throw new ExecutionControl.UserException("Empty file");
+            logger.info("Завантаження файлу: Файл порожній");
+        }
+        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
+        if (clientService.ClientCanDownloadFile(cd) == false) {
+            // клієнт з якоїсь причини не має права завантажувати файли
+            logger.warn("Клієнт {} не має права завантажувати файли.",cd.getUuid());
+            return;
+        }
+
+        Path destination = Paths.get(filesService.GetClientDirectory()).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
+        Boolean fileExist = Files.exists(destination);
+        try {
+            Files.createDirectories(destination.getParent());
+            Files.copy(file.getInputStream(), destination, REPLACE_EXISTING);
+            // Зберігаємо інформацію о файлі та привʼязуємо до користувача.
+            Random random = new Random();
+            long difference = random.nextInt(1000);
+            logger.info("Завантаження файлу: Випадкова затримка {}",difference);
+            try {
+                Thread.sleep(difference);
+                if (!fileExist) {
+                    createrService.SaveAlbumCoverUploadInfo(destination, cd);
+                }
+                historyService.saveHistory(History_DocumentCreate, " Завантажено обкладинку альбому: " + file.getOriginalFilename(), clientService.GetCurrentUser());
             }
             catch(InterruptedException e)
             {

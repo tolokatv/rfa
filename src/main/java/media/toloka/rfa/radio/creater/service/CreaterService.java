@@ -1,6 +1,7 @@
 package media.toloka.rfa.radio.creater.service;
 
 
+import media.toloka.rfa.radio.creater.repository.AlbumCoverRepository;
 import media.toloka.rfa.radio.creater.repository.AlbumRepository;
 import media.toloka.rfa.radio.creater.repository.TrackRepository;
 import media.toloka.rfa.radio.document.ClientDocumentEditController;
@@ -22,6 +23,9 @@ public class CreaterService {
 
     @Autowired
     private AlbumRepository albumRepository;
+
+    @Autowired
+    private AlbumCoverRepository albumCoverRepository;
 
     @Autowired
     private TrackRepository trackRepository;
@@ -73,5 +77,18 @@ public class CreaterService {
 
     public void SaveAlbum(Album album) {
         albumRepository.save(album);
+    }
+
+    public void SaveAlbumCoverUploadInfo(Path destination, Clientdetail cd) {
+        AlbumCover albumCover = new AlbumCover();
+        albumCover.setAlbumcoverfile(destination.getFileName().toString());
+        albumCover.setPatch(destination.toString());
+        albumCover.setClientdetail(cd);
+        albumCoverRepository.save(albumCover);
+    }
+
+    public List<Track> GetLastUploadTracks() {
+//        return trackRepository.findAllByOrderByUploaddateAsc();
+        return trackRepository.findAllTop10ByOrderByUploaddateAsc();
     }
 }

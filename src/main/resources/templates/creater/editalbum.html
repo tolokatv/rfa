@@ -43,7 +43,34 @@
             <div class="col-lg-12 col-sm-12">
                 <form th:action="@{/creater/editalbum}"  method="post" th:object="${album}"class="form-horizontal">
                     <fieldset>
-                        <legend>Інформація про трек</legend>
+                        <legend>Ваш альбом</legend>
+<!--                        <img src="..." class="img-thumbnail" alt="...">-->
+
+                        <!-- Button trigger modal -->
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                            Обрати обкладинку
+                        </button>
+                        <a class="btn btn-primary" th:href="@{/creater/albums}">Завантажити обкладинку альбому</a>
+
+                        <!-- Modal -->
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Modal title</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        ...
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                        <button type="button" class="btn btn-primary">Understood</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                         <input type="hidden" th:field="*{id}"/>
 
                         <div class="form-group">

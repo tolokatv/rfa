@@ -11,33 +11,20 @@ import java.util.List;
 
 @Data
 @Entity
-public class Album {
+public class AlbumCover {
     @Id
     @GeneratedValue
     @Expose
     private Long id;
 
     @Expose
-    private String name;
+    private String albumcoverfile;
 
     @Expose
-    private String autor;
-
-    @Expose
-    private Date createdate = new Date();
-
-    @Expose
-    private String albumrelisedate = new Date().toString();
-
-    @Expose
-//    private AlbumCover albumcover;
-    private Long albumcoverid;
+    private String patch;
 
     @Expose
     private String albumcoverdateupload = new Date().toString();
-
-    @Expose
-    private String style;
 
     @Expose
     @Column(columnDefinition = "TEXT")
@@ -47,10 +34,5 @@ public class Album {
     @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinColumn(name = "clientdetail_id")
     private Clientdetail clientdetail;
-
-    @ToString.Exclude
-    @OneToMany(mappedBy = "album", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Track> track;
-
 
 }

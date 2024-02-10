@@ -75,6 +75,10 @@ public class Clientdetail {
     private List<Post> postList;
 
     @ToString.Exclude
+    @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<AlbumCover> albumCoverList;
+
+    @ToString.Exclude
     @OneToOne(cascade = {CascadeType.ALL})
     private  Users user;
 

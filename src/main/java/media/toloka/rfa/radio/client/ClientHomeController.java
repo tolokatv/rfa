@@ -4,6 +4,7 @@ import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.model.Post;
+import media.toloka.rfa.radio.model.Track;
 import media.toloka.rfa.radio.post.service.PostService;
 import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.security.model.Users;
@@ -47,8 +48,12 @@ public class ClientHomeController {
         }
 
         List<Post> posts = createrService.GetAllPostsByApruve(true);
+        List<Track> trackList = createrService.GetLastUploadTracks();
+
+        model.addAttribute("trackList", trackList );
         model.addAttribute("posts", posts );
         model.addAttribute("stations",  stationService.GetListStationByUser(user));
+
 
 //        model.addAttribute("userID",    user.getId());
 //        model.addAttribute("userName",  user.getName());

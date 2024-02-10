@@ -17,6 +17,15 @@
         </ul>
     </div>
 </div>
+<!--Останні завантажені треки-->
+<div class="container" th:fragment="lasttrecks">
+    <div th:each="track : ${trackList}">
+        <span th:text="${track.name}"/><br>
+        <span th:text="${track.clientdetail.custname} + ' ' + ${track.clientdetail.custsurname}"/><hr>
+    </div>
+
+</div>
+
 
 <div class="container" th:fragment="usermediahub">
 <!--    https://mdbootstrap.com/docs/standard/components/cards/examples-and-customization/-->

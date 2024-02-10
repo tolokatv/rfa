@@ -7,6 +7,7 @@ import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,6 +22,9 @@ public class CreaterDropGetFileController {
 
     @Autowired
     private ClientService clientService;
+
+    @Value("${media.toloka.rfa.upload_directory}")
+    private String PATHuploadDirectory;
 
     final Logger logger = LoggerFactory.getLogger(CreaterDropGetFileController.class);
 

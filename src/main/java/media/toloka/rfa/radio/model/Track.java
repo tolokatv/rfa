@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.ToString;
 import media.toloka.rfa.radio.model.enumerate.EDocumentStatus;
 
+import java.util.Date;
+
 @Data
 @Entity
 public class Track {
@@ -14,6 +16,9 @@ public class Track {
     @GeneratedValue
     @Expose
     private Long id;
+
+    @Expose
+    private Date uploaddate = new Date();
 
     @Expose
     private String name;

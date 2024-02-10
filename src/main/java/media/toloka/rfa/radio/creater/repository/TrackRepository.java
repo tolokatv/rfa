@@ -12,4 +12,7 @@ public interface TrackRepository extends JpaRepository<Track, Long> {
 //    Optional
     List<Track> findByClientdetail(Clientdetail cd);
     Track getById(Long id);
+    List<Track> findAllByOrderByUploaddateAsc();
+    List<Track> findAllTop10ByOrderByUploaddateAsc();
+//    findAllOrderByDateAsc
 }

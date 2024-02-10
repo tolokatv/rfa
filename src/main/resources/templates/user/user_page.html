@@ -53,6 +53,8 @@
                 </div>
                 <!-- колонка медіа хаб-->
                 <div class="col-lg-3 col-sm-12">
+<!--                    Вставляємо останні завантажені треки-->
+                    <div th:insert="~{/fragments/mediahub :: lasttrecks}">  </div>
 <!--                    вставляем Медіа Хаб-->
                     <div th:insert="~{/fragments/mediahub :: usermediahub}">  </div>
                 </div>
