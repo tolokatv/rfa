@@ -4,6 +4,7 @@ package media.toloka.rfa.radio.creater;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.document.ClientDocumentEditController;
+import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.model.Album;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Station;
@@ -28,6 +29,9 @@ public class CreaterTrackController {
 
     @Autowired
     private ClientService clientService;
+
+    @Autowired
+    private FilesService filesService;
     @Autowired
     private CreaterService createrService;
 
@@ -42,6 +46,8 @@ public class CreaterTrackController {
         List<Track> trackList = createrService.GetAllTracksByCreater(cd);
         List<Album> albums = createrService.GetAllAlbumsByCreater(cd);
 
+        String baseaddress = filesService.GetClientDirectory();
+        model.addAttribute("baseaddress", baseaddress );
         model.addAttribute("albums", albums );
         model.addAttribute("trackList", trackList );
         return "/creater/tracks";

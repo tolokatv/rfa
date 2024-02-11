@@ -62,11 +62,12 @@ public class CreaterAlbumController {
         } else {
             album = createrService.GetAlbumById(idAlbum);
         }
-
+        List<Track> tracks = album.getTrack();
 
 //        List<Album> albumList = createrService.GetAllAlbumsByCreater(cd);
 //        model.addAttribute("albumList", albumList );
         model.addAttribute("album", album );
+        model.addAttribute("trackList", tracks );
         return "/creater/editalbum";
     }
 

@@ -40,7 +40,7 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-12 col-sm-12">
+            <div class="col-lg-6 col-sm-6">
                 <form th:action="@{/creater/editalbum}"  method="post" th:object="${album}"class="form-horizontal">
                     <fieldset>
                         <legend>Ваш альбом</legend>
@@ -110,18 +110,30 @@
                             </div>
                         </div>
 
+
                         <!-- Select Basic -->
                         <!-- Button (Double) -->
                         <div class="form-group">
                             <!--                            <label class="col-md-4 control-label" for="button1id"></label>-->
                             <div class="col-md-8">
-                                <button type="submit"  class="btn btn-primary">Зберегти</button>
+                                <button type="submit"  class="btn btn-primary">Зберегти</button><span>   </span><a class="btn btn-primary" th:href="@{/creater/albums}">Повернутися</a>
                                 <!--                                <button id="button2id" name="button2id" class="btn btn-primary">Повернутися</button>-->
                             </div>
                         </div>
                     </fieldset>
                 </form>
-                <a class="btn btn-primary" th:href="@{/creater/albums}">Повернутися</a>
+
+            </div>
+            <div class="col-lg-6 col-sm-6">
+                <div class="row"><h2>Треки в альбомі</h2></div>
+                <div class="row" th:each="track : ${trackList}">
+                    <div class="col">
+                        <span th:text="${track.name}"/>
+                    </div>
+                    <div class="col">
+                        <span th:text="${track.filename}"/>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

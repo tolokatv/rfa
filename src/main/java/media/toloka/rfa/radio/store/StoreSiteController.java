@@ -52,6 +52,31 @@ public class StoreSiteController {
     @Autowired
     private StoreService storeService;
 
+    @GetMapping(value = "/store/audio/{clientUUID}/{fileName}",
+            produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    public @ResponseBody byte[] getStoreAudio(
+            @PathVariable String clientUUID,
+            @PathVariable String fileName,
+            Model model) {
+        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
+//        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
+        // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
+        InputStream is = getClass()
+                .getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
+        if (is == null) {
+            return new byte[0];
+        }
+        try {
+            byte[] buffer = is.readAllBytes();
+
+            return buffer;
+        } catch (IOException e) {
+            logger.info("==================================== getStoreImage IOException");
+            e.printStackTrace();
+            return null;
+        }
+    }
+
     @GetMapping(value = "/store/img/{clientUUID}/{fileName}",
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     public @ResponseBody byte[] getStoreImage(
@@ -63,9 +88,13 @@ public class StoreSiteController {
         // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
         InputStream is = getClass()
                 .getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
-
+        if (is == null) {
+            return new byte[0];
+        }
         try {
-            return is.readAllBytes();
+            byte[] buffer = is.readAllBytes();
+
+            return buffer;
         } catch (IOException e) {
             logger.info("==================================== getStoreImage IOException");
             e.printStackTrace();

@@ -142,7 +142,7 @@
         <tbody>
         <a class="btn btn-primary" th:href="@{/creator/trackupload}">Завантажити трек</a>
         <tr th:each="track : ${trackList}">
-            <td>Слухати</td>
+            <td><a th:href="'/store/audio/'+${track.clientdetail.uuid}+'/'+${track.filename}">Слухати</a></td>
             <td><span th:text="${track.name}"></span></td>
             <td><span th:text="${track.filename}"></span></td>
             <td>
