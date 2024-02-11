@@ -5,6 +5,7 @@ import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
+import media.toloka.rfa.radio.store.model.Store;
 import media.toloka.rfa.security.model.Users;
 
 
@@ -64,19 +65,23 @@ public class Clientdetail {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Album> albumList;
+    private List<Album> albumList = new ArrayList<>();
 
     @ToString.Exclude
     @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Track> trackList;
+    private List<Track> trackList = new ArrayList<>();
 
     @ToString.Exclude
     @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<Post> postList;
+    private List<Post> postList  = new ArrayList<>();
 
     @ToString.Exclude
     @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<AlbumCover> albumCoverList;
+    private List<AlbumCover> albumCoverList = new ArrayList<>();
+
+    @ToString.Exclude
+    @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<Store> filesinstore = new ArrayList<>();
 
     @ToString.Exclude
     @OneToOne(cascade = {CascadeType.ALL})

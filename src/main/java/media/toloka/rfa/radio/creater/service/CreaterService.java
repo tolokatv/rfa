@@ -8,9 +8,13 @@ import media.toloka.rfa.radio.document.ClientDocumentEditController;
 import media.toloka.rfa.radio.model.*;
 import media.toloka.rfa.radio.model.enumerate.EDocumentStatus;
 import media.toloka.rfa.radio.post.repositore.PostRepositore;
+import media.toloka.rfa.radio.store.model.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.nio.file.Path;
@@ -53,12 +57,13 @@ public class CreaterService {
         return postList;
     }
 
-    public void SaveTrackUploadInfo(Path destination, Clientdetail cd) {
+    public void SaveTrackUploadInfo(Path destination, Store storeitem, Clientdetail cd) {
         Track track = new Track();
         track.setStatus(EDocumentStatus.STATUS_LOADED);
         track.setFilename(destination.getFileName().toString());
         track.setPatch(destination.toString());
         track.setClientdetail(cd);
+        track.setStoreitem(storeitem);
         trackRepository.save(track);
     }
 
@@ -90,5 +95,11 @@ public class CreaterService {
     public List<Track> GetLastUploadTracks() {
 //        return trackRepository.findAllByOrderByUploaddateAsc();
         return trackRepository.findAllTop10ByOrderByUploaddateAsc();
+    }
+
+    public Page GetTrackPage(int pageNumber, int pageCount) {
+        Pageable storePage = PageRequest.of(pageNumber, pageCount);
+        Page page = trackRepository.findAllByOrderByUploaddateDesc(storePage);
+        return page;
     }
 }

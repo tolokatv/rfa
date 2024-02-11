@@ -6,6 +6,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 import media.toloka.rfa.radio.model.enumerate.EDocumentStatus;
+import media.toloka.rfa.radio.store.model.Store;
+import media.toloka.rfa.security.model.Users;
 
 import java.util.Date;
 
@@ -31,6 +33,11 @@ public class Track {
 
     @Expose
     private String filename;
+
+    @Expose
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "store_id")
+    private Store storeitem;
 
     @Expose
     @Column(columnDefinition = "TEXT")

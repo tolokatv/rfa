@@ -7,8 +7,11 @@ import media.toloka.rfa.radio.model.Post;
 import media.toloka.rfa.radio.model.Track;
 import media.toloka.rfa.radio.post.service.PostService;
 import media.toloka.rfa.radio.station.service.StationService;
+import media.toloka.rfa.radio.store.Service.StoreService;
+import media.toloka.rfa.radio.store.model.Store;
 import media.toloka.rfa.security.model.Users;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
@@ -19,6 +22,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import java.util.List;
 import java.util.Optional;
 
+import static media.toloka.rfa.radio.store.model.EStoreFileType.STORE_TRACK;
+
 @Controller
 public class ClientHomeController {
 
@@ -27,6 +32,9 @@ public class ClientHomeController {
 
     @Autowired
     private ClientService clientService;
+
+    @Autowired
+    private StoreService storeService;
 
     @Autowired
     private StationService stationService;
@@ -39,6 +47,8 @@ public class ClientHomeController {
 
     @Autowired
     private MessageService messageService;
+
+
     @GetMapping(value = "/user/user_page")
     public String userHome(
             Model model ) {
@@ -50,7 +60,12 @@ public class ClientHomeController {
         List<Post> posts = createrService.GetAllPostsByApruve(true);
         List<Track> trackList = createrService.GetLastUploadTracks();
 
-        model.addAttribute("trackList", trackList );
+//        Page page = storeService.GetStorePageItemType(0,5, STORE_TRACK);
+        Page pageTrack = createrService.GetTrackPage(0,10);
+        List<Store> storeTrackList = pageTrack.stream().toList();
+
+//        model.addAttribute("trackList", trackList );
+        model.addAttribute("trackList", storeTrackList );
         model.addAttribute("posts", posts );
         model.addAttribute("stations",  stationService.GetListStationByUser(user));
 

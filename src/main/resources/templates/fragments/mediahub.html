@@ -19,11 +19,33 @@
 </div>
 <!--Останні завантажені треки-->
 <div class="container" th:fragment="lasttrecks">
-    <div th:each="track : ${trackList}">
-        <span th:text="${track.name}"/><br>
-        <span th:text="${track.clientdetail.custname} + ' ' + ${track.clientdetail.custsurname}"/><hr>
+    <div class="card" >
+        <div class="card-header"><h3>Останні завантажені треки</h3></div>
+        <ul class="list-group list-group-flush">
+            <div th:each="track : ${trackList}">
+                <li  class="list-group-item">
+                    <div class="row">
+                        <div class="col-1 col-sm-1 col-lg-1" style="padding-left: 0px;">
+                            <span class="fa-stack fa-1x">
+                                <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                                <i class="fas fa-play fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </div>
+                        <div class="col-11 col-lg-11 col-sm-11">
+                            <small>
+                                <span th:text="${track.autor}"/><br>
+                                <span th:text="${track.name}"/><br>
+                                <span th:text="${track.clientdetail.custname} + ' ' + ${track.clientdetail.custsurname}"/>
+                            </small>
+                        </div>
+                    </div>
+                </li>
+            </div>
+        </ul>
+        <div class="card-footer">
+            <a href="/guest/alltracks">Подивитися всі завантажені треки</a>
+        </div>
     </div>
-
 </div>
 
 

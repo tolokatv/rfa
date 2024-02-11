@@ -7,6 +7,8 @@ import media.toloka.rfa.radio.document.service.DocumentService;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.model.Clientdetail;
+import media.toloka.rfa.radio.store.Service.StoreService;
+import media.toloka.rfa.radio.store.model.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,12 +22,11 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Iterator;
 import java.util.Random;
-import java.util.Set;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static media.toloka.rfa.radio.model.enumerate.EHistoryType.History_DocumentCreate;
+import static media.toloka.rfa.radio.store.model.EStoreFileType.STORE_TRACK;
 
 
 @Slf4j
@@ -49,6 +50,9 @@ public class CreaterDropPostFileController {
 
     @Autowired
     private FilesService filesService;
+
+    @Autowired
+    private StoreService storeService;
 
     final Logger logger = LoggerFactory.getLogger(CreaterDropPostFileController.class);
 
@@ -76,10 +80,14 @@ public class CreaterDropPostFileController {
             Random random = new Random();
             long difference = random.nextInt(1000);
             logger.info("Завантаження файлу: Випадкова затримка {}",difference);
+            Store storeitem;
             try {
                 Thread.sleep(difference);
                 if (!fileExist) {
-                    createrService.SaveTrackUploadInfo(destination, cd);
+                    storeitem = storeService.SaveStoreItemInfo(null,destination, STORE_TRACK, cd);
+                    createrService.SaveTrackUploadInfo(destination, storeitem, cd);
+                } else {
+                    storeitem = storeService.GetByFilenameByClientDetail(destination.getFileName().toString(), cd);
                 }
                 historyService.saveHistory(History_DocumentCreate, " Завантажено трек: " + file.getOriginalFilename(), clientService.GetCurrentUser());
             }
