@@ -36,7 +36,7 @@ public class TrackListAllController {
         List<Track> trackList = createrService.GetLastUploadTracks();
 
 //        Page page = storeService.GetStorePageItemType(0,5, STORE_TRACK);
-        Page pageTrack = createrService.GetTrackPage(page,5);
+        Page pageTrack = createrService.GetTrackPage(page,10);
         List<Store> storeTrackList = pageTrack.stream().toList();
 
 //        model.addAttribute("trackList", trackList );
