@@ -49,11 +49,57 @@
             </div>
         </ul>
         <div class="card-footer">
-            <a href="/guest/alltracks">Подивитися всі завантажені треки</a>
+            <a href="/guest/tracksall/0">Подивитися всі завантажені треки</a>
         </div>
     </div>
 </div>
 
+<div class="container" th:fragment="lasttrecksall">
+    <div class="card" >
+        <div class="card-header"><h3>Останні завантажені треки</h3></div>
+        <ul class="list-group list-group-flush">
+            <div th:each="track : ${trackList}">
+                <li  class="list-group-item">
+                    <div class="row">
+                        <div class="col-1 col-sm-1 col-lg-1" style="padding-left: 0px;">
+                            <span class="fa-stack fa-1x">
+                                <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                                <i class="fas fa-play fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </div>
+                        <div class="col-11 col-lg-11 col-sm-11">
+                            <small>
+                                <span th:text="${track.autor}"/><br>
+                                <span th:text="${track.name}"/><br>
+                                <span th:text="${track.clientdetail.custname} + ' ' + ${track.clientdetail.custsurname}"/>
+                            </small>
+
+                        </div>
+                        <div>
+                            <audio id="'voice'+${track.id}" controls>
+                                <source th:src="'/store/audio/'+${track.clientdetail.uuid}+'/'+${track.filename}">
+                            </audio>
+                        </div>
+                    </div>
+                </li>
+            </div>
+        </ul>
+        <div class="card-footer">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination" >
+                    <li class="page-item"><a class="page-link"  th:href="'/guest/tracksall/'+${privpage}">Попередня</a></li>
+                    <div th:each="lpage : ${#numbers.sequence(0, __${totalpage-1}__)}">
+                        <li class="page-item"><a class="page-link"  th:href="'/guest/tracksall/'+${lpage}"><span th:text="${lpage}">1</a></li>
+                    </div>
+<!--                    <li class="page-item"><a class="page-link" href="#">2</a></li>-->
+<!--                    <li class="page-item"><a class="page-link" href="#">3</a></li>-->
+                    <li class="page-item"><a class="page-link" th:href="'/guest/tracksall/'+${currentpage+1}">Next</a></li>
+                </ul>
+            </nav>
+            <a href="/guest/alltracks">Подивитися всі завантажені треки</a>
+        </div>
+    </div>
+</div>
 
 <div class="container" th:fragment="usermediahub">
 <!--    https://mdbootstrap.com/docs/standard/components/cards/examples-and-customization/-->

@@ -31,7 +31,7 @@ public class SecurityConfig {
                         "/home",
                         "/register",
                         "/saveUser",
-                        "/emit",
+                        "/guest/**",
                         "/process/**",
                         "/seveform/**",
                         "/post/**",
