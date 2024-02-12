@@ -36,13 +36,15 @@ public class TrackListAllController {
         List<Track> trackList = createrService.GetLastUploadTracks();
 
 //        Page page = storeService.GetStorePageItemType(0,5, STORE_TRACK);
-        Page pageTrack = createrService.GetTrackPage(page,3);
+        Page pageTrack = createrService.GetTrackPage(page,5);
         List<Store> storeTrackList = pageTrack.stream().toList();
 
 //        model.addAttribute("trackList", trackList );
         int privpage ;
+        int nextpage ;
         if (page == 0) {privpage = 0;} else {privpage = page - 1;};
-//        if (page >= (pageTrack.getTotalPages()-1) ) {} else {}
+        if (page >= (pageTrack.getTotalPages()-1) ) {nextpage = pageTrack.getTotalPages()-1; } else {nextpage = page+1;} ;
+        model.addAttribute("nextpage", nextpage );
         model.addAttribute("privpage", privpage );
         model.addAttribute("totalpage", pageTrack.getTotalPages() );
         model.addAttribute("pagetrack", pageTrack );
