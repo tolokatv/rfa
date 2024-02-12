@@ -37,6 +37,12 @@
                                 <span th:text="${track.name}"/><br>
                                 <span th:text="${track.clientdetail.custname} + ' ' + ${track.clientdetail.custsurname}"/>
                             </small>
+
+                        </div>
+                        <div>
+                            <audio id="'voice'+${track.id}" controls>
+                                <source th:src="'/store/audio/'+${track.clientdetail.uuid}+'/'+${track.filename}">
+                            </audio>
                         </div>
                     </div>
                 </li>
