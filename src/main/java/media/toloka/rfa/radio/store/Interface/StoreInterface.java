@@ -8,8 +8,9 @@ import static java.util.UUID.randomUUID;
 public interface StoreInterface {
 
     public InputStream GetFileFromStore (String uuid);
-    public String PutFileToStore (InputStream inputStream);
+    public String PutFileToStore (InputStream inputStream, String filepatch);
     public Boolean DeleteFileInStore (String uuid);
+
 
 //    public default InputStream GetFileFromStore (String uuid) {
 //        InputStream is = null;

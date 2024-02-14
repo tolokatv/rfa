@@ -133,6 +133,7 @@
         <thead>
         <tr>
             <th scope="col">Заголовок</th>
+            <th scope="col">Статус</th>
             <th scope="col">Редагувати</th>
         </tr>
         </thead>
@@ -140,7 +141,12 @@
         <a class="btn btn-primary" th:href="@{'/creater/editpost/'+${0}}">Створити пост</a>
         <tr th:each="post : ${posts}">
             <td><span th:text="${post.posttitle}"></span></td>
-            <td><a class="btn btn-primary" th:href="@{'/creater/editpost/'+${post.id} }">Редагувати</a></td>
+            <td><span>Статус</span></td>
+            <td>
+                <a class="btn btn-primary" th:href="@{'/creater/publishpost/'+${post.id} }">Опублікувати</a>
+                <a class="btn btn-primary" th:href="@{'/creater/editpost/'+${post.id} }">Редагувати</a>
+                <a class="btn btn-primary" th:href="@{'/creater/delpost/'+${post.id} }">Видалити</a>
+            </td>
         </tr>
         </tbody>
     </table>

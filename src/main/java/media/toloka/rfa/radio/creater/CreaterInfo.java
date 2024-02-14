@@ -1,10 +1,8 @@
 package media.toloka.rfa.radio.creater;
 
+
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
-import media.toloka.rfa.radio.document.ClientDocumentEditController;
-import media.toloka.rfa.radio.model.Album;
-import media.toloka.rfa.radio.model.Clientaddress;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Post;
 import media.toloka.rfa.radio.post.service.PostService;
@@ -22,7 +20,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import java.util.List;
 
 @Controller
-public class CreaterController {
+public class CreaterInfo {
 
     @Autowired
     private ClientService clientService;
@@ -33,22 +31,44 @@ public class CreaterController {
     @Autowired
     private PostService postService;
 
-    final Logger logger = LoggerFactory.getLogger(CreaterController.class);
+    final Logger logger = LoggerFactory.getLogger(CreaterInfo.class);
 
 
-    @GetMapping(value = "/creater/home")
-    public String getUserHome(
+    @GetMapping(value = "/creater/info")
+    public String getUserInfo(
             Model model ) {
         Users user = clientService.GetCurrentUser();
         if (user == null) {
             return "redirect:/";
         }
 
-        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
-        List<Post> posts = createrService.GetAllPostsByCreater(cd);
-        model.addAttribute("posts", posts );
+        Clientdetail cd = clientService.GetClientDetailByUser(user);
+        model.addAttribute("clientdetail", cd );
 
-        return "/creater/home";
+        return "/creater/info";
     }
 
+    @PostMapping(value="/creater/info")
+    public String postCreaterEditPost(
+//            @PathVariable Long idcd,
+            @ModelAttribute Clientdetail fcd,
+            Model model )
+
+    {
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+        Clientdetail cd = clientService.GetClientDetailByUser(user);
+        //
+        cd.setComments(fcd.getComments());
+        cd.setFirmname(fcd.getFirmname());
+        cd.setCustname(fcd.getCustname());
+        cd.setCustsurname(fcd.getCustsurname());
+
+        clientService.SaveClientDetail(cd);
+
+        model.addAttribute("clientdetail", cd );
+        return "/creater/info";
+    }
 }

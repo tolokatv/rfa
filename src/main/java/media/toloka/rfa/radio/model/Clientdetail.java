@@ -37,6 +37,7 @@ public class Clientdetail {
     @Expose
     private Date createdate;
     @Expose
+    @Column(columnDefinition = "TEXT")
     private String comments;
     @Expose
     private Double account = 0.0;

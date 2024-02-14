@@ -24,4 +24,7 @@ public interface StoreRepositorePagination extends PagingAndSortingRepository<St
     Page<Store> findByStorefiletype(Pageable pageable, EStoreFileType storefiletype);
 
     Page findByClientdetail(Pageable storePage, Clientdetail cd);
+
+    Store getByUuid(String uuid);
+    Store getByFilepatch(String filepatch);
 }

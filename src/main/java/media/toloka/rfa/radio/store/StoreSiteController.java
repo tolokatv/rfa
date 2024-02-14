@@ -6,6 +6,7 @@ import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.model.Clientdetail;
+import media.toloka.rfa.radio.store.Interface.StoreInterface;
 import media.toloka.rfa.radio.store.Service.StoreService;
 import media.toloka.rfa.radio.store.model.Store;
 import media.toloka.rfa.security.model.Users;
@@ -36,7 +37,7 @@ import org.imgscalr.Scalr;
 import javax.imageio.ImageIO;
 
 @Controller
-public class StoreSiteController {
+public class StoreSiteController  {
 
     final Logger logger = LoggerFactory.getLogger(StoreSiteController.class);
 

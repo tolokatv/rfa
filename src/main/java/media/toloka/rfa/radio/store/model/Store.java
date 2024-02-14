@@ -21,6 +21,10 @@ public class Store {
     @Expose
     private String uuid = UUID.randomUUID().toString();
     @Expose
+    private Long previd = 0L;
+    @Expose
+    private Long countversion = 0L;
+    @Expose
     private EStoreFileType storefiletype;
     @Expose
     private String filename;
