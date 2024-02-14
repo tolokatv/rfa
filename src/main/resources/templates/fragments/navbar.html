@@ -54,6 +54,45 @@
                 <li class="nav-item"><a class="nav-link" th:href="@{/logout}" >Вихід</a></li>
             </ul>
         </div>
+        <div sec:authorize="hasRole('ROLE_ADMIN')" class="collapse navbar-collapse" id="navbarResponsive">
+            <ul  class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                <li class="nav-item"><a class="nav-link" href="/creater/home">Адреси</a></li>
+                <li class="nav-item"><a class="nav-link" href="/creater/albums">Пости</a></li>
+                <li class="nav-item"><a class="nav-link" href="/creater/tracks">Станції</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/usermessage">Повідомлення
+                        <span th:if="${quantitynewmessage gt 0} " th:text="'Нові: '+ ${quantitynewmessage}" style="color:red;font-size: 0.75em; font-weight: bold;"/></a>
+                </li>
+
+                <li class="nav-item"><a class="nav-link" th:href="@{/logout}" >Вихід</a></li>
+            </ul>
+        </div>
+        <div sec:authorize="hasRole('ROLE_EDITOR')" class="collapse navbar-collapse" id="navbarResponsive">
+            <ul  class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                <li class="nav-item"><a class="nav-link" href="/creater/home">Головна</a></li>
+                <li class="nav-item"><a class="nav-link" href="/creater/albums">Альбоми</a></li>
+                <li class="nav-item"><a class="nav-link" href="/creater/tracks">Треки</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/usermessage">Повідомлення
+                        <span th:if="${quantitynewmessage gt 0} " th:text="'Нові: '+ ${quantitynewmessage}" style="color:red;font-size: 0.75em; font-weight: bold;"/></a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="/creater/info">Профайл</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/logout}" >Вихід</a></li>
+            </ul>
+        </div>
+        <div sec:authorize="hasRole('ROLE_MODERATOR')" class="collapse navbar-collapse" id="navbarResponsive">
+            <ul  class="navbar-nav text-uppercase ms-auto py-4 py-lg-0">
+                <li class="nav-item"><a class="nav-link" href="/creater/home">Головна</a></li>
+                <li class="nav-item"><a class="nav-link" href="/creater/albums">Альбоми</a></li>
+                <li class="nav-item"><a class="nav-link" href="/creater/tracks">Треки</a></li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/usermessage">Повідомлення
+                        <span th:if="${quantitynewmessage gt 0} " th:text="'Нові: '+ ${quantitynewmessage}" style="color:red;font-size: 0.75em; font-weight: bold;"/></a>
+                </li>
+                <li class="nav-item"><a class="nav-link" href="/creater/info">Профайл</a></li>
+                <li class="nav-item"><a class="nav-link" th:href="@{/logout}" >Вихід</a></li>
+            </ul>
+        </div>
     </nav>
 </div>
 </body>

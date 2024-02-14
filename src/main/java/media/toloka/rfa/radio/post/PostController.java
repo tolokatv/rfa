@@ -5,6 +5,7 @@ import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.document.ClientDocumentEditController;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Post;
+import media.toloka.rfa.radio.model.enumerate.EPostStatus;
 import media.toloka.rfa.radio.post.repositore.PostRepositore;
 import media.toloka.rfa.radio.post.service.PostService;
 import media.toloka.rfa.security.model.Users;
@@ -24,8 +25,8 @@ import java.util.List;
 public class PostController {
     final Logger logger = LoggerFactory.getLogger(PostController.class);
 
-    @Autowired
-    private PostRepositore postRepositore;
+//    @Autowired
+//    private PostRepositore postRepositore;
     @Autowired
     private PostService postService;
 
@@ -126,6 +127,11 @@ public class PostController {
 //            @ModelAttribute Post fPost,
             Model model ) {
         Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
+        Post post = postService.GetPostById(idPost);
+        if (post != null) {
+            post.setPostStatus(EPostStatus.POSTSTATUS_REQUEST);
+            postService.SavePost(post);
+        }
 
 
         List<Post> posts = createrService.GetAllPostsByCreater(cd);
@@ -140,6 +146,11 @@ public class PostController {
             Model model ) {
         Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
 
+        Post post = postService.GetPostById(idPost);
+        if (post != null) {
+            post.setPostStatus(EPostStatus.POSTSTATUS_DELETE);
+            postService.SavePost(post);
+        }
 
         List<Post> posts = createrService.GetAllPostsByCreater(cd);
         model.addAttribute("posts", posts );

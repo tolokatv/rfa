@@ -5,6 +5,7 @@ import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
+import media.toloka.rfa.radio.model.enumerate.EPostStatus;
 import media.toloka.rfa.security.model.Users;
 
 import java.util.Date;
@@ -28,6 +29,8 @@ public class Post {
     private Date createdate = new Date();
     @Expose
     private Date publishdate;
+    @Expose
+    private EPostStatus postStatus;
     @Expose
     private Date enddate;
 
