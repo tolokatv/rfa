@@ -64,7 +64,7 @@
                         </span>
                     </div>
                     <div class="card-footer text-muted">
-                        <a class="btn btn-primary" href="/creater/profile">Керувати</a>
+                        <a class="btn btn-primary" href="/creater/posts">Керувати</a>
                     </div>
                 </div>
             </div>
@@ -111,6 +111,24 @@
 </div>
 
 <div th:fragment="listpost">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Заголовок</th>
+            <th scope="col">Редагувати</th>
+        </tr>
+        </thead>
+        <tbody>
+        <a class="btn btn-primary" th:href="@{'/creater/editpost/'+${0}}">Створити пост</a>
+        <tr th:each="post : ${posts}">
+            <td><span th:text="${post.posttitle}"></span></td>
+            <td><a class="btn btn-primary" th:href="@{'/creater/editpost/'+${post.id} }">Редагувати</a></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+<div th:fragment="listpostcontrol">
     <table class="table">
         <thead>
         <tr>

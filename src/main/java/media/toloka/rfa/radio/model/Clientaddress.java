@@ -7,6 +7,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 import media.toloka.rfa.radio.model.enumerate.EClientAddressType;
+
+import java.util.UUID;
 //import javax.persistence.Id;
 
 @Data
@@ -19,6 +21,8 @@ public class Clientaddress {
     @GeneratedValue
     @Expose
     private Long id;
+    @Expose
+    private String uuid= UUID.randomUUID().toString();
     @Expose
     private String shortaddress; // коротке найменування адреси
     @Expose

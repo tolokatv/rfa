@@ -1,8 +1,10 @@
 package media.toloka.rfa.radio.model;
 
+import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.util.Date;
+import java.util.UUID;
 
 
 @Data
@@ -16,9 +18,12 @@ public class MessageFromSite {
     @Id
     @GeneratedValue
     private Long contact_id;
+    @Expose
+    private String uuid= UUID.randomUUID().toString();
     private String name;
     private String email;
     private String phone;
+    @Column(columnDefinition = "TEXT")
     private String message;
     private Date contact_datetime;
 

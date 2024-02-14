@@ -8,6 +8,7 @@ import lombok.ToString;
 import media.toloka.rfa.security.model.Users;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -16,6 +17,8 @@ public class Post {
     @GeneratedValue
     @Expose
     private Long id;
+    @Expose
+    private String uuid= UUID.randomUUID().toString();
     @Expose
     private String posttitle;
     @Expose

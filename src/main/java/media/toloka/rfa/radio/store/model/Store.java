@@ -27,6 +27,10 @@ public class Store {
     @Expose
     private String filepatch;
     @Expose
+    private Long filelength;
+    @Expose
+    private String contentMimeType;
+    @Expose
     private String description;
     @Expose
     private Date createdate = new Date();

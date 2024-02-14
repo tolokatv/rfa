@@ -2,7 +2,7 @@ package media.toloka.rfa.radio.store.Service;
 
 
 import media.toloka.rfa.radio.model.Clientdetail;
-import media.toloka.rfa.radio.store.Reposirore.StoreRepositore;
+import media.toloka.rfa.radio.store.Reposirore.StoreRepositorePagination;
 import media.toloka.rfa.radio.store.model.EStoreFileType;
 import media.toloka.rfa.radio.store.model.Store;
 import org.slf4j.Logger;
@@ -22,7 +22,7 @@ public class StoreService {
     final Logger logger = LoggerFactory.getLogger(StoreService.class);
 
     @Autowired
-    private StoreRepositore storeRepositore;
+    private StoreRepositorePagination storeRepositore;
 
     public List<Store> GetAllByClientId(Clientdetail cd) {
         return storeRepositore.findAllByClientdetail(cd);

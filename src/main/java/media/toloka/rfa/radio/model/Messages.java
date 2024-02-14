@@ -7,6 +7,7 @@ import lombok.Data;
 
 
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -16,6 +17,8 @@ public class Messages {
     @GeneratedValue
     @Expose
     private Long id;
+    @Expose
+    private String uuid= UUID.randomUUID().toString();
     @Expose
     @ManyToOne(optional = false, cascade = {CascadeType.ALL}) //, cascade = {CascadeType.ALL}
 //    @JoinColumn(name = "from_id")

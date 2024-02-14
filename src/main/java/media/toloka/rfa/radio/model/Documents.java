@@ -7,6 +7,7 @@ import lombok.ToString;
 import media.toloka.rfa.radio.model.enumerate.EDocumentStatus;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -17,6 +18,8 @@ public class Documents {
     @GeneratedValue
     @Expose
     private Long id;
+    @Expose
+    private String uuid= UUID.randomUUID().toString();
     @Expose
     private Date loaddate;
     @Expose

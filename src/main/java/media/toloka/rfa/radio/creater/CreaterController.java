@@ -110,4 +110,17 @@ public class CreaterController {
         return "/creater/home";
     }
 
+    @PostMapping(value="/creater/posts")
+    public String postCreaterEditPost(
+//            @PathVariable Long idPost,
+//            @ModelAttribute Post fPost,
+            Model model ) {
+        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
+
+
+        List<Post> posts = createrService.GetAllPostsByCreater(cd);
+        model.addAttribute("posts", posts );
+        return "/creater/posts";
+    }
+
 }

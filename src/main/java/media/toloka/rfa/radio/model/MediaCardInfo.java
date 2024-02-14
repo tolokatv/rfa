@@ -12,6 +12,7 @@ import media.toloka.rfa.radio.model.enumerate.ECardInfoType;
 import media.toloka.rfa.security.model.Users;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -23,6 +24,8 @@ public class MediaCardInfo {
     @Id
     @GeneratedValue
     private Long id;
+    @Expose
+    private String uuid= UUID.randomUUID().toString();
     @Expose
     private ECardInfoType cardtype;
     @Expose

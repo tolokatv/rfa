@@ -10,6 +10,7 @@ import media.toloka.rfa.radio.store.model.Store;
 import media.toloka.rfa.security.model.Users;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -18,6 +19,9 @@ public class Track {
     @GeneratedValue
     @Expose
     private Long id;
+
+    @Expose
+    private String uuid= UUID.randomUUID().toString();
 
     @Expose
     private Date uploaddate = new Date();

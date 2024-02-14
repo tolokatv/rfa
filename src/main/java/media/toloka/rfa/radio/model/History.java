@@ -8,6 +8,7 @@ import media.toloka.rfa.radio.model.enumerate.EHistoryType;
 
 
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 @Entity
@@ -20,6 +21,8 @@ public class History {
     @GeneratedValue
 //    @Column(name="id")
     private Long            id;
+    @Expose
+    private String uuid= UUID.randomUUID().toString();
     @Expose
     private EHistoryType historyType;
     @Expose
