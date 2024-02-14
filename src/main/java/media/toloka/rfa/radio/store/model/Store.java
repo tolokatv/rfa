@@ -9,19 +9,27 @@ import lombok.ToString;
 import media.toloka.rfa.radio.model.Clientdetail;
 
 import java.util.Date;
+import java.util.UUID;
 
 @Data
 @Entity
 public class Store {
-        @Id
-        @GeneratedValue
-        @Expose
-        private Long id;
-        private EStoreFileType storefiletype;
-        private String filename;
-        private String filepatch;
-        private String description;
-        private Date createdate = new Date();
+    @Id
+    @GeneratedValue
+    @Expose
+    private Long id;
+    @Expose
+    private String uuid = UUID.randomUUID().toString();
+    @Expose
+    private EStoreFileType storefiletype;
+    @Expose
+    private String filename;
+    @Expose
+    private String filepatch;
+    @Expose
+    private String description;
+    @Expose
+    private Date createdate = new Date();
 
     @ToString.Exclude
     @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
