@@ -1,6 +1,7 @@
 package media.toloka.rfa.radio.store.Service;
 
 
+import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.store.Reposirore.StoreRepositorePagination;
 import media.toloka.rfa.radio.store.model.EStoreFileType;
@@ -23,6 +24,9 @@ public class StoreService {
 
     @Autowired
     private StoreRepositorePagination storeRepositore;
+
+    @Autowired
+    private FilesService filesService;
 
     public List<Store> GetAllByClientId(Clientdetail cd) {
         return storeRepositore.findAllByClientdetail(cd);
@@ -53,6 +57,9 @@ public class StoreService {
             storeitem.setStorefiletype(eStoreFileType);
             storeitem.setClientdetail(cd);
             storeitem.setFilename(destination.getFileName().toString());
+            storeitem.setContentMimeType(filesService.GetMediatype(destination));
+            storeitem.setFilelength(filesService.GetMediaLength(destination));
+
         }
         storeRepositore.save(storeitem);
         return storeitem;

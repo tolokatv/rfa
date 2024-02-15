@@ -5,6 +5,7 @@ import media.toloka.rfa.radio.creater.repository.AlbumCoverRepository;
 import media.toloka.rfa.radio.creater.repository.AlbumRepository;
 import media.toloka.rfa.radio.creater.repository.TrackRepository;
 import media.toloka.rfa.radio.document.ClientDocumentEditController;
+import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.model.*;
 import media.toloka.rfa.radio.model.enumerate.EDocumentStatus;
 import media.toloka.rfa.radio.post.repositore.PostRepositore;
@@ -19,6 +20,7 @@ import org.springframework.stereotype.Service;
 
 import java.nio.file.Path;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CreaterService {
@@ -36,6 +38,9 @@ public class CreaterService {
 
     @Autowired
     private PostRepositore postRepositore;
+
+    @Autowired
+    private FilesService filesService;
 
     public List<Album> GetAllAlbumsByCreater(Clientdetail cd) {
         List<Album> albumList = albumRepository.findByClientdetail(cd);
@@ -87,6 +92,10 @@ public class CreaterService {
     public void SaveAlbumCoverUploadInfo(Path destination, Clientdetail cd) {
         AlbumCover albumCover = new AlbumCover();
         albumCover.setAlbumcoverfile(destination.getFileName().toString());
+        String mediatype = filesService.GetMediatype(destination);
+//        = Optional.ofNullable(destination.getFileName().toString())
+//                .filter(f -> f.contains("."))
+//                .map(f -> f.substring(destination.getFileName().toString().lastIndexOf(".") + 1));
         albumCover.setPatch(destination.toString());
         albumCover.setClientdetail(cd);
         albumCoverRepository.save(albumCover);

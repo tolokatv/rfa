@@ -3,12 +3,15 @@ package media.toloka.rfa.radio.dropfile.service;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.dropfile.DropPostFileController;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.DirectoryStream;
 import java.nio.file.Files;
@@ -16,6 +19,8 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
+
+import static org.apache.commons.io.FilenameUtils.getExtension;
 
 @Service
 public class FilesService {
@@ -42,6 +47,18 @@ public class FilesService {
 //        return temp.toString();
 //    }
 
+    public String GetMediatype(Path fileName) {
+        String mediaType;
+        String extensionFile =  FilenameUtils.getExtension(fileName.getFileName().toString());
+        try {
+            mediaType = Files.probeContentType(fileName);
+        } catch (IOException e) {
+            logger.info("GetMediatype:  Йой!");
+            return null;
+        }
+        return mediaType;
+    }
+
     public Set<String> listFilesUsingDirectoryStream(String dir) throws IOException {
         Set<String> fileSet = new HashSet<>();
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(Paths.get(dir))) {
@@ -55,4 +72,10 @@ public class FilesService {
         return fileSet;
     }
 
+    public Long GetMediaLength(Path destination) {
+//        Long fileSize;
+//        File storeFile = new File(destination);
+        Long size = FileUtils.sizeOf(new File(destination.toString()));
+        return size;
+    }
 }

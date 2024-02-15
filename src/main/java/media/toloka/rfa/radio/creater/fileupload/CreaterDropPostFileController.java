@@ -73,6 +73,7 @@ public class CreaterDropPostFileController {
 
         Path destination = Paths.get(filesService.GetClientDirectory(cd)).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
         Boolean fileExist = Files.exists(destination);
+        String mediatype =  filesService.GetMediatype(destination);
         try {
             Files.createDirectories(destination.getParent());
             Files.copy(file.getInputStream(), destination, REPLACE_EXISTING);

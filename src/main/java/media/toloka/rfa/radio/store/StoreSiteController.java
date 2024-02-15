@@ -26,10 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.util.List;
 
 import org.imgscalr.Scalr;
@@ -62,20 +59,25 @@ public class StoreSiteController  {
         Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
 //        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
         // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
-        InputStream is = getClass()
-                .getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
-        if (is == null) {
-            return new byte[0];
-        }
+        String ifile = filesService.GetClientDirectory(cd)+"/"+fileName;
+        logger.info("SCD = {}",ifile);
+//        InputStream is = getClass().getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
+        InputStream is;
         try {
+            is = new FileInputStream(new File(ifile));
+            if (is == null) {
+                return new byte[0];
+            }
             byte[] buffer = is.readAllBytes();
-
             return buffer;
+        } catch (FileNotFoundException e) {
+            logger.info("getStoreAudio: Йой! FileNotFoundException!");
         } catch (IOException e) {
             logger.info("==================================== getStoreImage IOException");
             e.printStackTrace();
             return null;
         }
+        return null;
     }
 
     @GetMapping(value = "/store/img/{clientUUID}/{fileName}",
