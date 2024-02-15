@@ -10,299 +10,37 @@
 <header th:fragment="masthead" class="masthead">
     <div class="container">
         <div class="masthead-subheading" style="color: #ffd500">Ласкаво просимо на Толоку!</div>
-        <div class="masthead-heading text-uppercase" >Створіть власне радіо!</div>
+        <div class="masthead-heading text-uppercase" >Власне радіо - це просто!</div>
         <form  action="/login/registerRadioUser">
             <div class="text-center">
-                <button class="btn btn-primary btn-xl text-uppercase "  type="submit">Створити Радіостанцію!</button>
+                <button class="btn btn-primary btn-xl text-uppercase "  type="submit">Створити власну радіостанцію!</button>
             </div>
         </form>
     </div>
 </header>
 
-<section th:fragment="services" class="page-section" id="services">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Власна радіостанція - це просто!</h2>
-            <h3 class="section-subheading text-muted">Вас чує весь світ!</h3>
-        </div>
-        <div class="row text-center">
-            <div class="col-md-4">
-                        <span class="fa-stack fa-4x">
-                            <i class="fas fa-circle fa-stack-2x text-primary" ></i>
-                            <i class="fas fa-rocket fa-stack-1x fa-inverse" ></i>
-<!--                            <i class="fas fa-shopping-cart fa-stack-1x fa-inverse" ></i>-->
-                        </span>
-                <h4 class="my-3">Це доступно для всіх!</h4>
-                <p class="text-muted">Толока забезпечує технічну та технологічну підтримку Вашої радіостанції. Ми постійно моніторимо коректну роботу всіх необхідних сервісів, а Вас слухає весь світ!. </p>
-            </div>
-            <div class="col-md-4">
-                        <span class="fa-stack fa-4x">
-                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                            <i class="fas fa-signal fa-stack-1x fa-inverse"></i>
-                        </span>
-                <h4 class="my-3">Керувати можна звідусіль!</h4>
-                <p class="text-muted">Панель керування Вашою радіостанцією доступна Вам, деб Ви не знаходилися з телефону, планшету або компʼютера.</p>
-            </div>
-            <div class="col-md-4">
-                        <span class="fa-stack fa-4x">
-                            <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                            <i class="fas fa-users fa-stack-1x fa-inverse"></i>
-                        </span>
-                <h4 class="my-3">Безпека</h4>
-                <p class="text-muted">Ви повністю контролюєте зміст Вашого ефіру - як треки, так і можливість прямих трансляцій.</p>
-            </div>
-            <!--                    <div class="text-center">-->
-            <!--                        <a class="btn btn-primary btn-xl text-uppercase" href="#services">Дізнатися більше</a>-->
-            <!--                    </div>-->
-        </div>
-    </div>
-</section>
-<!-- Portfolio Grid-->
-<section th:fragment="portfolio" class="page-section bg-light" id="portfolio">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Для кого?</h2>
-            <h3 class="section-subheading text-muted">Власне радіо може створити кожен!</h3>
-        </div>
-        <div class="row">
-            <div class="col-lg-4 col-sm-6 mb-4">
-                <!-- Portfolio item 1-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal1">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-<!--                        <img class="img-fluid" src="assets/img/portfolio/1.jpg" alt="..." />-->
-                        <img class="img-fluid" src="assets/img/portfolio/MicSocial.png" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Радіо громади</div>
-                        <div class="portfolio-caption-subheading text-muted">Від будинку до ОТГ!</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 mb-4">
-                <!-- Portfolio item 2-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal2">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="assets/img/portfolio/MicTribuna.png" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Місцева влада</div>
-                        <div class="portfolio-caption-subheading text-muted">Проста та швидка комунікація</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 mb-4">
-                <!-- Portfolio item 3-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal3">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="assets/img/portfolio/StudentRadio.png" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Навчальні заклади</div>
-                        <div class="portfolio-caption-subheading text-muted">Школа, ліцей, університет ...</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 mb-4 mb-lg-0">
-                <!-- Portfolio item 4-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal4">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="assets/img/portfolio/ngoRadio.jpg" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Громадські організації</div>
-                        <div class="portfolio-caption-subheading text-muted">Власне радіо для ГО.</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6 mb-4 mb-sm-0">
-                <!-- Portfolio item 5-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal5">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="assets/img/portfolio/Spilnota.jpg" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Спільноти</div>
-                        <div class="portfolio-caption-subheading text-muted">Шахматисти, собачники - будь-хто!</div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-4 col-sm-6">
-                <!-- Portfolio item 6-->
-                <div class="portfolio-item">
-                    <a class="portfolio-link" data-bs-toggle="modal" href="#portfolioModal6">
-                        <div class="portfolio-hover">
-                            <div class="portfolio-hover-content"><i class="fas fa-plus fa-3x"></i></div>
-                        </div>
-                        <img class="img-fluid" src="assets/img/portfolio/6.jpg" alt="..." />
-                    </a>
-                    <div class="portfolio-caption">
-                        <div class="portfolio-caption-heading">Бізнес</div>
-                        <div class="portfolio-caption-subheading text-muted">Торгові мережі, корпоративне радіо.</div>
-                    </div>
+<div th:fragment="tolokanews">
+    <div class="row" style="padding-top: 20px">
+        <!-- Колонка керування радіо-->
+        <div class="col-lg-9 col-sm-12">
+            <div class="card" >
+                <div class="card-header"><h3>Музичні новини на Толоці</h3></div>
+                <div class="card-body">
+                    <div th:insert="~{/fragments/infoblock :: cardtile}"/>
                 </div>
             </div>
         </div>
-    </div>
-</section>
-<!-- About-->
-<section th:fragment="about" class="page-section" id="about">
-
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Хто ми?</h2>
-            <h3 class="section-subheading text-muted">Трошки про ГО "Обʼєднання Толока"</h3>
-        </div>
-        <ul class="timeline">
-            <li>
-                <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/1.jpg" alt="..." /></div>
-                <div class="timeline-panel">
-                    <div class="timeline-heading">
-                        <h4>2014</h4>
-                        <h4 class="subheading">Ідея ствонення виникла на Майдані у 2014 році.</h4>
-                    </div>
-                    <div class="timeline-body"><p class="text-muted">Для того, щоб не стояти з шинами під ВР, Кабміном, Київрадою ми задумали створити вільний та відкритий для всіх інформаційний простір. </p></div>
-                </div>
-            </li>
-            <li class="timeline-inverted">
-                <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/2.jpg" alt="..." /></div>
-                <div class="timeline-panel">
-                    <div class="timeline-heading">
-                        <h4>1 листопада 2018</h4>
-                        <h4 class="subheading">Народилася "Студія Толока"!</h4>
-                    </div>
-                    <div class="timeline-body"><p class="text-muted">1 листопада 2018 року ми зайшли до підвалу, який стояв зачинений більше 10-ти років. 9 листопада 2018 року ми провели перший ефір. Місцеві мешканці допомогли привести частину підвалу в нормальний стан.</p></div>
-                </div>
-            </li>
-            <li>
-                <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/3.jpg" alt="..." /></div>
-                <div class="timeline-panel">
-                    <div class="timeline-heading">
-                        <h4>Серпень 2022</h4>
-                        <h4 class="subheading">Вийшли в ефір дві радіостанції</h4>
-                    </div>
-                    <div class="timeline-body"><p class="text-muted">Радіо Толока та Радіо22 розпочали свою роботу. Радіо 22 - молодіжна станція, яка транслює треки молодих виконавців, від яких відмовилися інші радіостанції бо "не формат". Радіо Толока - музика зі всієї України від самодіяльних колективів та маловідомих музикантів. РАдіо Толока - майданчик для всіх!</p></div>
-                </div>
-            </li>
-            <li class="timeline-inverted">
-                <div class="timeline-image"><img class="rounded-circle img-fluid" src="assets/img/about/4.jpg" alt="..." /></div>
-                <div class="timeline-panel">
-                    <div class="timeline-heading">
-                        <h4>вересень 2023</h4>
-                        <h4 class="subheading">Стартував проект "Радіо для всіх!"</h4>
-                    </div>
-                    <div class="timeline-body"><p class="text-muted">Студія Толока створила майданчик для всіх, хто хоче мати можливість спілкуватися зі всім світом! Будь-хто може сворити своє власне інтернетрадіо і вийти у великий ефір!</p></div>
-                </div>
-            </li>
-            <li class="timeline-inverted">
-                <div class="timeline-image">
-                    <h4>
-                        Станьте
-                        <br />
-                        частиною
-                        <br />
-                        світу!
-                    </h4>
-                </div>
-            </li>
-        </ul>
-    </div>
-</section>
-<!-- Team -->
-<section th:fragment="team" class="page-section bg-light" id="team">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Наша неймовірна команда!</h2>
-            <h3 class="section-subheading text-muted">Начебто нас не багато, але ми можемо все!</h3>
-        </div>
-        <div class="row">
-            <div class="col-lg-4">
-                <div class="team-member">
-                    <img class="mx-auto rounded-circle" src="assets/img/team/1.jpg" alt="..." />
-                    <h4>Валерій Кисильов</h4>
-                    <p class="text-muted">Головний редактор</p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="team-member">
-                    <img class="mx-auto rounded-circle" src="assets/img/team/ysv.png" alt="..." />
-                    <h4>Сергій Яригін</h4>
-                    <p class="text-muted">Технічний супровід</p>
-                </div>
-            </div>
-            <div class="col-lg-4">
-                <div class="team-member">
-                    <img class="mx-auto rounded-circle" src="assets/img/team/3.jpg" alt="..." />
-                    <h4>Юрій Потіха</h4>
-                    <p class="text-muted">Консультант</p>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-8 mx-auto text-center"><p class="large text-muted">Ми допоможемо Вам створити власну радіостанцію, порекомендуємо наповнення ефіру і гостей прямого ефіру, навчимо Вас керувати радіостанцією. </p></div>
-        </div>
-    </div>
-</section>
-<!-- Clients-->
-<div th:fragment="clients" class="py-5">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-md-3 col-sm-6 my-3">
-                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/microsoft.svg" alt="..." aria-label="Microsoft Logo" /></a>
-            </div>
-            <div class="col-md-3 col-sm-6 my-3">
-                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/google.svg" alt="..." aria-label="Google Logo" /></a>
-            </div>
-            <div class="col-md-3 col-sm-6 my-3">
-                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/facebook.svg" alt="..." aria-label="Facebook Logo" /></a>
-            </div>
-            <div class="col-md-3 col-sm-6 my-3">
-                <a href="#!"><img class="img-fluid img-brand d-block mx-auto" src="assets/img/logos/ibm.svg" alt="..." aria-label="IBM Logo" /></a>
-            </div>
+        <!-- колонка медіа хаб-->
+        <div class="col-lg-3 col-sm-12">
+            <!--                    Вставляємо останні завантажені треки-->
+            <div th:insert="~{/fragments/mediahub :: lasttrecks}">  </div>
+            <!--                    вставляем Медіа Хаб-->
+<!--            <div th:insert="~{/fragments/mediahub :: usermediahub}">  </div>-->
         </div>
     </div>
 </div>
-<!-- Contact-->
-<section th:fragment="contact" class="page-section" id="contact">
-    <div class="container">
-        <div class="text-center">
-            <h2 class="section-heading text-uppercase">Є питання? Задайте його нам!</h2>
-            <h3 class="section-subheading text-muted">Ми відповімо на будь-яке питання щодо створення Вашої радіостанції!</h3>
-        </div>
-        <!--                                <div th:insert="~{/fragments/forms :: root-question}">  </div>-->
-        <div th:insert="~{/fragments/forms :: root-orig}">  </div>
-    </div>
-</section>
-<!-- Footer-->
-<footer th:fragment="footer" class="footer py-4">
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-4 text-lg-start">Сайт розроблено Студією Толока 2023<br>ГО "Обʼєднання Толока"</div>
-            <div class="col-lg-4 my-3 my-lg-0">
-                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                <a class="btn btn-dark btn-social mx-2" href="#!" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-            </div>
-            <div class="col-lg-4 text-lg-end">
-                <a class="link-dark text-decoration-none me-3" href="#!">Правила обробки персональних даних</a> <br>
-                <a class="link-dark text-decoration-none" href="#!">Правила користування сервісом</a>
-            </div>
-        </div>
-    </div>
-</footer>
+
+</div>
+
 </body>
 </html>

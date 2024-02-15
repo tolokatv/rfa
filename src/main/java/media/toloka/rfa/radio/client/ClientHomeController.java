@@ -67,7 +67,7 @@ public class ClientHomeController {
 //        model.addAttribute("trackList", trackList );
         model.addAttribute("trackList", storeTrackList );
         model.addAttribute("posts", posts );
-        model.addAttribute("stations",  stationService.GetListStationByUser(user));
+//        model.addAttribute("stations",  stationService.GetListStationByUser(user));
 
 
 //        model.addAttribute("userID",    user.getId());
