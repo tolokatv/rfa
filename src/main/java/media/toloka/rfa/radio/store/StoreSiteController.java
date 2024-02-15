@@ -10,12 +10,16 @@ import media.toloka.rfa.radio.store.Interface.StoreInterface;
 import media.toloka.rfa.radio.store.Service.StoreService;
 import media.toloka.rfa.radio.store.model.Store;
 import media.toloka.rfa.security.model.Users;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,11 +31,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import java.awt.image.BufferedImage;
 import java.awt.image.DataBufferByte;
 import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.List;
 
 import org.imgscalr.Scalr;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
 
 import javax.imageio.ImageIO;
+
+import static org.springframework.http.HttpHeaders.ACCEPT_RANGES;
 
 @Controller
 public class StoreSiteController  {
@@ -49,6 +58,34 @@ public class StoreSiteController  {
 
     @Autowired
     private StoreService storeService;
+
+    @GetMapping(value = "/store/taudio/{clientUUID}/{fileName}",
+            produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    public ResponseEntity<StreamingResponseBody> stream(
+            @PathVariable String clientUUID,
+            @PathVariable String fileName,
+            Model model) throws IOException {
+        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
+        String ifile = filesService.GetClientDirectory(cd)+"/"+fileName;
+        String mymetype = filesService.GetMediatype(Paths.get(ifile));
+        Long length = filesService.GetMediaLength(Paths.get(ifile));
+
+
+        //This is just a sample to for creating the input stream as it's what I get from google cloud storage
+        File file = new File(ifile);
+        FileInputStream in = FileUtils.openInputStream(file);
+
+        StreamingResponseBody stream = out -> {
+            IOUtils.copy(in, out);
+        };
+
+        return ResponseEntity.ok()
+                //.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
+                .header(ACCEPT_RANGES, "bytes")
+                .header(HttpHeaders.CONTENT_TYPE, mymetype)
+                .contentLength(length)
+                .body(stream);
+    }
 
     @GetMapping(value = "/store/audio/{clientUUID}/{fileName}",
             produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
