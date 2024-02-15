@@ -58,7 +58,7 @@ public class StoreItemController {
         Clientdetail cd = clientService.GetClientDetailByUser(user);
 
 
-        model.addAttribute("store", store );
+//        model.addAttribute("store", store );
         return "/store/edititem";
 
     }
