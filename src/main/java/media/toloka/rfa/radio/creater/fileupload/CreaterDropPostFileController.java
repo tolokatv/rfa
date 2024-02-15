@@ -71,7 +71,7 @@ public class CreaterDropPostFileController {
             return;
         }
 
-        Path destination = Paths.get(filesService.GetClientDirectory()).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
+        Path destination = Paths.get(filesService.GetClientDirectory(cd)).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
         Boolean fileExist = Files.exists(destination);
         try {
             Files.createDirectories(destination.getParent());
@@ -117,7 +117,7 @@ public class CreaterDropPostFileController {
             return;
         }
 
-        Path destination = Paths.get(filesService.GetClientDirectory()).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
+        Path destination = Paths.get(filesService.GetClientDirectory(cd)).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
         Boolean fileExist = Files.exists(destination);
         try {
             Files.createDirectories(destination.getParent());

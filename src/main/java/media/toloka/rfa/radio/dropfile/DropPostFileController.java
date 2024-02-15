@@ -57,7 +57,7 @@ public class DropPostFileController {
         }
 
 //        Path destination = Paths.get("/home/ysv/rfa/upload").resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
-        Path destination = Paths.get(filesService.GetClientDirectory()).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
+        Path destination = Paths.get(filesService.GetClientDirectory(cd)).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
 //        Path destination = Paths.get("upload").resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
         Boolean fileExist = Files.exists(destination);
         try {

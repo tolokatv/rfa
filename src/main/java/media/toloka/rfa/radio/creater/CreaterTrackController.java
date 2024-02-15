@@ -46,7 +46,7 @@ public class CreaterTrackController {
         List<Track> trackList = createrService.GetAllTracksByCreater(cd);
         List<Album> albums = createrService.GetAllAlbumsByCreater(cd);
 
-        String baseaddress = filesService.GetClientDirectory();
+        String baseaddress = filesService.GetClientDirectory(cd);
         model.addAttribute("baseaddress", baseaddress );
         model.addAttribute("albums", albums );
         model.addAttribute("trackList", trackList );

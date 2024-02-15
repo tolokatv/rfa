@@ -28,19 +28,19 @@ public class FilesService {
 
     final Logger logger = LoggerFactory.getLogger(FilesService.class);
 
-    public String GetClientDirectory() {
+    public String GetClientDirectory(Clientdetail cd) {
 //        Users usr = clientService.GetCurrentUser();
-        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
-        String sss = cd.getUuid();
+//        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
+        String clientUuid = cd.getUuid();
 //        String str = clientService.getClientDetail(clientService.GetCurrentUser()).getUuid();
-        return PATHuploadDirectory.concat(sss);
+        return PATHuploadDirectory.concat(clientUuid);
     }
 
-    public String GetFileLink(String userUUID, String filename) {
-        Path temp = Paths.get(userUUID);
-//        Set<String> stringSet = listFilesUsingDirectoryStream(temp.toString());
-        return temp.toString();
-    }
+//    public String GetFileLink(String userUUID, String filename) {
+//        Path temp = Paths.get(userUUID);
+////        Set<String> stringSet = listFilesUsingDirectoryStream(temp.toString());
+//        return temp.toString();
+//    }
 
     public Set<String> listFilesUsingDirectoryStream(String dir) throws IOException {
         Set<String> fileSet = new HashSet<>();
