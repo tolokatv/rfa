@@ -60,7 +60,7 @@ public class StoreSiteController  {
 //        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
         // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
         String ifile = filesService.GetClientDirectory(cd)+"/"+fileName;
-        logger.info("SCD = {}",ifile);
+//        logger.info("SCD = {}",ifile);
 //        InputStream is = getClass().getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
         InputStream is;
         try {
