@@ -48,7 +48,7 @@
                         <tr th:each="storeitem : ${storeList}">
                             <td><span th:text="${storeitem.filename}"></span></td>
                             <td><span th:text="${storeitem.storefiletype.label}"></span></td>
-                            <td><a class="btn btn-primary" th:href="@{'/creater/edititem/'+${storeitem.id} }">Редагувати</a></td>
+                            <td><a class="btn btn-primary" th:href="@{'/store/deleteitem/'+${storeitem.id} }">Видалити</a></td>
                         </tr>
                         </tbody>
                     </table>

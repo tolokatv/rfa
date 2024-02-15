@@ -44,51 +44,50 @@
         <!-- Колонка редагування посту -->
         <div class="col-lg-9 col-sm-12">
           <form th:action="@{'/creater/info'}"  th:object="${clientdetail}" method="post">
-    <input type="hidden" th:field="*{id}"/>
-      <div class="form-group row">
-        <label for="custname" class="col-4 col-form-label">Імʼя</label>
-        <div class="col-8">
-          <input th:field="*{custname}" placeholder="Введіть Ваше Імʼя" type="text" class="form-control">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="custsurname" class="col-4 col-form-label">Призвище</label>
-        <div class="col-8">
-          <input th:field="*{custsurname}" placeholder="Введіть Ваше призвище" type="text" class="form-control">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="firmname" class="col-4 col-form-label">Назва або сценічний псевдонім</label>
-        <div class="col-8">
-          <input th:field="*{firmname}" type="text" class="form-control">
-        </div>
-      </div>
-      <div class="form-group row">
-        <label for="comments" class="col-4 col-form-label">Text Area</label>
-        <div class="col-8">
-          <script>
-            tinymce.init({
-              selector: 'textarea',
-              plugins: 'ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
-              toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
-              tinycomments_mode: 'embedded',
-              tinycomments_author: 'Author name',
-              mergetags_list: [
-                { value: 'First.Name', title: 'First Name' },
-                { value: 'Email', title: 'Email' },
-              ],
-              ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
-            });
-          </script>
-          <textarea th:field="*{comments}"/>
-        </div>
-      </div> 
-      <div class="form-group row">
-        <div class="offset-4 col-8">
-          <button name="submit" type="submit" class="btn btn-primary">Зберегти</button>
-
-        </div>
-      </div>
+            <input type="hidden" th:field="*{id}"/>
+            <div class="form-group row">
+              <label for="custname" class="col-4 col-form-label">Імʼя</label>
+              <div class="col-8">
+              <input th:field="*{custname}" placeholder="Введіть Ваше Імʼя" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="custsurname" class="col-4 col-form-label">Призвище</label>
+              <div class="col-8">
+                <input th:field="*{custsurname}" placeholder="Введіть Ваше призвище" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="firmname" class="col-4 col-form-label">Назва або сценічний псевдонім</label>
+              <div class="col-8">
+                <input th:field="*{firmname}" type="text" class="form-control">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label for="comments" class="col-4 col-form-label">Text Area</label>
+              <div class="col-8">
+                <script>
+                  tinymce.init({
+                    selector: 'textarea',
+                    plugins: 'ai tinycomments mentions anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount checklist mediaembed casechange export formatpainter pageembed permanentpen footnotes advtemplate advtable advcode editimage tableofcontents mergetags powerpaste tinymcespellchecker autocorrect a11ychecker typography inlinecss',
+                    toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table mergetags | align lineheight | tinycomments | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+                    tinycomments_mode: 'embedded',
+                    tinycomments_author: 'Author name',
+                    mergetags_list: [
+                      { value: 'First.Name', title: 'First Name' },
+                      { value: 'Email', title: 'Email' },
+                    ],
+                    ai_request: (request, respondWith) => respondWith.string(() => Promise.reject("See docs to implement AI Assistant")),
+                  });
+                </script>
+                <textarea th:field="*{comments}"/>
+              </div>
+            </div>
+            <div class="form-group row">
+              <div class="offset-4 col-8">
+                <button name="submit" type="submit" class="btn btn-primary">Зберегти</button>
+              </div>
+            </div>
     </form>
         </div>
         <div class="col-lg-3 col-sm-12">

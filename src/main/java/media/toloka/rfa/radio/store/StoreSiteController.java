@@ -177,33 +177,6 @@ public class StoreSiteController  {
         return bytes;
     }
 
-    @GetMapping(value = "/creater/store/{pageNumber}",
-            produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
-    public String getStoreList(
-            @PathVariable int pageNumber,
-//            @PathVariable String fileName,
-//            @ModelAttribute Clientdetail fuserdetail,
-            Model model ) {
-        Users user = clientService.GetCurrentUser();
-        if (user == null) {
-            return "redirect:/";
-        }
-        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
-
-//        List<Store> fileList = storeService.GetAllByClientId(cd);
-//        model.addAttribute("fileList", fileList );
-
-        Page page = storeService.GetStorePageByClientDetail(pageNumber,10, cd);
-        List<Store> storeList = page.stream().toList();
-
-//        model.addAttribute("fileList", fileList );
-        model.addAttribute("storeList", storeList );
-        model.addAttribute("page", page );
-//        model.addAttribute("docList", docList );
-//        model.addAttribute("coverList", coverList );
-//        model.addAttribute("trackList", trackList );
-        return "/store/mainstore";
-    }
 
 
 }

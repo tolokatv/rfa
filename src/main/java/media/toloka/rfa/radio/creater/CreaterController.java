@@ -35,7 +35,6 @@ public class CreaterController {
 
     final Logger logger = LoggerFactory.getLogger(CreaterController.class);
 
-
     @GetMapping(value = "/creater/home")
     public String getUserHome(
             Model model ) {

@@ -37,6 +37,7 @@ public class Store {
     @Expose
     private Date createdate = new Date();
 
+
     @ToString.Exclude
     @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinColumn(name = "clientdetail_id")
