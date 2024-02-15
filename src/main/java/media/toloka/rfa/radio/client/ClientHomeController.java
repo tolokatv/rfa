@@ -84,6 +84,32 @@ public class ClientHomeController {
         return "redirect:/user/documents";
     }
 
+//    @GetMapping(value = "/user/user_page")
+//    public String userHome(
+//            Model model ) {
+//        Users user = clientService.GetCurrentUser();
+//        if (user == null) {
+//            return "redirect:/";
+//        }
+//
+//        List<Post> posts = createrService.GetAllPostsByApruve(true);
+//        List<Track> trackList = createrService.GetLastUploadTracks();
+//
+////        Page page = storeService.GetStorePageItemType(0,5, STORE_TRACK);
+//        Page pageTrack = createrService.GetTrackPage(0,10);
+//        List<Store> storeTrackList = pageTrack.stream().toList();
+//
+////        model.addAttribute("trackList", trackList );
+//        model.addAttribute("trackList", storeTrackList );
+//        model.addAttribute("posts", posts );
+////        model.addAttribute("stations",  stationService.GetListStationByUser(user));
+//
+//
+////        model.addAttribute("userID",    user.getId());
+////        model.addAttribute("userName",  user.getName());
+//        return "/user/user_page";
+
+
     @GetMapping(value = "/user/home/managestations")
     public String UserManageStation(
 //            @ModelAttribute Users user,

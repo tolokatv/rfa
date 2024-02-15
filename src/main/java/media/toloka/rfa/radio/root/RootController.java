@@ -55,6 +55,25 @@ public class RootController {
         model.addAttribute("question", QuestionForm);
         return "/root";
     }
+    @GetMapping(value = "/about")
+    public String about(Model model) {
+
+        List<Post> posts = createrService.GetAllPostsByApruve(true);
+        List<Track> trackList = createrService.GetLastUploadTracks();
+
+//        Page page = storeService.GetStorePageItemType(0,5, STORE_TRACK);
+        Page pageTrack = createrService.GetTrackPage(0,10);
+        List<Store> storeTrackList = pageTrack.stream().toList();
+
+//        model.addAttribute("trackList", trackList );
+        model.addAttribute("trackList", storeTrackList );
+        model.addAttribute("posts", posts );
+//        model.addAttribute("stations",  stationService.GetListStationByUser(user));
+
+        MessageFromSite QuestionForm = new MessageFromSite();
+        model.addAttribute("question", QuestionForm);
+        return "/about";
+    }
 
     @GetMapping(value="/saveform/root")
     public String submitquestion (Model model, @ModelAttribute("question") MessageFromSite rootQuestionForm) {
