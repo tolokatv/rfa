@@ -78,7 +78,7 @@ public class Clientdetail {
 
     @ToString.Exclude
     @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = CascadeType.ALL)
-    private List<AlbumCover> albumCoverList = new ArrayList<>();
+    private List<Albumсover> albumсoverList = new ArrayList<>();
 
     @ToString.Exclude
     @OneToMany(mappedBy = "clientdetail", fetch=FetchType.EAGER, cascade = CascadeType.ALL)

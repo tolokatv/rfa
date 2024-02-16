@@ -26,6 +26,7 @@ import java.util.Random;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static media.toloka.rfa.radio.model.enumerate.EHistoryType.History_DocumentCreate;
+import static media.toloka.rfa.radio.store.model.EStoreFileType.STORE_ALBUMCOVER;
 import static media.toloka.rfa.radio.store.model.EStoreFileType.STORE_TRACK;
 
 
@@ -88,7 +89,7 @@ public class CreaterDropPostFileController {
                     storeitem = storeService.SaveStoreItemInfo(null,destination, STORE_TRACK, cd);
                     createrService.SaveTrackUploadInfo(destination, storeitem, cd);
                 } else {
-                    storeitem = storeService.GetByFilenameByClientDetail(destination.getFileName().toString(), cd);
+                    storeitem = storeService.GetStoreItemByFilenameByClientDetail(destination.getFileName().toString(), cd);
                 }
                 historyService.saveHistory(History_DocumentCreate, " Завантажено трек: " + file.getOriginalFilename(), clientService.GetCurrentUser());
             }
@@ -106,7 +107,7 @@ public class CreaterDropPostFileController {
     @PostMapping(path = "/creater/albumcoverupload" ) // , produces = MediaType.APPLICATION_JSON_VALUE
     public void uploadAlbumCover(@RequestParam("file") MultipartFile file) {
 
-        log.info("uploaded file " + file.getOriginalFilename());
+        log.info("Завантажуємо обкладинку " + file.getOriginalFilename());
         if (file.isEmpty()) {
 //                throw new ExecutionControl.UserException("Empty file");
             logger.info("Завантаження файлу: Файл порожній");
@@ -128,9 +129,13 @@ public class CreaterDropPostFileController {
             long difference = random.nextInt(1000);
             logger.info("Завантаження файлу: Випадкова затримка {}",difference);
             try {
+                Store storeitem;
                 Thread.sleep(difference);
                 if (!fileExist) {
-                    createrService.SaveAlbumCoverUploadInfo(destination, cd);
+                    storeitem = storeService.SaveStoreItemInfo(null,destination, STORE_ALBUMCOVER, cd);
+                    createrService.SaveAlbumCoverUploadInfo(destination, cd, storeitem);
+                } else {
+                    storeitem = storeService.GetStoreItemByFilenameByClientDetail(destination.getFileName().toString(), cd);
                 }
                 historyService.saveHistory(History_DocumentCreate, " Завантажено обкладинку альбому: " + file.getOriginalFilename(), clientService.GetCurrentUser());
             }

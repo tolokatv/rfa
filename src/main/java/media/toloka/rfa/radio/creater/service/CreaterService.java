@@ -20,7 +20,6 @@ import org.springframework.stereotype.Service;
 
 import java.nio.file.Path;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class CreaterService {
@@ -89,16 +88,17 @@ public class CreaterService {
         albumRepository.save(album);
     }
 
-    public void SaveAlbumCoverUploadInfo(Path destination, Clientdetail cd) {
-        AlbumCover albumCover = new AlbumCover();
-        albumCover.setAlbumcoverfile(destination.getFileName().toString());
+    public void SaveAlbumCoverUploadInfo(Path destination, Clientdetail cd, Store store) {
+        Albumсover albumсover = new Albumсover();
+        albumсover.setAlbumcoverfile(destination.getFileName().toString());
         String mediatype = filesService.GetMediatype(destination);
 //        = Optional.ofNullable(destination.getFileName().toString())
 //                .filter(f -> f.contains("."))
 //                .map(f -> f.substring(destination.getFileName().toString().lastIndexOf(".") + 1));
-        albumCover.setPatch(destination.toString());
-        albumCover.setClientdetail(cd);
-        albumCoverRepository.save(albumCover);
+        albumсover.setPatch(destination.toString());
+        albumсover.setClientdetail(cd);
+        albumсover.setStoreitem(store);
+        albumCoverRepository.save(albumсover);
     }
 
     public List<Track> GetLastUploadTracks() {

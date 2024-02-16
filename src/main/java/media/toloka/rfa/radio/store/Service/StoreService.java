@@ -60,12 +60,15 @@ public class StoreService {
             storeitem.setContentMimeType(filesService.GetMediatype(destination));
             storeitem.setFilelength(filesService.GetMediaLength(destination));
 
+        } else  {
+            storeitem.setContentMimeType(filesService.GetMediatype(destination));
+            storeitem.setFilelength(filesService.GetMediaLength(destination));
         }
         storeRepositore.save(storeitem);
         return storeitem;
     }
 
-    public Store GetByFilenameByClientDetail(String fileName, Clientdetail cd) {
+    public Store GetStoreItemByFilenameByClientDetail(String fileName, Clientdetail cd) {
         return storeRepositore.getByFilenameAndClientdetail(fileName,cd);
     }
 
