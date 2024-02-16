@@ -46,6 +46,11 @@ public class CreaterService {
         return albumList;
     }
 
+    public List<Albumсover> GetAlbumCoverByCd (Clientdetail cd) {
+        List<Albumсover> albumсoverList = albumCoverRepository.findByClientdetail(cd);
+        return albumсoverList;
+    }
+
     public List<Track> GetAllTracksByCreater(Clientdetail cd) {
         List<Track> trackList = trackRepository.findByClientdetail(cd);
         return trackList;
@@ -111,4 +116,6 @@ public class CreaterService {
         Page page = trackRepository.findAllByOrderByUploaddateDesc(storePage);
         return page;
     }
+
+
 }

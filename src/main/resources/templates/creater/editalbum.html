@@ -44,6 +44,45 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-6 col-sm-6">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">
+                    Оберіть обкладинку
+                </button>
+                <!-- The Modal -->
+                <div class="modal" id="myModal">
+                    <script>
+                    function setcover() {
+                      for(let i=1; i<=3; i++) {
+                        alert("Кролик номер " + i);
+                      }
+                    }
+                </script>
+
+                    <div class="modal-dialog modal-dialog-scrollable">
+                        <div class="modal-content">
+
+                            <!-- Modal Header -->
+                            <div class="modal-header">
+                                <h1 class="modal-title">Оберіть обкладинку</h1>
+                                <button type="button" class="close" data-dismiss="modal">×</button>
+                            </div>
+
+                            <!-- Modal body -->
+                            <div class="modal-body">
+                                <div class="col" th:each="coverl : ${coverlist}">
+
+                                    <img th:src="'/store/thrumbal/' + ${coverl.clientdetail.uuid} + '/' + ${coverl.storeitem.filename}" id="${coverl.clientdetail.uuid} + '/' + ${coverl.storeitem.filename}">
+<!--                                    <input id="'input'+'/'+${coverl.clientdetail.uuid} + '/' + ${coverl.storeitem.filename}" th:value="${coverl.clientdetail.uuid} + '/' + ${coverl.storeitem.filename}" />-->
+                                </div>
+                            </div>
+
+                            <!-- Modal footer -->
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
                 <div id="dropzone">
                     <form action="/creater/albumcoverupload" class="dropzone needsclick" id="demo-upload" method="post">
                         <input type="hidden"
@@ -64,27 +103,29 @@
                         <img th:src="${cover} ?  '/store/thrumbal/' + ${album.clientdetail.uuid} + '/' + ${cover} : 'https://picsum.photos/400/300'">
 
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticChoice">
-                            Обрати обкладинку
-                        </button>
-                        <!-- Modal choice cover -->
-                        <div class="modal fade" id="staticChoice" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                            <div class="modal-dialog">
-                                <div class="modal-content">
-                                    <div class="modal-header">
-                                        <h5 class="modal-title" id="staticBackdropLabel">Обкладинки</h5>
-                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                    </div>
-                                    <div class="modal-body">
-                                        Дуже скоро тут зʼявится можливість вибрати обкладинку з Вашого сховища.<br>Слідкуйте за новинами на порталі!
-                                    </div>
-                                    <div class="modal-footer">
-                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Повернутися</button>
-                                        <button type="button" class="btn btn-primary">Обрати</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+<!--                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticChoice">-->
+<!--                            Обрати обкладинку-->
+<!--                        </button>-->
+<!--                        &lt;!&ndash; Modal choice cover &ndash;&gt;-->
+
+
+<!--                        <div class="modal fade" id="staticChoice" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">-->
+<!--                            <div class="modal-dialog">-->
+<!--                                <div class="modal-content">-->
+<!--                                    <div class="modal-header">-->
+<!--                                        <h5 class="modal-title" id="staticBackdropLabel">Обкладинки</h5>-->
+<!--                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
+<!--                                    </div>-->
+<!--                                    <div class="modal-body">-->
+<!--                                        Дуже скоро тут зʼявится можливість вибрати обкладинку з Вашого сховища.<br>Слідкуйте за новинами на порталі!-->
+<!--                                    </div>-->
+<!--                                    <div class="modal-footer">-->
+<!--                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Повернутися</button>-->
+<!--                                        <button type="button" class="btn btn-primary">Обрати</button>-->
+<!--                                    </div>-->
+<!--                                </div>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <!-- Modal load cover -->
                         <input type="hidden" th:field="*{id}"/>
                         <div class="form-group">

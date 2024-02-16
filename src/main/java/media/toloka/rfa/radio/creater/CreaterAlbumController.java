@@ -79,6 +79,8 @@ public class CreaterAlbumController {
 
 //        List<Album> albumList = createrService.GetAllAlbumsByCreater(cd);
 //        model.addAttribute("albumList", albumList );
+
+        model.addAttribute("coverlist", createrService.GetAlbumCoverByCd(cd) );
         model.addAttribute("cover", cover );
         model.addAttribute("album", album );
         model.addAttribute("trackList", tracks );
