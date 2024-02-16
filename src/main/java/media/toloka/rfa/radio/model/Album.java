@@ -32,9 +32,12 @@ public class Album {
     @Expose
     private String albumrelisedate = new Date().toString();
 
-    @Expose
+//    @Expose
 //    private AlbumCover albumcover;
-    private Long albumcoverid;
+    @Expose
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "albumcover_id")
+    private Albumсover albumcover;
 
     @Expose
     private String albumcoverdateupload = new Date().toString();
