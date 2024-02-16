@@ -4,8 +4,10 @@ import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.document.ClientDocumentEditController;
 import media.toloka.rfa.radio.model.Album;
+import media.toloka.rfa.radio.model.Albumсover;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Track;
+import media.toloka.rfa.radio.store.model.Store;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,8 +66,20 @@ public class CreaterAlbumController {
         }
         List<Track> tracks = album.getTrack();
 
+
+        Albumсover albumсover = album.getAlbumcover();
+        Store store;
+        String cover;
+        if (albumсover != null) {
+            store = albumсover.getStoreitem();
+            cover = store.getFilename();
+        } else {
+            cover = null;
+        }
+
 //        List<Album> albumList = createrService.GetAllAlbumsByCreater(cd);
 //        model.addAttribute("albumList", albumList );
+        model.addAttribute("cover", cover );
         model.addAttribute("album", album );
         model.addAttribute("trackList", tracks );
         return "/creater/editalbum";

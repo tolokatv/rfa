@@ -126,20 +126,25 @@ public class StoreSiteController  {
         Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
 //        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
         // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
-        InputStream is = getClass()
-                .getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
-        if (is == null) {
-            return new byte[0];
-        }
+        String ifile = filesService.GetClientDirectory(cd)+"/"+fileName;
+//        logger.info("SCD = {}",ifile);
+//        InputStream is = getClass().getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
+        InputStream is;
         try {
+            is = new FileInputStream(new File(ifile));
+            if (is == null) {
+                return new byte[0];
+            }
             byte[] buffer = is.readAllBytes();
-
             return buffer;
+        } catch (FileNotFoundException e) {
+            logger.info("getStoreAudio: Йой! FileNotFoundException!");
         } catch (IOException e) {
             logger.info("==================================== getStoreImage IOException");
             e.printStackTrace();
             return null;
         }
+        return null;
     }
 
     @GetMapping(value = "/store/thrumbal/{clientUUID}/{fileName}",
@@ -149,16 +154,25 @@ public class StoreSiteController  {
             @PathVariable String fileName,
             Model model ) {
         // https://medium.com/@asadise/create-thumbnail-for-an-image-in-spring-framework-49776c873ea1
-        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
         // http://localhost:8080/store/thrumbal/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
-        InputStream is = getClass()
-                .getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
+        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
+//        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
+        // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
+        String ifile = filesService.GetClientDirectory(cd)+"/"+fileName;
+//        logger.info("SCD = {}",ifile);
+//        InputStream is = getClass().getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
+        InputStream is;
+
         OutputStream os;
 
         BufferedImage thumbImg = null;
         BufferedImage img;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
+            is = new FileInputStream(new File(ifile));
+            if (is == null) {
+                return new byte[0];
+            }
              img = ImageIO.read(is);
         } catch (IOException e) {
             logger.info("==================================== getStoreImage IOException");
