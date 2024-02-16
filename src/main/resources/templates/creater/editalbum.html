@@ -47,13 +47,18 @@
 <!--                        <img src="..." class="img-thumbnail" alt="...">-->
 
                         <!-- Button trigger modal -->
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticChoice">
                             Обрати обкладинку
                         </button>
-                        <a class="btn btn-primary" th:href="@{/creater/albums}">Завантажити обкладинку альбому</a>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticLoad">
+                            Завантажити обкладинку
+                        </button>
 
-                        <!-- Modal -->
-                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<!--                        <a class="btn btn-primary" th:href="@{/creater/albums}" >Завантажити обкладинку альбому</a>-->
+<!--                        <a class="btn btn-primary" th:href="@{/creater/albums}" >Завантажити обкладинку альбому</a>-->
+
+                        <!-- Modal choice cover -->
+                        <div class="modal fade" id="staticChoice" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
                             <div class="modal-dialog">
                                 <div class="modal-content">
                                     <div class="modal-header">
@@ -62,6 +67,24 @@
                                     </div>
                                     <div class="modal-body">
                                         Дуже скоро тут зʼявится можливість вибрати обкладинку з Вашого сховища.<br>Слідкуйте за новинами на порталі!
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Повернутися</button>
+                                        <button type="button" class="btn btn-primary">Обрати</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Modal load cover -->
+                        <div class="modal fade" id="staticLoad" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="staticBackdropLabel">Завантажити обкладинку</h5>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Дуже скоро тут зʼявится можливість завнтажити обкладинку до Вашого сховища.<br>Слідкуйте за новинами на порталі!
                                     </div>
                                     <div class="modal-footer">
                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Повернутися</button>
