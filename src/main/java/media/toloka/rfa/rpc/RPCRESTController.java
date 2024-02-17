@@ -96,16 +96,9 @@ public class RPCRESTController {
 //            @PathVariable("cdid") Long cdid
     ) {
         // для сайту - запит та асінхронна обробка. https://www.cat-in-web.ru/fetch-async-await/
-
-        logger.info(pathVarsMap.get("alcoid"));
-        logger.info(pathVarsMap.get("albumid"));
-        logger.info(pathVarsMap.get("cdid"));
-        Long alcoid;
-        Long albumid;
-        Long cdid;
-        alcoid = Long.parseLong(pathVarsMap.get("alcoid"));
-        albumid = Long.parseLong(pathVarsMap.get("albumid"));
-        cdid = Long.parseLong(pathVarsMap.get("cdid"));
+        Long alcoid = Long.parseLong(pathVarsMap.get("alcoid"));
+        Long albumid = Long.parseLong(pathVarsMap.get("albumid"));
+        Long cdid = Long.parseLong(pathVarsMap.get("cdid"));
 
         Clientdetail cd = clientService.GetClientDetailById(cdid);
         Album album = createrService.GetAlbumById(albumid);

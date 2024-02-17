@@ -15,7 +15,7 @@ var toloka = {};
 }
 
 async function getStatus(alcoid, albumid, cdid) {
-    let siteurl = "http://localhost:8080/api/1.0/setalbumcover/"+alcoid+'/'+albumid+"/"+cdid
+    let siteurl = "https://rfa.toloka.media/api/1.0/setalbumcover/"+alcoid+'/'+albumid+"/"+cdid
     const response = await fetch(siteurl);
     const data = await response.json();
     stationstate = data["status"];
