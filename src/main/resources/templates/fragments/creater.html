@@ -104,7 +104,10 @@
         <a class="btn btn-primary" href="/creater/editalbum/0">Створити альбом</a>
         <tr th:each="album : ${albumList}">
             <td><span th:text="${album.name}"></span></td>
-            <td><a class="btn btn-primary" th:href="@{'/creater/editalbum/' + ${album.id}}">Редагувати</a></td>
+            <td>
+                <a class="btn btn-primary" th:href="@{'/creater/editalbum/' + ${album.id}}">Редагувати</a>
+                <a class="btn btn-primary" th:href="@{'/creater/setalbumcover/' + ${album.id}}">Обрати обкладинку</a>
+            </td>
         </tr>
         </tbody>
     </table>

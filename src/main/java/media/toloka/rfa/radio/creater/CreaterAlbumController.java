@@ -116,5 +116,41 @@ public class CreaterAlbumController {
         return "/creater/albums";
     }
 
+    @GetMapping(value = "/creater/setalbumcover/{idAlbum}")
+    public String getCreaterAlbumsSetCover(
+            @PathVariable Long idAlbum,
+            @ModelAttribute Album falbum,
+            Model model ) {
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+
+        Clientdetail cd = clientService.GetClientDetailByUser(user);
+        Album album;
+        if (idAlbum == 0L) {
+            album = new Album();
+            album.setClientdetail(cd);
+            createrService.SaveAlbum(album);
+        } else {
+            album = createrService.GetAlbumById(idAlbum);
+        }
+
+        Albumсover albumсover = album.getAlbumcover();
+        Store store;
+        String currentcover;
+        if (albumсover != null) {
+            store = albumсover.getStoreitem();
+            currentcover = store.getFilename();
+        } else {
+            currentcover = null;
+        }
+
+        model.addAttribute("coverlist", createrService.GetAlbumCoverByCd(cd) );
+        model.addAttribute("cover", currentcover );
+        model.addAttribute("album", album );
+        model.addAttribute("cd", cd );
+        return "/creater/setalbumcover";
+    }
 
 }

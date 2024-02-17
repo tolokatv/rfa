@@ -3,6 +3,11 @@ package media.toloka.rfa.rpc;
 
 
 import media.toloka.rfa.config.gson.service.GsonService;
+import media.toloka.rfa.radio.client.service.ClientService;
+import media.toloka.rfa.radio.creater.service.CreaterService;
+import media.toloka.rfa.radio.model.Album;
+import media.toloka.rfa.radio.model.Albumсover;
+import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Station;
 import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.rpc.service.ServerRunnerService;
@@ -44,6 +49,14 @@ public class RPCRESTController {
     @Autowired
     ServerRunnerService serverRunnerService;
 
+    @Autowired
+    private CreaterService createrService;
+
+    @Autowired
+    private ClientService clientService;
+
+
+
     @GetMapping("/api/1.0/test")
     Map<String, String> GetTest() {
         Map<String, String> result = new HashMap<String,String>();
@@ -72,6 +85,36 @@ public class RPCRESTController {
 //        result.put("defaultZoneId",defaultZoneId.toString());
 
         return result;
+    }
+
+    @GetMapping("/api/1.0/setalbumcover/{alcoid}/{albumid}/{cdid}")
+//    Map<String, String> GetAlbumSetCover(
+    public void GetAlbumSetCover(
+            @PathVariable Map<String, String> pathVarsMap
+//            @PathVariable("alcoid") Long alcoid,
+//            @PathVariable("albumid") Long albumid,
+//            @PathVariable("cdid") Long cdid
+    ) {
+        // для сайту - запит та асінхронна обробка. https://www.cat-in-web.ru/fetch-async-await/
+
+        logger.info(pathVarsMap.get("alcoid"));
+        logger.info(pathVarsMap.get("albumid"));
+        logger.info(pathVarsMap.get("cdid"));
+        Long alcoid;
+        Long albumid;
+        Long cdid;
+        alcoid = Long.parseLong(pathVarsMap.get("alcoid"));
+        albumid = Long.parseLong(pathVarsMap.get("albumid"));
+        cdid = Long.parseLong(pathVarsMap.get("cdid"));
+
+        Clientdetail cd = clientService.GetClientDetailById(cdid);
+        Album album = createrService.GetAlbumById(albumid);
+        Albumсover albumсover = createrService.GetAlbumCoverById(alcoid);
+        album.setAlbumcover(albumсover);
+        createrService.SaveAlbum(album);
+
+//        Map<String,String> result;
+//        return result;
     }
 
     @GetMapping("/api/1.0/ps/{id}")

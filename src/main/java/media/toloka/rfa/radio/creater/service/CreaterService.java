@@ -118,4 +118,7 @@ public class CreaterService {
     }
 
 
+    public Albumсover GetAlbumCoverById(Long alcoid) {
+        return albumCoverRepository.getById(alcoid);
+    }
 }
