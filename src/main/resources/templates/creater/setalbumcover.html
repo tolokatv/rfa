@@ -39,6 +39,7 @@
         <div class="row">
             <div class="col" th:each="coverl : ${coverlist}">
                 <img  th:onclick="'setcover(' + ${coverl.id} +',' + ${album.id} +', ' + ${cd.id} + ' )'" th:src="'/store/thrumbal/' + ${coverl.clientdetail.uuid} + '/' + ${coverl.storeitem.filename}" id="${coverl.clientdetail.uuid} + '/' + ${coverl.storeitem.filename}"/>
+                <br><span th:text="${coverl.storeitem.filename}"/>
             </div>
         </div>
     </div>
