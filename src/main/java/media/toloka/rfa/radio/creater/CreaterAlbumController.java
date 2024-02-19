@@ -66,7 +66,6 @@ public class CreaterAlbumController {
             cover = null;
         }
 
-
         model.addAttribute("coverlist", createrService.GetAlbumCoverByCd(cd) );
         model.addAttribute("cover", cover );
         model.addAttribute("album", album );
