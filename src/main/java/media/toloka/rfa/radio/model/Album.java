@@ -5,6 +5,7 @@ import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
 import java.util.List;
@@ -31,6 +32,10 @@ public class Album {
 
     @Expose
     private String albumrelisedate = new Date().toString();
+
+    @Expose
+    @DateTimeFormat(pattern = "dd-MM-yy")
+    private Date datealbumrelise = new Date();
 
 //    @Expose
 //    private AlbumCover albumcover;

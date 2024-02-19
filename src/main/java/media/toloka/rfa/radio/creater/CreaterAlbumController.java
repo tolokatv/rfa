@@ -151,6 +151,7 @@ public class CreaterAlbumController {
         album.setAlbumrelisedate(falbum.getAlbumrelisedate());
         album.setStyle(falbum.getStyle());
         album.setAutor(falbum.getAutor());
+        album.setDatealbumrelise(falbum.getDatealbumrelise());
         if (album.getClientdetail() == null) { album.setClientdetail(cd); }
 
         createrService.SaveAlbum(album);

@@ -131,9 +131,12 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="col-md-4 control-label" for="albumrelisedate">Дата релізу</label>
+                            <label class="col-md-4 control-label" for="albumrelisedate">Дата релізу (дд-мм-гг Наприклад: 23-08-24)</label>
                             <div class="col-md-5">
-                                <input th:field="*{albumrelisedate}" type="text" class="form-control input-md">
+<!--                                ${#dates.format(albumrelisedate, 'dd-MM-yyyy HH:mm')}-->
+<!--                                <input th:field="*{#dates.format(datealbumrelise, 'dd-MM-yyyy')}" type="text" class="form-control input-md">-->
+                                <input th:field="*{datealbumrelise}" type="text" class="form-control input-md">
+<!--                                <input th:field="*{albumrelisedate}" type="text" class="form-control input-md">-->
                             </div>
                         </div>
 
