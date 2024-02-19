@@ -191,6 +191,51 @@ public class StoreSiteController  {
         return bytes;
     }
 
+    @GetMapping(value = "/store/thrumbal/w/{width}/{clientUUID}/{fileName}",
+            produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
+    public @ResponseBody byte[] getStoreThrumbalWidth(
+            @PathVariable String clientUUID,
+            @PathVariable int width,
+            @PathVariable String fileName,
+            Model model ) {
+        // https://medium.com/@asadise/create-thumbnail-for-an-image-in-spring-framework-49776c873ea1
+        // http://localhost:8080/store/thrumbal/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
+        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
+//        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
+        // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
+        String ifile = filesService.GetClientDirectory(cd)+"/"+fileName;
+//        logger.info("SCD = {}",ifile);
+//        InputStream is = getClass().getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
+        InputStream is;
+
+        OutputStream os;
+
+        BufferedImage thumbImg = null;
+        BufferedImage img;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try {
+            is = new FileInputStream(new File(ifile));
+            if (is == null) {
+                return new byte[0];
+            }
+            img = ImageIO.read(is);
+        } catch (IOException e) {
+            logger.info("==================================== getStoreImage IOException");
+            e.printStackTrace();
+            return null;
+        }
+        thumbImg = Scalr.resize(img, Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, width, Scalr.OP_ANTIALIAS);
+        try {
+            ImageIO.write(thumbImg, FilenameUtils.getExtension(fileName), baos);
+        } catch (IOException e) {
+            logger.info("==================================== getStoreImage IOException");
+            e.printStackTrace();
+            return null;
+        }
+        byte[] bytes = baos.toByteArray();
+        return bytes;
+    }
+
 
 
 }

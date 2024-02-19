@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class CreaterAlbumController {
@@ -31,6 +32,50 @@ public class CreaterAlbumController {
 
     @Autowired
     private ClientService clientService;
+
+    @PostMapping("/creater/setalbumcover/{alcoid}/{albumid}/{cdid}")
+//    Map<String, String> GetAlbumSetCover(
+    public String GetAlbumSetCover(
+//            @PathVariable Map<String, String> pathVarsMap
+            @PathVariable("alcoid") Long alcoid,
+            @PathVariable("albumid") Long albumid,
+            @PathVariable("cdid") Long cdid,
+            Model model
+    ) {
+        // для сайту - запит та асінхронна обробка. https://www.cat-in-web.ru/fetch-async-await/
+//        Long alcoid = Long.parseLong(pathVarsMap.get("alcoid"));
+//        Long albumid = Long.parseLong(pathVarsMap.get("albumid"));
+//        Long cdid = Long.parseLong(pathVarsMap.get("cdid"));
+
+        Clientdetail cd = clientService.GetClientDetailById(cdid);
+        Album album = createrService.GetAlbumById(albumid);
+        Albumсover albumсover = createrService.GetAlbumCoverById(alcoid);
+        album.setAlbumcover(albumсover);
+        createrService.SaveAlbum(album);
+
+        List<Track> tracks = album.getTrack();
+
+
+        albumсover = album.getAlbumcover();
+        Store store;
+        String cover;
+        if (albumсover != null) {
+            store = albumсover.getStoreitem();
+            cover = store.getFilename();
+        } else {
+            cover = null;
+        }
+
+
+        model.addAttribute("coverlist", createrService.GetAlbumCoverByCd(cd) );
+        model.addAttribute("cover", cover );
+        model.addAttribute("album", album );
+        model.addAttribute("trackList", tracks );
+        return "/creater/editalbum";
+
+//        Map<String,String> result;
+//        return result;
+    }
 
     @GetMapping(value = "/creater/albums")
     public String getCreaterAlbums(

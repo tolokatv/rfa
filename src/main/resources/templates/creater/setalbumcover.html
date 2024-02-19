@@ -31,14 +31,25 @@
 </header>
 
 <!--// User page container-->
-<div style="padding-top: 100px">
+<div style="padding-top: 80px">
     <!-- Services   -->
-    <div class="container-fluid" style="padding-top: 100px">
+    <div class="container-fluid" >
         <script>
         </script>
         <div class="row">
+<!--            <a class="btn btn-primary" th:href="@{'/creater/editpost/'+${post.id} }">Редагувати</a>-->
+            <form id="setalbumcover" method="post" action="/" >
+                <input type="hidden"
+                       th:name="${_csrf.parameterName}"
+                       th:value="${_csrf.token}" />
+                <button  type="submit" class="btn btn-primary">Натисніть для вибору відміченої обкладинки .</button>
+            </form>
+
+        </div>
+        <hr>
+        <div class="row" style="padding-top: 40px">
             <div class="col" th:each="coverl : ${coverlist}">
-                <img  th:onclick="'setcover(' + ${coverl.id} +',' + ${album.id} +', ' + ${cd.id} + ' )'" th:src="'/store/thrumbal/' + ${coverl.clientdetail.uuid} + '/' + ${coverl.storeitem.filename}" id="${coverl.clientdetail.uuid} + '/' + ${coverl.storeitem.filename}"/>
+                <img  th:onclick="'setcover(this, ' + ${coverl.id} +',' + ${album.id} +', ' + ${cd.id} + ' )'" th:src="'/store/thrumbal/w/150/' + ${coverl.clientdetail.uuid} + '/' + ${coverl.storeitem.filename}" id="${coverl.clientdetail.uuid} + '/' + ${coverl.storeitem.filename}"/>
                 <br><span th:text="${coverl.storeitem.filename}"/>
             </div>
         </div>
