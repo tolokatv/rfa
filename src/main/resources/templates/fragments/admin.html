@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Fragments</title>
+</head>
+<body>
+
+<div th:fragment="listpostcontrol">
+    <table class="table">
+        <thead>
+        <tr>
+            <th scope="col">Заголовок</th>
+            <th scope="col">Автор</th>
+            <th scope="col">Статус</th>
+            <th scope="col">Створено</th>
+            <th scope="col">Опубліковано</th>
+<!--            <th scope="col">Дії</th>-->
+        </tr>
+        </thead>
+        <tbody>
+        <a class="btn btn-primary" th:href="@{'/creater/editpost/'+${0}}">Створити пост</a>
+        <tr th:each="post : ${posts}">
+            <td><span th:text="${post.posttitle}"><br>
+                <a class="btn btn-primary" th:href="@{'/admin/publishpost/'+${post.id} }">Опублікувати</a>
+                <a class="btn btn-primary" th:href="@{'/admin/editpost/'+${post.id} }">Редагувати</a>
+                <a class="btn btn-primary" th:href="@{'/admin/rejectpost/'+${post.id} }">Відхилити</a>
+                <a class="btn btn-primary" th:href="@{'/admin/delpost/'+${post.id} }">Видалити</a>
+            </span></td>
+            <td><span th:text="${post.clientdetail.custname}+' '+${post.clientdetail.custsurname}">Автор</span></td>
+            <td><span  th:text="${post.postStatus.label}" >Статус</span></td>
+            <td><span  th:text="${#dates.format(post.createdate, 'dd-MM-yyyy HH:mm')}" >Створено</span></td>
+            <td><span  th:text="${#dates.format(post.publishdate, 'dd-MM-yyyy HH:mm')}" >Опубліковано</span></td>
+            <td>
+                <a class="btn btn-primary" th:href="@{'/admin/publishpost/'+${post.id} }">Опублікувати</a>
+                <a class="btn btn-primary" th:href="@{'/admin/editpost/'+${post.id} }">Редагувати</a>
+                <a class="btn btn-primary" th:href="@{'/admin/rejectpost/'+${post.id} }">Відхилити</a>
+                <a class="btn btn-primary" th:href="@{'/admin/delpost/'+${post.id} }">Видалити</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+
+</body>
+</html>

@@ -1,5 +1,6 @@
 package media.toloka.rfa.radio.admin;
 
+import media.toloka.rfa.radio.admin.service.AdminService;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.model.Clientdetail;
@@ -12,20 +13,28 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.Date;
 import java.util.List;
+
+import static media.toloka.rfa.radio.model.enumerate.EPostStatus.*;
 
 @Controller
 public class AdminController {
 
     @Autowired
-    private ClientService clientService;
+    private AdminService adminService;
 
     @Autowired
     private CreaterService createrService;
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private ClientService clientService;
+
 
     final Logger logger = LoggerFactory.getLogger(AdminController.class);
 
@@ -39,10 +48,61 @@ public class AdminController {
         }
 
         Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
-        List<Post> posts = createrService.GetAllPostsByCreater(cd);
+        List<Post> posts = adminService.GetNotApruvePosts();
         model.addAttribute("posts", posts );
 
         return "/admin/home";
     }
 
+    @GetMapping(value = "/admin/publishpost/{postId}")
+    public String getAdminPublishPost(
+            @PathVariable Long postId,
+            Model model ) {
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+
+        Post post = adminService.GetPostById(postId);
+        post.setPostStatus(POSTSTATUS_PUBLICATE);
+        post.setApruve(true);
+        post.setPublishdate(new Date());
+        adminService.SavePost(post);
+        return "redirect:/admin/home";
+    }
+
+    @GetMapping(value = "/admin/delpost/{postId}")
+    public String getAdminDeletePost(
+            @PathVariable Long postId,
+            Model model ) {
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+
+        Post post = adminService.GetPostById(postId);
+        post.setPostStatus(POSTSTATUS_DELETE);
+        post.setApruve(false);
+//        post.setPublishdate(new Date());
+        adminService.SavePost(post);
+        return "redirect:/admin/home";
+    }
+
+
+    @GetMapping(value = "/admin/rejectpost/{postId}")
+    public String getAdminRejectPost(
+            @PathVariable Long postId,
+            Model model ) {
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+
+        Post post = adminService.GetPostById(postId);
+        post.setPostStatus(POSTSTATUS_REJECT);
+        post.setApruve(false);
+//        post.setPublishdate(new Date());
+        adminService.SavePost(post);
+        return "redirect:/admin/home";
+    }
 }

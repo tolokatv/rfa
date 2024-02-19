@@ -1,11 +1,11 @@
 package media.toloka.rfa.radio.model.enumerate;
 
 public enum EPostStatus {
-    POSTSTATUS_REDY("POSTSTATUS_REDY"),
-    POSTSTATUS_PUBLICATE("POSTSTATUS_PUBLICATE"),
-    POSTSTATUS_REJECT("POSTSTATUS_REJECT"),
-    POSTSTATUS_DELETE("POSTSTATUS_DELETE"),
-    POSTSTATUS_REQUEST("POSTSTATUS_REQUEST");
+    POSTSTATUS_REDY("Готовий"),
+    POSTSTATUS_PUBLICATE("Опубліковано"),
+    POSTSTATUS_REJECT("Відхилено"),
+    POSTSTATUS_DELETE("Видалено"),
+    POSTSTATUS_REQUEST("Запит на публікацію");
 
     public final String label;
 

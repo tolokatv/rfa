@@ -6,7 +6,6 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 import media.toloka.rfa.radio.model.enumerate.EPostStatus;
-import media.toloka.rfa.security.model.Users;
 
 import java.util.Date;
 import java.util.UUID;

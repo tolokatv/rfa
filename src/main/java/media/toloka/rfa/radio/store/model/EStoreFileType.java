@@ -2,10 +2,11 @@ package media.toloka.rfa.radio.store.model;
 
 public enum EStoreFileType {
 
-    STORE_FILE("STORE_FILE"),
-    STORE_DOCUMENT("STORE_DOCUMENT"),
-    STORE_TRACK("STORE_TRACK"),
-    STORE_ALBUMCOVER("STATION_ALBUMCOVER");
+    STORE_FILE("Файл"),
+    STORE_DOCUMENT("Документ"),
+    STORE_TRACK("Трек"),
+    STORE_ALBUMCOVER("Обкладинка альбому"),
+    STORE_POSTCOVER("Обкладинка посту");
 
     public final String label;
 

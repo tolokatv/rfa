@@ -8,6 +8,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class PostService {
 
@@ -24,5 +26,9 @@ public class PostService {
 
     public void SavePost(Post post) {
         postRepositore.save(post);
+    }
+
+    public List<Post> GetListPostByApruve(Boolean apruve) {
+        return postRepositore.findByApruve(apruve);
     }
 }

@@ -2,11 +2,9 @@ package media.toloka.rfa.radio.post;
 
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
-import media.toloka.rfa.radio.document.ClientDocumentEditController;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Post;
 import media.toloka.rfa.radio.model.enumerate.EPostStatus;
-import media.toloka.rfa.radio.post.repositore.PostRepositore;
 import media.toloka.rfa.radio.post.service.PostService;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
@@ -20,6 +18,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+
+import static media.toloka.rfa.radio.model.enumerate.EPostStatus.POSTSTATUS_REDY;
 
 @Controller
 public class PostController {
@@ -94,6 +94,7 @@ public class PostController {
         if (idPost == 0L) {
             logger.info("Створюємо новий пост");
             post = new Post();
+            post.setPostStatus(POSTSTATUS_REDY);
 
         } else {
             post = postService.GetPostById(idPost);
@@ -101,6 +102,7 @@ public class PostController {
         post.setPostbody(fPost.getPostbody());
         post.setPosttitle(fPost.getPosttitle());
         post.setClientdetail(cd);
+
         postService.SavePost(post);
 
         List<Post> posts = createrService.GetAllPostsByCreater(cd);
