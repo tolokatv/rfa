@@ -73,7 +73,10 @@ public class AdminController {
         post.setApruve(true);
         post.setPublishdate(new Date());
         adminService.SavePost(post);
-        historyService.saveHistory(EHistoryType.History_PostPublicate,"Apruve post "+post.getUuid()+" cd="+post.getClientdetail().getId(),post.getClientdetail().getUser());
+        historyService.saveHistory(EHistoryType.History_PostPublicate,"Apruve post "+post.getUuid()
+                        +" cd="+post.getClientdetail().getId()
+                        +" Client UUID="+post.getClientdetail().getUuid()
+                ,post.getClientdetail().getUser());
         return "redirect:/admin/home";
     }
 
@@ -91,7 +94,10 @@ public class AdminController {
         post.setApruve(false);
 //        post.setPublishdate(new Date());
         adminService.SavePost(post);
-        historyService.saveHistory(EHistoryType.History_PostDelete,"Delete post "+post.getUuid()+" cd="+post.getClientdetail().getId(),post.getClientdetail().getUser());
+        historyService.saveHistory(EHistoryType.History_PostDelete,"Delete post "+post.getUuid()
+                        +" cd="+post.getClientdetail().getId()
+                        +" Client UUID="+post.getClientdetail().getUuid()
+                ,post.getClientdetail().getUser());
         return "redirect:/admin/home";
     }
 
@@ -110,7 +116,10 @@ public class AdminController {
         post.setApruve(false);
 //        post.setPublishdate(new Date());
         adminService.SavePost(post);
-        historyService.saveHistory(EHistoryType.History_PostReject,"Delete post "+post.getUuid()+" cd="+post.getClientdetail().getId(),post.getClientdetail().getUser());
+        historyService.saveHistory(EHistoryType.History_PostReject,"Reject post id="+post.getUuid()
+                +" cd="+post.getClientdetail().getId()
+                +" Client UUID="+post.getClientdetail().getUuid()
+                ,post.getClientdetail().getUser());
         return "redirect:/admin/home";
     }
 }
