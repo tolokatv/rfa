@@ -7,10 +7,7 @@ import lombok.ToString;
 import media.toloka.rfa.radio.model.enumerate.EServerState;
 
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Data
 @Entity
@@ -33,6 +30,8 @@ public class Station {
     private Date startdate;
     @Expose
     private Date createdate;
+    @Expose
+    private Date endworkdate;
     @Expose
     private Date lastpaydate;
     @Expose
@@ -78,6 +77,11 @@ public class Station {
         this.name=this.uuid;
         this.createdate=new Date();
         this.lastchangedate=new Date();
+        Calendar cal = Calendar.getInstance();
+        cal.add(Calendar.MONTH, 2);
+        this.endworkdate= cal.getTime();
+        // Date.before(), Date.after() and Date.equals()
+
     }
 }
 

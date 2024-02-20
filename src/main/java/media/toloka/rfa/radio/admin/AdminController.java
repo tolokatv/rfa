@@ -3,8 +3,10 @@ package media.toloka.rfa.radio.admin;
 import media.toloka.rfa.radio.admin.service.AdminService;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
+import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Post;
+import media.toloka.rfa.radio.model.enumerate.EHistoryType;
 import media.toloka.rfa.radio.post.service.PostService;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
@@ -34,6 +36,9 @@ public class AdminController {
 
     @Autowired
     private ClientService clientService;
+
+    @Autowired
+    private HistoryService historyService;
 
 
     final Logger logger = LoggerFactory.getLogger(AdminController.class);
@@ -68,6 +73,7 @@ public class AdminController {
         post.setApruve(true);
         post.setPublishdate(new Date());
         adminService.SavePost(post);
+        historyService.saveHistory(EHistoryType.History_PostPublicate,"Apruve post "+post.getUuid()+" cd="+post.getClientdetail().getId(),post.getClientdetail().getUser());
         return "redirect:/admin/home";
     }
 
@@ -85,6 +91,7 @@ public class AdminController {
         post.setApruve(false);
 //        post.setPublishdate(new Date());
         adminService.SavePost(post);
+        historyService.saveHistory(EHistoryType.History_PostDelete,"Delete post "+post.getUuid()+" cd="+post.getClientdetail().getId(),post.getClientdetail().getUser());
         return "redirect:/admin/home";
     }
 
@@ -103,6 +110,7 @@ public class AdminController {
         post.setApruve(false);
 //        post.setPublishdate(new Date());
         adminService.SavePost(post);
+        historyService.saveHistory(EHistoryType.History_PostReject,"Delete post "+post.getUuid()+" cd="+post.getClientdetail().getId(),post.getClientdetail().getUser());
         return "redirect:/admin/home";
     }
 }

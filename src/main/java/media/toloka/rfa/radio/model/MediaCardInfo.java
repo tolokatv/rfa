@@ -2,10 +2,7 @@ package media.toloka.rfa.radio.model;
 
 
 import com.google.gson.annotations.Expose;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 import media.toloka.rfa.radio.model.enumerate.ECardInfoType;
@@ -45,9 +42,9 @@ public class MediaCardInfo {
     @Expose
     private Long vview;
     @Expose
-    private Date createdate;
+    private Date createdate = new Date();
     @Expose
-    private Date startdate;
+    private Date startdate= new Date();
     @Expose
     private Date enddate;
 //    @Expose
@@ -56,5 +53,10 @@ public class MediaCardInfo {
 //    private boolean apruve;
 //    @Expose
 //    private Clientdetail apruvercd;
+
+//    @ToString.Exclude
+//    @ManyToOne(cascade = CascadeType.ALL)
+//    @JoinColumn(name = "clientdetail_id")
+//    private Clientdetail clientdetail;
 
 }

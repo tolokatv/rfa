@@ -148,5 +148,9 @@ public class ClientService {
         return cd;
 
     }
+
+    public List<Users> GetAllUsers() {
+        return userRepository.findAll();
+    }
 }
 

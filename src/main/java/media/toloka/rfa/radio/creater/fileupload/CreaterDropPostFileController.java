@@ -145,7 +145,7 @@ public class CreaterDropPostFileController {
             }
         } catch (IOException e) {
             logger.info("Завантаження треку: Проблема збереження");
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         log.info("uploaded track " + file.getOriginalFilename());
     }

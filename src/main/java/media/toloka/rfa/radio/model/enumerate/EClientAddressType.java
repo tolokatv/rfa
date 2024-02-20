@@ -1,10 +1,10 @@
 package media.toloka.rfa.radio.model.enumerate;
 
 public enum EClientAddressType {
-    ADDRESS_PRIVATE("ADDRESS_PRIVATE"),
-    ADDRESS_LOCATE_STATION("ADDRESS_LOCATE_STATION"),
-    ADDRESS_OFFICIAL("ADDRESS_OFFICIAL"),
-    ADDRESS_POSTAL("ADDRESS_POSTAL");
+    ADDRESS_PRIVATE("Приватна адреса"),
+    ADDRESS_LOCATE_STATION("Адреса розташування редакції"),
+    ADDRESS_OFFICIAL("Адреса реєстрації"),
+    ADDRESS_POSTAL("Поштова адреса");
 
     public final String label;
 

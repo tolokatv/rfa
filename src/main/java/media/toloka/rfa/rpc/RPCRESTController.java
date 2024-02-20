@@ -106,6 +106,7 @@ public class RPCRESTController {
         album.setAlbumcover(albumсover);
         createrService.SaveAlbum(album);
 
+
 //        Map<String,String> result;
 //        return result;
     }

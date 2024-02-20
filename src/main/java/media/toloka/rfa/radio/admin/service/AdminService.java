@@ -12,6 +12,8 @@ import media.toloka.rfa.radio.model.Post;
 import media.toloka.rfa.radio.post.service.PostService;
 import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.radio.store.Service.StoreService;
+import media.toloka.rfa.security.model.Users;
+import media.toloka.rfa.security.service.ServiceSecurityUsers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import java.util.List;
 
 @Service
 public class AdminService {
+
 
     @Autowired
     private ClientService clientService;
@@ -64,5 +67,10 @@ public class AdminService {
 
     public void SavePost(Post post) {
         postService.SavePost(post);
+    }
+
+    public List<Users> GetAllUsers() {
+       List<Users> usersList = clientService.GetAllUsers();
+        return usersList;
     }
 }

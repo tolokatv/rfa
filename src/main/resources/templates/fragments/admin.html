@@ -36,7 +36,25 @@
     </table>
 </div>
 
+<div th:fragment="listusercontrol">
 
+        <a class="btn btn-primary" th:href="@{'/creater/editpost/'+${0}}">Новий</a>
+        <div th:each="user : ${usersList}">
+            <span th:utext="${user.id}+' '+${user.clientdetail.custname}+' '+${user.clientdetail.custsurname}+' '+${user.email}+'
+            <br> '+${user.clientdetail.firmname}"/><br>
+            <span th:utext="' Створення:'+${#dates.format(user.clientdetail.createdate, 'dd-MM-yyyy')}
+                +' Погодження:'+${#dates.format(user.clientdetail.confirmDate, 'dd-MM-yyyy')}
+                +' UUID:'+${user.clientdetail.uuid}"/>
+            <br>
+            <a class="btn btn-primary" th:href="@{'/admin/enableuser/'+${user.id} }">Дозволити</a>
+            <a class="btn btn-primary" th:href="@{'/admin/rejectuser/'+${user.id} }">Відхилити</a>
+            <a class="btn btn-primary" th:href="@{'/admin/apruveinfouser/'+${user.id} }">Підтвердити інформацію</a>
+            <a class="btn btn-primary" th:href="@{'/admin/lockuser/'+${user.id} }">Блокувати</a>
+
+
+        </div>
+
+</div>
 
 </body>
 </html>

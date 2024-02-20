@@ -35,7 +35,10 @@ public enum EHistoryType {
     History_ContractEnd("ContractEnd"),
     History_ContractPause("ContractPause"),
     History_Contractresume("ContractResume"),
-    History_ContractReject("ContractReject");
+    History_ContractReject("ContractReject"),
+    History_PostPublicate("History_PostPublicate"),
+    History_PostDelete("History_PostDelete"),
+    History_PostReject("History_PostReject");
 
 
     public final String label;
