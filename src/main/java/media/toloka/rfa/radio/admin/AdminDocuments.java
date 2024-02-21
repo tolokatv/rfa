@@ -77,8 +77,8 @@ public class AdminDocuments {
         options.add(STATUS_UNKNOWN);
         options.add(STATUS_LOADED);
         options.add(STATUS_REVIEW);
-        options.add(STATUS_APPROVED);
         options.add(STATUS_REJECTED);
+        options.add(STATUS_APPROVED);
 
         model.addAttribute("options", options);
         model.addAttribute("document", doc);
