@@ -13,6 +13,9 @@ public interface ClientAddressRepository extends JpaRepository<Clientaddress, Lo
 
     List<Clientaddress> findByClientdetail(Clientdetail Clientdetail);
 
+    List<Clientaddress> findByApruve(boolean b);
+
+
     //Id(Long id);
 
 }

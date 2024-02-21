@@ -152,5 +152,13 @@ public class ClientService {
     public List<Users> GetAllUsers() {
         return userRepository.findAll();
     }
+
+    public List<Clientaddress> GetUnApruvedDocumentsOrderLoaddate() {
+        return clientAddressRepository.findByApruve(false);
+    }
+
+    public Clientaddress GetClientAddressById(Long idAddress) {
+        return clientAddressRepository.getById(idAddress);
+    }
 }
 

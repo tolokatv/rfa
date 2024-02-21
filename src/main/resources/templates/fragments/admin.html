@@ -65,7 +65,9 @@
                 <span th:utext="${cd.firmname != null} ? '<br>'+${cd.firmname}"/>
             </b>
         <div style="padding-left:3rem;" th:each="document : ${cd.documentslist}">
-            <span th:text="' Створення: '+${#dates.format(document.loaddate, 'dd-MM-yyyy')} + ' Статус: '+${document.status.label}"/>
+            <a th:href="'/admin/documentedit/'+${document.id}">
+                <span th:text="' Створення: '+${#dates.format(document.loaddate, 'dd-MM-yyyy')} + ' Статус: '+${document.status.label}"/>
+            </a>
 <!--            <br>-->
 <!--            <a class="btn btn-primary padding_button" th:href="@{'/admin/enableuser/'+${cd.user.id} }">Дозволити</a>-->
 <!--            <a class="btn btn-primary padding_button" th:href="@{'/admin/rejectuser/'+${cd.user.id} }">Відхилити</a>-->
@@ -76,5 +78,54 @@
     </div>
 
 </div>
+
+<div th:fragment="editdocument">
+    <form class="mx-1 mx-md-4" method="post" th:action="@{/admin/documentedit}" th:object="${document}">
+        <input name="id" th:value="*{id}" type="hidden"/>
+        <!--        <div class="dz-message needsclick">-->
+        <!--        <th:block th:switch="${document.status}">-->
+        <span class="form-label">Статус:
+            <select th:field="*{status}" class="form-control">
+                <option th:each="linetype : ${options}"  th:value="${linetype}" th:text="${linetype.label}" >Wireframe</option>
+            </select>
+        </span>
+        <br>
+
+        <input class="form-control"  th:field="${document.documenttype}"
+               type="text"/>
+        <label class="form-label" for="documenttype">Вкажіть тип документу  (паспорт, свідотство, угода тощо)</label>
+
+        <input class="form-control" id="userComment" name="userComment" th:value="${document.userComment}" type="text"/>
+        <label class="form-label" for="userComment">Коментар користувача до документу</label>
+
+        <input class="form-control" th:field="*{adminComment}" type="text" />
+        <label class="form-label" for="adminComment">Коментар служби підтримки до документу</label>
+
+        <div class="d-flex justify-content-center mx-4 mb-3 mb-lg-4">
+            <button class="btn btn-primary btn-lg" type="submit">Записати зміни</button>
+        </div>
+
+    </form>
+</div>
+
+<div th:fragment="listuseraddresses">
+    <div th:each="cd : ${clientdetailList}">
+           <b>
+                <span th:text="${cd.custname}+' '+${cd.custsurname}+' | '+${cd.user.email}"/>
+                <span th:utext="${cd.firmname != null} ? '<br>'+${cd.firmname}"/>
+           </b>
+           <div style="padding-left:3rem;" th:each="adr : ${cd.clientaddressList}">
+               <a th:href="'/admin/invertaddressapruve/'+${adr.id}">
+<!--                    <span th:text="${adr.apruve != true}' Статус: '+${adr.apruve}"/><br>-->
+                    <span th:text="' вул: '+${adr.street} + ' буд: '+${adr.buildnumber} + ' корп: '+${adr.korpus}+ ' кв/оф: '+${adr.appartment}"/><br>
+                    <span th:text="' місто: '+${adr.cityname} + ' обл: '+${adr.region} + ' р-н: '+${adr.area}"/><br>
+                    <span th:text="' країна: '+${adr.country} + ' інд: '+${adr.zip} + ' тел: '+${adr.phone}"/><br>
+               </a>
+               <a class="btn btn-primary padding_button" th:href="@{'/admin/editaddress/'+${adr.id} }">Редагувати</a>
+           </div>
+    </div>
+
+</div>
+
 </body>
 </html>
