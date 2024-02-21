@@ -43,11 +43,8 @@ public class AdminDocuments {
         }
 
         List<Documents> documentsList = adminService.GetNotApruvedDocuments();
-//        List<Users> usersList = adminService.GetAllUsers();
         HashMap<Long, Integer> clientdetailLongHashMap = new HashMap<>();
-//        Documents mdoc;
         List<Clientdetail> clientdetailList =  new ArrayList<>();
-        Integer quantity;
         for (Documents doc : documentsList) {
             if (!clientdetailLongHashMap.containsKey(doc.getClientdetail().getId())) {
                 Clientdetail cd = doc.getClientdetail();
@@ -56,8 +53,6 @@ public class AdminDocuments {
                 clientdetailLongHashMap.put(cd.getId(), sz);
             }
         }
-
-        model.addAttribute("usersList", adminService.GetAllUsers() );
         model.addAttribute("clientdetailList", clientdetailList );
         return "/admin/documents";
     }

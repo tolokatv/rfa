@@ -35,11 +35,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-lg-12 col-sm-12">
-                    <h1>До опрацювання</h1>
-                    <h2>Користувачі : <span th:text="${usersList}"/></h2>
-                    <h2>Адреси      : <span th:text="${addressesList}"/></h2>
-                    <h2>Документи   : <span th:text="${qDocuments}"/></h2>
-                    <h2>Пости       :  <span th:text="${posts}"/></h2>
+                    <div th:insert="~{/fragments/admin :: listpostcontrol}"> </div>
                 </div>
             </div>
         </div>
