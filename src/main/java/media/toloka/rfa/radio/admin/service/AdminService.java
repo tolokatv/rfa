@@ -1,7 +1,6 @@
 package media.toloka.rfa.radio.admin.service;
 
 
-import media.toloka.rfa.radio.admin.AdminController;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.contract.service.ContractService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
@@ -9,18 +8,20 @@ import media.toloka.rfa.radio.document.service.DocumentService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.model.Clientaddress;
+import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Documents;
 import media.toloka.rfa.radio.model.Post;
 import media.toloka.rfa.radio.post.service.PostService;
 import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.radio.store.Service.StoreService;
 import media.toloka.rfa.security.model.Users;
-import media.toloka.rfa.security.service.ServiceSecurityUsers;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 
@@ -90,5 +91,33 @@ public class AdminService {
 
     public void SaveClientAddress(Clientaddress clientaddress) {
         clientService.SaveAddress(clientaddress);
+    }
+
+    public List<Clientdetail> GetClienListWithNotApruvedAdresses() {
+        List<Clientdetail> clientdetailList =  new ArrayList();
+        List<Clientaddress> clientaddressList = GetNotApruvedAddresses();
+        HashMap<Long, Integer> clientdetailLongHashMap = new HashMap<>();
+        for (Clientaddress adr : clientaddressList) {
+            if (!clientdetailLongHashMap.containsKey(adr.getClientdetail().getId())) {
+                Clientdetail cd = adr.getClientdetail();
+                Integer sz = cd.getClientaddressList().size();
+                clientdetailList.add(cd);
+                clientdetailLongHashMap.put(cd.getId(), sz);
+            }
+        }
+        return clientdetailList;
+    }
+
+    public List<Clientdetail> GetClientsWithNotApruvedDocoments() {
+        List<Documents> documentsList = GetNotApruvedDocuments();
+        List<Clientdetail> clientdetailList = new ArrayList();
+        HashMap<Long, Integer> qDocuments = new HashMap<>();
+        for (Documents doc : documentsList) {
+            if (!qDocuments.containsKey(doc.getClientdetail().getId())) {
+                clientdetailList.add(doc.getClientdetail());
+                qDocuments.put(doc.getClientdetail().getId(), doc.getClientdetail().getDocumentslist().size());
+            }
+        }
+        return clientdetailList;
     }
 }

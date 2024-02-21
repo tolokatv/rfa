@@ -4,11 +4,8 @@ import media.toloka.rfa.radio.admin.service.AdminService;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.history.service.HistoryService;
-import media.toloka.rfa.radio.model.Clientaddress;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Documents;
-import media.toloka.rfa.radio.model.Post;
-import media.toloka.rfa.radio.model.enumerate.EHistoryType;
 import media.toloka.rfa.radio.post.service.PostService;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
@@ -17,14 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
-
-import static media.toloka.rfa.radio.model.enumerate.EPostStatus.*;
 
 @Controller
 public class AdminController {
@@ -59,29 +51,18 @@ public class AdminController {
 //        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
 //        List<Post> posts = adminService.GetNotApruvePosts();
         // Документи до опрацювання
-        List<Documents> documentsList = adminService.GetNotApruvedDocuments();
-        HashMap<Long, Integer> qDocuments = new HashMap<>();
-        for (Documents doc : documentsList) {
-            if (!qDocuments.containsKey(doc.getClientdetail().getId())) {
-                qDocuments.put(doc.getClientdetail().getId(), doc.getClientdetail().getDocumentslist().size());
-            }
-        }
 
-
-        List<Clientaddress> clientaddressList = adminService.GetNotApruvedAddresses();
-        HashMap<Long, Integer> clientdetailLongHashMap = new HashMap<>();
-        List<Clientdetail> clientdetailList =  new ArrayList<>();
-        for (Clientaddress adr : clientaddressList) {
-            if (!clientdetailLongHashMap.containsKey(adr.getClientdetail().getId())) {
-                Clientdetail cd = adr.getClientdetail();
-                Integer sz = cd.getClientaddressList().size();
-                clientdetailList.add(cd);
-                clientdetailLongHashMap.put(cd.getId(), sz);
-            }
-        }
+//        List<Clientdetail> documentsList = adminService.GetClientsWithNotApruvedDocoments();
+//        List<Documents> documentsList = adminService.GetNotApruvedDocuments();
+//        HashMap<Long, Integer> qDocuments = new HashMap<>();
+//        for (Documents doc : documentsList) {
+//            if (!qDocuments.containsKey(doc.getClientdetail().getId())) {
+//                qDocuments.put(doc.getClientdetail().getId(), doc.getClientdetail().getDocumentslist().size());
+//            }
+//        }
 
         // Документи до опрацювання
-        model.addAttribute("qDocuments", qDocuments.size() );
+        model.addAttribute("qDocuments", adminService.GetClientsWithNotApruvedDocoments().size() );
         // Пости до опрацювання
         model.addAttribute("posts", adminService.GetNotApruvePosts().size() );
         // користувачі до опрацювання
