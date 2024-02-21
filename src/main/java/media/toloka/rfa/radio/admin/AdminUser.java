@@ -14,10 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Controller
 public class AdminUser {
@@ -31,7 +28,7 @@ public class AdminUser {
     private ClientService clientService;
 
     @GetMapping(value = "/admin/users")
-    public String getUserHome(
+    public String getAdmiUser(
             Model model ) {
         Users user = clientService.GetCurrentUser();
         if (user == null) {

@@ -8,8 +8,9 @@ public enum EDocumentStatus {
     STATUS_UNKNOWN("Невідомо"),
     STATUS_LOADED("Завантажено"),
     STATUS_REVIEW("На розгляді"),
-    STATUS_APPROVED("Схвалено"),
-    STATUS_REJECTED("Відхилено");
+    STATUS_REJECTED("Відхилено"),
+    STATUS_APPROVED("Схвалено");
+
 
     public final String label;
 

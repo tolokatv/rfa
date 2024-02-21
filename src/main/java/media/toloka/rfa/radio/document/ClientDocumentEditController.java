@@ -83,7 +83,9 @@ public class ClientDocumentEditController {
         curDocument.setUserComment(document.getUserComment());
         curDocument.setDocumenttype(document.getDocumenttype());
         // TODO Подумати, чи варто тут робити обробку зміни статусу у залежності від ролі користувача
-        curDocument.setStatus(document.getStatus());
+//        curDocument.setStatus(document.getStatus());
+        curDocument.setStatus(STATUS_UNKNOWN);
+
         documentService.saveDocument(curDocument);
 
 

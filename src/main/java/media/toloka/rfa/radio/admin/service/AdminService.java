@@ -8,6 +8,7 @@ import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.document.service.DocumentService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.message.service.MessageService;
+import media.toloka.rfa.radio.model.Documents;
 import media.toloka.rfa.radio.model.Post;
 import media.toloka.rfa.radio.post.service.PostService;
 import media.toloka.rfa.radio.station.service.StationService;
@@ -72,5 +73,9 @@ public class AdminService {
     public List<Users> GetAllUsers() {
        List<Users> usersList = clientService.GetAllUsers();
         return usersList;
+    }
+
+    public List<Documents> GetNotApruvedDocuments() {
+        return documentService.GetUnApruvedDocumentsOrderLoaddate();
     }
 }

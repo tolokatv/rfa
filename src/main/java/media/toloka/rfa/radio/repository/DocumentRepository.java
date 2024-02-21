@@ -5,6 +5,7 @@ package media.toloka.rfa.radio.repository;
 
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Documents;
+import media.toloka.rfa.radio.model.enumerate.EDocumentStatus;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
@@ -16,4 +17,6 @@ public interface DocumentRepository extends JpaRepository<Documents, Long> {
 
     Documents getById(Long id);
 
+    List<Documents> findByStatusLessThan(EDocumentStatus eDocumentStatus);
+    List<Documents> findByStatusNot(EDocumentStatus eDocumentStatus);
 }

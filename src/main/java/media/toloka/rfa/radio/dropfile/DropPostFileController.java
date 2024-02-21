@@ -50,6 +50,7 @@ public class DropPostFileController {
             logger.info("Завантаження файлу: Файл порожній");
         }
         Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
+        // todo обробка права завантажувати файли
         if (clientService.ClientCanDownloadFile(cd) == false) {
             // клієнт з якоїсь причини не має права завантажувати файли
             logger.warn("Клієнт {} не має права завантажувати файли.",cd.getUuid());

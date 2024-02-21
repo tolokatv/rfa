@@ -44,4 +44,10 @@ public class DocumentService {
         doc.setClientdetail(clientService.GetClientDetailByUser(clientService.GetCurrentUser()));
         documentRepository.save(doc);
     }
+
+    public List<Documents> GetUnApruvedDocumentsOrderLoaddate() {
+//        return documentRepository.findByStatusLessThan(EDocumentStatus.STATUS_APPROVED);
+//        findByStatusNot
+        return documentRepository.findByStatusNot(EDocumentStatus.STATUS_APPROVED);
+    }
 }
