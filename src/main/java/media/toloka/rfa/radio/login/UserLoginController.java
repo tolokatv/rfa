@@ -64,7 +64,7 @@ public class UserLoginController {
     @Autowired
     private TokenService serviceToken;
 
-    Logger logger = LoggerFactory.getLogger(RootController.class);
+    Logger logger = LoggerFactory.getLogger(UserLoginController.class);
 
 //    @Data
     @Getter
@@ -157,7 +157,7 @@ public class UserLoginController {
             Mail mail;
             mail = new Mail();
             mail.setTo(newUser.getEmail());
-            mail.setFrom("support@rfa.toloka.media");
+            mail.setFrom("info@toloka.kiev.ua");
             mail.setSubject("Радіо для Всіх! Підтвердження реєстрації Вашої радіостанції на сервісі.");
             Map<String, Object> map1 = new HashMap<String, Object>();
 //                map1.put("name",(Object) userDTO.getEmail());
@@ -233,12 +233,13 @@ public class UserLoginController {
             String fname;
 //            fname = user.getCustname() + " " + user.getCustsurname();
             fname = "УВАГА!!! Штучне сформоване Імʼя.";
+            fname = user.getClientdetail().getCustname() + " " + user.getClientdetail().getCustsurname();
             model.addAttribute("fname", fname);
             map1.put("fname", (Object) fname); // сформували імʼя та призвище для листа
             map1.put("confirmationUrl", (Object) "https://rfa.toloka.media/login/setUserPassword?token=" + token.getToken()); // сформували для переходу адресу з токеном
             mail.setHtmlTemplate(new Mail.HtmlTemplate("/mail/restorePsw", map1)); // заповнили обʼєкт для відсилання пошти
             // TODO потрібно зробити нормальну обробку помилок пошти
-            logger.info("ЗРОБИТИ ВІДПРАВКУ ПОШТИ!!!");
+            logger.info("Відправляємо лист для відновлення паролю {} userId={}",fname,user.getId());
             try {
                 emailSenderService.sendEmail(mail);
                 historyService.saveHistory(History_UserSendMailSetPassword, mail.getTo(), user);

@@ -120,4 +120,8 @@ public class AdminService {
         }
         return clientdetailList;
     }
+
+    public Users GetUsersById(Long iduser) {
+        return clientService.GetUserById(iduser);
+    }
 }
