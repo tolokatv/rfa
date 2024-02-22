@@ -4,7 +4,6 @@ import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Messages;
 import media.toloka.rfa.radio.repository.RepoHistory;
 import media.toloka.rfa.radio.repository.RepoMessages;
-import media.toloka.rfa.radio.repository.RepoRooms;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +22,8 @@ public class MessageService {
 //    private RepoRooms repoRooms;
     @Autowired
     private RepoHistory repoHistory;
+
+
 
     public List<Messages> GetMessages(Clientdetail clientdetail) {
         return repoMessages.findMessagesByFromOrTo(clientdetail, clientdetail);

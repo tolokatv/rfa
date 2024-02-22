@@ -85,6 +85,10 @@ public class Clientdetail {
     private List<Store> filesinstore = new ArrayList<>();
 
     @ToString.Exclude
+    @ManyToMany
+    private List<MessageRoom> roomList = new ArrayList<>();
+
+    @ToString.Exclude
     @OneToOne(cascade = {CascadeType.ALL})
     private  Users user;
 

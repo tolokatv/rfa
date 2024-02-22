@@ -7,6 +7,7 @@ import lombok.Data;
 
 
 import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Data
@@ -36,5 +37,10 @@ public class Messages {
     @Expose
     @Column(columnDefinition = "TEXT")
     private String body;
+
+//    private MessageRoom room = null;
+//    @Expose
+//    @OneToMany(cascade = {CascadeType.ALL})
+//    private List<MessageRoom> room;
 
 }
