@@ -6,6 +6,8 @@ import media.toloka.rfa.radio.document.service.DocumentService;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.model.Clientdetail;
+import media.toloka.rfa.radio.store.Service.StoreService;
+import media.toloka.rfa.radio.store.model.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +24,7 @@ import java.util.Random;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static media.toloka.rfa.radio.model.enumerate.EHistoryType.History_DocumentCreate;
+import static media.toloka.rfa.radio.store.model.EStoreFileType.*;
 
 
 @Slf4j
@@ -38,6 +41,9 @@ public class DropPostFileController {
 
     @Autowired
     private FilesService filesService;
+
+    @Autowired
+    private StoreService storeService;
 
     final Logger logger = LoggerFactory.getLogger(DropPostFileController.class);
 
@@ -57,22 +63,23 @@ public class DropPostFileController {
             return;
         }
 
-//        Path destination = Paths.get("/home/ysv/rfa/upload").resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
         Path destination = Paths.get(filesService.GetClientDirectory(cd)).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
-//        Path destination = Paths.get("upload").resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
         Boolean fileExist = Files.exists(destination);
         try {
             Files.createDirectories(destination.getParent());
             Files.copy(file.getInputStream(), destination, REPLACE_EXISTING);
             // Зберігаємо інформацію о файлі та привʼязуємо до користувача.
             Random random = new Random();
-//            long time = System.currentTimeMillis();
             long difference = random.nextInt(1000);
-            logger.info("Завантаження файлу: Випадкова затримка {}",difference);
+//            logger.info("Завантаження файлу: Випадкова затримка {}",difference);
+            Store storeitem;
             try {
                 Thread.sleep(difference);
                 if (!fileExist) {
+                    storeitem = storeService.SaveStoreItemInfo(null,destination, STORE_DOCUMENT, cd);
                     documentService.saveDocumentUploadInfo(destination);
+                } else {
+                    storeitem = storeService.GetStoreItemByFilenameByClientDetail(destination.getFileName().toString(), cd);
                 }
                 historyService.saveHistory(History_DocumentCreate, " Завантажено файл: " + file.getOriginalFilename(), clientService.GetCurrentUser());
             }
@@ -87,18 +94,6 @@ public class DropPostFileController {
         log.info("uploaded file " + file.getOriginalFilename());
     }
 
-//    public void uploadFile(MultipartFile file) throws ExecutionControl.UserException {
-//        try {
-//            if(file.isEmpty()) {
-////                throw new ExecutionControl.UserException("Empty file");
-//                logger.debug("Завантаження файлу: Файл порожній");
-//            }
-//            Path destination = Paths.get("upload").resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
-//            Files.copy(file.getInputStream(), destination);
-//        } catch(IOException e) {
-////            throw new ExecutionControl.UserException("Store exception");
-//            logger.debug("Завантаження файлу: Проблема збереження");
-//        }
-//    }
+
 }
 

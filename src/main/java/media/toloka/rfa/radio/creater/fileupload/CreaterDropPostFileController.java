@@ -60,7 +60,7 @@ public class CreaterDropPostFileController {
     @PostMapping(path = "/creater/trackupload" ) // , produces = MediaType.APPLICATION_JSON_VALUE
     public void uploadTrack(@RequestParam("file") MultipartFile file) {
 
-        log.info("uploaded file " + file.getOriginalFilename());
+//        log.info("uploaded file " + file.getOriginalFilename());
         if (file.isEmpty()) {
 //                throw new ExecutionControl.UserException("Empty file");
             logger.info("Завантаження файлу: Файл порожній");
@@ -81,7 +81,7 @@ public class CreaterDropPostFileController {
             // Зберігаємо інформацію о файлі та привʼязуємо до користувача.
             Random random = new Random();
             long difference = random.nextInt(1000);
-            logger.info("Завантаження файлу: Випадкова затримка {}",difference);
+//            logger.info("Завантаження файлу: Випадкова затримка {}",difference);
             Store storeitem;
             try {
                 Thread.sleep(difference);
@@ -132,8 +132,7 @@ public class CreaterDropPostFileController {
                 Store storeitem;
                 Thread.sleep(difference);
                 if (!fileExist) {
-                    storeitem = storeService.SaveStoreItemInfo(null,destination, STORE_ALBUMCOVER, cd);
-                    createrService.SaveAlbumCoverUploadInfo(destination, cd, storeitem);
+                    storeitem = storeService.SaveStoreItemInfo(null,destination, STORE_ALBUMCOVER, cd);                    createrService.SaveAlbumCoverUploadInfo(destination, cd, storeitem);
                 } else {
                     storeitem = storeService.GetStoreItemByFilenameByClientDetail(destination.getFileName().toString(), cd);
                 }
