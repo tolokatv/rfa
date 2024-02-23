@@ -46,7 +46,7 @@ public class RootController {
         Page pageTrack = createrService.GetTrackPage(0,10);
         List<Store> storeTrackList = pageTrack.stream().toList();
 
-        Page pagePost = createrService.GetTrackPage(0,12);
+        Page pagePost = createrService.GetPostPage(0,12);
         List<Store> storePostList = pagePost.stream().toList();
 
 //        model.addAttribute("trackList", trackList );

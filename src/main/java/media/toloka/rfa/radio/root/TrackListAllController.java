@@ -32,8 +32,8 @@ public class TrackListAllController {
             @PathVariable int page,
 //            @PathVariable String fileName,
             Model model) {
-        List<Post> posts = createrService.GetAllPostsByApruve(true);
-        List<Track> trackList = createrService.GetLastUploadTracks();
+//        List<Post> posts = createrService.GetAllPostsByApruve(true);
+//        List<Track> trackList = createrService.GetLastUploadTracks();
 
 //        Page page = storeService.GetStorePageItemType(0,5, STORE_TRACK);
         Page pageTrack = createrService.GetTrackPage(page,10);
@@ -50,7 +50,7 @@ public class TrackListAllController {
         model.addAttribute("pagetrack", pageTrack );
         model.addAttribute("currentpage", page );
         model.addAttribute("trackList", storeTrackList );
-        model.addAttribute("posts", posts );
+//        model.addAttribute("posts", posts );
 //        model.addAttribute("stations",  stationService.GetListStationByUser(user));
 
         return "/guest/tracksall";

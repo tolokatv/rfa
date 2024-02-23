@@ -31,8 +31,11 @@ public class PostListController {
         List<Post> posts = createrService.GetAllPostsByApruve(true);
         List<Track> trackList = createrService.GetLastUploadTracks();
 
+        Page pageTrack = createrService.GetTrackPage(0,10);
+        List<Store> storeTrackList = pageTrack.stream().toList();
+
 //        Page page = storeService.GetStorePageItemType(0,5, STORE_TRACK);
-        Page pagePost = createrService.GetPostPage(page,10);
+        Page pagePost = createrService.GetPostPage(page,3);
         List<Store> storePostsList = pagePost.stream().toList();
 
         //        model.addAttribute("trackList", trackList );
@@ -46,10 +49,11 @@ public class PostListController {
         model.addAttribute("pagepost", pagePost );
         model.addAttribute("currentpage", page );
         model.addAttribute("postList", storePostsList );
+        model.addAttribute("trackList", storeTrackList );
         model.addAttribute("posts", posts );
 //        model.addAttribute("stations",  stationService.GetListStationByUser(user));
 
-        return "/root/tracksall";
+        return "/guest/postall";
 
 
 
