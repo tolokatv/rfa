@@ -35,7 +35,7 @@ public class PostListController {
         List<Store> storeTrackList = pageTrack.stream().toList();
 
 //        Page page = storeService.GetStorePageItemType(0,5, STORE_TRACK);
-        Page pagePost = createrService.GetPostPage(page,3);
+        Page pagePost = createrService.GetPostPage(page,12);
         List<Store> storePostsList = pagePost.stream().toList();
 
         //        model.addAttribute("trackList", trackList );
