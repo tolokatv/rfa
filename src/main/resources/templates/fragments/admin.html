@@ -50,6 +50,7 @@
             <a class="btn btn-primary" th:href="@{'/admin/rejectuser/'+${user.id} }">Відхилити</a>
             <a class="btn btn-primary" th:href="@{'/admin/apruveinfouser/'+${user.id} }">Підтвердити інформацію</a>
             <a class="btn btn-primary" th:href="@{'/admin/lockuser/'+${user.id} }">Блокувати</a>
+            <a class="btn btn-primary" th:href="@{'/admin/userdel/'+${user.id} }">Видалити</a>
 
 
         </div>
@@ -122,6 +123,7 @@
                     <span th:text="' країна: '+${adr.country} + ' інд: '+${adr.zip} + ' тел: '+${adr.phone}"/><br>
                </a>
                <a class="btn btn-primary padding_button" th:href="@{'/admin/editaddress/'+${adr.id} }">Редагувати</a>
+               <a class="btn btn-primary padding_button" th:href="@{'/admin/invertaddressapruve/'+${adr.id} }">Схвалити</a>
            </div>
     </div>
 

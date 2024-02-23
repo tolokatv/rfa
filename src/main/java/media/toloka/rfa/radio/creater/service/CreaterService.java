@@ -117,6 +117,13 @@ public class CreaterService {
         return page;
     }
 
+    public Page GetPostPage(int pageNumber, int pageCount) {
+        Pageable storePage = PageRequest.of(pageNumber, pageCount);
+        Page page = postRepositore.findAllByOrderByPublishdateDesc(storePage);
+        return page;
+    }
+
+
 
     public Albumсover GetAlbumCoverById(Long alcoid) {
         return albumCoverRepository.getById(alcoid);

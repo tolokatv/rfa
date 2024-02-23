@@ -64,6 +64,18 @@ public class ClientService {
         return false;
     }
 
+    public boolean checkRole(Users user, ERole role) {
+        List<Roles> roles = user.getRoles();
+        Iterator<Roles> iterator = roles.iterator();
+        while (iterator.hasNext()) {
+            Roles curRole = iterator.next();
+            if (role.equals(curRole.getRole())) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void SaveUser(Users user) {
 
         userRepository.save(user);
@@ -159,6 +171,10 @@ public class ClientService {
 
     public Clientaddress GetClientAddressById(Long idAddress) {
         return clientAddressRepository.getById(idAddress);
+    }
+
+    public void DeleteUser(Users curuser) {
+        userRepository.delete(curuser);
     }
 }
 

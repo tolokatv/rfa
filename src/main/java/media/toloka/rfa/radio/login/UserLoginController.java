@@ -80,22 +80,22 @@ public class UserLoginController {
     public String userRouter (
             Model model
     ) {
-        System.out.println("============ ROUTE to Group page ");
-        if (clientService.checkRole (ROLE_USER)) {
-            System.out.println("============ redirect to User page");
-            return "redirect:/user/user_page";
-        } else if (clientService.checkRole (ROLE_CREATER)) {
-            System.out.println("============ redirect to Creator page");
-            return "redirect:/creater/home";
-        } else if (clientService.checkRole(ROLE_EDITOR)) {
-            return "redirect:/editor/home";
+        logger.info("============ ROUTE to Group page ");
+        if (clientService.checkRole(ROLE_ADMIN)) {
+            return "redirect:/admin/home";
         } else if (clientService.checkRole(ROLE_MODERATOR)) {
             return "redirect:/moderator/home";
-        } else if (clientService.checkRole(ROLE_ADMIN)) {
+        } else if (clientService.checkRole(ROLE_EDITOR)) {
+            return "redirect:/editor/home";
+        } else if (clientService.checkRole (ROLE_CREATER)) {
+            return "redirect:/creater/home";
+        } else if (clientService.checkRole (ROLE_USER)) {
+            return "redirect:/user/user_page";
+        } else if (clientService.checkRole(ROLE_UNKNOWN)) {
             return "redirect:/admin/home";
         };
         // Йой! Щлсь пішло не так
-        System.out.println("============ redirect to Logout page");
+        logger.info("============ redirect to Logout page");
         return "redirect:/logout";
     }
 
@@ -232,7 +232,7 @@ public class UserLoginController {
             token = serviceToken.findByUser(user);
             String fname;
 //            fname = user.getCustname() + " " + user.getCustsurname();
-            fname = "УВАГА!!! Штучне сформоване Імʼя.";
+//            fname = "УВАГА!!! Штучне сформоване Імʼя.";
             fname = user.getClientdetail().getCustname() + " " + user.getClientdetail().getCustsurname();
             model.addAttribute("fname", fname);
             map1.put("fname", (Object) fname); // сформували імʼя та призвище для листа
@@ -245,21 +245,13 @@ public class UserLoginController {
                 historyService.saveHistory(History_UserSendMailSetPassword, mail.getTo(), user);
 
             }
-//            catch (IOException e) {
-//                System.out.println("========================== mail IOException");
-//                model.addAttribute("msg", "На пошту '" + email + "' не надіслано лист. ");
-//                return "redirect:/error";
-//            }
             catch (MessagingException e) {
-//                throw new RuntimeException(e);
                 System.out.println("========================== mail MessagingException");
                 model.addAttribute("msg", "На пошту '" + email + "' не надіслано лист. ");
                 return "redirect:/error";
             }
-
             // формуємо повідомлення для форми реєстрації
             model.addAttribute("success", "На пошту '" + email + "' надіслано лист. Для продовження відновлення паролю перевірте свою пошту.");
-//            }
         } else { // не знайшли таку пошту
             // формуємо повідомлення для форми
             String restorePSW = "Зареєструвати нового користувача?";
@@ -275,7 +267,6 @@ public class UserLoginController {
             Model model
     ) {
         // Перевіряємо токен для і встановлюємо пароль для користувача
-
         model.addAttribute("htoken", token);
         return "/login/setUserPassword";
     }
@@ -315,8 +306,6 @@ public class UserLoginController {
             Model model
     ) { // тут напевно робота з поштою
         clientService.SaveUser(user);
-//        Long id = clientService.getByEmail(user.getEmail()).getId();
-//        String message = "Користувача '" + clientService.getByEmail(user.getEmail()).getEmail() + "' збережено!";
         String message = "Користувача '" + user.getEmail() + "' збережено!";
         model.addAttribute("msg", message);
         return "/login/registerUser";

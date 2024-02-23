@@ -6,8 +6,6 @@ import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.model.Post;
 import media.toloka.rfa.radio.model.Track;
 import media.toloka.rfa.radio.store.model.Store;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
@@ -18,16 +16,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import java.util.List;
 
 @Controller
-public class TrackListAllController {
-
-    final Logger logger = LoggerFactory.getLogger(TrackListAllController.class);
+public class PostListController {
 
     @Autowired
     private ClientService clientService;
     @Autowired
     private CreaterService createrService;
 
-    @GetMapping(value = "/guest/tracksall/{page}")
+    @GetMapping(value = "/guest/postall/{page}")
     public String getTracksAll(
             @PathVariable int page,
 //            @PathVariable String fileName,
@@ -36,24 +32,27 @@ public class TrackListAllController {
         List<Track> trackList = createrService.GetLastUploadTracks();
 
 //        Page page = storeService.GetStorePageItemType(0,5, STORE_TRACK);
-        Page pageTrack = createrService.GetTrackPage(page,10);
-        List<Store> storeTrackList = pageTrack.stream().toList();
+        Page pagePost = createrService.GetPostPage(page,10);
+        List<Store> storePostsList = pagePost.stream().toList();
 
-//        model.addAttribute("trackList", trackList );
+        //        model.addAttribute("trackList", trackList );
         int privpage ;
         int nextpage ;
         if (page == 0) {privpage = 0;} else {privpage = page - 1;};
-        if (page >= (pageTrack.getTotalPages()-1) ) {nextpage = pageTrack.getTotalPages()-1; } else {nextpage = page+1;} ;
-        model.addAttribute("nextpage", nextpage );
-        model.addAttribute("privpage", privpage );
-        model.addAttribute("totalpage", pageTrack.getTotalPages() );
-        model.addAttribute("pagetrack", pageTrack );
+        if (page >= (pagePost.getTotalPages()-1) ) {nextpage = pagePost.getTotalPages()-1; } else {nextpage = page+1;} ;
+        model.addAttribute("nextpagepost", nextpage );
+        model.addAttribute("privpagepost", privpage );
+        model.addAttribute("totalpagepost", pagePost.getTotalPages() );
+        model.addAttribute("pagepost", pagePost );
         model.addAttribute("currentpage", page );
-        model.addAttribute("trackList", storeTrackList );
+        model.addAttribute("postList", storePostsList );
         model.addAttribute("posts", posts );
 //        model.addAttribute("stations",  stationService.GetListStationByUser(user));
 
-        return "/guest/tracksall";
-    }
+        return "/root/tracksall";
 
+
+
+
+    }
 }

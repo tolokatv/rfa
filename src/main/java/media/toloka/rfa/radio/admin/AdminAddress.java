@@ -69,20 +69,6 @@ public class AdminAddress {
 
     }
 
-//    @GetMapping("/admin/editeaddress/{idAddress}")
-//    public String GetAddressEdit(
-//            @PathVariable Long idAddress,
-//            Model model
-//    ) {
-//        Users user = clientService.GetCurrentUser();
-//        if (user == null) { return "redirect:/"; }
-//
-//        Clientaddress clientaddress = adminService.GetClientAddress(idAddress);
-//        clientaddress.setApruve(!clientaddress.getApruve());
-//        adminService.SaveClientAddress(clientaddress);
-//        return "redirect:/admin/addresses";
-//
-//    }
 
     @GetMapping(value = "/admin/editaddress/{idAddress}")
     public String ClientAddressEdit(
