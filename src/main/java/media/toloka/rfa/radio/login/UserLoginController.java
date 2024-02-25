@@ -92,7 +92,7 @@ public class UserLoginController {
         } else if (clientService.checkRole (ROLE_USER)) {
             return "redirect:/user/user_page";
         } else if (clientService.checkRole(ROLE_UNKNOWN)) {
-            return "redirect:/admin/home";
+            return "redirect:/messenger";
         };
         // Йой! Щлсь пішло не так
         logger.info("============ redirect to Logout page");

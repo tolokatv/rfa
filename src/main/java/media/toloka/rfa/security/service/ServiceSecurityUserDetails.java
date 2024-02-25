@@ -37,6 +37,8 @@ public class ServiceSecurityUserDetails implements ServiceSecurityUsers, UserDet
 
         Optional<Users> opt = repoUsers.findUserByEmail(email);
         if(opt.isEmpty()) {
+            // Заводимо тимчасового користувача для чата
+
 //            Users auser = new Users();
 //            auser.setEmail("ysv@toloka.kiev.ua");
 //            auser.setPassword("1");
