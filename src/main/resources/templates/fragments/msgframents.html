@@ -8,7 +8,7 @@
 <div th:fragment="listuser">
 <!--        <a class="btn btn-primary" th:href="@{'/creater/editpost/'+${0}}">Створити пост</a>-->
         <div th:each="user : ${userlist}">
-            <span th:utext="${user.custname}+' '+${user.custsurname}" onclick="selectuser"/>
+            <span th:utext="${user.custname}+' '+${user.custsurname}" th:id="${user.uuid}" onclick="selectuser(this)"/>
 <!--                <a class="btn btn-primary" th:href="@{'/admin/publishpost/'+${post.id} }">Опублікувати</a>-->
 <!--            <td><span  th:text="${post.postStatus.label}" >Статус</span></td>-->
 <!--            <td><span  th:text="${#dates.format(post.createdate, 'dd-MM-yyyy HH:mm')}" >Створено</span></td>-->
@@ -25,14 +25,16 @@
 </div>
 
 <div th:fragment="areaprivatemessage">
-
+    <section>
+        <span  id="connectstatus">Місце для тимчасових повідомлень</span>
+    </section>
 </div>
 
 <div th:fragment="areamessagecontrol">
-    <form >
+<!--    <form >-->
         <input type="text" name="name"  class="form-control" id="newmessage" ></input>
-        <button style="margin-bottom: 20px" type="submit" onclick="SendMessage">Надіслати</button>
-    </form>
+        <button style="margin-bottom: 20px" type="button" onclick="sendmessage(this)">Надіслати</button>
+<!--    </form>-->
 </div>
 
 </body>

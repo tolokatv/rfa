@@ -21,8 +21,8 @@ public class ChatMessage {
     private String toname;
     @Expose
     private String touuid;
-    private Clientdetail to; // to user
-    private Clientdetail from; // from user
+//    private Clientdetail to; // to user
+//    private Clientdetail from; // from user
     @Expose
     private String body;
 }

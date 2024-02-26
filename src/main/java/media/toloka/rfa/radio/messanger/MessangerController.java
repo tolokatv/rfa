@@ -53,9 +53,29 @@ public class MessangerController {
         }
 
         Clientdetail cd = clientService.GetClientDetailByUser(user);
+
         List<Clientdetail> userlist = messangerService.FindAllCorrespondentsList(cd);
 
         model.addAttribute("userlist", userlist );
+        model.addAttribute("curuuid", cd.getUuid() );
+
+        return "/messenger/messenger";
+    }
+
+    @GetMapping(value = "/messanger/info")
+    public String getUserinfo(
+            Model model ) {
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+
+        Clientdetail cd = clientService.GetClientDetailByUser(user);
+
+        List<Clientdetail> userlist = messangerService.FindAllCorrespondentsList(cd);
+
+        model.addAttribute("userlist", userlist );
+        model.addAttribute("curuuid", cd.getUuid() );
 
         return "/messenger/messenger";
     }
