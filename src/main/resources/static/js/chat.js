@@ -179,6 +179,8 @@ function onPublicMessageReceived(payload) {
     var spanbody = document.createElement('span');
     spanbody.textContent = jbody.body;
     var iDiv = document.createElement('div');
+        iDiv.id = jbody.fromuuid;
+        iDiv.onclick= function () {selectuserFromPublic(jbody.fromuuid, jbody.fromname)};
     iDiv.appendChild(spanname);
     iDiv.appendChild(spanbody);
     document.getElementById('publicarea').appendChild(iDiv);
@@ -200,6 +202,9 @@ function onPrivateMessageReceived(payload) {
     var spanbody = document.createElement('span');
     spanbody.textContent = jbody.body;
     var iDiv = document.createElement('div');
+    iDiv.id = jbody.fromuuid;
+    iDiv.onclick= function () {selectuserFromPublic(jbody.fromuuid, jbody.fromname)};
+//    iDiv.setAttribute("onclick", "selectuser(this)");
     iDiv.appendChild(spanname);
     iDiv.appendChild(spanbody);
     document.getElementById('privatearea').appendChild(iDiv);
@@ -274,6 +279,11 @@ function sendprivate(event) {
     );
     document.getElementById('newmessage').value = "";
 
+}
+function selectuserFromPublic(luuid, lname) {
+    clientuuid = luuid;
+    toclientname = lname;
+    document.getElementById('connectstatus').innerHTML = lname;
 }
 
 function selectuser(event ) {
