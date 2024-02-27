@@ -39,10 +39,11 @@
     <!--        </div>-->
     <div class="container-fluid">
         <div class="row">
-            <div class="col-lg-2 col-sm-6">
+            <div class="col-lg-2 col-sm-2">
+                <div th:insert="~{/fragments/msgframents :: listroom}"/>
                 <div th:insert="~{/fragments/msgframents :: listuser}"/>
             </div>
-            <div class="col-lg-10 col-sm-6">
+            <div class="col-lg-10 col-sm-10">
                 <div th:insert="~{/fragments/msgframents :: areamessage}"/>
                 <div th:insert="~{/fragments/msgframents :: areaprivatemessage}"/>
                 <div th:insert="~{/fragments/msgframents :: areamessagecontrol}"/>
@@ -53,6 +54,14 @@
 
 <script>
     var curuuid = "[[${curuuid}]]" ;
+    var curusername = "[[${curusername}]]" ;
+    var curroom = "[[${curroom}]]" ;
+    var stompClient = null;
+    var username = null;
+    var clientuuid = null;
+    var toclientname = null;
+    var subcuroom = null;
+    var subpriv = null;
 </script>
 
 <script src="/js/bootstrap.bundle.min.js"></script>

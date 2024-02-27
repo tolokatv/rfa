@@ -8,6 +8,7 @@ import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.messanger.service.MessangerService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.post.service.PostService;
+import media.toloka.rfa.radio.repository.MessageRoomRepository;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,9 +40,6 @@ public class MessangerController {
     @Autowired
     private HistoryService historyService;
 
-
-
-
     final Logger logger = LoggerFactory.getLogger(AdminPosts.class);
 
     @GetMapping(value = "/messanger")
@@ -58,6 +56,11 @@ public class MessangerController {
 
         model.addAttribute("userlist", userlist );
         model.addAttribute("curuuid", cd.getUuid() );
+        model.addAttribute("curusername", cd.getCustname()+" "+cd.getCustsurname() );
+        model.addAttribute("curroom", messangerService.GetChatRoomById(1L).getUuid() );
+        model.addAttribute("roomlist", messangerService.GetChatRoomList() );
+
+
 
         return "/messenger/messenger";
     }

@@ -25,4 +25,7 @@ public class ChatMessage {
 //    private Clientdetail from; // from user
     @Expose
     private String body;
+    @Expose
+    private String roomuuid;
+
 }

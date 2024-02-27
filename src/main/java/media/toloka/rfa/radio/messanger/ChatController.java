@@ -36,36 +36,49 @@ public class ChatController {
     final Logger logger = LoggerFactory.getLogger(ChatController.class);
 
         @MessageMapping("/hello")
-//        @SendTo("/topic/public")
-        public ChatMessage GetChatmessage( ChatMessage inmsg) {
+        public void GetChatmessage( ChatMessage inmsg) {
+//        public ChatMessage GetChatmessage( ChatMessage inmsg) {
 
-            logger.info("Чат. Вхідне повідомлення: {}",inmsg);
+            logger.info("Чат. Новий користувач онлайн: {} {}",inmsg.getUuid(),inmsg.getSend());
             try {
                 PutChatPrivateMessage(inmsg);
-//                PutChatPrivMessage(inmsg);
             } catch (Exception e) {
                 logger.info("PutChatPrivateMessage Exception");
             }
-//            Users user = clientService.GetCurrentUser();
-//            Clientdetail cd = clientService.GetClientDetailByUser(user);
-            inmsg.setSend(new Date());
-//            inmsg.setFromuuid(cd.getUuid());
-//            inmsg.setFromname(cd.getCustname()+" "+cd.getCustsurname());
-            return inmsg;
         }
 
-        @SendTo("/topic/public")
-        public void PutChatPrivateMessage(ChatMessage message) throws Exception {
-//            Thread.sleep(1000); // simulated delay
+    @MessageMapping("/topic")
+    public void GetChatPublicmessage( ChatMessage inmsg) {
+//        public ChatMessage GetChatmessage( ChatMessage inmsg) {
 
-//            ChatMessage cm = new ChatMessage();
-//            cm.setBody("=== body ===");
-//            cm.setTo(cd);
-            Clientdetail cd = clientService.GetClientDetailByUuid(message.getTouuid());
+
+        try {
+            if (inmsg.getRoomuuid() == null) {
+                logger.info("Чат. Private message to:{} from:{}",inmsg.getToname(),inmsg.getFromname());
+                PutChatPrivateMessage(inmsg);
+            } else {
+                logger.info("Чат. To Public : from:{} to room:{}",inmsg.getFromname(),inmsg.getRoomuuid());
+                PutChatPublicMessage(inmsg);
+            }
+
+        } catch (Exception e) {
+            logger.info("PutChatPrivateMessage Exception");
+        }
+    }
+
+    @SendTo("/topic")
+    public void PutChatPublicMessage(ChatMessage message) throws Exception {
+            this.template.convertAndSend("/topic/"+message.getRoomuuid(), message);
+            logger.info("Public={}",message.getRoomuuid());
+    }
+
+        public void PutChatPrivateMessage(ChatMessage message) throws Exception {
+            Clientdetail cd = clientService.GetClientDetailByUuid(message.getUuid());
             message.setSend(new Date());
-//            this.template.convertAndSend("/topic/public", message);
-            this.template.convertAndSend("/topic/"+cd.getUuid(), message);
-//            return message;
+            if (cd != null) {
+                this.template.convertAndSend("/topic/"+cd.getUuid(), message);
+
+            }
         }
 
     @SendTo("/topic/public")

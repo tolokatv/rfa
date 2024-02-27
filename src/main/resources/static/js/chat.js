@@ -8,10 +8,7 @@ var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
 //var connectingElement = document.querySelector('');
 var connectingElement = document.getElementById('connectstatus');
-var stompClient = null;
-var username = null;
-var clientuuid = null;
-var toclientname = null;
+
 
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
@@ -144,19 +141,20 @@ function connect() {
 function onConnected() {
     // Subscribe to the Public Topic
 //    stompClient.subscribe('/topic/public', onMessageReceived);
-    stompClient.subscribe('/app/topic/public', onMessageReceived);
-    stompClient.subscribe('/topic/'+curuuid, onPrivateMessageReceived);
+    console.log("subscribe curroom="+curroom);
+    subcuroom = stompClient.subscribe('/topic/'+curroom, onPublicMessageReceived);
+    subpriv = stompClient.subscribe('/topic/'+curuuid, onPrivateMessageReceived);
 
     // Tell your username to the server
     stompClient.send("/app/hello",
         {},
         JSON.stringify({uuid: curuuid,
-        send: Date.now(),
-        fromname: ' ===fromname===',
-        fromuuid: ' === fromuuid ===',
-        toname: ' === toname ===',
-        touuid: ' === touuid ===',
-        body: ' === BODY ==='
+        send: Date.now()
+//        fromname: ' ===fromname===',
+//        fromuuid: ' === fromuuid ===',
+//        toname: ' === toname ===',
+//        touuid: ' === touuid ===',
+//        body: ' === BODY ==='
 //        to: ' === to ===',
 //        from: ' === from ==='
         })
@@ -173,29 +171,103 @@ function onError(error) {
 //    connectingElement.style.color = 'red';
 }
 
-function onMessageReceived(payload) {
-    console.log("==============================================");
-    console.log(payload);
-    console.log("==============================================");
+function onPublicMessageReceived(payload) {
+    console.log("==== PUBLIC ==========================================");
+    var jbody = JSON.parse(payload.body);
+    var spanname = document.createElement('span');
+    spanname.textContent = jbody.fromname+': ';
+    var spanbody = document.createElement('span');
+    spanbody.textContent = jbody.body;
+    var iDiv = document.createElement('div');
+    iDiv.appendChild(spanname);
+    iDiv.appendChild(spanbody);
+    document.getElementById('publicarea').appendChild(iDiv);
+    var objDiv = document.getElementById("publicarea");
+    objDiv.scrollTop = objDiv.scrollHeight;
+
+//    document.getElementById("publicarea").scrollHeight;
+
+//    iDiv.className = 'block';
+//    var div2 = document.createElement('div');
+//    div2.className = 'block-2';
+//    iDiv.appendChild(div2);
+//    console.log("=== PUBLIC ===========================================");
 }
 function onPrivateMessageReceived(payload) {
-    console.log("=== PRIVATE ===========================================");
-    console.log(payload);
+    var jbody = JSON.parse(payload.body);
+    var spanname = document.createElement('span');
+    spanname.textContent = jbody.fromname+': ';
+    var spanbody = document.createElement('span');
+    spanbody.textContent = jbody.body;
+    var iDiv = document.createElement('div');
+    iDiv.appendChild(spanname);
+    iDiv.appendChild(spanbody);
+    document.getElementById('privatearea').appendChild(iDiv);
+    var objDiv = document.getElementById("privatearea");
+    objDiv.scrollTop = objDiv.scrollHeight;
     console.log("==== PRIVATE ==========================================");
 }
 
+function unsubscribeRoom(lcurroom) {
+        console.log("unsubscribeRoom");
+        console.log("curroom="+lcurroom);
+    }
+function subscribeRoom(lcurroom) {
+        console.log("subscribeRoom");
+        console.log("curroom="+lcurroom);
+    }
+function LigthOffRoom(lcurroom) {
+        console.log("LigthOffRoom");
+        console.log("curroom="+lcurroom);
+    }
+
+function ligthOnRoom(lcurroom) {
+        console.log("ligthOnRoom");
+        console.log("curroom="+lcurroom);
+    }
+
+function selectroom(event) {
+// відписуємося від кімнати
+    unsubscribeRoom(curroom);
+    LigthOffRoom(curroom);
+
+// підписуємося на кімнату
+    curroom = event.id;
+    subscribeRoom(curroom);
+    ligthOnRoom(curroom);
+}
+
 function sendmessage(event) {
+//myinput = document.getElementById('newmessage');
+
+    stompClient.send("/app/topic",
+        {},
+        JSON.stringify({
+        send: Date.now(),
+        fromname: curusername,
+        fromuuid: curuuid,
+        body: document.getElementById('newmessage').value,
+        roomuuid: curroom
+//        to: ' === to ===',
+//        from: ' === from ==='
+        })
+    );
+    document.getElementById('newmessage').value = "";
+
+}
+
+function sendprivate(event) {
 //myinput = document.getElementById('newmessage');
 
     stompClient.send("/app/hello",
         {},
         JSON.stringify({uuid: curuuid,
         send: Date.now(),
-        fromname: ' ===fromname===',
+        fromname: curusername,
         fromuuid: curuuid,
         toname: toclientname,
         touuid: clientuuid,
-        body: toclientname + ' :' + document.getElementById('newmessage').value
+        body: document.getElementById('newmessage').value
 //        to: ' === to ===',
 //        from: ' === from ==='
         })

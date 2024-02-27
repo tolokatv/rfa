@@ -3,7 +3,9 @@ package media.toloka.rfa.radio.messanger.service;
 import media.toloka.rfa.radio.messanger.repository.MessangerRepository;
 import media.toloka.rfa.radio.model.Clientaddress;
 import media.toloka.rfa.radio.model.Clientdetail;
+import media.toloka.rfa.radio.model.MessageRoom;
 import media.toloka.rfa.radio.model.Messages;
+import media.toloka.rfa.radio.repository.MessageRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -16,6 +18,9 @@ public class MessangerService {
 
     @Autowired
     private MessangerRepository messangerRepository;
+
+    @Autowired
+    private MessageRoomRepository messageRoomRepository;
 
     public List<Clientdetail> FindAllCorrespondentsList(Clientdetail cd) {
         List<Messages> messagesList = messangerRepository.findMessagesByFromOrTo(cd, cd);
@@ -38,5 +43,13 @@ public class MessangerService {
         }
         return clientdetailList;
 
+    }
+
+    public MessageRoom GetChatRoomById(long l) {
+        return messageRoomRepository.getById(l);
+    }
+
+    public List<MessageRoom> GetChatRoomList() {
+        return messageRoomRepository.findAll();
     }
 }

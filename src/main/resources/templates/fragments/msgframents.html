@@ -5,36 +5,51 @@
     <title>Title</title>
 </head>
 <body>
+<div th:fragment="listroom">
+    <!--        <a class="btn btn-primary" th:href="@{'/creater/editpost/'+${0}}">Створити пост</a>-->
+
+    <div style="overflow-y: scroll; max-height: 25vh;" id="roomlist">
+        <div><b><u>Активні кімнати</u></b></div>
+        <div th:each="room : ${roomlist}">
+            <span th:utext="${room.roomname}" th:id="${room.uuid}" onclick="selectroom(this)"/>
+        </div>
+    </div>
+</div>
+
 <div th:fragment="listuser">
-<!--        <a class="btn btn-primary" th:href="@{'/creater/editpost/'+${0}}">Створити пост</a>-->
+    <div style="overflow-y: scroll; max-height: 700vh;" id="roomlist">
+        <div><b><u>Співрозмовники</u></b></div>
         <div th:each="user : ${userlist}">
             <span th:utext="${user.custname}+' '+${user.custsurname}" th:id="${user.uuid}" onclick="selectuser(this)"/>
-<!--                <a class="btn btn-primary" th:href="@{'/admin/publishpost/'+${post.id} }">Опублікувати</a>-->
-<!--            <td><span  th:text="${post.postStatus.label}" >Статус</span></td>-->
-<!--            <td><span  th:text="${#dates.format(post.createdate, 'dd-MM-yyyy HH:mm')}" >Створено</span></td>-->
         </div>
+    </div>
 </div>
 
 <div th:fragment="areamessage">
 <!--    <textarea  rows="15" cols="50" id="messagearea"></textarea>-->
 <!--    <div class="mb-3">-->
-        <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="20"></textarea>
+    <div><b><u>Повідомлення</u></b></div>
+    <div style="overflow-y: scroll; max-height: 65vh;" id="publicarea">
+    </div>
 <!--    </div>-->
 <!--    <textarea rows="15" cols="50" id="aboutDescription" style="resize: none;" data-role="none"></textarea>-->
 </div>
 
 <div th:fragment="areaprivatemessage">
-    <section>
-        <span  id="connectstatus">Місце для тимчасових повідомлень</span>
-    </section>
+    <div><b><u>Приватні повідомлення</u></b></div>
+    <div style="overflow-y: scroll; max-height: 10vh;" id="privatearea">
+    </div>
 </div>
 
 <div th:fragment="areamessagecontrol">
-<!--    <form >-->
-        <input type="text" name="name"  class="form-control" id="newmessage" ></input>
-        <button style="margin-bottom: 20px" type="button" onclick="sendmessage(this)">Надіслати</button>
-<!--    </form>-->
+    <div style="overflow-y: scroll; max-height: 10vh;" id="controlarea">
+        <section>
+            <span  id="connectstatus"/>
+        </section>
+        <input type="text" name="name"  class="form-control" id="newmessage" />
+        <button style="margin-bottom: 20px" type="button" onclick="sendmessage(this)">Всім</button>
+        <button style="margin-bottom: 20px" type="button" onclick="sendprivate(this)">Приват</button>
+    </div>
 </div>
 
 </body>
