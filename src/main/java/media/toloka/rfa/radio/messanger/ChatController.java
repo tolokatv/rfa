@@ -68,7 +68,7 @@ public class ChatController {
 //            return message;
         }
 
-    @SendTo("/topic/greetings")
+    @SendTo("/topic/public")
     public ChatMessage PutChatPrivMessage(ChatMessage message) throws Exception {
         Thread.sleep(1000); // simulated delay
         ChatMessage cm = new ChatMessage();

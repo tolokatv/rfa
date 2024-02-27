@@ -9,13 +9,25 @@
 <!-- Masthead-->
 <header th:fragment="masthead" class="masthead">
     <div class="container">
-        <div class="masthead-subheading" style="color: #ffd500">Ласкаво просимо на Толоку!</div>
-        <div class="masthead-heading text-uppercase" >Створіть власне радіо!</div>
-        <form  action="/login/registerRadioUser">
-            <div class="text-center">
-                <button class="btn btn-primary btn-xl text-uppercase "  type="submit">Створити Радіостанцію!</button>
+            <div class="masthead-subheading" style="color: #ffd500">Ласкаво просимо на Толоку!</div>
+        <div class="row">
+            <div class="col">
+                <div class="masthead-heading text-uppercase" style="font-size: 1.5rem; line-height: 2.5rem; margin-bottom: 1.5rem; margin-top: 1.5rem">Створіть власне радіо!</div>
+                <form  action="/login/registerRadioUser">
+                    <div class="text-center">
+                        <button class="btn btn-primary btn-xl text-uppercase "  type="submit">Створити Радіо!</button>
+                    </div>
+                </form>
+             </div>
+            <div class="col">
+                <div class="masthead-heading text-uppercase" style="font-size: 1.5rem; line-height: 2.5rem; margin-bottom: 1.5rem; margin-top: 1.5rem">Розмістіть трек на Толоці!</div>
+                <form  action="/login/registerCreater">
+                    <div class="text-center">
+                        <button class="btn btn-primary btn-xl text-uppercase "  type="submit">Розмістити трек</button>
+                    </div>
+                </form>
             </div>
-        </form>
+        </div>
     </div>
 </header>
 
