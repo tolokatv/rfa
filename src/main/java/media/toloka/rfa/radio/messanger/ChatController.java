@@ -73,10 +73,11 @@ public class ChatController {
     }
 
         public void PutChatPrivateMessage(ChatMessage message) throws Exception {
-            Clientdetail cd = clientService.GetClientDetailByUuid(message.getUuid());
+            Clientdetail cd = clientService.GetClientDetailByUuid(message.getTouuid());
             message.setSend(new Date());
             if (cd != null) {
                 this.template.convertAndSend("/topic/"+cd.getUuid(), message);
+                this.template.convertAndSend("/topic/"+message.getUuid(), message);
 
             }
         }
