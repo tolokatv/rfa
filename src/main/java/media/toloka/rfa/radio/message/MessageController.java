@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Controller
 public class MessageController {
@@ -47,7 +48,15 @@ public class MessageController {
         // ====================== Готуємо інформацію для сторінки
         Clientdetail Clientdetailrfa = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
         model.addAttribute("currentUserID", Clientdetailrfa.getId());
-        List<Messages> listAllMessage = messageService.GetMessagesDesc(Clientdetailrfa);
+
+        List<Messages> tmplistAllMessage = messageService.GetMessagesDesc(Clientdetailrfa);
+
+        List<Messages> listAllMessage = tmplistAllMessage.stream().filter(b -> b.getRoomuuid().isBlank())
+                .collect(Collectors.toList());
+
+
+
+
         List<Messages> listNewMessages = messageService.GetNewMessages(Clientdetailrfa);
         model.addAttribute("listAllMessage",  listAllMessage);
         model.addAttribute("rd",  listAllMessage.size());

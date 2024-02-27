@@ -94,6 +94,10 @@ public class ClientService {
         return clientDetailRepository.getById(id);
     }
 
+    public Clientdetail GetClientDetailByUUID(String uuid) {
+        return clientDetailRepository.getByUuid(uuid);
+    }
+
     public Clientdetail GetClientDetailByUser(Users user) {
         // todo якась херня :(
         if (user == null) {

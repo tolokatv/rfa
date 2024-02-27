@@ -38,7 +38,7 @@ public class Messages {
     @Column(columnDefinition = "TEXT")
     private String body;
 
-//    private MessageRoom room = null;
+    private String roomuuid = null;
 //    @Expose
 //    @OneToMany(cascade = {CascadeType.ALL})
 //    private List<MessageRoom> room;

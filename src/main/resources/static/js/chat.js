@@ -149,6 +149,7 @@ function onConnected() {
     stompClient.send("/app/hello",
         {},
         JSON.stringify({uuid: curuuid,
+        roomuuid: curroom,
         send: Date.now()
 //        fromname: ' ===fromname===',
 //        fromuuid: ' === fromuuid ===',

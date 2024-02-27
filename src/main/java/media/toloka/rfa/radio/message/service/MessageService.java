@@ -1,17 +1,18 @@
 package media.toloka.rfa.radio.message.service;
 
+import media.toloka.rfa.radio.client.service.ClientService;
+import media.toloka.rfa.radio.messanger.model.ChatMessage;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Messages;
 import media.toloka.rfa.radio.repository.RepoHistory;
 import media.toloka.rfa.radio.repository.RepoMessages;
+import media.toloka.rfa.security.model.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 
-import java.util.Date;
-import java.util.List;
-import java.util.ListIterator;
+import java.util.*;
 
 @Service
 @Transactional
@@ -23,13 +24,32 @@ public class MessageService {
     @Autowired
     private RepoHistory repoHistory;
 
+    @Autowired
+    private ClientService clientService;
+
 
 
     public List<Messages> GetMessages(Clientdetail clientdetail) {
         return repoMessages.findMessagesByFromOrTo(clientdetail, clientdetail);
     }
     public List<Messages> GetMessagesDesc(Clientdetail clientdetail) {
-        return repoMessages.findMessagesByFromOrToOrderBySendDesc(clientdetail, clientdetail);
+        List<Messages> tmplist = repoMessages.findMessagesByFromOrToOrderBySendDesc(clientdetail, clientdetail);
+
+        Iterator<Messages> iterator = tmplist.iterator();
+        List<Messages> resultlist = new ArrayList<>();
+
+        while (iterator.hasNext()) {
+            Messages imsg = iterator.next();
+            if (imsg.getRoomuuid() == null) {
+                resultlist.add(imsg);
+            }
+        }
+
+        return resultlist;
+    }
+
+    public List<Messages> GetChatPublicRoomList(String roomUUID) {
+        return repoMessages.findByRoomuuidOrderBySendDesc(roomUUID);
     }
 
     // отримали загальну кількість повідомлень для клієнта.
@@ -56,6 +76,7 @@ public class MessageService {
         um.setReading(true);
         um.setFrom(from);
         um.setTo(to);
+        um.setRoomuuid(null);
         // Надсилаємо повідомлення
         SaveMessage(um);
     }
@@ -84,5 +105,17 @@ public class MessageService {
         model.addAttribute("quantityallmessage",  GetQuantityAllMessage(clientDetail));
         model.addAttribute("quantitynewmessage",  GetQuantityNewMessage(clientDetail));
 
+    }
+
+    public void SaveMessageFromChat(ChatMessage message) {
+        Clientdetail cd = clientService.GetClientDetailByUuid(message.getTouuid());
+            Messages msg = new Messages();
+            msg.setRead(null);
+            msg.setSend(new Date());
+            msg.setFrom(clientService.GetClientDetailByUUID(message.getUuid()));
+            msg.setTo(cd);
+            msg.setBody(message.getBody());
+            msg.setRoomuuid(message.getRoomuuid());
+            SaveMessage(msg);
     }
 }
