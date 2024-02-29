@@ -2,11 +2,12 @@ package media.toloka.rfa.radio.message.service;
 
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.messanger.model.ChatMessage;
+import media.toloka.rfa.radio.messanger.service.MessangerService;
 import media.toloka.rfa.radio.model.Clientdetail;
+import media.toloka.rfa.radio.model.MessageRoom;
 import media.toloka.rfa.radio.model.Messages;
 import media.toloka.rfa.radio.repository.RepoHistory;
 import media.toloka.rfa.radio.repository.RepoMessages;
-import media.toloka.rfa.security.model.Roles;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +21,7 @@ public class MessageService {
     @Autowired
     private RepoMessages repoMessages;
 //    @Autowired
-//    private RepoRooms repoRooms;
+//    private MessangerService messangerService;
     @Autowired
     private RepoHistory repoHistory;
 
@@ -28,12 +29,12 @@ public class MessageService {
     private ClientService clientService;
 
 
-
     public List<Messages> GetMessages(Clientdetail clientdetail) {
         return repoMessages.findMessagesByFromOrTo(clientdetail, clientdetail);
     }
-    public List<Messages> GetMessagesDesc(Clientdetail clientdetail) {
-        List<Messages> tmplist = repoMessages.findMessagesByFromOrToOrderBySendDesc(clientdetail, clientdetail);
+
+    public List<Messages> GetMessagesAsc(Clientdetail clientdetail) {
+        List<Messages> tmplist = repoMessages.findMessagesByFromOrToOrderBySendAsc(clientdetail, clientdetail);
 
         Iterator<Messages> iterator = tmplist.iterator();
         List<Messages> resultlist = new ArrayList<>();
@@ -49,13 +50,14 @@ public class MessageService {
     }
 
     public List<Messages> GetChatPublicRoomList(String roomUUID) {
-        return repoMessages.findByRoomuuidOrderBySendDesc(roomUUID);
+        return repoMessages.findByRoomuuidOrderBySendAsc(roomUUID);
     }
 
     // отримали загальну кількість повідомлень для клієнта.
     public int GetQuantityAllMessage(Clientdetail clientdetail) {
         return GetMessages(clientdetail).size();
     }
+
     // отримали загальну кількість нових повідомлень для клієнта.
     public int GetQuantityNewMessage(Clientdetail clientdetail) {
         return GetNewMessages(clientdetail).size();
@@ -88,10 +90,10 @@ public class MessageService {
 
     public void SetReadingAllMessages(Clientdetail cd) {
 
-        List<Messages> listNewMessages = repoMessages.findMessagesByReadingAndTo(true,cd);
+        List<Messages> listNewMessages = repoMessages.findMessagesByReadingAndTo(true, cd);
         ListIterator<Messages> listIterator = listNewMessages.listIterator();
 
-        while(listIterator.hasNext()) {
+        while (listIterator.hasNext()) {
             Messages msg = listIterator.next();
             if (msg.getRead() != null) {
                 msg.setReading(false);
@@ -100,22 +102,15 @@ public class MessageService {
             SaveMessage(msg);
         }
     }
+
     // встановлюємо для меню повідомлення/нові
     public void setNavQuantityMessage(Model model, Clientdetail clientDetail) {
-        model.addAttribute("quantityallmessage",  GetQuantityAllMessage(clientDetail));
-        model.addAttribute("quantitynewmessage",  GetQuantityNewMessage(clientDetail));
+        model.addAttribute("quantityallmessage", GetQuantityAllMessage(clientDetail));
+        model.addAttribute("quantitynewmessage", GetQuantityNewMessage(clientDetail));
 
     }
 
-    public void SaveMessageFromChat(ChatMessage message) {
-        Clientdetail cd = clientService.GetClientDetailByUuid(message.getTouuid());
-            Messages msg = new Messages();
-            msg.setRead(null);
-            msg.setSend(new Date());
-            msg.setFrom(clientService.GetClientDetailByUUID(message.getUuid()));
-            msg.setTo(cd);
-            msg.setBody(message.getBody());
-            msg.setRoomuuid(message.getRoomuuid());
-            SaveMessage(msg);
-    }
+
 }
+
+

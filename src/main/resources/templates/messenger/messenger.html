@@ -44,8 +44,16 @@
                 <div th:insert="~{/fragments/msgframents :: listuser}"/>
             </div>
             <div class="col-lg-10 col-sm-10">
-                <div th:insert="~{/fragments/msgframents :: areamessage}"/>
-                <div th:insert="~{/fragments/msgframents :: areaprivatemessage}"/>
+                <div class="bg-subtle bg-opacity-10 border border-info ">
+                    <div th:insert="~{/fragments/msgframents :: areamessage}"/>
+                </div>
+                <div class="bg-primary-subtle text-primary-emphasis border-info">
+                    <div th:insert="~{/fragments/msgframents :: areaprivatemessage}"/>
+                </div>
+            </div>
+        </div>
+        <div class="row" style="margin-right: 0px; margin-left: 0px;">
+            <div class="bg-info bg-opacity-10 ">
                 <div th:insert="~{/fragments/msgframents :: areamessagecontrol}"/>
             </div>
         </div>
@@ -60,8 +68,9 @@
     var username = null;
     var clientuuid = null;
     var toclientname = null;
-    var subcuroom = null;
+    var subcurroom = null;
     var subpriv = null;
+    var subhello = null;
 </script>
 
 <script src="/js/bootstrap.bundle.min.js"></script>

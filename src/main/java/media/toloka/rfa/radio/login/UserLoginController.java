@@ -84,7 +84,7 @@ public class UserLoginController {
         if (clientService.checkRole(ROLE_ADMIN)) {
             return "redirect:/admin/home";
         } else if (clientService.checkRole(ROLE_MODERATOR)) {
-            return "redirect:/messanger";
+            return "redirect:/moderator/home";
 //            return "redirect:/moderator/home";
         } else if (clientService.checkRole(ROLE_EDITOR)) {
             return "redirect:/editor/home";

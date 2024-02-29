@@ -10,17 +10,17 @@
 
     <div style="overflow-y: scroll; max-height: 25vh;" id="roomlist">
         <div><b><u>Активні кімнати</u></b></div>
-        <div th:each="room : ${roomlist}">
-            <span th:utext="${room.roomname}" th:id="${room.uuid}" onclick="selectroom(this)"/>
+        <div th:each="room : ${roomlist}"  >
+            <span th:utext="${room.roomname}" th:id="${room.uuid}" onclick="selectroom(this)" style="font-size: 0.7rem"/>
         </div>
     </div>
 </div>
 
 <div th:fragment="listuser">
-    <div style="overflow-y: scroll; max-height: 700vh;" id="roomlist">
+    <div style="overflow-y: scroll; max-height: 500vh;" id="roomlist">
         <div><b><u>Співрозмовники</u></b></div>
         <div th:each="user : ${userlist}">
-            <span th:utext="${user.custname}+' '+${user.custsurname}" th:id="${user.uuid}" onclick="selectuser(this)"/>
+            <span th:utext="${user.custname}+' '+${user.custsurname}" th:id="${user.uuid}" onclick="selectuser(this)" style="font-size: 0.7rem;"/>
         </div>
     </div>
 </div>
@@ -29,26 +29,29 @@
 <!--    <textarea  rows="15" cols="50" id="messagearea"></textarea>-->
 <!--    <div class="mb-3">-->
     <div><b><u>Повідомлення</u></b></div>
-    <div style="overflow-y: scroll; max-height: 65vh;" id="publicarea">
+    <div style="overflow-y: scroll; max-height: 50vh;" id="publicarea">
     </div>
 <!--    </div>-->
 <!--    <textarea rows="15" cols="50" id="aboutDescription" style="resize: none;" data-role="none"></textarea>-->
 </div>
 
-<div th:fragment="areaprivatemessage">
+<div th:fragment="areaprivatemessage"  >
     <div><b><u>Приватні повідомлення</u></b></div>
-    <div style="overflow-y: scroll; max-height: 10vh;" id="privatearea">
+    <div style="overflow-y: scroll; max-height: 20vh;" id="privatearea">
     </div>
 </div>
 
-<div th:fragment="areamessagecontrol">
-    <div style="overflow-y: scroll; max-height: 10vh;" id="controlarea">
+<div th:fragment="areamessagecontrol" >
+    <div id="controlarea" >
+<!--    <div style="overflow-y: scroll; max-height: 12vh;" id="controlarea" >-->
         <section>
-            <span  id="connectstatus"/>
+            <span  id="connectstatus">Кому:</span>
         </section>
-        <input type="text" name="name"  class="form-control" id="newmessage" />
-        <button style="margin-bottom: 20px" type="button" onclick="sendmessage(this)">Всім</button>
-        <button style="margin-bottom: 20px" type="button" onclick="sendprivate(this)">Приват</button>
+        <div style=" margin-right: 25px; margin-left: 25px;">
+            <input type="text" name="name"  class="form-control" id="newmessage" />
+            <button style="margin-bottom: 20px" type="button" onclick="sendpublic(this)" id="sendmessage">Всім</button>
+            <button style="margin-bottom: 20px" type="button" onclick="sendprivate(this)" id="sendprivate">Приват</button>
+        </div>
     </div>
 </div>
 

@@ -49,7 +49,7 @@ public class MessageController {
         Clientdetail Clientdetailrfa = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
         model.addAttribute("currentUserID", Clientdetailrfa.getId());
 
-        List<Messages> tmplistAllMessage = messageService.GetMessagesDesc(Clientdetailrfa);
+        List<Messages> tmplistAllMessage = messageService.GetMessagesAsc(Clientdetailrfa);
 
         List<Messages> listAllMessage = tmplistAllMessage.stream().filter(b -> b.getRoomuuid().isBlank())
                 .collect(Collectors.toList());

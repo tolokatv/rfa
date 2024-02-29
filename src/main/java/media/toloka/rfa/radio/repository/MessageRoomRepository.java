@@ -11,5 +11,6 @@ import org.springframework.stereotype.Repository;
 public interface MessageRoomRepository extends JpaRepository<MessageRoom, Long> {
 
     MessageRoom getById(Long id);
+    MessageRoom getByUuid(String uuid);
 
 }

@@ -14,11 +14,11 @@ public interface RepoMessages extends JpaRepository<Messages, Long> {
 
     List<Messages> findMessagesByReadingAndTo(boolean reading, Clientdetail cd );
 
-    List<Messages> findMessagesByFromOrToOrderBySendDesc(Clientdetail userFrom, Clientdetail UserTo);
+    List<Messages> findMessagesByFromOrToOrderBySendAsc(Clientdetail userFrom, Clientdetail UserTo);
 
     List<Messages> findMessagesByReadAndTo(LocalDateTime ldt, Clientdetail Clientdetailrfa);
 
-    List<Messages> findByRoomuuidOrderBySendDesc(String roomUUID);
+    List<Messages> findByRoomuuidOrderBySendAsc(String roomUUID);
 
 //    List<Messages> findMessagesByFromOrToAndRoomuuidOrderBySendDesc(Clientdetail clientdetail, Clientdetail clientdetail1, Object o);
 }
