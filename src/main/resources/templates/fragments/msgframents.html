@@ -8,20 +8,25 @@
 <div th:fragment="listroom">
     <!--        <a class="btn btn-primary" th:href="@{'/creater/editpost/'+${0}}">Створити пост</a>-->
 
-    <div style="overflow-y: scroll; max-height: 25vh;" id="roomlist">
+    <div style="overflow-y: scroll; max-height: 25vh;" id="headroomlist">
         <div><b><u>Активні кімнати</u></b></div>
-        <div th:each="room : ${roomlist}"  >
-            <span th:utext="${room.roomname}" th:id="${room.uuid}" onclick="selectroom(this)" style="font-size: 0.7rem"/>
+        <div id="roomlist">
         </div>
+<!--        <div th:each="room : ${roomlist}"  >-->
+<!--            <span th:utext="${room.roomname}" th:id="${room.uuid}" onclick="selectroom(this)" style="font-size: 0.7rem"/>-->
+<!--        </div>-->
     </div>
 </div>
 
 <div th:fragment="listuser">
     <div style="overflow-y: scroll; max-height: 500vh;" id="roomlist">
         <div><b><u>Співрозмовники</u></b></div>
-        <div th:each="user : ${userlist}">
-            <span th:utext="${user.custname}+' '+${user.custsurname}" th:id="${user.uuid}" onclick="selectuser(this)" style="font-size: 0.7rem;"/>
+        <div id="userlist">
         </div>
+
+        <!--        <div th:each="user : ${userlist}">-->
+<!--            <span th:utext="${user.custname}+' '+${user.custsurname}" th:id="${user.uuid}" onclick="selectuser(this)" style="font-size: 0.7rem;"/>-->
+<!--        </div>-->
     </div>
 </div>
 

@@ -1,19 +1,18 @@
 package media.toloka.rfa.radio.messanger.service;
 
 import media.toloka.rfa.radio.client.service.ClientService;
-import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.messanger.model.ChatMessage;
+import media.toloka.rfa.radio.messanger.repository.ChatRepository;
 import media.toloka.rfa.radio.messanger.repository.MessangerRepository;
 import media.toloka.rfa.radio.model.Clientaddress;
 import media.toloka.rfa.radio.model.Clientdetail;
-import media.toloka.rfa.radio.model.MessageRoom;
+import media.toloka.rfa.radio.messanger.model.MessageRoom;
 import media.toloka.rfa.radio.model.Messages;
-import media.toloka.rfa.radio.repository.MessageRoomRepository;
+import media.toloka.rfa.radio.messanger.repository.MessageRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -27,7 +26,10 @@ public class MessangerService {
     private MessageRoomRepository messageRoomRepository;
 
     @Autowired
-    private MessageService messageService;
+    private ChatRepository chatRepository;
+
+//    @Autowired
+//    private MessageService messageService;
 
     @Autowired
     private ClientService clientService;
@@ -70,19 +72,25 @@ public class MessangerService {
 
     public void SaveMessageFromChat(ChatMessage message) {
         Clientdetail cd = clientService.GetClientDetailByUuid(message.getFromuuid());
-        Messages msg = new Messages();
-        msg.setRead(null);
-        msg.setSend(new Date());
-        msg.setFrom(cd);
-        if (msg.getRoomuuid() != null) {
-            msg.setTo(clientService.GetClientDetailByUuid(message.getFromuuid()));
-        } else {
-            msg.setTo(clientService.GetClientDetailByUUID(message.getTouuid()));
-        }
-        cd = clientService.GetClientDetailByUUID(message.getTouuid());
-//        msg.setTo(cd);
-        msg.setBody(message.getBody());
-        msg.setRoomuuid(message.getRoomuuid());
-        messageService.SaveMessage(msg);
+//        Messages msg = new Messages();
+//        msg.setRead(null);
+//        msg.setSend(new Date());
+//        msg.setFrom(cd);
+//        if (msg.getRoomuuid() != null) {
+//            msg.setTo(clientService.GetClientDetailByUuid(message.getFromuuid()));
+//        } else {
+//            msg.setTo(clientService.GetClientDetailByUUID(message.getTouuid()));
+//        }
+//        cd = clientService.GetClientDetailByUUID(message.getTouuid());
+////        msg.setTo(cd);
+//        msg.setBody(message.getBody());
+//        msg.setRoomuuid(message.getRoomuuid());
+        chatRepository.save(message);
+    }
+
+    public void AddChatUser(ChatMessage inmsg) {
+        ChatReferenceSingleton chatReferenceSingleton = ChatReferenceSingleton.getInstance();
+        Clientdetail cd = clientService.GetClientDetailByUUID(inmsg.getUuid());
+        chatReferenceSingleton.GetUsersMap().put(inmsg.getUuid(),cd.getCustname()+' '+cd.getCustsurname());
     }
 }

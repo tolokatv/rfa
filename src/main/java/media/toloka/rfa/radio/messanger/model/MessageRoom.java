@@ -1,4 +1,4 @@
-package media.toloka.rfa.radio.model;
+package media.toloka.rfa.radio.messanger.model;
 
 
 import com.google.gson.annotations.Expose;

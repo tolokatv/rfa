@@ -1,11 +1,15 @@
 package media.toloka.rfa.radio.messanger;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.message.service.MessageService;
+import media.toloka.rfa.radio.messanger.model.ChatListElement;
 import media.toloka.rfa.radio.messanger.model.ChatMessage;
+import media.toloka.rfa.radio.messanger.service.ChatReferenceSingleton;
 import media.toloka.rfa.radio.messanger.service.MessangerService;
 import media.toloka.rfa.radio.model.Clientdetail;
-import media.toloka.rfa.radio.model.MessageRoom;
+import media.toloka.rfa.radio.messanger.model.MessageRoom;
 import media.toloka.rfa.radio.model.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,9 +19,7 @@ import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
 
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
+import java.util.*;
 
 
 @Controller
@@ -46,15 +48,13 @@ public class ChatController {
 
         @MessageMapping("/hello")
 //        @SendTo("/hello")
-        public void GetChatmessage( ChatMessage inmsg) {
-//        public ChatMessage GetChatmessage( ChatMessage inmsg) {
+        public void GetChatMessage( ChatMessage inmsg) {
+//        public ChatMessage GetChatMessage( ChatMessage inmsg) {
 
             logger.info("Чат. Новий користувач онлайн: inmsg getUuid: {} getRoomuuid(): {}",inmsg.getUuid(),inmsg.getRoomuuid());
+            // add user to userlist for room
             try {
-//                PutChatPrivateMessage(inmsg);
-//            } catch (Exception e) {
-//                logger.info("PutChatPrivateMessage Exception");
-//            }
+            messangerService.AddChatUser(inmsg);
             Clientdetail cd = clientService.GetClientDetailByUUID(inmsg.getUuid());
             List<Messages> publicMessageList = messageService.GetChatPublicRoomList(inmsg.getRoomuuid());
             ChatMessage cmsg = new ChatMessage();
@@ -97,9 +97,70 @@ public class ChatController {
     }
         }
 
+    @MessageMapping("/userslist")
+    public void GetRoomUserList( ChatMessage inmsg) {
+        logger.info("Чат. GetRoomUserList inmsg getUuid: {} getRoomuuid(): {}",inmsg.getUuid(),inmsg.getRoomuuid());
+        // add user to userlist for room
+        try {
+            // get Instance ChatReferenceSingleton
+            ChatReferenceSingleton chatReference = ChatReferenceSingleton.getInstance();
+            ChatMessage cmsg = new ChatMessage();
+            List<String > usersListMap =  new ArrayList<>();
+
+            Map<String, String> usersMap =  chatReference.GetUsersMap();
+            Gson gson = new GsonBuilder().create();
+            ChatListElement chatListElement = new ChatListElement();
+            for (Map.Entry<String, String> entry : usersMap.entrySet()) {
+                chatListElement.setUuid(entry.getKey());
+                chatListElement.setName(entry.getValue());
+                String jcl = gson.toJson(chatListElement);
+                usersListMap.add(jcl);
+                System.out.println(entry.getKey() + ":" + entry.getValue());
+            }
+            String json = gson.toJson(usersListMap);
+            System.out.println(json);
+            cmsg.setBody(json);
+            cmsg.setUuid(inmsg.getUuid());
+            this.template.convertAndSend("/userslist/"+cmsg.getUuid(), cmsg);
+        } catch (Exception e) {
+            logger.info("GetRoomUserList Exception");
+            e.printStackTrace();
+        }
+    }
+    @MessageMapping("/roomslist")
+    public void GetRoomList( ChatMessage inmsg) {
+        logger.info("Чат. GetRoomList inmsg getUuid: {} getRoomuuid(): {}",inmsg.getUuid(),inmsg.getRoomuuid());
+        // add user to userlist for room
+        try {
+            // get Instance ChatReferenceSingleton
+            ChatReferenceSingleton chatReference = ChatReferenceSingleton.getInstance();
+            ChatMessage cmsg = new ChatMessage();
+            List<String > usersListMap =  new ArrayList<>();
+
+            Map<String, String> roomList =  chatReference.GetRoomsMap();
+            Gson gson = new GsonBuilder().create();
+            ChatListElement chatListElement = new ChatListElement();
+            for (Map.Entry<String, String> entry : roomList.entrySet()) {
+                chatListElement.setUuid(entry.getKey());
+                chatListElement.setName(entry.getValue());
+                String jcl = gson.toJson(chatListElement);
+                usersListMap.add(jcl);
+                System.out.println(entry.getKey() + ":" + entry.getValue());
+            }
+            String json = gson.toJson(usersListMap);
+            System.out.println(json);
+            cmsg.setBody(json);
+            cmsg.setUuid(inmsg.getUuid());
+            this.template.convertAndSend("/roomslist/"+inmsg.getUuid(), cmsg);
+        } catch (Exception e) {
+            logger.info("GetRoomUserList Exception");
+            e.printStackTrace();
+        }
+    }
+
     @MessageMapping("/topic")
     public void GetChatPublicmessage( ChatMessage inmsg) {
-//        public ChatMessage GetChatmessage( ChatMessage inmsg) {
+//        public ChatMessage GetChatMessage( ChatMessage inmsg) {
 
 
         try {
@@ -120,7 +181,7 @@ public class ChatController {
 
     @MessageMapping("/private")
     public void GetChatPrivateMessage( ChatMessage inmsg) {
-//        public ChatMessage GetChatmessage( ChatMessage inmsg) {
+//        public ChatMessage GetChatMessage( ChatMessage inmsg) {
 
         try {
             logger.info("Чат. Private message from:{}/{} to:{}/{}",inmsg.getFromname(),inmsg.getFromuuid(),inmsg.getToname(),inmsg.getTouuid());

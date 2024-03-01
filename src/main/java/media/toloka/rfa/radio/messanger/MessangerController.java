@@ -8,7 +8,6 @@ import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.messanger.service.MessangerService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.post.service.PostService;
-import media.toloka.rfa.radio.repository.MessageRoomRepository;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +16,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Controller
@@ -58,8 +56,8 @@ public class MessangerController {
         model.addAttribute("curuuid", cd.getUuid() );
         model.addAttribute("curusername", cd.getCustname()+" "+cd.getCustsurname() );
         model.addAttribute("curroom", messangerService.GetChatRoomById(1L).getUuid() );
-        model.addAttribute("roomlist", messangerService.GetChatRoomList() );
-
+//        model.addAttribute("roomlist", messangerService.GetChatRoomList() );
+//
 
 
         return "/messenger/messenger";

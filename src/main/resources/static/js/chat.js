@@ -30,6 +30,11 @@ function onConnected() {
 
     subpriv = stompClient.subscribe('/topic/'+curuuid, onPrivateMessageReceived);
 
+    subusers = stompClient.subscribe('/userslist/'+curuuid, onUserList);
+
+    subroom = stompClient.subscribe('/roomslist/'+curuuid, onRoomList);
+
+
     stompClient.send("/app/hello",
         {},
         JSON.stringify({
@@ -38,9 +43,88 @@ function onConnected() {
         send: Date.now()
         })
     );
+    getuserlist();
+     getroomlist();
+
     ligthOnRoom(curroom);
 }
 
+function getuserlist() {
+   stompClient.send("/app/userslist",
+        {},
+        JSON.stringify({
+        uuid: curuuid,
+        send: Date.now()
+        })
+    );
+ }
+
+function getroomlist() {
+    stompClient.send("/app/roomslist",
+        {},
+        JSON.stringify({
+        uuid: curuuid,
+        roomuuid: curroom,
+        send: Date.now()
+        })
+    );
+}
+
+function onUserList(payload) {
+// userlist
+    console.log("==== onUserList ==========================================");
+    let jbody = JSON.parse(payload.body);
+    // clear userlist
+    document.getElementById('userlist').innerHTML = '';
+    // перелік користувачів передається в body повідомлення - масив Маp???
+    // тепер цикл по jbody.body
+    let bodyuserslist = JSON.parse(jbody.body);
+    bodyuserslist.forEach(function(elem, ind) {
+        // elem to json
+        console.log(elem);
+        let ejson = JSON.parse(elem);
+        // create span with name
+        let spanname = document.createElement('span');
+        spanname.textContent = ejson.name;
+        spanname.onclick= function () {selectuserFromPublic(ejson.uuid, ejson.name)};
+        // create div with id = userUuid from
+        let iDiv = document.createElement('div');
+        iDiv.id =  ejson.uuid;
+        //iDiv.onclick= function () {selectuser(ejson.uuid)};
+
+        // add span to div
+        iDiv.appendChild(spanname);
+        // add user div to userList
+        document.getElementById('userlist').appendChild(iDiv);
+    });
+}
+
+function onRoomList(payload) {
+// roomlist
+    console.log("==== onRoomList ==========================================");
+    let jbody = JSON.parse(payload.body);
+    // clear userlist
+    document.getElementById('roomlist').innerHTML = '';
+    // перелік кімнат передається в body повідомлення - масив Маp???
+    // тепер цикл по jbody.body
+    let bodyuserslist = JSON.parse(jbody.body);
+    bodyuserslist.forEach(function(elem, ind) {
+        // elem to json
+        console.log(elem);
+        let ejson = JSON.parse(elem);
+        // create span with name
+        let spanname = document.createElement('span');
+        spanname.textContent = ejson.name;
+        spanname.onclick= function () {selectroom(ejson.uuid)};
+        // create div with id = userUuid from
+        let iDiv = document.createElement('div');
+
+        // add span to div
+        iDiv.appendChild(spanname);
+        // add user div to userList
+        document.getElementById('roomlist').appendChild(iDiv);
+    });
+}
 
 function onError(error) {
     console.log(error);
@@ -48,7 +132,7 @@ function onError(error) {
 }
 
 function onPublicMessageReceived(payload) {
-    console.log("==== PUBLIC ==========================================");
+    console.log("==== onPublicMessageReceived ==========================================");
     var jbody = JSON.parse(payload.body);
 
     var spanname = document.createElement('span');
@@ -97,14 +181,8 @@ function onPrivateMessageReceived(payload) {
 //    console.log("==== PRIVATE ==========================================");
 }
 
-function unsubscribeRoom(lcurroom) {
-        console.log("unsubscribeRoom");
-        console.log("curroom="+lcurroom);
-        // subcuroom
-        subcurroom.unsubscribe();
+function unsubscribeRoom(lcurroom) {subcurroom.unsubscribe();}
 
-
-    }
 function subscribeRoom(lcurroom) {
         console.log("subscribeRoom");
         console.log("curroom="+lcurroom);
@@ -112,7 +190,7 @@ function subscribeRoom(lcurroom) {
 
         console.log("curroom="+lcurroom);
         // get content public room
-        console.log("+++ Enter to room ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        console.log("+++ subscribeRoom Enter to room ++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             stompClient.send("/app/hello",{},
                 JSON.stringify({
                     uuid: curuuid,
@@ -123,8 +201,9 @@ function subscribeRoom(lcurroom) {
         console.log("=== curroom="+subcurroom);
         console.log("+++ Enter to room ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
+
 function LigthOffRoom(lcurroom) {
-        document.getElementById(lcurroom).style.color = 'black';
+//        document.getElementById(lcurroom).style.color = 'black';
 //        myNode.style.color = "#000000";
 //        myNode.setAttribute("style","color:black;");
 //        console.log("LigthOffRoom");
@@ -132,14 +211,14 @@ function LigthOffRoom(lcurroom) {
     }
 
 function ligthOnRoom(lcurroom) {
-        document.getElementById(lcurroom).style.color = 'red';
+//        document.getElementById(lcurroom).style.color = 'red';
 //        myNode.style.color = "#ff0000";
 //        lcurroom.setAttribute("style","color:orange;");
 //        console.log("ligthOnRoom");
 //        console.log("curroom="+lcurroom);
     }
 
-function selectroom(event) {
+function selectroom(toroom) {
 // відписуємося від кімнати
     unsubscribeRoom(curroom);
     LigthOffRoom(curroom);
@@ -149,7 +228,7 @@ function selectroom(event) {
 
 // підписуємося на кімнату
 //    console.log('////////// before change room: '+curroom);
-    curroom = event.id;
+    curroom = toroom
 //    console.log('////////// after change room: '+curroom);
     subscribeRoom(curroom);
     ligthOnRoom(curroom);
