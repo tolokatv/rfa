@@ -8,6 +8,7 @@ var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
 //var connectingElement = document.querySelector('');
 var connectingElement = document.getElementById('connectstatus');
+var dateString;
 
 var intervaluser = null;
 var intervalroom = null;
@@ -24,13 +25,13 @@ function connect() {
 }
 
 function onConnected() {
-    console.log("subscribe curroom="+curroom);
-    subcurroom = stompClient.subscribe('/topic/'+curroom, onPublicMessageReceived);
+//    console.log("subscribe curroom="+curroom);
 
-    console.log("========= "+'/hello/'+curuuid);
-    subhello = stompClient.subscribe('/hello/'+curuuid, onPublicMessageReceived);
+    subcurroom = stompClient.subscribe('/public/'+curroom, onPublicMessageReceived);
 
-    subpriv = stompClient.subscribe('/topic/'+curuuid, onPrivateMessageReceived);
+//    subhello = stompClient.subscribe('/hello/'+curuuid, onPublicMessageReceived);
+
+    subpriv = stompClient.subscribe('/private/'+curuuid, onPrivateMessageReceived);
 
     subusers = stompClient.subscribe('/userslist/'+curuuid, onUserList);
 
@@ -46,7 +47,7 @@ function onConnected() {
         })
     );
     getuserlist();
-     getroomlist();
+    getroomlist();
 
     ligthOnRoom(curroom);
 }
@@ -137,8 +138,15 @@ function onPublicMessageReceived(payload) {
     console.log("==== onPublicMessageReceived ==========================================");
     var jbody = JSON.parse(payload.body);
 
+    let d = new Date();
+
+    dateString = d.getDate()  + "-" + (d.getMonth()+1) + "-" + d.getFullYear() + " " +
+    d.getHours() + ":" + d.getMinutes();
+
+//        dateString = jbody.send.getDate()  + "-" + (jbody.send.getMonth()+1) + "-" + jbody.send.getFullYear() + " " +
+//                     jbody.send.getHours() + ":" + jbody.send.getMinutes();
     var spanname = document.createElement('span');
-    spanname.textContent = jbody.fromname+': ';
+    spanname.textContent = dateString+' '+jbody.fromname+': ';
 
     var spanbody = document.createElement('span');
     spanbody.textContent = jbody.body;
@@ -160,8 +168,16 @@ function onPrivateMessageReceived(payload) {
     var jbody = JSON.parse(payload.body);
 
     var spanname = document.createElement('span');
+
+        let d = new Date();
+
+        dateString = d.getDate()  + "-" + (d.getMonth()+1) + "-" + d.getFullYear() + " " +
+        d.getHours() + ":" + d.getMinutes();
+//    dateString = jbody.send.getDate()  + "-" + (jbody.send.getMonth()+1) + "-" + jbody.send.getFullYear() + " " +
+//                 jbody.send.getHours() + ":" + jbody.send.getMinutes();
+//    dateString = formatDate(jbody.send, 'DD.MM.YY hh:mm');
     if (curuuid.includes(jbody.fromuuid)) {
-        spanname.textContent = '> '+jbody.toname+': ';
+        spanname.textContent = dateString+'>'+jbody.toname+': ';
     } else {
         spanname.textContent = jbody.fromname+': ';
     }
@@ -186,13 +202,13 @@ function onPrivateMessageReceived(payload) {
 function unsubscribeRoom(lcurroom) {subcurroom.unsubscribe();}
 
 function subscribeRoom(lcurroom) {
-        console.log("subscribeRoom");
-        console.log("curroom="+lcurroom);
+//        console.log("subscribeRoom");
+//        console.log("curroom="+lcurroom);
         subcurroom = stompClient.subscribe('/topic/'+lcurroom, onPublicMessageReceived);
 
-        console.log("curroom="+lcurroom);
+//        console.log("curroom="+lcurroom);
         // get content public room
-        console.log("+++ subscribeRoom Enter to room ++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+//        console.log("+++ subscribeRoom Enter to room ++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             stompClient.send("/app/hello",{},
                 JSON.stringify({
                     uuid: curuuid,
@@ -201,7 +217,7 @@ function subscribeRoom(lcurroom) {
                 })
             );
         console.log("=== curroom="+subcurroom);
-        console.log("+++ Enter to room ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+//        console.log("+++ Enter to room ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
 
 function LigthOffRoom(lcurroom) {

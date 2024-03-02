@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import media.toloka.rfa.config.gson.service.GsonService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
-import media.toloka.rfa.radio.message.service.MessageService;
+//import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.model.Station;
 import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.rpc.RPCListener;
@@ -37,9 +37,6 @@ public class TemporaryController {
 
     @Autowired
     private StationService stationService;
-
-    @Autowired
-    private MessageService messageService;
 
     @Autowired
     private ClientService clientService;

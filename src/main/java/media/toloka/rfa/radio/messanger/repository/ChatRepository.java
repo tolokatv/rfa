@@ -15,8 +15,9 @@ public interface ChatRepository extends JpaRepository<ChatMessage, Long> {
 //            value = "SELECT * FROM ChatMessage u WHERE u.roomuuid = null",
 //            nativeQuery = true)
     @Query("SELECT cm FROM ChatMessage cm WHERE cm.roomuuid IS NULL and (cm.fromuuid = ?1 or cm.touuid = ?1)")
-    List<ChatMessage> findPrivateMessageByFromORToWithRoomIsNULL(String useruuid);
+    List<ChatMessage> findByPrivateMessageByUserUuid(String useruuid);
 
-    List<ChatMessage> findPublicMessageByRoomuuidOrderBySendAsc(String roomuuid);
+    @Query("SELECT cm FROM ChatMessage cm WHERE cm.roomuuid = ?1")
+    List<ChatMessage> findByRoomuuidOrderBySendAsc(String roomuuid);
 
 }

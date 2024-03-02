@@ -40,9 +40,9 @@ public class ChatMessage {
     @Column(columnDefinition = "TEXT")
     private String body;
     @Expose
-    private Boolean reading;
+    private Boolean reading = false;
     @Expose
-    private Date read;
+    private Date read = null;
     @Expose
     private String roomuuid;
 

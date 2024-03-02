@@ -1,7 +1,7 @@
 package media.toloka.rfa.radio.messanger.service;
 
 import media.toloka.rfa.radio.client.service.ClientService;
-import media.toloka.rfa.radio.message.service.MessageService;
+//import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.messanger.model.ChatMessage;
 import media.toloka.rfa.radio.messanger.repository.ChatRepository;
 import media.toloka.rfa.radio.messanger.repository.MessangerRepository;
@@ -10,12 +10,9 @@ import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.messanger.model.MessageRoom;
 import media.toloka.rfa.radio.model.Messages;
 import media.toloka.rfa.radio.messanger.repository.MessageRoomRepository;
-import org.antlr.v4.runtime.misc.Interval;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.Duration;
-import java.time.Period;
 import java.util.*;
 
 @Service
@@ -29,9 +26,6 @@ public class MessangerService {
 
     @Autowired
     private ChatRepository chatRepository;
-
-    @Autowired
-    private MessageService messageService;
 
     @Autowired
     private ClientService clientService;
@@ -84,11 +78,11 @@ public class MessangerService {
     }
 
     public List<ChatMessage> GetChatPublicRoomList(String roomUUID) {
-        return chatRepository.findPublicMessageByRoomuuidOrderBySendAsc(roomUUID);
+        return chatRepository.findByRoomuuidOrderBySendAsc(roomUUID);
     }
 
     public List<ChatMessage> GetMessagesAsc(String useruuid) {
-        return chatRepository.findPrivateMessageByFromORToWithRoomIsNULL(useruuid);
+        return chatRepository.findByPrivateMessageByUserUuid(useruuid);
     }
 
     public void SaveMessage(ChatMessage imsg) {
@@ -108,7 +102,7 @@ public class MessangerService {
         }
     }
 
-    // todo сделать подсчет сообщений
+    // todo сделать подсчет сообщений для показу в меню
     public int GetQuantityNewMessage(String uuid) {
         return 0;
     }

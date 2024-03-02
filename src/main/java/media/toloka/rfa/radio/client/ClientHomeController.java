@@ -2,7 +2,7 @@ package media.toloka.rfa.radio.client;
 
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
-import media.toloka.rfa.radio.message.service.MessageService;
+//import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.model.Post;
 import media.toloka.rfa.radio.model.Track;
 import media.toloka.rfa.radio.post.service.PostService;
@@ -44,10 +44,6 @@ public class ClientHomeController {
 
     @Autowired
     private PostService postService;
-
-    @Autowired
-    private MessageService messageService;
-
 
     @GetMapping(value = "/user/user_page")
     public String userHome(

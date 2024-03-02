@@ -7,7 +7,6 @@ import media.toloka.rfa.config.gson.service.GsonService;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.contract.service.ContractService;
 import media.toloka.rfa.radio.history.service.HistoryService;
-import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Contract;
 import media.toloka.rfa.radio.model.Station;
@@ -60,13 +59,9 @@ public class ClientHomeStationController {
     private GsonService gsonService;
 
     @Autowired
-    private MessageService messageService;
-
-    @Autowired
     RabbitTemplate template;
 
     final Logger logger = LoggerFactory.getLogger(ClientHomeStationController.class);
-
 
     @GetMapping(value = "/user/stations")
     public String userHomeStation(
@@ -155,8 +150,6 @@ public class ClientHomeStationController {
         template.convertAndSend(queueNameRabbitMQ,gson.toJson(rjob).toString());
         return "redirect:/user/stations";
     }
-
-
 
     @GetMapping(value = "/user/controlstation")
     public String userControltStation(

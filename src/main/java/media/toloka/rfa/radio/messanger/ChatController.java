@@ -3,7 +3,7 @@ package media.toloka.rfa.radio.messanger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import media.toloka.rfa.radio.client.service.ClientService;
-import media.toloka.rfa.radio.message.service.MessageService;
+//import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.messanger.model.ChatListElement;
 import media.toloka.rfa.radio.messanger.model.ChatMessage;
 import media.toloka.rfa.radio.messanger.service.ChatReferenceSingleton;
@@ -48,30 +48,30 @@ public class ChatController {
 
         @MessageMapping("/hello")
         public void GetChatMessage( ChatMessage inmsg) {
-            logger.info("Чат. Новий користувач онлайн: inmsg getUuid: {} getRoomuuid(): {}",inmsg.getUuid(),inmsg.getRoomuuid());
             // add user to userlist for room
             try {
             messangerService.AddChatUser(inmsg);
             Clientdetail cd = clientService.GetClientDetailByUUID(inmsg.getUuid());
 
             List<ChatMessage> publicMessageList = messangerService.GetChatPublicRoomList(inmsg.getRoomuuid());
-            ChatMessage cmsg = new ChatMessage();
+//            ChatMessage cmsg = new ChatMessage();
             Iterator<ChatMessage> iterator = publicMessageList.iterator();
             while (iterator.hasNext()) {
                 ChatMessage imsg = iterator.next();
-                this.template.convertAndSend("/hello/"+imsg.getUuid(), imsg);
+                this.template.convertAndSend("/public/"+imsg.getUuid(), imsg);
             }
             List<ChatMessage> privateMessageList = messangerService.GetMessagesAsc(inmsg.getUuid());
             Iterator<ChatMessage> iteratorp = privateMessageList.iterator();
             //відправляємо приватні повідомлення
             while (iteratorp.hasNext()) {
                 ChatMessage imsg = iteratorp.next();
+
                 if (imsg.getReading() != true) {
                     imsg.setReading(true);
                     imsg.setRead(new Date());
                     messangerService.SaveMessage(imsg);
                 }
-                this.template.convertAndSend("/topic/"+cd.getUuid(), cmsg);
+                this.template.convertAndSend("/private/"+cd.getUuid(), imsg);
             }
         } catch (Exception e) {
         logger.info("PutChatPullInitMessage Exception");
@@ -81,7 +81,6 @@ public class ChatController {
 
     @MessageMapping("/userslist")
     public void GetRoomUserList( ChatMessage inmsg) {
-        logger.info("Чат. GetRoomUserList inmsg getUuid: {} getRoomuuid(): {}",inmsg.getUuid(),inmsg.getRoomuuid());
         // add user to userlist for room
         try {
             // get Instance ChatReferenceSingleton
@@ -98,10 +97,10 @@ public class ChatController {
                 chatListElement.setName(entry.getValue());
                 String jcl = gson.toJson(chatListElement);
                 usersListMap.add(jcl);
-                System.out.println(entry.getKey() + ":" + entry.getValue());
+//                System.out.println(entry.getKey() + ":" + entry.getValue());
             }
             String json = gson.toJson(usersListMap);
-            System.out.println(json);
+//            System.out.println(json);
             cmsg.setBody(json);
             cmsg.setUuid(inmsg.getUuid());
             this.template.convertAndSend("/userslist/"+cmsg.getUuid(), cmsg);
@@ -135,10 +134,10 @@ public class ChatController {
                 chatListElement.setName(entry.getValue());
                 String jcl = gson.toJson(chatListElement);
                 usersListMap.add(jcl);
-                System.out.println(entry.getKey() + ":" + entry.getValue());
+//                System.out.println(entry.getKey() + ":" + entry.getValue());
             }
             String json = gson.toJson(usersListMap);
-            System.out.println(json);
+//            System.out.println(json);
             cmsg.setBody(json);
             cmsg.setUuid(inmsg.getUuid());
             this.template.convertAndSend("/roomslist/"+inmsg.getUuid(), cmsg);
@@ -148,10 +147,10 @@ public class ChatController {
         }
     }
 
-    @MessageMapping("/topic")
+    @MessageMapping("/public")
     public void GetChatPublicmessage( ChatMessage inmsg) {
         try {
-            MessageRoom mr = messangerService.GetRoomNameByUuid(inmsg.getRoomuuid());
+//            MessageRoom mr = messangerService.GetRoomNameByUuid(inmsg.getRoomuuid());
             PutChatPublicMessage(inmsg);
         } catch (Exception e) {
             logger.info("PutChatPrivateMessage Exception");
@@ -161,10 +160,7 @@ public class ChatController {
 
     @MessageMapping("/private")
     public void GetChatPrivateMessage( ChatMessage inmsg) {
-//        public ChatMessage GetChatMessage( ChatMessage inmsg) {
-
         try {
-            logger.info("Чат. Private message from:{}/{} to:{}/{}",inmsg.getFromname(),inmsg.getFromuuid(),inmsg.getToname(),inmsg.getTouuid());
             PutChatPrivateMessage(inmsg);
         } catch (Exception e) {
             logger.info("PutChatPrivateMessage Exception");
@@ -174,19 +170,17 @@ public class ChatController {
 
     @SendTo("/topic")
     public void PutChatPublicMessage(ChatMessage message) throws Exception {
-            this.template.convertAndSend("/topic/"+message.getRoomuuid(), message);
+            this.template.convertAndSend("/public/"+message.getRoomuuid(), message);
             messangerService.SaveMessageFromChat(message);
     }
 
     public void PutChatPrivateMessage(ChatMessage message) throws Exception {
-        logger.info("Private from={} to={}",message.getFromuuid(),message.getTouuid());
         Clientdetail cd = clientService.GetClientDetailByUuid(message.getTouuid());
-        logger.info("Private topic cd.getUuid(): /topic/+{} from={}/{} to={}/{}",cd.getUuid(),message.getFromname(),message.getFromuuid(),message.getToname(),message.getTouuid());
-        logger.info("Private topic message.getFromuuid(): /topic/{} from={}/{} to={}/{}",message.getTouuid(),message.getFromname(),message.getFromuuid(),message.getToname(),message.getTouuid());
         message.setSend(new Date());
         if (cd != null) {
-            this.template.convertAndSend("/topic/"+cd.getUuid(), message);
-            this.template.convertAndSend("/topic/"+message.getFromuuid(), message);
+            // todo при ініціалізації сеансу в чаті передбачити надсилання тільки одному адресату
+            this.template.convertAndSend("/private/"+cd.getUuid(), message);
+            this.template.convertAndSend("/private/"+message.getFromuuid(), message);
             messangerService.SaveMessageFromChat(message);
         }
     }

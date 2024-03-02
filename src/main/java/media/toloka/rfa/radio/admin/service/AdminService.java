@@ -6,7 +6,7 @@ import media.toloka.rfa.radio.contract.service.ContractService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.document.service.DocumentService;
 import media.toloka.rfa.radio.history.service.HistoryService;
-import media.toloka.rfa.radio.message.service.MessageService;
+//import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.model.Clientaddress;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Documents;
@@ -47,8 +47,8 @@ public class AdminService {
     @Autowired
     private HistoryService historyService;
 
-    @Autowired
-    private MessageService messageService;
+//    @Autowired
+//    private MessageService messageService;
 
     @Autowired
     private StationService stationService;
