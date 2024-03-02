@@ -1,11 +1,9 @@
 package media.toloka.rfa.radio.messanger.model;
 
 import com.google.gson.annotations.Expose;
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Data;
+import media.toloka.rfa.radio.model.Clientdetail;
 
 import java.util.Date;
 import java.util.UUID;
@@ -17,7 +15,17 @@ public class ChatMessage {
     @Id
     @GeneratedValue
     @Expose
+    private Long id;
+    @Expose
     private String uuid= UUID.randomUUID().toString();
+//    @Expose
+//    @ManyToOne(optional = false, cascade = {CascadeType.ALL}) //, cascade = {CascadeType.ALL}
+////    @JoinColumn(name = "from_id")
+//    private Clientdetail from; // from user
+//    @Expose
+//    @ManyToOne(optional = false, cascade = {CascadeType.ALL}) //, cascade = {CascadeType.ALL}
+////    @JoinColumn(name = "to_id")
+//    private Clientdetail to; // to user
     @Expose
     private Date send = new Date();
     @Expose
@@ -31,6 +39,10 @@ public class ChatMessage {
     @Expose
     @Column(columnDefinition = "TEXT")
     private String body;
+    @Expose
+    private Boolean reading;
+    @Expose
+    private Date read;
     @Expose
     private String roomuuid;
 

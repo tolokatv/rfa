@@ -22,7 +22,7 @@ public final class ChatReferenceSingleton {
 
     private static ChatReferenceSingleton instance = null;
     private  Map<String, String> roomMap = new HashMap<>();
-    private static Map<String, String> usersMap = new HashMap<>();
+    private  Map<String, String> usersMap = new HashMap<>();
 
     public static ChatReferenceSingleton getInstance() {
         if (instance == null) {
@@ -38,23 +38,5 @@ public final class ChatReferenceSingleton {
     public Map<String, String> GetRoomsMap() {
         return this.roomMap;
     }
-
-    public ChatReferenceSingleton() {
-        messangerService = new MessangerService();
-        List<MessageRoom> messageRoomList = messangerService.GetChatRoomList();
-        Map<String, String> lr = this.GetRoomsMap();
-        for (MessageRoom entry : messageRoomList) {
-            roomMap.put(entry.getUuid(), entry.getRoomname());
-        }
-
-//        if (instance == null) {
-//            instance = new ChatReferenceSingleton();
-//        }
-//        // fill roomMap
-//        return instance;
-    }
-
-
-    // Prep work
 
 }

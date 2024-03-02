@@ -13,5 +13,6 @@ public interface MessageRoomRepository extends JpaRepository<MessageRoom, Long> 
     MessageRoom getById(Long id);
     MessageRoom getByUuid(String uuid);
     List<MessageRoom> findAll();
+//    findByRoomuuidOrderBySendAsc
 
 }

@@ -1,6 +1,7 @@
 package media.toloka.rfa.radio.messanger.service;
 
 import media.toloka.rfa.radio.client.service.ClientService;
+import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.messanger.model.ChatMessage;
 import media.toloka.rfa.radio.messanger.repository.ChatRepository;
 import media.toloka.rfa.radio.messanger.repository.MessangerRepository;
@@ -28,8 +29,8 @@ public class MessangerService {
     @Autowired
     private ChatRepository chatRepository;
 
-//    @Autowired
-//    private MessageService messageService;
+    @Autowired
+    private MessageService messageService;
 
     @Autowired
     private ClientService clientService;
@@ -92,5 +93,17 @@ public class MessangerService {
         ChatReferenceSingleton chatReferenceSingleton = ChatReferenceSingleton.getInstance();
         Clientdetail cd = clientService.GetClientDetailByUUID(inmsg.getUuid());
         chatReferenceSingleton.GetUsersMap().put(inmsg.getUuid(),cd.getCustname()+' '+cd.getCustsurname());
+    }
+
+    public List<ChatMessage> GetChatPublicRoomList(String roomUUID) {
+        return chatRepository.findPublicMessageByRoomuuidOrderBySendAsc(roomUUID);
+    }
+
+    public List<ChatMessage> GetMessagesAsc(String useruuid) {
+        return chatRepository.findPrivateMessageByFromORToWithRoomIsNULL(useruuid);
+    }
+
+    public void SaveMessage(ChatMessage imsg) {
+        chatRepository.save(imsg);
     }
 }

@@ -56,39 +56,40 @@ public class ChatController {
             try {
             messangerService.AddChatUser(inmsg);
             Clientdetail cd = clientService.GetClientDetailByUUID(inmsg.getUuid());
-            List<Messages> publicMessageList = messageService.GetChatPublicRoomList(inmsg.getRoomuuid());
+
+            List<ChatMessage> publicMessageList = messangerService.GetChatPublicRoomList(inmsg.getRoomuuid());
             ChatMessage cmsg = new ChatMessage();
-            Iterator<Messages> iterator = publicMessageList.iterator();
+            Iterator<ChatMessage> iterator = publicMessageList.iterator();
             while (iterator.hasNext()) {
-                Messages imsg = iterator.next();
-                cmsg.setBody(imsg.getBody());
-                cmsg.setFromuuid(imsg.getFrom().getUuid());
-                cmsg.setFromname(imsg.getFrom().getCustname()+" "+imsg.getFrom().getCustsurname());
-                cmsg.setToname(imsg.getTo().getCustname()+" "+imsg.getTo().getCustname());
-                cmsg.setTouuid(imsg.getTo().getUuid());
-                cmsg.setSend(imsg.getSend());
-                cmsg.setRoomuuid(imsg.getRoomuuid());
-                this.template.convertAndSend("/hello/"+cd.getUuid(), cmsg);
+                ChatMessage imsg = iterator.next();
+//                cmsg.setBody(imsg.getBody());
+//                cmsg.setFromuuid(imsg.getFrom().getUuid());
+//                cmsg.setFromname(imsg.getFrom().getCustname()+" "+imsg.getFrom().getCustsurname());
+//                cmsg.setToname(imsg.getTo().getCustname()+" "+imsg.getTo().getCustname());
+//                cmsg.setTouuid(imsg.getTo().getUuid());
+//                cmsg.setSend(imsg.getSend());
+//                cmsg.setRoomuuid(imsg.getRoomuuid());
+                this.template.convertAndSend("/hello/"+imsg.getUuid(), imsg);
 //                logger.info("Public={} clientUUID=/hello/{}",cmsg.getRoomuuid(),cd.getUuid());
 //                PutChatPublicMessage(cmsg);
             }
-            List<Messages> privateMessageList = messageService.GetMessagesAsc(cd);
+            List<ChatMessage> privateMessageList = messangerService.GetMessagesAsc(inmsg.getUuid());
 //            cd = clientService.GetClientDetailByUuid(inmsg.getTouuid());
-            Iterator<Messages> iteratorp = privateMessageList.iterator();
+            Iterator<ChatMessage> iteratorp = privateMessageList.iterator();
             while (iteratorp.hasNext()) {
-                Messages imsg = iteratorp.next();
-                if (!imsg.isReading()) {
+                ChatMessage imsg = iteratorp.next();
+                if (imsg.getReading() != true) {
                     imsg.setReading(true);
                     imsg.setRead(new Date());
-                    messageService.SaveMessage(imsg);
+                    messangerService.SaveMessage(imsg);
                 }
-                cmsg.setBody(imsg.getBody());
-                cmsg.setFromuuid(imsg.getFrom().getUuid());
-                cmsg.setFromname(imsg.getFrom().getCustname()+" "+imsg.getFrom().getCustsurname());
-                cmsg.setToname(imsg.getTo().getCustname()+" "+imsg.getTo().getCustname());
-                cmsg.setTouuid(imsg.getTo().getUuid());
-                cmsg.setSend(imsg.getSend());
-                cmsg.setRoomuuid(null);
+//                cmsg.setBody(imsg.getBody());
+//                cmsg.setFromuuid(imsg.getFrom().getUuid());
+//                cmsg.setFromname(imsg.getFrom().getCustname()+" "+imsg.getFrom().getCustsurname());
+//                cmsg.setToname(imsg.getTo().getCustname()+" "+imsg.getTo().getCustname());
+//                cmsg.setTouuid(imsg.getTo().getUuid());
+//                cmsg.setSend(imsg.getSend());
+//                cmsg.setRoomuuid(null);
                 this.template.convertAndSend("/topic/"+cd.getUuid(), cmsg);
             }
         } catch (Exception e) {
@@ -127,6 +128,7 @@ public class ChatController {
             e.printStackTrace();
         }
     }
+
     @MessageMapping("/roomslist")
     public void GetRoomList( ChatMessage inmsg) {
         logger.info("Чат. GetRoomList inmsg getUuid: {} getRoomuuid(): {}",inmsg.getUuid(),inmsg.getRoomuuid());
@@ -138,6 +140,13 @@ public class ChatController {
             List<String > usersListMap =  new ArrayList<>();
 
             Map<String, String> roomList =  chatReference.GetRoomsMap();
+            if (roomList.size() == 0) {
+                // Init list rooms
+                List<MessageRoom> messageRoomList = messangerService.GetChatRoomList();
+                for (MessageRoom entry : messageRoomList) {
+                    roomList.put(entry.getUuid(), entry.getRoomname());
+                }
+            }
             Gson gson = new GsonBuilder().create();
             ChatListElement chatListElement = new ChatListElement();
             for (Map.Entry<String, String> entry : roomList.entrySet()) {

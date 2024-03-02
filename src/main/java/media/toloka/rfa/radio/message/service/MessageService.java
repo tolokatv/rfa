@@ -33,6 +33,7 @@ public class MessageService {
     public List<Messages> GetMessagesAsc(Clientdetail clientdetail) {
         List<Messages> tmplist = repoMessages.findMessagesByFromOrToOrderBySendAsc(clientdetail, clientdetail);
 
+
         Iterator<Messages> iterator = tmplist.iterator();
         List<Messages> resultlist = new ArrayList<>();
 
@@ -44,10 +45,6 @@ public class MessageService {
         }
 
         return resultlist;
-    }
-
-    public List<Messages> GetChatPublicRoomList(String roomUUID) {
-        return repoMessages.findByRoomuuidOrderBySendAsc(roomUUID);
     }
 
     // отримали загальну кількість повідомлень для клієнта.
