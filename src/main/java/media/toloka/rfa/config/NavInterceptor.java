@@ -1,6 +1,7 @@
 package media.toloka.rfa.config;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import media.toloka.rfa.radio.messanger.service.MessangerService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.message.service.MessageService;
@@ -19,7 +20,7 @@ import static java.lang.String.valueOf;
 public class NavInterceptor implements HandlerInterceptor {
 
     @Autowired
-    private MessageService messageService;
+    private MessangerService messangerService;
     @Autowired
     private ClientService clientService;
 
@@ -53,11 +54,11 @@ public class NavInterceptor implements HandlerInterceptor {
         // додали кількість повідомлень для меню
         // TODO Подивитися чому ми викликаємо цю процедуру декілька разів.
         ModelMap mm = modelAndView.getModelMap();
-        int newmessage = messageService.GetQuantityNewMessage(cd);
+        int newmessage = messangerService.GetQuantityNewMessage(cd.getUuid());
         if ( newmessage > 0 ) {
             // виставляємо для навбара та повідомлень на сторінці кількість і наявність нових повідомлень
             modelAndView.getModel().put("quantitynewmessage", newmessage);
-            modelAndView.getModel().put("quantityallmessage", messageService.GetQuantityAllMessage(cd));
+            modelAndView.getModel().put("quantityallmessage", messangerService.GetQuantityAllMessage(cd.getUuid()));
             modelAndView.getModel().put("danger", "У Вас нові повідомлення: " + valueOf(newmessage));
         }
     }

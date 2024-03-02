@@ -8,7 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 //import org.hibernate.Query;
 
 
-
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -23,6 +23,7 @@ public final class ChatReferenceSingleton {
     private static ChatReferenceSingleton instance = null;
     private  Map<String, String> roomMap = new HashMap<>();
     private  Map<String, String> usersMap = new HashMap<>();
+    private  Map<String, Date> userlastlivetime = new HashMap<>();
 
     public static ChatReferenceSingleton getInstance() {
         if (instance == null) {
@@ -37,6 +38,10 @@ public final class ChatReferenceSingleton {
     }
     public Map<String, String> GetRoomsMap() {
         return this.roomMap;
+    }
+
+    public Map<String, Date> GetUserLastLiveTime() {
+        return this.userlastlivetime;
     }
 
 }

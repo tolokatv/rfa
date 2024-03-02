@@ -9,6 +9,8 @@ var messageArea = document.querySelector('#messageArea');
 //var connectingElement = document.querySelector('');
 var connectingElement = document.getElementById('connectstatus');
 
+var intervaluser = null;
+var intervalroom = null;
 
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
@@ -284,7 +286,7 @@ function selectuser(event ) {
 
 window.addEventListener('DOMContentLoaded', event => {
 connect();
+intervaluser = setInterval(getuserlist, 15000);
+intervalroom = setInterval(getroomlist, 60000);
 
-var intervaluser = setInterval(getuserlist, 10000);
-var intervalroom = setInterval(getroomlist, 10000);
-})
+});

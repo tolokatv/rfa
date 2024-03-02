@@ -33,8 +33,8 @@ public class ChatController {
 
     private SimpMessagingTemplate template;
 
-    @Autowired
-    private MessageService messageService;
+//    @Autowired
+//    private MessageService messageService;
 
     @Autowired
     private MessangerService messangerService;
@@ -47,10 +47,7 @@ public class ChatController {
     final Logger logger = LoggerFactory.getLogger(ChatController.class);
 
         @MessageMapping("/hello")
-//        @SendTo("/hello")
         public void GetChatMessage( ChatMessage inmsg) {
-//        public ChatMessage GetChatMessage( ChatMessage inmsg) {
-
             logger.info("Чат. Новий користувач онлайн: inmsg getUuid: {} getRoomuuid(): {}",inmsg.getUuid(),inmsg.getRoomuuid());
             // add user to userlist for room
             try {
@@ -62,20 +59,11 @@ public class ChatController {
             Iterator<ChatMessage> iterator = publicMessageList.iterator();
             while (iterator.hasNext()) {
                 ChatMessage imsg = iterator.next();
-//                cmsg.setBody(imsg.getBody());
-//                cmsg.setFromuuid(imsg.getFrom().getUuid());
-//                cmsg.setFromname(imsg.getFrom().getCustname()+" "+imsg.getFrom().getCustsurname());
-//                cmsg.setToname(imsg.getTo().getCustname()+" "+imsg.getTo().getCustname());
-//                cmsg.setTouuid(imsg.getTo().getUuid());
-//                cmsg.setSend(imsg.getSend());
-//                cmsg.setRoomuuid(imsg.getRoomuuid());
                 this.template.convertAndSend("/hello/"+imsg.getUuid(), imsg);
-//                logger.info("Public={} clientUUID=/hello/{}",cmsg.getRoomuuid(),cd.getUuid());
-//                PutChatPublicMessage(cmsg);
             }
             List<ChatMessage> privateMessageList = messangerService.GetMessagesAsc(inmsg.getUuid());
-//            cd = clientService.GetClientDetailByUuid(inmsg.getTouuid());
             Iterator<ChatMessage> iteratorp = privateMessageList.iterator();
+            //відправляємо приватні повідомлення
             while (iteratorp.hasNext()) {
                 ChatMessage imsg = iteratorp.next();
                 if (imsg.getReading() != true) {
@@ -83,13 +71,6 @@ public class ChatController {
                     imsg.setRead(new Date());
                     messangerService.SaveMessage(imsg);
                 }
-//                cmsg.setBody(imsg.getBody());
-//                cmsg.setFromuuid(imsg.getFrom().getUuid());
-//                cmsg.setFromname(imsg.getFrom().getCustname()+" "+imsg.getFrom().getCustsurname());
-//                cmsg.setToname(imsg.getTo().getCustname()+" "+imsg.getTo().getCustname());
-//                cmsg.setTouuid(imsg.getTo().getUuid());
-//                cmsg.setSend(imsg.getSend());
-//                cmsg.setRoomuuid(null);
                 this.template.convertAndSend("/topic/"+cd.getUuid(), cmsg);
             }
         } catch (Exception e) {
@@ -107,7 +88,8 @@ public class ChatController {
             ChatReferenceSingleton chatReference = ChatReferenceSingleton.getInstance();
             ChatMessage cmsg = new ChatMessage();
             List<String > usersListMap =  new ArrayList<>();
-
+            chatReference.GetUserLastLiveTime().put(inmsg.getUuid(),new Date());
+            messangerService.CheckUserLastLiveTime();
             Map<String, String> usersMap =  chatReference.GetUsersMap();
             Gson gson = new GsonBuilder().create();
             ChatListElement chatListElement = new ChatListElement();
@@ -131,7 +113,6 @@ public class ChatController {
 
     @MessageMapping("/roomslist")
     public void GetRoomList( ChatMessage inmsg) {
-        logger.info("Чат. GetRoomList inmsg getUuid: {} getRoomuuid(): {}",inmsg.getUuid(),inmsg.getRoomuuid());
         // add user to userlist for room
         try {
             // get Instance ChatReferenceSingleton
@@ -143,7 +124,6 @@ public class ChatController {
             if (roomList.size() == 0) {
                 // Init list rooms
                 List<MessageRoom> messageRoomList = messangerService.GetChatRoomList();
-                logger.info("=============== Init RoomList");
                 for (MessageRoom entry : messageRoomList) {
                     roomList.put(entry.getUuid(), entry.getRoomname());
                 }
@@ -170,19 +150,9 @@ public class ChatController {
 
     @MessageMapping("/topic")
     public void GetChatPublicmessage( ChatMessage inmsg) {
-//        public ChatMessage GetChatMessage( ChatMessage inmsg) {
-
-
         try {
-//            if (inmsg.getRoomuuid() == null) {
-//                logger.info("Чат. Private message from:{}/{} to:{}/{}",inmsg.getFromname(),inmsg.getFromuuid(),inmsg.getToname(),inmsg.getTouuid());
-//                PutChatPrivateMessage(inmsg);
-//            } else {
             MessageRoom mr = messangerService.GetRoomNameByUuid(inmsg.getRoomuuid());
-                logger.info("Чат. To Public : from:{}/{} to room:{}/{}",inmsg.getFromname(),inmsg.getFromuuid(),mr.getRoomname(),inmsg.getRoomuuid());
-                PutChatPublicMessage(inmsg);
-//            }
-
+            PutChatPublicMessage(inmsg);
         } catch (Exception e) {
             logger.info("PutChatPrivateMessage Exception");
             e.printStackTrace();
@@ -205,7 +175,6 @@ public class ChatController {
     @SendTo("/topic")
     public void PutChatPublicMessage(ChatMessage message) throws Exception {
             this.template.convertAndSend("/topic/"+message.getRoomuuid(), message);
-            logger.info("Public={}",message.getRoomuuid());
             messangerService.SaveMessageFromChat(message);
     }
 
@@ -221,15 +190,5 @@ public class ChatController {
             messangerService.SaveMessageFromChat(message);
         }
     }
-
-    @SendTo("/topic/public")
-    public ChatMessage PutChatPrivMessage(ChatMessage message) throws Exception {
-        Thread.sleep(1000); // simulated delay
-        ChatMessage cm = new ChatMessage();
-        cm.setSend(new Date());
-
-        return cm;
-    }
-
 
 }

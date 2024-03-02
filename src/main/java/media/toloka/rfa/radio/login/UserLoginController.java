@@ -127,34 +127,17 @@ public class UserLoginController {
     ) {
         // Забираємо з форми email користувача
         String email = formuser.getEmail();
-//        String frmgrp = userDTO.getEmail();
-        // намагаємося знайти пошту в базі
-//        Optional<Users> opt = clientService.findUserByEmail(email);
         Users newUser = clientService.GetUserByEmail(email);
 
         // перевіряємо, чи є цей емайл в базі
-//        if (opt.isEmpty()) {
         if (newUser == null) {
             newUser = new Users();
             // додали групу для користувача
             // Роль беремо зі форми. Визначається статусом радіобутона.
             Roles role = new Roles();
-//            switch (formuser.getGroup()) {
-//                case "User":
                     role.setRole(ROLE_USER);
                     newUser.setRoles(new ArrayList<Roles>());
                     newUser.getRoles().add(role);
-//                    break;
-//                case "Creater":
-//                    role.setRole(ROLE_CREATER);
-//                    newUser.setRoles(new ArrayList<Roles>());
-//                    newUser.getRoles().add(role);
-//                    break;
-//                default:
-//                    role.setRole(ROLE_UNKNOWN);
-//                    newUser.setRoles(new ArrayList<Roles>());
-//                    newUser.getRoles().add(role);
-//            }
             // зберігаємо користувача в базу
             newUser.setPassword("*");
             newUser.setEmail(formuser.getEmail());
@@ -173,15 +156,10 @@ public class UserLoginController {
             Map<String, Object> map1 = new HashMap<String, Object>();
 //                map1.put("name",(Object) userDTO.getEmail());
                 map1.put("name", (Object) newUser.getClientdetail().getCustname() + " " + newUser.getClientdetail().getCustsurname()); // сформували імʼя та призвище для листа
-            // TODO правильно сформувати імʼя для відсилання пошти.
-//            map1.put("name", (Object) "УВАГА!!! Штучно Сформоване імʼя"); // сформували імʼя та призвище для листа
             map1.put("confirmationUrl", (Object) "https://rfa.toloka.media/login/setUserPassword?token=" + token); // сформували для переходу адресу з токеном
             mail.setHtmlTemplate(new Mail.HtmlTemplate("/mail/registerSetPassword", map1)); // заповнили обʼєкт для відсилання пошти
             // пробуємо надіслати
-//                logger.info("ЗРОБИТИ ВІДПРАВКУ ПОШТИ!!!");
-            // Відправляємо через RabbitMQ
-
-            // потрібно зробити нормальну обробку помилок пошти
+            // todo потрібно зробити нормальну обробку помилок пошти
             try {
                 logger.info("Відправляємо пошту при реєстрації!");
                 emailSenderService.sendEmail(mail);
@@ -190,16 +168,10 @@ public class UserLoginController {
             }
 
             // Готуємо інформацію для відображення для користувача у формі
-//                String message = "Користувача '" + email + "' успішно збережено! Для продовження реєстрації перевірте свою пошту.";
-//                model.addAttribute("msg", message);
             model.addAttribute("success", "Користувача '" + email + "' успішно збережено! Для продовження реєстрації перевірте свою пошту.");
         } else { // знайшли таку пошту
             // формуємо повідомлення для форми
             // Готуємо інформацію для відображення для користувача у формі
-//            String message = "Користувача '" + email + "' знайдено в базі.";
-//            model.addAttribute("msg", message);
-//            userDTO.setRoles(Arrays.asList(userDTO.getName()));
-//            System.out.println("========================= Group " + userDTO.getName() + " ====================");
             model.addAttribute("danger", "Користувача '" + email + "' знайдено в базі.");
             String restorePSW = "Відновити пароль?";
             model.addAttribute("restorepsw", restorePSW);

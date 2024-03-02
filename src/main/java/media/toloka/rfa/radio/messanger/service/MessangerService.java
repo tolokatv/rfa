@@ -10,12 +10,13 @@ import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.messanger.model.MessageRoom;
 import media.toloka.rfa.radio.model.Messages;
 import media.toloka.rfa.radio.messanger.repository.MessageRoomRepository;
+import org.antlr.v4.runtime.misc.Interval;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.time.Duration;
+import java.time.Period;
+import java.util.*;
 
 @Service
 public class MessangerService {
@@ -72,20 +73,7 @@ public class MessangerService {
 
 
     public void SaveMessageFromChat(ChatMessage message) {
-        Clientdetail cd = clientService.GetClientDetailByUuid(message.getFromuuid());
-//        Messages msg = new Messages();
-//        msg.setRead(null);
-//        msg.setSend(new Date());
-//        msg.setFrom(cd);
-//        if (msg.getRoomuuid() != null) {
-//            msg.setTo(clientService.GetClientDetailByUuid(message.getFromuuid()));
-//        } else {
-//            msg.setTo(clientService.GetClientDetailByUUID(message.getTouuid()));
-//        }
-//        cd = clientService.GetClientDetailByUUID(message.getTouuid());
-////        msg.setTo(cd);
-//        msg.setBody(message.getBody());
-//        msg.setRoomuuid(message.getRoomuuid());
+//        Clientdetail cd = clientService.GetClientDetailByUuid(message.getFromuuid());
         chatRepository.save(message);
     }
 
@@ -105,5 +93,27 @@ public class MessangerService {
 
     public void SaveMessage(ChatMessage imsg) {
         chatRepository.save(imsg);
+    }
+
+    public void CheckUserLastLiveTime() {
+        ChatReferenceSingleton chatReferenceSingleton = ChatReferenceSingleton.getInstance();
+        Map<String, Date> lastLivetime = chatReferenceSingleton.GetUserLastLiveTime();
+        Map<String, String> userlist = chatReferenceSingleton.GetUsersMap();
+        Date curdate = new Date();
+        for (Map.Entry<String, Date> entry : lastLivetime.entrySet()) {
+            Long interval = curdate.getTime() - entry.getValue().getTime() ;
+            if (interval > 12000L ) {
+                userlist.remove(entry.getKey());
+            }
+        }
+    }
+
+    // todo сделать подсчет сообщений
+    public int GetQuantityNewMessage(String uuid) {
+        return 0;
+    }
+
+    public Object GetQuantityAllMessage(String uuid) {
+        return 0;
     }
 }
