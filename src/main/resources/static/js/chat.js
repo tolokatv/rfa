@@ -284,4 +284,7 @@ function selectuser(event ) {
 
 window.addEventListener('DOMContentLoaded', event => {
 connect();
+
+var intervaluser = setInterval(getuserlist, 10000);
+var intervalroom = setInterval(getroomlist, 10000);
 })

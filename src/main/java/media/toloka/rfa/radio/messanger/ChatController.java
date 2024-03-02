@@ -143,6 +143,7 @@ public class ChatController {
             if (roomList.size() == 0) {
                 // Init list rooms
                 List<MessageRoom> messageRoomList = messangerService.GetChatRoomList();
+                logger.info("=============== Init RoomList");
                 for (MessageRoom entry : messageRoomList) {
                     roomList.put(entry.getUuid(), entry.getRoomname());
                 }
