@@ -8,10 +8,19 @@ var messageInput = document.querySelector('#message');
 var messageArea = document.querySelector('#messageArea');
 //var connectingElement = document.querySelector('');
 var connectingElement = document.getElementById('connectstatus');
-var dateString;
+var stompClient = null;
+var username = null;
+var clientuuid = null;
+var toclientname = null;
+var subcurroom = null;
+var subprivate = null;
+var subpublic = null
+var subhello = null;
+var subusers = null;
+var subroom = null;
 
-var intervaluser = null;
-var intervalroom = null;
+
+
 
 var colors = [
     '#2196F3', '#32c787', '#00BCD4', '#ff5652',
@@ -26,12 +35,16 @@ function connect() {
 
 function onConnected() {
 
-    subcurroom = stompClient.subscribe('/public/'+curroom, onPublicMessageReceived);
-    subUpdatePublic = stompClient.subscribe('/updatepublic/'+curuuid, onUpdatePublicMessageReceived);
-    subUpdatePrivat = stompClient.subscribe('/updateprivat/'+curuuid, onUpdatePrivateMessageReceived);
-    subpriv = stompClient.subscribe('/private/'+curuuid, onPrivateMessageReceived);
+    subcurroom = stompClient.subscribe('/topic/'+curroom, onPublicMessageReceived);
+
+    subpublic = stompClient.subscribe('/public/'+curuuid, onPublicMessageReceived);
+
+    subprivate = stompClient.subscribe('/private/'+curuuid, onPrivateMessageReceived);
+
     subusers = stompClient.subscribe('/userslist/'+curuuid, onUserList);
+
     subroom = stompClient.subscribe('/roomslist/'+curuuid, onRoomList);
+
 
     stompClient.send("/app/hello",
         {},
@@ -46,13 +59,6 @@ function onConnected() {
 
     ligthOnRoom(curroom);
 }
-
-function onUpdatePublicMessageReceived () {
-}
-
-function onUpdatePrivateMessageReceived () {
-}
-
 
 function getuserlist() {
    stompClient.send("/app/userslist",
@@ -77,7 +83,7 @@ function getroomlist() {
 
 function onUserList(payload) {
 // userlist
-    console.log("==== onUserList ==========================================");
+//    console.log("==== onUserList ==========================================");
     let jbody = JSON.parse(payload.body);
     // clear userlist
     document.getElementById('userlist').innerHTML = '';
@@ -86,11 +92,13 @@ function onUserList(payload) {
     let bodyuserslist = JSON.parse(jbody.body);
     bodyuserslist.forEach(function(elem, ind) {
         // elem to json
-        console.log(elem);
+//        console.log(elem);
         let ejson = JSON.parse(elem);
         // create span with name
         let spanname = document.createElement('span');
         spanname.textContent = ejson.name;
+        ejson.uuid.includes(curusername) ? spanname.style.color = 'red' : spanname.style.color = 'black';
+
         spanname.onclick= function () {selectuserFromPublic(ejson.uuid, ejson.name)};
         // create div with id = userUuid from
         let iDiv = document.createElement('div');
@@ -106,7 +114,7 @@ function onUserList(payload) {
 
 function onRoomList(payload) {
 // roomlist
-    console.log("==== onRoomList ==========================================");
+//    console.log("==== onRoomList ==========================================");
     let jbody = JSON.parse(payload.body);
     // clear userlist
     document.getElementById('roomlist').innerHTML = '';
@@ -115,11 +123,14 @@ function onRoomList(payload) {
     let bodyuserslist = JSON.parse(jbody.body);
     bodyuserslist.forEach(function(elem, ind) {
         // elem to json
-        console.log(elem);
+//        console.log(elem);
         let ejson = JSON.parse(elem);
         // create span with name
         let spanname = document.createElement('span');
         spanname.textContent = ejson.name;
+        ejson.uuid.includes(curroom) ? spanname.style.color = 'red' : spanname.style.color = 'black';
+
+
         spanname.onclick= function () {selectroom(ejson.uuid)};
         // create div with id = userUuid from
         let iDiv = document.createElement('div');
@@ -131,24 +142,11 @@ function onRoomList(payload) {
     });
 }
 
-//function GetFormatDate()
-
 function onPublicMessageReceived(payload) {
-    console.log("==== onPublicMessageReceived ==========================================");
     var jbody = JSON.parse(payload.body);
 
-        let date = new Date(Date.parse(jbody.send));
-        let  day = '0'+date.getDate();
-        let month = '0'+(date.getMonth()+1);
-        let year = '0'+date.getFullYear();
-        let hours = date.getHours();
-        let minutes = "0" + date.getMinutes();
-        let seconds = "0" + date.getSeconds();
-        let formattedTime = day.substr(-2)+'.'+month.substr(-2) + '.' + year.substr(-2) +' '+ hours + ':' + minutes.substr(-2);
-         //+ ':' + seconds.substr(-2);
-
     var spanname = document.createElement('span');
-    spanname.textContent = formattedTime+' '+jbody.fromname+': ';
+    spanname.textContent = jbody.fromname+': ';
 
     var spanbody = document.createElement('span');
     spanbody.textContent = jbody.body;
@@ -170,22 +168,10 @@ function onPrivateMessageReceived(payload) {
     var jbody = JSON.parse(payload.body);
 
     var spanname = document.createElement('span');
-
-        let date = new Date(Date.parse(jbody.send));
-
-        let  day = '0'+date.getDate();
-        let month = '0'+(date.getMonth()+1);
-        let year = '0'+date.getFullYear();
-        let hours = date.getHours();
-        let minutes = "0" + date.getMinutes();
-        let seconds = "0" + date.getSeconds();
-        let formattedTime = day.substr(-2)+'.'+month.substr(-2) + '.' + year.substr(-2) +' '+ hours + ':' + minutes.substr(-2);
-         //+ ':' + seconds.substr(-2);
-
     if (curuuid.includes(jbody.fromuuid)) {
-        spanname.textContent = formattedTime + '>' + jbody.toname+': ';
+        spanname.textContent = '> '+jbody.toname+': ';
     } else {
-        spanname.textContent = formattedTime + ' ' + jbody.fromname+': ';
+        spanname.textContent = jbody.fromname+': ';
     }
 
     var spanbody = document.createElement('span');
@@ -211,6 +197,10 @@ function subscribeRoom(lcurroom) {
 //        console.log("subscribeRoom");
 //        console.log("curroom="+lcurroom);
         subcurroom = stompClient.subscribe('/topic/'+lcurroom, onPublicMessageReceived);
+
+//        console.log("curroom="+lcurroom);
+        // get content public room
+//        console.log("+++ subscribeRoom Enter to room ++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             stompClient.send("/app/hello",{},
                 JSON.stringify({
                     uuid: curuuid,
@@ -218,7 +208,7 @@ function subscribeRoom(lcurroom) {
                     send: Date.now()
                 })
             );
-        console.log("=== curroom="+subcurroom);
+//        console.log("=== curroom="+subcurroom);
 //        console.log("+++ Enter to room ++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
     }
 
@@ -247,7 +237,9 @@ function selectroom(toroom) {
     myNode.innerHTML = '';
 
 // підписуємося на кімнату
+//    console.log('////////// before change room: '+curroom);
     curroom = toroom
+//    console.log('////////// after change room: '+curroom);
     subscribeRoom(curroom);
     ligthOnRoom(curroom);
 }
@@ -255,7 +247,7 @@ function selectroom(toroom) {
 function sendpublic(event) {
 //myinput = document.getElementById('newmessage');
 
-    stompClient.send("/app/public",
+    stompClient.send("/app/topic",
         {},
         JSON.stringify({
         uuid: curuuid,
@@ -296,19 +288,17 @@ function selectuser(event ) {
     var spanname = document.getElementById(event.id);
     clientuuid = spanname.id;
     toclientname = spanname.innerText;
-    console.log(toclientname);
+//    console.log(toclientname);
     document.getElementById('connectstatus').innerHTML = 'Кому:'+spanname.innerText;
 }
 
-function onError(error) {
-    console.log(error);
-    console.log("Помилка");
+function onError(){
+    console.log("Щось пішло не так при коннекті :( ");
 }
 
 window.addEventListener('DOMContentLoaded', event => {
-//start
 connect();
-intervaluser = setInterval(getuserlist, 2000);
-intervalroom = setInterval(getroomlist, 6000);
 
-});
+var intervaluser = setInterval(getuserlist, 10000);
+var intervalroom = setInterval(getroomlist, 10000);
+})
