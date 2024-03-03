@@ -3,14 +3,12 @@ package media.toloka.rfa.radio.messanger;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import media.toloka.rfa.radio.client.service.ClientService;
-import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.messanger.model.ChatListElement;
 import media.toloka.rfa.radio.messanger.model.ChatMessage;
 import media.toloka.rfa.radio.messanger.service.ChatReferenceSingleton;
 import media.toloka.rfa.radio.messanger.service.MessangerService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.messanger.model.MessageRoom;
-import media.toloka.rfa.radio.model.Messages;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,9 +32,6 @@ public class ChatController {
     private SimpMessagingTemplate template;
 
     @Autowired
-    private MessageService messageService;
-
-    @Autowired
     private MessangerService messangerService;
 
     @Autowired
@@ -58,16 +53,19 @@ public class ChatController {
             Iterator<ChatMessage> iterator = publicMessageList.iterator();
             while (iterator.hasNext()) {
                 ChatMessage imsg = iterator.next();
-                this.template.convertAndSend("/public/"+imsg.getUuid(), imsg);
+//                imsg.setUuid(publicMessageList.);
+                this.template.convertAndSend("/public/"+inmsg.getUuid(), imsg);
             }
             List<ChatMessage> privateMessageList = messangerService.GetMessagesAsc(inmsg.getUuid());
             Iterator<ChatMessage> iteratorp = privateMessageList.iterator();
             while (iteratorp.hasNext()) {
                 ChatMessage imsg = iteratorp.next();
-                if (imsg.getReading() != true) {
-                    imsg.setReading(true);
-                    imsg.setRead(new Date());
-                    messangerService.SaveMessage(imsg);
+                if (imsg.getReading() != null) {
+                    if (imsg.getReading() != true) {
+                        imsg.setReading(true);
+                        imsg.setRead(new Date());
+                        messangerService.SaveMessage(imsg);
+                    }
                 }
                 this.template.convertAndSend("/private/"+cd.getUuid(), cmsg);
             }
@@ -79,7 +77,7 @@ public class ChatController {
 
     @MessageMapping("/userslist")
     public void GetRoomUserList( ChatMessage inmsg) {
-        logger.info("Чат. GetRoomUserList inmsg getUuid: {} getRoomuuid(): {}",inmsg.getUuid(),inmsg.getRoomuuid());
+//        logger.info("Чат. GetRoomUserList inmsg getUuid: {} getRoomuuid(): {}",inmsg.getUuid(),inmsg.getRoomuuid());
         // add user to userlist for room
         try {
             // get Instance ChatReferenceSingleton
@@ -95,10 +93,10 @@ public class ChatController {
                 chatListElement.setName(entry.getValue());
                 String jcl = gson.toJson(chatListElement);
                 usersListMap.add(jcl);
-                System.out.println(entry.getKey() + ":" + entry.getValue());
+//                System.out.println(entry.getKey() + ":" + entry.getValue());
             }
             String json = gson.toJson(usersListMap);
-            System.out.println(json);
+//            System.out.println(json);
             cmsg.setBody(json);
             cmsg.setUuid(inmsg.getUuid());
             this.template.convertAndSend("/userslist/"+cmsg.getUuid(), cmsg);
@@ -110,7 +108,7 @@ public class ChatController {
 
     @MessageMapping("/roomslist")
     public void GetRoomList( ChatMessage inmsg) {
-        logger.info("Чат. GetRoomList inmsg getUuid: {} getRoomuuid(): {}",inmsg.getUuid(),inmsg.getRoomuuid());
+//        logger.info("Чат. GetRoomList inmsg getUuid: {} getRoomuuid(): {}",inmsg.getUuid(),inmsg.getRoomuuid());
         // add user to userlist for room
         try {
             // get Instance ChatReferenceSingleton
