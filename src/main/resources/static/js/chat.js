@@ -25,18 +25,13 @@ function connect() {
 }
 
 function onConnected() {
-//    console.log("subscribe curroom="+curroom);
 
     subcurroom = stompClient.subscribe('/public/'+curroom, onPublicMessageReceived);
-
-//    subhello = stompClient.subscribe('/hello/'+curuuid, onPublicMessageReceived);
-
+    subUpdatePublic = stompClient.subscribe('/updatepublic/'+curuuid, onUpdatePublicMessageReceived);
+    subUpdatePrivat = stompClient.subscribe('/updateprivat/'+curuuid, onUpdatePrivateMessageReceived);
     subpriv = stompClient.subscribe('/private/'+curuuid, onPrivateMessageReceived);
-
     subusers = stompClient.subscribe('/userslist/'+curuuid, onUserList);
-
     subroom = stompClient.subscribe('/roomslist/'+curuuid, onRoomList);
-
 
     stompClient.send("/app/hello",
         {},
@@ -51,6 +46,13 @@ function onConnected() {
 
     ligthOnRoom(curroom);
 }
+
+function onUpdatePublicMessageReceived () {
+}
+
+function onUpdatePrivateMessageReceived () {
+}
+
 
 function getuserlist() {
    stompClient.send("/app/userslist",
@@ -129,24 +131,24 @@ function onRoomList(payload) {
     });
 }
 
-function onError(error) {
-    console.log(error);
-    console.log("Помилка");
-}
+//function GetFormatDate()
 
 function onPublicMessageReceived(payload) {
     console.log("==== onPublicMessageReceived ==========================================");
     var jbody = JSON.parse(payload.body);
 
-    let d = new Date();
+        let date = new Date(Date.parse(jbody.send));
+        let  day = '0'+date.getDate();
+        let month = '0'+(date.getMonth()+1);
+        let year = '0'+date.getFullYear();
+        let hours = date.getHours();
+        let minutes = "0" + date.getMinutes();
+        let seconds = "0" + date.getSeconds();
+        let formattedTime = day.substr(-2)+'.'+month.substr(-2) + '.' + year.substr(-2) +' '+ hours + ':' + minutes.substr(-2);
+         //+ ':' + seconds.substr(-2);
 
-    dateString = d.getDate()  + "-" + (d.getMonth()+1) + "-" + d.getFullYear() + " " +
-    d.getHours() + ":" + d.getMinutes();
-
-//        dateString = jbody.send.getDate()  + "-" + (jbody.send.getMonth()+1) + "-" + jbody.send.getFullYear() + " " +
-//                     jbody.send.getHours() + ":" + jbody.send.getMinutes();
     var spanname = document.createElement('span');
-    spanname.textContent = dateString+' '+jbody.fromname+': ';
+    spanname.textContent = formattedTime+' '+jbody.fromname+': ';
 
     var spanbody = document.createElement('span');
     spanbody.textContent = jbody.body;
@@ -169,17 +171,21 @@ function onPrivateMessageReceived(payload) {
 
     var spanname = document.createElement('span');
 
-        let d = new Date();
+        let date = new Date(Date.parse(jbody.send));
 
-        dateString = d.getDate()  + "-" + (d.getMonth()+1) + "-" + d.getFullYear() + " " +
-        d.getHours() + ":" + d.getMinutes();
-//    dateString = jbody.send.getDate()  + "-" + (jbody.send.getMonth()+1) + "-" + jbody.send.getFullYear() + " " +
-//                 jbody.send.getHours() + ":" + jbody.send.getMinutes();
-//    dateString = formatDate(jbody.send, 'DD.MM.YY hh:mm');
+        let  day = '0'+date.getDate();
+        let month = '0'+(date.getMonth()+1);
+        let year = '0'+date.getFullYear();
+        let hours = date.getHours();
+        let minutes = "0" + date.getMinutes();
+        let seconds = "0" + date.getSeconds();
+        let formattedTime = day.substr(-2)+'.'+month.substr(-2) + '.' + year.substr(-2) +' '+ hours + ':' + minutes.substr(-2);
+         //+ ':' + seconds.substr(-2);
+
     if (curuuid.includes(jbody.fromuuid)) {
-        spanname.textContent = dateString+'>'+jbody.toname+': ';
+        spanname.textContent = formattedTime + '>' + jbody.toname+': ';
     } else {
-        spanname.textContent = jbody.fromname+': ';
+        spanname.textContent = formattedTime + ' ' + jbody.fromname+': ';
     }
 
     var spanbody = document.createElement('span');
@@ -205,10 +211,6 @@ function subscribeRoom(lcurroom) {
 //        console.log("subscribeRoom");
 //        console.log("curroom="+lcurroom);
         subcurroom = stompClient.subscribe('/topic/'+lcurroom, onPublicMessageReceived);
-
-//        console.log("curroom="+lcurroom);
-        // get content public room
-//        console.log("+++ subscribeRoom Enter to room ++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             stompClient.send("/app/hello",{},
                 JSON.stringify({
                     uuid: curuuid,
@@ -245,9 +247,7 @@ function selectroom(toroom) {
     myNode.innerHTML = '';
 
 // підписуємося на кімнату
-//    console.log('////////// before change room: '+curroom);
     curroom = toroom
-//    console.log('////////// after change room: '+curroom);
     subscribeRoom(curroom);
     ligthOnRoom(curroom);
 }
@@ -255,7 +255,7 @@ function selectroom(toroom) {
 function sendpublic(event) {
 //myinput = document.getElementById('newmessage');
 
-    stompClient.send("/app/topic",
+    stompClient.send("/app/public",
         {},
         JSON.stringify({
         uuid: curuuid,
@@ -300,9 +300,15 @@ function selectuser(event ) {
     document.getElementById('connectstatus').innerHTML = 'Кому:'+spanname.innerText;
 }
 
+function onError(error) {
+    console.log(error);
+    console.log("Помилка");
+}
+
 window.addEventListener('DOMContentLoaded', event => {
+//start
 connect();
-intervaluser = setInterval(getuserlist, 15000);
-intervalroom = setInterval(getroomlist, 60000);
+intervaluser = setInterval(getuserlist, 2000);
+intervalroom = setInterval(getroomlist, 6000);
 
 });

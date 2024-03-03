@@ -58,8 +58,9 @@ public class ChatController {
             Iterator<ChatMessage> iterator = publicMessageList.iterator();
             while (iterator.hasNext()) {
                 ChatMessage imsg = iterator.next();
-                this.template.convertAndSend("/public/"+imsg.getUuid(), imsg);
+                this.template.convertAndSend("/updatepublic/"+imsg.getTouuid(), imsg);
             }
+
             List<ChatMessage> privateMessageList = messangerService.GetMessagesAsc(inmsg.getUuid());
             Iterator<ChatMessage> iteratorp = privateMessageList.iterator();
             //відправляємо приватні повідомлення
@@ -148,10 +149,13 @@ public class ChatController {
     }
 
     @MessageMapping("/public")
-    public void GetChatPublicmessage( ChatMessage inmsg) {
+//    @SendTo("/topic")
+    public void GetChatPublicmessage( ChatMessage message) {
         try {
 //            MessageRoom mr = messangerService.GetRoomNameByUuid(inmsg.getRoomuuid());
-            PutChatPublicMessage(inmsg);
+//            PutChatPublicMessage(inmsg);
+            this.template.convertAndSend("/public/"+message.getUuid(), message);
+            messangerService.SaveMessageFromChat(message);
         } catch (Exception e) {
             logger.info("PutChatPrivateMessage Exception");
             e.printStackTrace();
@@ -159,30 +163,38 @@ public class ChatController {
     }
 
     @MessageMapping("/private")
-    public void GetChatPrivateMessage( ChatMessage inmsg) {
+    public void GetChatPrivateMessage( ChatMessage message) {
         try {
-            PutChatPrivateMessage(inmsg);
+//            PutChatPrivateMessage(inmsg);
+            Clientdetail cd = clientService.GetClientDetailByUuid(message.getTouuid());
+            message.setSend(new Date());
+            if (cd != null) {
+                // todo при ініціалізації сеансу в чаті передбачити надсилання тільки одному адресату
+                this.template.convertAndSend("/private/"+message.getTouuid(), message);
+                this.template.convertAndSend("/private/"+message.getFromuuid(), message);
+                messangerService.SaveMessageFromChat(message);
+            }
         } catch (Exception e) {
             logger.info("PutChatPrivateMessage Exception");
             e.printStackTrace();
         }
     }
 
-    @SendTo("/topic")
-    public void PutChatPublicMessage(ChatMessage message) throws Exception {
-            this.template.convertAndSend("/public/"+message.getRoomuuid(), message);
-            messangerService.SaveMessageFromChat(message);
-    }
+//    @SendTo("/topic")
+//    public void PutChatPublicMessage(ChatMessage message) throws Exception {
+//            this.template.convertAndSend("/public/"+message.getRoomuuid(), message);
+//            messangerService.SaveMessageFromChat(message);
+//    }
 
-    public void PutChatPrivateMessage(ChatMessage message) throws Exception {
-        Clientdetail cd = clientService.GetClientDetailByUuid(message.getTouuid());
-        message.setSend(new Date());
-        if (cd != null) {
-            // todo при ініціалізації сеансу в чаті передбачити надсилання тільки одному адресату
-            this.template.convertAndSend("/private/"+cd.getUuid(), message);
-            this.template.convertAndSend("/private/"+message.getFromuuid(), message);
-            messangerService.SaveMessageFromChat(message);
-        }
-    }
+//    public void PutChatPrivateMessage(ChatMessage message) throws Exception {
+//        Clientdetail cd = clientService.GetClientDetailByUuid(message.getTouuid());
+//        message.setSend(new Date());
+//        if (cd != null) {
+//            // todo при ініціалізації сеансу в чаті передбачити надсилання тільки одному адресату
+//            this.template.convertAndSend("/private/"+cd.getUuid(), message);
+//            this.template.convertAndSend("/private/"+message.getFromuuid(), message);
+//            messangerService.SaveMessageFromChat(message);
+//        }
+//    }
 
 }

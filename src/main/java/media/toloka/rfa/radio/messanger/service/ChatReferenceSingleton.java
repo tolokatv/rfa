@@ -34,14 +34,17 @@ public final class ChatReferenceSingleton {
     }
 
     public Map<String, String> GetUsersMap() {
-        return this.usersMap;
+        return usersMap;
+//        return this.usersMap;
     }
     public Map<String, String> GetRoomsMap() {
-        return this.roomMap;
+        return roomMap;
+//        return this.roomMap;
     }
 
     public Map<String, Date> GetUserLastLiveTime() {
-        return this.userlastlivetime;
+//        return this.userlastlivetime;
+        return userlastlivetime;
     }
 
 }
