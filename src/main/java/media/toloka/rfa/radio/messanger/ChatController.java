@@ -9,6 +9,7 @@ import media.toloka.rfa.radio.messanger.service.ChatReferenceSingleton;
 import media.toloka.rfa.radio.messanger.service.MessangerService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.messanger.model.MessageRoom;
+import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.SendTo;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.*;
 
@@ -53,7 +56,6 @@ public class ChatController {
             Iterator<ChatMessage> iterator = publicMessageList.iterator();
             while (iterator.hasNext()) {
                 ChatMessage imsg = iterator.next();
-//                imsg.setUuid(publicMessageList.);
                 this.template.convertAndSend("/public/"+inmsg.getUuid(), imsg);
             }
             List<ChatMessage> privateMessageList = messangerService.GetMessagesAsc(inmsg.getUuid());
@@ -67,7 +69,7 @@ public class ChatController {
                         messangerService.SaveMessage(imsg);
                     }
                 }
-                this.template.convertAndSend("/private/"+cd.getUuid(), cmsg);
+                this.template.convertAndSend("/private/"+inmsg.getUuid(), cmsg);
             }
         } catch (Exception e) {
         logger.info("PutChatPullInitMessage Exception");
@@ -169,6 +171,29 @@ public class ChatController {
             e.printStackTrace();
         }
         messangerService.SaveMessageFromChat(message);
+    }
+
+    @GetMapping(value = "/chat")
+    public String getUserHome(
+            Model model ) {
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+
+        Clientdetail cd = clientService.GetClientDetailByUser(user);
+
+        List<Clientdetail> userlist = messangerService.FindAllCorrespondentsList(cd);
+
+        model.addAttribute("userlist", userlist );
+        model.addAttribute("curuuid", cd.getUuid() );
+        model.addAttribute("curusername", cd.getCustname()+" "+cd.getCustsurname() );
+        model.addAttribute("curroom", messangerService.GetChatRoomById(1L).getUuid() );
+//        model.addAttribute("roomlist", messangerService.GetChatRoomList() );
+//
+
+
+        return "/messenger/messenger";
     }
 // END
 }

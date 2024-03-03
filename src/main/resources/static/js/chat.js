@@ -168,8 +168,8 @@ function onPrivateMessageReceived(payload) {
     var jbody = JSON.parse(payload.body);
 
     var spanname = document.createElement('span');
-    if (curuuid.includes(jbody.fromuuid)) {
-        spanname.textContent = '> '+jbody.toname+': ';
+    if (curuuid.includes(jbody.toname)) {
+        spanname.textContent = '> '+jbody.fromname+': ';
     } else {
         spanname.textContent = jbody.fromname+': ';
     }
