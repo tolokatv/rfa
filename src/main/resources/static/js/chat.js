@@ -149,7 +149,7 @@ function onPublicMessageReceived(payload) {
     var jbody = JSON.parse(payload.body);
 
     var spanname = document.createElement('span');
-    spanname.textContent = jbody.fromname+': ';
+    spanname.textContent = date2string(jbody.send)+" "+jbody.fromname+': ';
 
     var spanbody = document.createElement('span');
     spanbody.textContent = jbody.body;
@@ -172,9 +172,9 @@ function onPrivateMessageReceived(payload) {
 
     var spanname = document.createElement('span');
     if (curuuid.includes(jbody.fromuuid)) {
-        spanname.textContent = '> '+jbody.toname+': ';
+        spanname.textContent = date2string(jbody.send)+'> '+jbody.toname+': ';
     } else {
-        spanname.textContent = jbody.fromname+': ';
+        spanname.textContent = date2string(jbody.send)+" "+jbody.fromname+': ';
     }
 
     var spanbody = document.createElement('span');
@@ -299,6 +299,20 @@ function selectuser(event ) {
 
 function onError(){
     console.log("Щось пішло не так при коннекті :( ");
+}
+
+function date2string (idate) {
+    let d = new Date(idate);
+    let day = '0' + d.getDate();
+    let month = '0'+ d.getMonth()+1;
+    let year = "0" + d.getFullYear();
+    let hours = "0" + d.getHours();
+    let minutes = "0" + d.getMinutes();
+    let datestring = day.slice(-2) + "-" + month.slice(-2) + "-" +
+    year.slice(-2) + " " + hours.slice(-2) + ":" + minutes.slice(-2);
+    // 16-05-2015 09:50
+    return datestring;
+
 }
 
 window.addEventListener('DOMContentLoaded', event => {
