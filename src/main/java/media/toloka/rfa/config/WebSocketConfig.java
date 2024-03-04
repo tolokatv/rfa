@@ -31,7 +31,7 @@ public class WebSocketConfig  implements WebSocketMessageBrokerConfigurer {
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {
 //        registry.addEndpoint("/rfa");
-        registry.addEndpoint("/rfachat").withSockJS();
+        registry.addEndpoint("/rfachat").setAllowedOrigins("*").withSockJS();
     }
 
 }
