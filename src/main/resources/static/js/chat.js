@@ -29,7 +29,7 @@ var colors = [
 function connect() {
     //username = document.querySelector('#name').value.trim();
 //    var socket = new WebSocket("/rfachat");
-    var socket = new WebSocket("ws://rfa.toloka.media/rfachat");
+    var socket = new WebSocket("wss://rfa.toloka.media/rfachat");
 //    var socket = new SockJS('/rfachat');
     stompClient = Stomp.over(socket);
     stompClient.connect({}, onConnected, onError);
