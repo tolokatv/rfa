@@ -172,7 +172,7 @@ function onPrivateMessageReceived(payload) {
 
     var spanname = document.createElement('span');
     if (curuuid.includes(jbody.fromuuid)) {
-        spanname.textContent = date2string(jbody.send)+'> '+jbody.toname+': ';
+        spanname.textContent = date2string(jbody.send)+' > '+jbody.toname+': ';
     } else {
         spanname.textContent = date2string(jbody.send)+" "+jbody.fromname+': ';
     }
@@ -269,6 +269,10 @@ function sendpublic(event) {
 function sendprivate(event) {
 //myinput = document.getElementById('newmessage');
 
+    let sinput = document.getElementById('newmessage').value;
+
+    if (sinput.length === 0 ) {return}
+
     stompClient.send("/app/private",
         {},
         JSON.stringify({uuid: curuuid,
@@ -277,7 +281,8 @@ function sendprivate(event) {
         fromuuid: curuuid,
         toname: toclientname,
         touuid: clientuuid,
-        body: document.getElementById('newmessage').value
+        body: sinput
+//        body: document.getElementById('newmessage').value
         })
     );
     document.getElementById('newmessage').value = "";
@@ -286,7 +291,9 @@ function sendprivate(event) {
 function selectuserFromPublic(luuid, lname) {
     clientuuid = luuid;
     toclientname = lname;
-    document.getElementById('connectstatus').innerHTML = lname;
+    document.getElementById('connectstatus').innerHTML = 'Кому написати: '+lname;
+    document.getElementById('connectstatus').style.color = "red";
+
 }
 
 function selectuser(event ) {

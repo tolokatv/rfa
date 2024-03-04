@@ -14,10 +14,10 @@ public interface ChatRepository extends JpaRepository<ChatMessage, Long> {
 //    @Query(
 //            value = "SELECT * FROM ChatMessage u WHERE u.roomuuid = null",
 //            nativeQuery = true)
-    @Query("SELECT cm FROM ChatMessage cm WHERE cm.roomuuid IS NULL and (cm.fromuuid = ?1 or cm.touuid = ?1)")
+    @Query("SELECT cm FROM ChatMessage cm WHERE cm.roomuuid IS NULL and (cm.fromuuid = ?1 or cm.touuid = ?1) ORDER BY send ASC")
     List<ChatMessage> findByPrivateMessageByUserUuid(String useruuid);
 
-    @Query("SELECT cm FROM ChatMessage cm WHERE cm.roomuuid = ?1")
+    @Query("SELECT cm FROM ChatMessage cm WHERE cm.roomuuid = ?1 ORDER BY send ASC")
     List<ChatMessage> findByRoomuuidOrderBySendAsc(String roomuuid);
 
 }
