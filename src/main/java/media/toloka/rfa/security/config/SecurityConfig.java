@@ -51,6 +51,7 @@ public class SecurityConfig {
                         "/logout",
                         "/registerRadioUser",
                         "/restorePsw",
+                        "/chat",
                         "/sendmail",
                         "/setUserPassword").permitAll()
                 .requestMatchers("/admin/**").hasAuthority("Admin")
