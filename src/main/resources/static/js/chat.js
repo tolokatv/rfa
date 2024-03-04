@@ -181,8 +181,14 @@ function onPrivateMessageReceived(payload) {
     spanbody.textContent = jbody.body;
 
     var iDiv = document.createElement('div');
-    iDiv.id = jbody.fromuuid;
-    iDiv.onclick= function () {selectuserFromPublic(jbody.fromuuid, jbody.fromname)};
+    if (curuuid.includes(jbody.fromuuid)) {
+        iDiv.id = jbody.touuid;
+        iDiv.onclick= function () {selectuserFromPublic(jbody.touuid, jbody.toname)};
+    } else {
+        iDiv.id = jbody.fromuuid;
+        iDiv.onclick= function () {selectuserFromPublic(jbody.fromuuid, jbody.fromname)};
+    }
+
 //    iDiv.setAttribute("onclick", "selectuser(this)");
 
     iDiv.appendChild(spanname);
