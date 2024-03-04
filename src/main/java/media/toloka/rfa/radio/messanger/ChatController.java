@@ -163,7 +163,9 @@ public class ChatController {
             Clientdetail cd = clientService.GetClientDetailByUuid(message.getTouuid());
             message.setSend(new Date());
             if (cd != null) {
-                this.template.convertAndSend("/private/"+cd.getUuid(), message); // TO
+                if (message.getTouuid().indexOf(message.getFromuuid()) == -1) {
+                    this.template.convertAndSend("/private/"+cd.getUuid(), message); // TO
+                }
                 this.template.convertAndSend("/private/"+message.getFromuuid(), message); // FROM
             }
         } catch (Exception e) {
