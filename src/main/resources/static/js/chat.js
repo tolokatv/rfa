@@ -311,12 +311,11 @@ function onError(){
 function date2string (idate) {
     let d = new Date(idate);
     let day = '0' + d.getDate();
-    let month = '0'+ d.getMonth()+1;
+    let month = '0'+ (d.getMonth()+1);
     let year = "0" + d.getFullYear();
     let hours = "0" + d.getHours();
     let minutes = "0" + d.getMinutes();
-    let datestring = day.slice(-2) + "-" + month.slice(-2) + "-" +
-    year.slice(-2) + " " + hours.slice(-2) + ":" + minutes.slice(-2);
+    let datestring = day.slice(-2) + "." + month.slice(-2) + "." + year.slice(-2) + " " + hours.slice(-2) + ":" + minutes.slice(-2);
     // 16-05-2015 09:50
     return datestring;
 
