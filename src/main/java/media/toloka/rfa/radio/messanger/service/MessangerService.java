@@ -97,16 +97,21 @@ public class MessangerService {
     public void CheckUserLastLiveTime() {
         ChatReferenceSingleton chatReferenceSingleton = ChatReferenceSingleton.getInstance();
         Map<String, Date> lastLivetime = chatReferenceSingleton.GetUserLastLiveTime();
+        List<String> todel = new ArrayList<>();
 
         Map<String, String> userlist = chatReferenceSingleton.GetUsersMap();
         Date curdate = new Date();
+//        String ttt;
         for (Map.Entry<String, Date> entry : lastLivetime.entrySet()) {
             Long interval = curdate.getTime() - entry.getValue().getTime() ;
             if (interval > 25000L ) {
-                logger.warn("Видалили користувача зі списку активних  interval={} uuid={}",interval,entry.getKey());
-                userlist.remove(entry.getKey());
-                lastLivetime.remove(entry.getKey());
+                todel.add(entry.getKey());
             }
+        }
+        for (int i = 0; i < todel.size(); i++){
+            userlist.remove(todel.get(i));
+            lastLivetime.remove(todel.get(i));
+            logger.warn("Видалили користувача зі списку активних  uuid={}",todel.get(i));
         }
     }
 
