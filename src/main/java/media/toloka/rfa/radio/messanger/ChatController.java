@@ -69,7 +69,7 @@ public class ChatController {
                         messangerService.SaveMessage(imsg);
                     }
                 }
-                this.template.convertAndSend("/private/"+inmsg.getUuid(), cmsg);
+                this.template.convertAndSend("/private/"+inmsg.getUuid(), imsg);
             }
         } catch (Exception e) {
         logger.info("PutChatPullInitMessage Exception");
@@ -163,8 +163,8 @@ public class ChatController {
             Clientdetail cd = clientService.GetClientDetailByUuid(message.getTouuid());
             message.setSend(new Date());
             if (cd != null) {
-                this.template.convertAndSend("/topic/"+cd.getUuid(), message); // TO
-                this.template.convertAndSend("/topic/"+message.getFromuuid(), message); // FROM
+                this.template.convertAndSend("/private/"+cd.getUuid(), message); // TO
+                this.template.convertAndSend("/private/"+message.getFromuuid(), message); // FROM
             }
         } catch (Exception e) {
             logger.info("PutChatPrivateMessage Exception");

@@ -130,7 +130,8 @@ function onRoomList(payload) {
         // create span with name
         let spanname = document.createElement('span');
         spanname.textContent = ejson.name;
-        ejson.uuid.includes(curroom) ? spanname.style.color = 'red' : spanname.style.color = 'black';
+        ejson.uuid.includes(curroom) ? spanname.style.color = 'green' : spanname.style.color = 'black';
+        spanname.id = ejson.uuid;
 
 
         spanname.onclick= function () {selectroom(ejson.uuid)};
@@ -170,8 +171,8 @@ function onPrivateMessageReceived(payload) {
     var jbody = JSON.parse(payload.body);
 
     var spanname = document.createElement('span');
-    if (curuuid.includes(jbody.toname)) {
-        spanname.textContent = '> '+jbody.fromname+': ';
+    if (curuuid.includes(jbody.fromuuid)) {
+        spanname.textContent = '> '+jbody.toname+': ';
     } else {
         spanname.textContent = jbody.fromname+': ';
     }
@@ -215,7 +216,7 @@ function subscribeRoom(lcurroom) {
     }
 
 function LigthOffRoom(lcurroom) {
-//        document.getElementById(lcurroom).style.color = 'black';
+        document.getElementById(lcurroom).style.color = 'black';
 //        myNode.style.color = "#000000";
 //        myNode.setAttribute("style","color:black;");
 //        console.log("LigthOffRoom");
@@ -223,7 +224,7 @@ function LigthOffRoom(lcurroom) {
     }
 
 function ligthOnRoom(lcurroom) {
-//        document.getElementById(lcurroom).style.color = 'red';
+        document.getElementById(lcurroom).style.color = 'green';
 //        myNode.style.color = "#ff0000";
 //        lcurroom.setAttribute("style","color:orange;");
 //        console.log("ligthOnRoom");
@@ -237,7 +238,9 @@ function selectroom(toroom) {
 // clear public
     var myNode = document.getElementById("publicarea");
     myNode.innerHTML = '';
-
+// clear private
+    var myNode = document.getElementById("privatearea");
+    myNode.innerHTML = '';
 // підписуємося на кімнату
 //    console.log('////////// before change room: '+curroom);
     curroom = toroom
@@ -249,7 +252,7 @@ function selectroom(toroom) {
 function sendpublic(event) {
 //myinput = document.getElementById('newmessage');
 
-    stompClient.send("/app/topic",
+    stompClient.send("/app/public",
         {},
         JSON.stringify({
         uuid: curuuid,
