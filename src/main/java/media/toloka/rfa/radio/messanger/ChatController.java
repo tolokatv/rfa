@@ -106,6 +106,7 @@ public class ChatController {
             logger.info("GetRoomUserList Exception");
             e.printStackTrace();
         }
+        messangerService.CheckUserLastLiveTime();
     }
 
     @MessageMapping("/roomslist")
@@ -115,6 +116,8 @@ public class ChatController {
         try {
             // get Instance ChatReferenceSingleton
             ChatReferenceSingleton chatReference = ChatReferenceSingleton.getInstance();
+            Map<String, Date> lastLivetime = chatReference.GetUserLastLiveTime();
+            lastLivetime.put(inmsg.getUuid(), new Date());
             ChatMessage cmsg = new ChatMessage();
             List<String > usersListMap =  new ArrayList<>();
 

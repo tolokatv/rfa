@@ -2,6 +2,7 @@ package media.toloka.rfa.radio.messanger.service;
 
 import media.toloka.rfa.radio.client.service.ClientService;
 //import media.toloka.rfa.radio.message.service.MessageService;
+import media.toloka.rfa.radio.messanger.ChatController;
 import media.toloka.rfa.radio.messanger.model.ChatMessage;
 import media.toloka.rfa.radio.messanger.repository.ChatRepository;
 import media.toloka.rfa.radio.messanger.repository.MessangerRepository;
@@ -10,6 +11,8 @@ import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.messanger.model.MessageRoom;
 import media.toloka.rfa.radio.model.Messages;
 import media.toloka.rfa.radio.messanger.repository.MessageRoomRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -29,6 +32,8 @@ public class MessangerService {
 
     @Autowired
     private ClientService clientService;
+
+    final Logger logger = LoggerFactory.getLogger(MessangerService.class);
 
     public List<Clientdetail> FindAllCorrespondentsList(Clientdetail cd) {
         List<Messages> messagesList = messangerRepository.findMessagesByFromOrTo(cd, cd);
@@ -92,12 +97,15 @@ public class MessangerService {
     public void CheckUserLastLiveTime() {
         ChatReferenceSingleton chatReferenceSingleton = ChatReferenceSingleton.getInstance();
         Map<String, Date> lastLivetime = chatReferenceSingleton.GetUserLastLiveTime();
+
         Map<String, String> userlist = chatReferenceSingleton.GetUsersMap();
         Date curdate = new Date();
         for (Map.Entry<String, Date> entry : lastLivetime.entrySet()) {
             Long interval = curdate.getTime() - entry.getValue().getTime() ;
-            if (interval > 12000L ) {
+            if (interval > 25000L ) {
+                logger.warn("Видалили користувача зі списку активних  interval={} uuid={}",interval,entry.getKey());
                 userlist.remove(entry.getKey());
+                lastLivetime.remove(entry.getKey());
             }
         }
     }
