@@ -18,6 +18,7 @@ var subpublic = null
 var subhello = null;
 var subusers = null;
 var subroom = null;
+var subheartbeats = null;
 
 
 
@@ -46,6 +47,8 @@ function onConnected() {
     subusers = stompClient.subscribe('/userslist/'+curuuid, onUserList);
 
     subroom = stompClient.subscribe('/roomslist/'+curuuid, onRoomList);
+
+    subheartbeats = stompClient.subscribe('/heartbeats', onHeartbeats);
 
 
     stompClient.send("/app/hello",
@@ -325,6 +328,9 @@ function date2string (idate) {
     // 16-05-2015 09:50
     return datestring;
 
+}
+
+function onHeartbeats () {
 }
 
 window.addEventListener('DOMContentLoaded', event => {

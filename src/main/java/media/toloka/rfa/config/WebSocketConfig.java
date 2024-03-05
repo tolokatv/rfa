@@ -1,7 +1,12 @@
 package media.toloka.rfa.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.messaging.simp.config.MessageBrokerRegistry;
+import org.springframework.scheduling.TaskScheduler;
+import org.springframework.scheduling.concurrent.DefaultManagedTaskScheduler;
+import org.springframework.scheduling.concurrent.ThreadPoolTaskScheduler;
 import org.springframework.web.socket.config.annotation.EnableWebSocketMessageBroker;
 import org.springframework.web.socket.config.annotation.StompEndpointRegistry;
 import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerConfigurer;
@@ -11,9 +16,20 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketConfig  implements WebSocketMessageBrokerConfigurer {
 
+
+
+
     @Override
     public void configureMessageBroker(MessageBrokerRegistry config) {
 //        config.enableSimpleBroker("/topic");
+//        sessionRepositoryInterceptor.setMatchingMessageTypes(EnumSet.of(SimpMessageType.CONNECT,
+//                SimpMessageType.MESSAGE, SimpMessageType.SUBSCRIBE,
+//                SimpMessageType.UNSUBSCRIBE, SimpMessageType.HEARTBEAT));
+//
+//        config.setApplicationDestinationPrefixes(...);
+//        config.enableSimpleBroker(...)
+//             .setTaskScheduler(new DefaultManagedTaskScheduler()).setHeartbeatValue(new long[]{0,20000});
+
         config.enableSimpleBroker(
                 "/user",
                 "/topic",
@@ -24,7 +40,10 @@ public class WebSocketConfig  implements WebSocketMessageBrokerConfigurer {
                 "/roomslist",
                 "/userslist",
                 "/private",
-                "/public");
+                "/public",
+                "/heartbeats");
+//                .setTaskScheduler(new DefaultManagedTaskScheduler())
+//                .setHeartbeatValue(new long[]{0,8000});
         config.setApplicationDestinationPrefixes("/app");
     }
 
@@ -34,4 +53,8 @@ public class WebSocketConfig  implements WebSocketMessageBrokerConfigurer {
         registry.addEndpoint("/rfachat").setAllowedOrigins("https://rfa.toloka.media","https://localhost").withSockJS();
     }
 
+//    @Bean
+//    public TaskScheduler heartBeatScheduler() {
+//        return new ThreadPoolTaskScheduler();
+//    }
 }
