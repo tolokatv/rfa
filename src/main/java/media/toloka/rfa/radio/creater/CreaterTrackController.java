@@ -91,6 +91,11 @@ public class CreaterTrackController {
         track.setNotnormalvocabulary(ftrack.getNotnormalvocabulary());
         track.setStyle(ftrack.getStyle());
         track.setAutor(ftrack.getAutor());
+        if (track.getTochat() != ftrack.getTochat()) {
+            track.setTochat(ftrack.getTochat());
+
+            createrService.PublicTrackToChat(track, cd );
+        }
         if (ftrack.getAlbum() != null) {
             track.setAlbum(ftrack.getAlbum());
         } else {
@@ -98,8 +103,6 @@ public class CreaterTrackController {
         }
 
         createrService.SaveTrack(track);
-
-
 
         List<Track> trackList = createrService.GetAllTracksByCreater(cd);
         model.addAttribute("trackList", trackList );

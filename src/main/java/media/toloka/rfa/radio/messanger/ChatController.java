@@ -5,6 +5,7 @@ import com.google.gson.GsonBuilder;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.messanger.model.ChatListElement;
 import media.toloka.rfa.radio.messanger.model.ChatMessage;
+import media.toloka.rfa.radio.messanger.model.enumerate.EChatRecordType;
 import media.toloka.rfa.radio.messanger.service.ChatReferenceSingleton;
 import media.toloka.rfa.radio.messanger.service.MessangerService;
 import media.toloka.rfa.radio.model.Clientdetail;
@@ -21,6 +22,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.*;
+
+import static media.toloka.rfa.radio.messanger.model.enumerate.EChatRecordType.RECORD_TYPE_MEDIA;
+import static media.toloka.rfa.radio.messanger.model.enumerate.EChatRecordType.RECORD_TYPE_TEXT;
 
 
 @Controller
@@ -157,6 +161,7 @@ public class ChatController {
             logger.info("PutChatPrivateMessage Exception");
             e.printStackTrace();
         }
+        inmsg.setRtype(RECORD_TYPE_TEXT.ordinal());
         messangerService.SaveMessageFromChat(inmsg);
     }
 
@@ -175,6 +180,7 @@ public class ChatController {
             logger.info("PutChatPrivateMessage Exception");
             e.printStackTrace();
         }
+        message.setRtype(RECORD_TYPE_TEXT.ordinal());
         messangerService.SaveMessageFromChat(message);
     }
 

@@ -11,9 +11,12 @@ import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.messanger.model.MessageRoom;
 import media.toloka.rfa.radio.model.Messages;
 import media.toloka.rfa.radio.messanger.repository.MessageRoomRepository;
+import media.toloka.rfa.radio.model.Track;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -32,6 +35,8 @@ public class MessangerService {
 
     @Autowired
     private ClientService clientService;
+
+    private SimpMessagingTemplate template;
 
     final Logger logger = LoggerFactory.getLogger(MessangerService.class);
 
@@ -123,4 +128,8 @@ public class MessangerService {
     public Object GetQuantityAllMessage(String uuid) {
         return 0;
     }
+
+//    public String GetChatRoomByUUID(String roomuuid) {
+//        return chatRepository.getByUuid(roomuuid);
+//    }
 }

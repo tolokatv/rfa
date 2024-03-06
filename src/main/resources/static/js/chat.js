@@ -18,6 +18,7 @@ var subpublic = null
 var subhello = null;
 var subusers = null;
 var subroom = null;
+var subMediaToPublic = null; // підписка для публікації повідомлень з медіа в пабліку
 var subheartbeats = null;
 
 
@@ -49,6 +50,8 @@ function onConnected() {
     subroom = stompClient.subscribe('/roomslist/'+curuuid, onRoomList);
 
     subheartbeats = stompClient.subscribe('/heartbeats', onHeartbeats);
+
+    subMediaToPublic = stompClient.subscribe('/media', onMediaPublic);
 
 
     stompClient.send("/app/hello",
@@ -151,18 +154,28 @@ function onRoomList(payload) {
 function onPublicMessageReceived(payload) {
     var jbody = JSON.parse(payload.body);
 
-    var spanname = document.createElement('span');
-    spanname.textContent = date2string(jbody.send)+" "+jbody.fromname+': ';
-
-    var spanbody = document.createElement('span');
-    spanbody.textContent = jbody.body;
-
     var iDiv = document.createElement('div');
-        iDiv.id = jbody.fromuuid;
-        iDiv.onclick= function () {selectuserFromPublic(jbody.fromuuid, jbody.fromname)};
+    if (jbody.rtype === 0 ) {
+        iDiv.innerHTML = jbody.body;
 
-    iDiv.appendChild(spanname);
-    iDiv.appendChild(spanbody);
+//        document.getElementById('publicarea').appendChild(iDiv);
+//        var objDiv = document.getElementById("publicarea");
+//        objDiv.scrollTop = objDiv.scrollHeight;
+
+    } else {
+        var spanname = document.createElement('span');
+        spanname.textContent = date2string(jbody.send)+" "+jbody.fromname+': ';
+
+        var spanbody = document.createElement('span');
+        spanbody.textContent = jbody.body;
+
+        //var iDiv = document.createElement('div');
+            iDiv.id = jbody.fromuuid;
+            iDiv.onclick= function () {selectuserFromPublic(jbody.fromuuid, jbody.fromname)};
+
+        iDiv.appendChild(spanname);
+        iDiv.appendChild(spanbody);
+    }
 
     document.getElementById('publicarea').appendChild(iDiv);
 
@@ -333,9 +346,19 @@ function date2string (idate) {
 function onHeartbeats () {
 }
 
+function onMediaPublic (payload) {
+    var jbody = JSON.parse(payload.body);
+    var iDiv = document.createElement('div'); //головний div повідомлення
+        iDiv.innerHTML = jbody.body;
+
+        document.getElementById('publicarea').appendChild(iDiv);
+        var objDiv = document.getElementById("publicarea");
+        objDiv.scrollTop = objDiv.scrollHeight;
+}
+
 window.addEventListener('DOMContentLoaded', event => {
 connect();
 
-var intervaluser = setInterval(getuserlist, 10000);
-var intervalroom = setInterval(getroomlist, 10000);
+var intervaluser = setInterval(getuserlist, 8000);
+var intervalroom = setInterval(getroomlist, 8000);
 })

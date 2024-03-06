@@ -54,6 +54,9 @@ public class Track {
     private Boolean notnormalvocabulary = false;
 
     @Expose
+    private Boolean tochat = true;
+
+    @Expose
     private EDocumentStatus status;
 
     @ToString.Exclude

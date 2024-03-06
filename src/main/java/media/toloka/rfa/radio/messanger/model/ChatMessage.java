@@ -3,6 +3,7 @@ package media.toloka.rfa.radio.messanger.model;
 import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
+import media.toloka.rfa.radio.messanger.model.enumerate.EChatRecordType;
 import media.toloka.rfa.radio.model.Clientdetail;
 
 import java.util.Date;
@@ -45,5 +46,8 @@ public class ChatMessage {
     private Date read = null;
     @Expose
     private String roomuuid;
+    @Expose
+    private Integer rtype;
+//    private EChatRecordType rtype;
 
 }
