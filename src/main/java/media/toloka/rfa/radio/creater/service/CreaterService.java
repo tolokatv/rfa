@@ -154,7 +154,10 @@ public class CreaterService {
         cm.setFromname(cd.getCustname()+" "+cd.getCustsurname());
         cm.setFromuuid(cd.getUuid());
         cm.setBody(
-                "<span>Ми опублікували новий трек! </span>"
+                "<span style=\"color: red\"><b>Опубліквано новий трек! </b><br>"+"</span>"
+//                +"<span>"+cd.getCustname()+" "+cd.getCustsurname()+"<br>"
+                +track.getAutor()+"<br>"
+                +track.getName()+"<br>"
                 +"<audio id=\""+track.getUuid() + "\" controls>"
                 +"<source src=\"/store/audio/"
                 +cd.getUuid()+"/"
