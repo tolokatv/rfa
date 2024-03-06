@@ -35,6 +35,8 @@ public class ServerRunnerService {
     private String server_rundir;
     @Value("${media.toloka.rfa.server.createStationCommand}")
     private String createStationCommand;
+    @Value("${media.toloka.rfa.server.setLibreTimeAdminPSW}")
+    private String setLibreTimeAdminPSW;
 
     @Value("${media.toloka.rfa.server.preparenginxforstationcommand}")
     private String preparenginxforstationcommand;
@@ -489,6 +491,43 @@ public class ServerRunnerService {
         }
         //================================================================
         // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
+//        // TODO Занести в історию запись
+        return rc;
+    }
+
+    public Long StationSetPSW(RPCJob rpcJob) {
+        Long rc = 129L;
+        Gson gson = gsonService.CreateGson();
+//        rpcJob.getRjobdata()  LIBRETIME_POSTGRESQL_ADMIN_PSW
+        Station tmpstation = gson.fromJson(rpcJob.getRjobdata(), Station.class);
+        ProcessBuilder pb = new ProcessBuilder("bash", "-c", setLibreTimeAdminPSW);
+        Station station = stationService.GetStationById(tmpstation.getId());
+        Map<String, String> env = pb.environment();
+        env.put("LIBRETIME_POSTGRESQL_ADMIN_PSW",rpcJob.getUser().getPassword());
+        SetEnvironmentForProcessBuilder(env, station);
+
+        pb.redirectErrorStream(true);
+        try {
+            Process p = pb.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                logger.info(line);
+            }
+            int exitcode = p.waitFor();
+            rc = Long.valueOf(exitcode);
+//            assert pb.redirectInput() == ProcessBuilder.Redirect.PIPE;
+//            assert pb.redirectOutput().file() == log;
+//            assert p.getInputStream().read() == -1;
+        } catch (IOException e) {
+            logger.warn(" Щось пішло не так при виконанні завдання в операційній системі");
+            e.printStackTrace();
+        } catch (InterruptedException e){
+            logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
+            e.printStackTrace();
+        }
+
+
 //        // TODO Занести в історию запись
         return rc;
     }

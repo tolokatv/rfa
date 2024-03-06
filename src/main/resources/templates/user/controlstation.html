@@ -30,13 +30,25 @@
                 <h5 class="mb-0">Керування станцією</h5>
             </div>
             <div class="card-body">
-                <form th:action="@{/user/stationsave}" th:object="${station}" method="post">
+<!--                <form th:action="@{/user/stationsave}" th:object="${station}" method="post">-->
+                <form th:action="@{/user/stationsave}" method="post">
                     <div class="row mb-4">
                         <div class="col">
                             <div class="form-outline">
                                 <input type="hidden" name="id" id="id" th:value="${station.id}" />
                                 <input type="text" name="name" id="name" th:value="${station.name}" class="form-control" />
                                 <label class="form-label" for="name">Найменування Станції</label>
+                                <div id="setpswarea" style="background: #dddddd;">
+                                    <p>
+                                        Встановлення пароля для користувача "admin" панелі керування станцією.<br>
+                                        <span>
+                                            <span style="color:red">УВАГА!</span><br>Всі користувачі будуть видалені, всі данні збережуться.
+                                        </span>
+                                    </p>
+<!--                                    Обʼєкт для паролю formUserPSW-->
+                                    <input type="text" name="password" id="password" th:value="${formUserPSW.password}" class="form-control" />
+                                    <label class="form-label" for="password">Пароль користувача "admin" для панелі керування станцією.</label>
+                                </div>
                             </div>
                         </div>
                         <div class="col">

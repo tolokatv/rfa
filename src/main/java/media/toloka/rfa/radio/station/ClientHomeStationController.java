@@ -26,7 +26,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.security.MessageDigest;
 import java.util.Date;
+import org.springframework.security.crypto.codec.Hex;
+
 
 import static media.toloka.rfa.radio.model.enumerate.EHistoryType.History_StatiionChange;
 import static media.toloka.rfa.rpc.model.ERPCJobType.*;
@@ -68,7 +71,7 @@ public class ClientHomeStationController {
             Model model ) {
         Users user = clientService.GetCurrentUser();
         if (user == null) {
-            logger.warn("User not found. Redirect to main page");
+//            logger.warn("User not found. Redirect to main page");
             return "redirect:/";
         }
         model.addAttribute("stations",  stationService.GetListStationByUser(user));
@@ -170,6 +173,33 @@ public class ClientHomeStationController {
             return "redirect:/user/stations";
         }
         // користувач та станція знайдені. Працюємо зі станцією.
+
+        model.addAttribute("formUserPSW",  new Users());
+        model.addAttribute("contracts",  contractService.ListContractByUser(user));
+        model.addAttribute("linkstation",  stationService.GetURLStation(mstation));
+        model.addAttribute("station",  mstation);
+        return "/user/controlstation";
+    }
+
+    @GetMapping(value = "/user/stationsetpsw")
+    public String userSetStationPSW(
+            @RequestParam(value = "id", required = true) Long id,
+            @ModelAttribute Users formUserPSW,
+            @ModelAttribute Station station,
+            Model model ) {
+        logger.info("Збереження паролю для станції.");
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+        // встановлюємо пароль для адміна в панелі керування станцією
+
+
+
+        Station mstation;
+        mstation = stationService.GetStationById(id);
+
+        model.addAttribute("formUserPSW",  new Users());
         model.addAttribute("contracts",  contractService.ListContractByUser(user));
         model.addAttribute("linkstation",  stationService.GetURLStation(mstation));
         model.addAttribute("station",  mstation);
@@ -179,10 +209,11 @@ public class ClientHomeStationController {
     @PostMapping(value = "/user/stationsave")
     public String userHomeStationSave(
             @ModelAttribute Station station,
+            @ModelAttribute Users formUserPSW,
             Model model ) {
         Users user = clientService.GetCurrentUser();
         if (user == null) {
-            logger.warn("userHomeStationSave: User not found. Redirect to main page");
+//            logger.warn("userHomeStationSave: User not found. Redirect to main page");
             return "redirect:/";
         }
 
@@ -203,6 +234,7 @@ public class ClientHomeStationController {
             return "redirect:/user/stations";
         }
 
+
         nstation.setName(station.getName());
 
         nstation.setIcecastdescription(station.getIcecastdescription());
@@ -215,6 +247,34 @@ public class ClientHomeStationController {
                 nstation.getUuid().toString() + ": " +nstation.getLastchangedate().toString() + " Збережено станцію " + nstation.getUuid().toString(),
                 user
         );
+        String newpsw = formUserPSW.getPassword();
+        if (!newpsw.isBlank()) {
+            logger.info("Встановлюємо пароль");
+
+            RPCJob rjob = new RPCJob();
+            rjob.getJobchain().add(JOB_STATION_SETPASSWORD);
+            try {
+                MessageDigest md;
+                md = MessageDigest.getInstance("MD5");
+                md.update(newpsw.getBytes());
+                byte[] digest = md.digest();
+                user.setPassword(new String(Hex.encode(digest)));
+            } catch (Exception e) {
+                logger.info("Щось не так з MD5 :(");
+                e.printStackTrace();
+            }
+
+            rjob.setUser(user);
+            Gson gstation = gsonService.CreateGson();
+            rjob.setRjobdata(gstation.toJson(station).toString());
+            // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
+            Gson gson = gsonService.CreateGson();
+            String strgson = gson.toJson(rjob).toString();
+            template.convertAndSend(queueNameRabbitMQ,gson.toJson(rjob).toString());
+            model.addAttribute("warning",  "Завдання на встановлення паролю відправлено на виконання.");
+        }
+
+
         // TODO відправити повідомлення на сторінку
         model.addAttribute("success",  "Вашу станцію збережено в базу.");
         return "redirect:/user/stations";
