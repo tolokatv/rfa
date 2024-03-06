@@ -504,6 +504,7 @@ public class ServerRunnerService {
         Station station = stationService.GetStationById(tmpstation.getId());
         Map<String, String> env = pb.environment();
         env.put("LIBRETIME_POSTGRESQL_ADMIN_PSW",rpcJob.getUser().getPassword());
+        env.put("PGPASSWORD",station.getDbname());
         SetEnvironmentForProcessBuilder(env, station);
 
         pb.redirectErrorStream(true);
