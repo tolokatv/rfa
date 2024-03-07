@@ -2,7 +2,6 @@ package media.toloka.rfa.radio.post.repositore;
 
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Post;
-import media.toloka.rfa.radio.model.Track;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,4 +15,6 @@ public interface PostRepositore extends JpaRepository<Post, Long>, PagingAndSort
     List<Post>  findByApruve(Boolean apruve);
 
     Page findAllByOrderByPublishdateDesc(Pageable storePage);
+
+    List<Post> findByClientdetailOrderByCreatedateDesc(Clientdetail cd);
 }

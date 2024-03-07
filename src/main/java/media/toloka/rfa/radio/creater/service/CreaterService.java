@@ -77,7 +77,7 @@ public class CreaterService {
     }
 
     public List<Post> GetAllPostsByCreater(Clientdetail cd) {
-        List<Post> postList = postRepositore.findByClientdetail(cd);
+        List<Post> postList = postRepositore.findByClientdetailOrderByCreatedateDesc(cd);
         return postList;
     }
 
