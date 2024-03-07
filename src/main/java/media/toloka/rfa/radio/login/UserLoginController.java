@@ -89,8 +89,13 @@ public class UserLoginController {
         if (user == null) {
             return "redirect:/";
         }
+
+        String remoteAddr = request.getHeader("X-FORWARDED-FOR");
+        if (remoteAddr == null || "".equals(remoteAddr)) {
+            remoteAddr = request.getRemoteAddr();
+        }
         Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
-        logger.info("IP={} Користувач {} {} company: {}",request.getRemoteAddr(),cd.getCustname(),cd.getCustsurname(),cd.getFirmname());
+        logger.info("IP={} Користувач {} {} company: {}",remoteAddr,cd.getCustname(),cd.getCustsurname(),cd.getFirmname());
 //        String remip = request.getRemoteAddr();
 
         if (clientService.checkRole(ROLE_ADMIN)) {
