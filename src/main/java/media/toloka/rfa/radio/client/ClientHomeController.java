@@ -7,22 +7,19 @@ import media.toloka.rfa.radio.model.Post;
 import media.toloka.rfa.radio.model.Track;
 import media.toloka.rfa.radio.post.service.PostService;
 import media.toloka.rfa.radio.station.service.StationService;
-import media.toloka.rfa.radio.store.Service.StoreService;
-import media.toloka.rfa.radio.store.model.Store;
+import media.toloka.rfa.media.store.Service.StoreService;
+import media.toloka.rfa.media.store.model.Store;
 import media.toloka.rfa.security.model.Users;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
 import java.util.List;
-import java.util.Optional;
-
-import static media.toloka.rfa.radio.store.model.EStoreFileType.STORE_TRACK;
 
 @Controller
 public class ClientHomeController {
@@ -45,6 +42,8 @@ public class ClientHomeController {
     @Autowired
     private PostService postService;
 
+    final Logger logger = LoggerFactory.getLogger(ClientHomeController.class);
+
     @GetMapping(value = "/user/user_page")
     public String userHome(
             Model model ) {
@@ -52,6 +51,17 @@ public class ClientHomeController {
         if (user == null) {
             return "redirect:/";
         }
+
+        String curshow;
+        // todo пробуємо отримати інформацію зі станцій (треки, шоу) для відображення на сайті.
+        // https://www.baeldung.com/java-read-json-from-url
+//        try {
+//            curshow = clientService.GetCurrentTrack(new URL("https://ukraine.rfa.toloka.media/api/live-info/?callback"));
+//
+//        } catch (MalformedURLException e) {
+//            logger.error("Помилка при отриманні інформації зі станції про поточний трек.");
+//            e.printStackTrace();
+//        }
 
         List<Post> posts = createrService.GetAllPostsByApruve(true);
         List<Track> trackList = createrService.GetLastUploadTracks();

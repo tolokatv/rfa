@@ -6,13 +6,13 @@ import media.toloka.rfa.radio.creater.repository.AlbumRepository;
 import media.toloka.rfa.radio.creater.repository.TrackRepository;
 import media.toloka.rfa.radio.document.ClientDocumentEditController;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
-import media.toloka.rfa.radio.messanger.model.ChatMessage;
-import media.toloka.rfa.radio.messanger.model.enumerate.EChatRecordType;
-import media.toloka.rfa.radio.messanger.service.MessangerService;
+import media.toloka.rfa.media.messanger.model.ChatMessage;
+import media.toloka.rfa.media.messanger.model.enumerate.EChatRecordType;
+import media.toloka.rfa.media.messanger.service.MessangerService;
 import media.toloka.rfa.radio.model.*;
 import media.toloka.rfa.radio.model.enumerate.EDocumentStatus;
 import media.toloka.rfa.radio.post.repositore.PostRepositore;
-import media.toloka.rfa.radio.store.model.Store;
+import media.toloka.rfa.media.store.model.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -164,11 +164,33 @@ public class CreaterService {
                 +track.getFilename()+"\"/>"
                 +"</audio>"
         );
-        cm.setRoomuuid(chatmainroom);
         cm.setRtype(EChatRecordType.RECORD_TYPE_MEDIA.ordinal());
+        cm.setRoomuuid(chatmainroom);
         messangerService.SaveMessage(cm);
         try {
             this.template.convertAndSend("/topic/"+chatmainroom, cm);
+        } catch (Exception e) {
+            logger.info("PublicTrackToChat Exception");
+            e.printStackTrace();
+        }
+        cm.setRoomuuid(chatmainroom);
+        messangerService.SaveMessage(cm);
+        try {
+            this.template.convertAndSend("/topic/"+chatmainroom, cm);
+        } catch (Exception e) {
+            logger.info("PublicTrackToChat Exception");
+            e.printStackTrace();
+        }
+
+        ChatMessage cmt = new ChatMessage();
+        cmt.setFromuuid(cm.getFromuuid());
+        cmt.setFromname(cm.getFromname());
+        cmt.setRtype(cm.getRtype());
+        cmt.setBody(cm.getBody());
+        cmt.setRoomuuid(chattrackroom);
+        messangerService.SaveMessage(cmt);
+        try {
+            this.template.convertAndSend("/topic/"+chattrackroom, cmt);
         } catch (Exception e) {
             logger.info("PublicTrackToChat Exception");
             e.printStackTrace();

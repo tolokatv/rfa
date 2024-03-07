@@ -24,17 +24,41 @@ var subheartbeats = null;
 
 
 
-var colors = [
-    '#2196F3', '#32c787', '#00BCD4', '#ff5652',
-    '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
-];
+
+//var colors = [
+//    '#2196F3', '#32c787', '#00BCD4', '#ff5652',
+//    '#ffc107', '#ff85af', '#FF9800', '#39bbb0'
+//];
 function connect() {
     //username = document.querySelector('#name').value.trim();
 //    var socket = new WebSocket("ws://localhost:8080/rfachat");
-//    var socket = new WebSocket("wss://rfa.toloka.media/rfachat");
+//    var socket = new WebSocket("https://rfa.toloka.media/rfachat");
     var socket = new SockJS('/rfachat');
     stompClient = Stomp.over(socket);
-    stompClient.connect({}, onConnected, onError);
+    stompClient.connect({
+        heartbeatIncoming: 8000,
+        heartbeatOutgoing: 8000},
+        onConnected, onError, onCloseEventCallback);
+        stompClient.debug = debugToConsole;
+        stompClient.reconnect_delay = 300;
+}
+
+function onCloseEventCallback(str) {
+    console.log("===================================================================");
+    console.log("===================================================================");
+    console.log("===================================================================");
+    console.log("===================================================================");
+    console.log("===================================================================");
+    console.log("========== CLOSE EVENT "+str);
+    console.log("===================================================================");
+    console.log("===================================================================");
+    console.log("===================================================================");
+    console.log("===================================================================");
+    console.log("===================================================================");
+}
+
+function debugToConsole (str) {
+    console.log("========== DEBUG "+str);
 }
 
 function onConnected() {

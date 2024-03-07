@@ -16,7 +16,8 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketConfig  implements WebSocketMessageBrokerConfigurer {
 
-
+//    @Autowired
+//    private TaskScheduler stompTaskScheduler;
 
 
     @Override
@@ -42,10 +43,24 @@ public class WebSocketConfig  implements WebSocketMessageBrokerConfigurer {
                 "/private",
                 "/public",
                 "/heartbeats");
-//                .setTaskScheduler(new DefaultManagedTaskScheduler())
-//                .setHeartbeatValue(new long[]{0,8000});
+//                .setTaskScheduler(heartBeatScheduler())
+//                .setHeartbeatValue(new long[]{2000,2000});
         config.setApplicationDestinationPrefixes("/app");
     }
+
+    @Bean
+    public TaskScheduler heartBeatScheduler() {
+        return new ThreadPoolTaskScheduler();
+    }
+
+
+//    @Bean
+//    private TaskScheduler heartBeatScheduler() {
+//        TaskScheduler sheduler = new StompHeartbeatSheduler();
+//        initialize()
+//        sheduler.in
+//        return sheduler;
+//    }
 
     @Override
     public void registerStompEndpoints(StompEndpointRegistry registry) {

@@ -5,9 +5,8 @@ import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
-import media.toloka.rfa.radio.messanger.model.ChatMessage;
-import media.toloka.rfa.radio.messanger.model.MessageRoom;
-import media.toloka.rfa.radio.store.model.Store;
+import media.toloka.rfa.media.messanger.model.MessageRoom;
+import media.toloka.rfa.media.store.model.Store;
 import media.toloka.rfa.security.model.Users;
 
 

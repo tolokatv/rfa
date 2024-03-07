@@ -4,6 +4,7 @@ package media.toloka.rfa.radio.login;
 // реєстрація користувача https://www.baeldung.com/registration-verify-user-by-email
 
 //import jakarta.mail.MessagingException;
+import jakarta.servlet.http.HttpServletRequest;
 import lombok.Getter;
 import lombok.Setter;
 import media.toloka.rfa.radio.client.service.ClientService;
@@ -79,6 +80,7 @@ public class UserLoginController {
 
     @GetMapping(value = "/login/route")
     public String userRouter (
+            HttpServletRequest request,
             Model model
     ) {
         logger.info("============ ROUTE to Group page ");
@@ -88,7 +90,8 @@ public class UserLoginController {
             return "redirect:/";
         }
         Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
-        logger.info("Користувач {} {} company: {}",cd.getCustname(),cd.getCustsurname(),cd.getFirmname());
+        logger.info("IP={} Користувач {} {} company: {}",request.getRemoteAddr(),cd.getCustname(),cd.getCustsurname(),cd.getFirmname());
+//        String remip = request.getRemoteAddr();
 
         if (clientService.checkRole(ROLE_ADMIN)) {
             return "redirect:/admin/home";
