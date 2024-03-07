@@ -1,4 +1,4 @@
-package media.toloka.rfa.config;
+package media.toloka.rfa.media.messanger.config;
 
 //public class StompHeartbeatSheduler {
 //}
