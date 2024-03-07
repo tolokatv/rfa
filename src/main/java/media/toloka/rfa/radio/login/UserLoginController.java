@@ -7,6 +7,7 @@ package media.toloka.rfa.radio.login;
 import lombok.Getter;
 import lombok.Setter;
 import media.toloka.rfa.radio.client.service.ClientService;
+import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Mail;
 import media.toloka.rfa.radio.email.service.EmailSenderService;
 import media.toloka.rfa.radio.history.service.HistoryService;
@@ -81,6 +82,14 @@ public class UserLoginController {
             Model model
     ) {
         logger.info("============ ROUTE to Group page ");
+
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
+        logger.info("Користувач {} {} company: {}",cd.getCustname(),cd.getCustsurname(),cd.getFirmname());
+
         if (clientService.checkRole(ROLE_ADMIN)) {
             return "redirect:/admin/home";
         } else if (clientService.checkRole(ROLE_MODERATOR)) {
