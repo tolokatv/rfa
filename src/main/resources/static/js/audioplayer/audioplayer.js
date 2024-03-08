@@ -178,6 +178,21 @@ const everything = function (element) {
       muteState = "unmute";
     }
   });
+
+  function onclicktrack(event) {
+    if (muteState === "unmute") {
+      // мутимо плеєр. Кнопку плеєра беремо по ID елементу
+        muteIconContainer = document.getElementById("mutekey"); // кнопка муте знаходиться десь на сторінці.
+      muteAnimation.playSegments([0, 15], true);
+      audio.muted = true;
+      muteState = "mute";
+    } else {
+      muteAnimation.playSegments([15, 25], true);
+      audio.muted = false;
+      muteState = "unmute";
+    }
+
+  }
 };
 
 customElements.define("audio-player", AudioPlayer);

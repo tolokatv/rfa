@@ -1,0 +1,88 @@
+        button {
+          padding: 0;
+          border: 0;
+          background: transparent;
+          cursor: pointer;
+          outline: none;
+          width: 30px;
+          height: 30px;
+          top: 0px;
+          float: left;
+          color: #ff8000;
+        }
+
+        #audio-player-container {
+          position: relative;
+          margin: 100px 2.5% auto 2.5%;
+          width: 95%;
+          max-width: 200px;
+          height: 113px;
+          background: #000;
+          font-family: Arial, Helvetica, sans-serif;
+          letter-spacing: 3px;
+        }
+
+        #audio-player-container::before {
+          position: absolute;
+          content: '';
+          width: calc(100% + 8px);
+          height: calc(100% + 8px);
+          left: -4px;
+          top: -4px;
+          background: linear-gradient(to left, #ff8000, #ff8000);
+          z-index: -1;
+        }
+
+        p {
+          position: absolute;
+          top: -14px;
+          right: 5%;
+          padding: 0 5px;
+          margin: 0;
+          font-size: 18px;
+          background: #ff8000;
+        }
+
+        #play-icon {
+          margin: 45px 2.5% 20px 2.5%;
+        }
+
+        #mute-icon {
+          margin: 45px 2.5% 20px 2.5%;
+        }
+
+        path {
+          stroke: #ff8000;
+        }
+
+        #name-station {
+          position: relative;
+          top: -17px;
+          color: #ff8000;
+          line-height: 25px;
+          background: #505050;
+          top: 10px;
+        }
+
+        .btn {
+          position: relative;
+          border: 2px solid #ff8000;
+          background-color: black;
+          color: #ff8000;
+          padding: 4px 4px;
+          font-size: 12px;
+          cursor: pointer;
+          top: -3px;
+          width: 110px;
+          margin-top: 4px;
+          -webkit-border-radius: 0%;
+          -moz-border-radius: 0%;
+        }
+
+        #toloka-ukraine {
+          color: black;
+          background-color: #ff8000;
+          font-size: 15px;
+          font-weight: bold;
+          border: 2px solid white;
+        }

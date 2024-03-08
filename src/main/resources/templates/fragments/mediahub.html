@@ -105,13 +105,14 @@
 
 <div class="container" th:fragment="lasttrecksall">
     <div class="card" >
-        <div class="card-header"><h3>Останні завантажені треки</h3></div>
+        <div class="card-header"><h3>Завантажені треки</h3></div>
         <ul class="list-group list-group-flush">
             <div th:each="track, iStat : ${trackList}">
                 <li  class="list-group-item">
                     <div class="row" th:style="${iStat.odd}? 'background-color: rgb(240,240, 240'">
                         <div class="col-1 col-sm-1 col-lg-1" style="padding-left: 0px;">
-                            <span class="fa-stack fa-1x">
+
+                            <span class="fa-stack fa-1x" th:id="'/store/audio/'+${track.storeitem.uuid}" onclick="onclicktrack">
                                 <i class="fas fa-circle fa-stack-2x text-primary"></i>
                                 <i class="fas fa-play fa-stack-1x fa-inverse"></i>
                             </span>
@@ -120,14 +121,12 @@
                             <small >
                                 <span th:text="${track.autor}"/><br>
                                 <span th:text="${track.name}"/><br>
-<!--                                <span th:text="${track.clientdetail.custname} + ' ' + ${track.clientdetail.custsurname}"/>-->
                             </small>
 
                         </div>
                         <div>
                             <audio id="'voice'+${track.id}" controls>
                                 <source th:src="'/store/audio/'+${track.storeitem.uuid}">
-<!--                                <source th:src="'/store/audio/'+${track.clientdetail.uuid}+'/'+${track.filename}">-->
                             </audio>
                         </div>
                     </div>
