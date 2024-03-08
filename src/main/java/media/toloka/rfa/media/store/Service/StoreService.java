@@ -80,6 +80,6 @@ public class StoreService {
     }
 
     public Store GetStoreByUUID(String storeUUID) {
-        return null;
+        return storeRepositore.getByUuid(storeUUID);
     }
 }
