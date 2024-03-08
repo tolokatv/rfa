@@ -78,4 +78,8 @@ public class StoreService {
         return page;
 
     }
+
+    public Store GetStoreByUUID(String storeUUID) {
+        return null;
+    }
 }

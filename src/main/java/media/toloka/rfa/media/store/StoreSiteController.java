@@ -3,6 +3,7 @@ package media.toloka.rfa.media.store;
 
 
 import media.toloka.rfa.media.store.Service.StoreService;
+import media.toloka.rfa.media.store.model.Store;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
@@ -79,7 +80,47 @@ public class StoreSiteController  {
                 .body(stream);
     }
 
-    @GetMapping(value = "/store/audio/{clientUUID}/{fileName}",
+    @GetMapping(value = "/store/audio/{storeUUID}",
+            produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    public @ResponseBody byte[] getStoreAudio(
+            @PathVariable String storeUUID,
+//            @PathVariable String fileName,
+            Model model) {
+//        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
+//        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
+        // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
+        Store storeRecord = storeService.GetStoreByUUID(storeUUID);
+        if (storeRecord == null) {
+            logger.info("getStoreAudio: Йой! Не знайшли запис у сховищі!");
+            return null;
+        } else {
+//        String fileName = storeRecord.getFilename();
+            String ifile = filesService.GetClientDirectory(storeRecord.getClientdetail())
+                    + "/" + storeRecord.getFilename();
+//        logger.info("SCD = {}",ifile);
+//        InputStream is = getClass().getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
+            InputStream is;
+            try {
+                is = new FileInputStream(new File(ifile));
+                if (is == null) {
+                    return new byte[0];
+                }
+                byte[] buffer = is.readAllBytes();
+                return buffer;
+            } catch (FileNotFoundException e) {
+                logger.info("getStoreAudio: Йой! FileNotFoundException!");
+                return null;
+            } catch (IOException e) {
+                logger.info("==================================== getStoreImage IOException");
+                e.printStackTrace();
+                return null;
+            }
+        }
+    }
+
+
+
+    @GetMapping(value = "/store/oldaudio/{clientUUID}/{fileName}",
             produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
     public @ResponseBody byte[] getStoreAudio(
             @PathVariable String clientUUID,
