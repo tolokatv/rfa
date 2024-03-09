@@ -84,7 +84,7 @@ public class StoreSiteController  {
                 .body(stream);
     }
 
-    @GetMapping(value = "/store/audio1/{storeUUID}",
+    @GetMapping(value = "/store/audio/{storeUUID}",
             produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
     public ResponseEntity<StreamingResponseBody> getStoreAudioToStream(
             @PathVariable("storeUUID") String storeUUID,
@@ -181,7 +181,7 @@ public class StoreSiteController  {
         }
     }
 
-    @GetMapping(value = "/store/audio/{storeUUID}",
+    @GetMapping(value = "/store/audio1/{storeUUID}",
             produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
     public @ResponseBody byte[] getStoreAudio(
 //    public ResponseEntity<StreamingResponseBody> getStoreAudio(
