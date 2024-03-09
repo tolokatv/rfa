@@ -34,6 +34,31 @@ public class RootController {
     @Autowired
     private CreaterService createrService;
 
+    @GetMapping(value = "/admin/root")
+    public String adminroot(Model model) {
+
+        List<Post> posts = createrService.GetAllPostsByApruve(true);
+        List<Track> trackList = createrService.GetLastUploadTracks();
+
+//        Page page = storeService.GetStorePageItemType(0,5, STORE_TRACK);
+        Page pageTrack = createrService.GetTrackPage(0,10);
+        List<Store> storeTrackList = pageTrack.stream().toList();
+
+        Page pagePost = createrService.GetPostPage(0,12);
+        List<Store> storePostList = pagePost.stream().toList();
+
+//        model.addAttribute("trackList", trackList );
+        model.addAttribute("trackList", storeTrackList );
+        model.addAttribute("postList", storePostList );
+        model.addAttribute("posts", posts );
+//        model.addAttribute("stations",  stationService.GetListStationByUser(user));
+
+        MessageFromSite QuestionForm = new MessageFromSite();
+        model.addAttribute("question", QuestionForm);
+        return "/admin/root";
+    }
+
+
     @GetMapping(value = "/")
     public String index(Model model) {
 
@@ -57,6 +82,8 @@ public class RootController {
         model.addAttribute("question", QuestionForm);
         return "/root";
     }
+
+
     @GetMapping(value = "/about")
     public String about(Model model) {
 
