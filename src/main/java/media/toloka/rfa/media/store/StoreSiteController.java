@@ -15,17 +15,21 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.ResponseBody;
 //import org.apache.commons.io.IOUtils
 
 import java.awt.image.BufferedImage;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.imgscalr.Scalr;
@@ -54,7 +58,7 @@ public class StoreSiteController  {
 
     @GetMapping(value = "/store/taudio/{clientUUID}/{fileName}",
             produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
-    public ResponseEntity<StreamingResponseBody> stream(
+        public ResponseEntity<StreamingResponseBody> stream(
             @PathVariable String clientUUID,
             @PathVariable String fileName,
             Model model) throws IOException {
@@ -80,11 +84,109 @@ public class StoreSiteController  {
                 .body(stream);
     }
 
+    @GetMapping(value = "/store/audio/stream/{storeUUID}",
+            produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    public ResponseEntity<StreamingResponseBody> getStoreAudioToStream(
+            @PathVariable("storeUUID") String storeUUID,
+            @RequestHeader(value = "Range", required = false) String rangeHeader
+    ) {
+        // https://www.codeproject.com/Articles/5341970/Streaming-Media-Files-in-Spring-Boot-Web-Applicati
+        try
+        {
+            StreamingResponseBody responseStream;
+            Store storeRecord = storeService.GetStoreByUUID(storeUUID);
+            String filePathString = filesService.GetClientDirectory(storeRecord.getClientdetail())
+                    + "/" + storeRecord.getFilename();
+//            String filePathString = "<Place your MP4 file full path here.>";
+            Path filePath = Paths.get(filePathString);
+            Long fileSize = Files.size(filePath);
+            byte[] buffer = new byte[1024];
+            final HttpHeaders responseHeaders = new HttpHeaders();
+
+            if (rangeHeader == null)
+            {
+                responseHeaders.add("Content-Type", "video/mp4");
+                responseHeaders.add("Content-Length", fileSize.toString());
+                responseStream = os -> {
+                    RandomAccessFile file = new RandomAccessFile(filePathString, "r");
+                    try (file)
+                    {
+                        long pos = 0;
+                        file.seek(pos);
+                        while (pos < fileSize - 1)
+                        {
+                            file.read(buffer);
+                            os.write(buffer);
+                            pos += buffer.length;
+                        }
+                        os.flush();
+                    } catch (Exception e) {}
+                };
+
+                return new ResponseEntity<StreamingResponseBody>
+                        (responseStream, responseHeaders, HttpStatus.OK);
+            }
+
+            String[] ranges = rangeHeader.split("-");
+            Long rangeStart = Long.parseLong(ranges[0].substring(6));
+            Long rangeEnd;
+            if (ranges.length > 1)
+            {
+                rangeEnd = Long.parseLong(ranges[1]);
+            }
+            else
+            {
+                rangeEnd = fileSize - 1;
+            }
+
+            if (fileSize < rangeEnd)
+            {
+                rangeEnd = fileSize - 1;
+            }
+
+            String contentLength = String.valueOf((rangeEnd - rangeStart) + 1);
+            responseHeaders.add("Content-Type", "video/mp4");
+            responseHeaders.add("Content-Length", contentLength);
+            responseHeaders.add("Accept-Ranges", "bytes");
+            responseHeaders.add("Content-Range", "bytes" + " " +
+                    rangeStart + "-" + rangeEnd + "/" + fileSize);
+            final Long _rangeEnd = rangeEnd;
+            responseStream = os -> {
+                RandomAccessFile file = new RandomAccessFile(filePathString, "r");
+                try (file)
+                {
+                    long pos = rangeStart;
+                    file.seek(pos);
+                    while (pos < _rangeEnd)
+                    {
+                        file.read(buffer);
+                        os.write(buffer);
+                        pos += buffer.length;
+                    }
+                    os.flush();
+                }
+                catch (Exception e) {}
+            };
+
+            return new ResponseEntity<StreamingResponseBody>
+                    (responseStream, responseHeaders, HttpStatus.PARTIAL_CONTENT);
+        }
+        catch (FileNotFoundException e)
+        {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch (IOException e)
+        {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
     @GetMapping(value = "/store/audio/{storeUUID}",
             produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
     public @ResponseBody byte[] getStoreAudio(
-            @PathVariable String storeUUID,
-//            @PathVariable String fileName,
+//    public ResponseEntity<StreamingResponseBody> getStoreAudio(
+            @PathVariable("storeUUID") String storeUUID,
+            @RequestHeader(value = "Range", required = false) String rangeHeader,
             Model model) {
 //        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
 //        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
@@ -94,11 +196,8 @@ public class StoreSiteController  {
             logger.info("getStoreAudio: Йой! Не знайшли запис у сховищі!");
             return null;
         } else {
-//        String fileName = storeRecord.getFilename();
             String ifile = filesService.GetClientDirectory(storeRecord.getClientdetail())
                     + "/" + storeRecord.getFilename();
-//        logger.info("SCD = {}",ifile);
-//        InputStream is = getClass().getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
             InputStream is;
             try {
                 is = new FileInputStream(new File(ifile));
