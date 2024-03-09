@@ -145,7 +145,8 @@ public class StoreSiteController  {
             }
 
             String contentLength = String.valueOf((rangeEnd - rangeStart) + 1);
-            responseHeaders.add("Content-Type", "video/mp4");
+            responseHeaders.add("Content-Type", storeRecord.getContentMimeType());
+            //responseHeaders.add("Content-Type", "video/mp4");
             responseHeaders.add("Content-Length", contentLength);
             responseHeaders.add("Accept-Ranges", "bytes");
             responseHeaders.add("Content-Range", "bytes" + " " +
@@ -181,41 +182,41 @@ public class StoreSiteController  {
         }
     }
 
-    @GetMapping(value = "/store/audio1/{storeUUID}",
-            produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
-    public @ResponseBody byte[] getStoreAudio(
-//    public ResponseEntity<StreamingResponseBody> getStoreAudio(
-            @PathVariable("storeUUID") String storeUUID,
-            @RequestHeader(value = "Range", required = false) String rangeHeader,
-            Model model) {
-//        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
-//        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
-        // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
-        Store storeRecord = storeService.GetStoreByUUID(storeUUID);
-        if (storeRecord == null) {
-            logger.info("getStoreAudio: Йой! Не знайшли запис у сховищі!");
-            return null;
-        } else {
-            String ifile = filesService.GetClientDirectory(storeRecord.getClientdetail())
-                    + "/" + storeRecord.getFilename();
-            InputStream is;
-            try {
-                is = new FileInputStream(new File(ifile));
-                if (is == null) {
-                    return new byte[0];
-                }
-                byte[] buffer = is.readAllBytes();
-                return buffer;
-            } catch (FileNotFoundException e) {
-                logger.info("getStoreAudio: Йой! FileNotFoundException!");
-                return null;
-            } catch (IOException e) {
-                logger.info("==================================== getStoreImage IOException");
-                e.printStackTrace();
-                return null;
-            }
-        }
-    }
+//    @GetMapping(value = "/store/audio1/{storeUUID}",
+//            produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+//    public @ResponseBody byte[] getStoreAudio(
+////    public ResponseEntity<StreamingResponseBody> getStoreAudio(
+//            @PathVariable("storeUUID") String storeUUID,
+//            @RequestHeader(value = "Range", required = false) String rangeHeader,
+//            Model model) {
+////        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
+////        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
+//        // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
+//        Store storeRecord = storeService.GetStoreByUUID(storeUUID);
+//        if (storeRecord == null) {
+//            logger.info("getStoreAudio: Йой! Не знайшли запис у сховищі!");
+//            return null;
+//        } else {
+//            String ifile = filesService.GetClientDirectory(storeRecord.getClientdetail())
+//                    + "/" + storeRecord.getFilename();
+//            InputStream is;
+//            try {
+//                is = new FileInputStream(new File(ifile));
+//                if (is == null) {
+//                    return new byte[0];
+//                }
+//                byte[] buffer = is.readAllBytes();
+//                return buffer;
+//            } catch (FileNotFoundException e) {
+//                logger.info("getStoreAudio: Йой! FileNotFoundException!");
+//                return null;
+//            } catch (IOException e) {
+//                logger.info("==================================== getStoreImage IOException");
+//                e.printStackTrace();
+//                return null;
+//            }
+//        }
+//    }
 
 
 
