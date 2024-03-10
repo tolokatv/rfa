@@ -16,9 +16,14 @@ class AudioPlayer extends HTMLElement {
     myaudio = null;
 
     setAudioSrc(id) {
-        console.log("Таки вдалося! id="+id);
+//        console.log("Таки вдалося! id="+id);
         this.myaudio.src=id;
-        console.log("audio = "+this.myaudio.src);
+//        console.log("audio = "+this.myaudio.src);
+    }
+
+    clikTrack(id) {
+        // клікаємо зовнішній трек
+
     }
 }
 
@@ -106,7 +111,6 @@ const everything = function(element) {
     }
 
     playIconContainer.addEventListener('click', (event) => {
-        console.log("====== Натиснули на трек ========= "+event.target.id)
         if(playState === 'play') {
             audio.play();
             playAnimation.playSegments([14, 27], true);
