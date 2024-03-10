@@ -19,12 +19,13 @@
         <link href="/css/styles.css" rel="stylesheet" />
     </head>
     <body id="page-top">
+    <div th:insert="~{/fragments/mediahub :: audiotemplate}"/>
     <!-- Експеримент з треками преєр -->
     <div th:insert="~{/fragments/mediahub :: tolokanews}">  </div>
     <!-- Bootstrap core JS-->
     <script src="/js/bootstrap.bundle.min.js"></script>
         <!-- audioplayer красивий -->
-    <script src="/js/audioplayer/audioplayer.js"></script>
+    <script type="module" src="/js/audioplayer/audioplayer.js"></script>
         <!-- Core theme JS-->
 <!--        <script src="js/scripts.js"></script>-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->

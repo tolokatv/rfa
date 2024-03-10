@@ -256,10 +256,9 @@
 
                         </div>
                         <div>
+                            <audio-player th:data-src="'/store/audio/'+${track.storeitem.uuid}"></audio-player>
                             <audio id="'voice'+${track.id}" controls>
-                                <audio-player th:data-src="'/store/audio/'+${track.storeitem.uuid}"></audio-player>
                                 <source th:src="'/store/audio/'+${track.storeitem.uuid}">
-                                <!--                                <source th:src="'/store/audio/'+${track.clientdetail.uuid}+'/'+${track.filename}">-->
                             </audio>
                         </div>
                     </div>
