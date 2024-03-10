@@ -21,11 +21,17 @@
     <body id="page-top">
     <div th:insert="~{/fragments/mediahub :: audiotemplate}"/>
     <!-- Експеримент з треками преєр -->
-    <div th:insert="~{/fragments/mediahub :: tolokanews}">  </div>
+    <div id="tolokaPlayer" th:insert="~{/fragments/mediahub :: tolokanews}">  </div>
     <!-- Bootstrap core JS-->
     <script src="/js/bootstrap.bundle.min.js"></script>
         <!-- audioplayer красивий -->
     <script type="module" src="/js/audioplayer/audioplayer.js"></script>
+    <script>
+        function onClickTrack(event) {
+            console.log("====== Click to track id="+event.id);
+            document.getElementById('audio-player').setAudioSrc("/store/audio/"+event.id);
+        }
+    </script>
         <!-- Core theme JS-->
 <!--        <script src="js/scripts.js"></script>-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->

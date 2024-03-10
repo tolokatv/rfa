@@ -12,10 +12,18 @@ class AudioPlayer extends HTMLElement {
     connectedCallback() {
         everything(this);
     }
+
+    myaudio = null;
+
+    setAudioSrc(id) {
+        console.log("Таки вдалося! id="+id);
+        this.myaudio.src=id;
+        console.log("audio = "+this.myaudio.src);
+    }
 }
 
 const everything = function(element) {
-  const shadow = element.shadowRoot;
+    const shadow = element.shadowRoot;
 
     const audioPlayerContainer = shadow.getElementById('audio-player-container');
     const playIconContainer = shadow.getElementById('play-icon');
@@ -23,6 +31,7 @@ const everything = function(element) {
     const volumeSlider = shadow.getElementById('volume-slider');
     const muteIconContainer = shadow.getElementById('mute-icon');
     const audio = shadow.querySelector('audio');
+    element.myaudio = audio;
     const durationContainer = shadow.getElementById('duration');
     const currentTimeContainer = shadow.getElementById('current-time');
     const outputContainer = shadow.getElementById('volume-output');
@@ -215,3 +224,4 @@ const everything = function(element) {
 }
 
 customElements.define('audio-player', AudioPlayer);
+

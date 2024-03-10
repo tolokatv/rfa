@@ -234,6 +234,7 @@
     <div class="card" >
         <div class="card-header">
             <h3>Нові треки</h3>
+            <audio-player id="audio-player" data-src="/store/audio/96c8fa5a-e190-4ee5-aba2-ef52deee51f0"/>
             <!--            <audio-player data-src=""></audio-player>-->
             <!--            ТУТ БУДЕ ПЛЕЄР-->
         </div>
@@ -241,13 +242,13 @@
             <div th:each="track, iStat : ${trackList}">
                 <li  class="list-group-item">
                     <div class="row" th:style="${iStat.odd}? 'background-color: rgb(240,240, 240'">
-                        <div class="col-1 col-sm-1 col-lg-1" style="padding-left: 0px;">
+                        <div class="col-1 col-sm-1 col-lg-1" style="padding-left: 0px;" th:id="${track.storeitem.uuid}" onclick="onClickTrack(this)">
                             <span class="fa-stack fa-1x">
                                 <i class="fas fa-circle fa-stack-2x text-primary"></i>
                                 <i class="fas fa-play fa-stack-1x fa-inverse"></i>
                             </span>
                         </div>
-                        <div class="col-11 col-lg-11 col-sm-11">
+                        <div class="col-11 col-lg-11 col-sm-11" >
                             <small>
                                 <span th:text="${track.name}"/><br>
                                 <span th:text="${track.autor}"/><br>
@@ -255,12 +256,12 @@
                             </small>
 
                         </div>
-                        <div>
-                            <audio-player th:data-src="'/store/audio/'+${track.storeitem.uuid}"></audio-player>
-                            <audio id="'voice'+${track.id}" controls>
-                                <source th:src="'/store/audio/'+${track.storeitem.uuid}">
-                            </audio>
-                        </div>
+<!--                        <div>-->
+<!--                            <audio-player th:data-src="'/store/audio/'+${track.storeitem.uuid}"></audio-player>-->
+<!--                            <audio id="'voice'+${track.id}" controls>-->
+<!--                                <source th:src="'/store/audio/'+${track.storeitem.uuid}">-->
+<!--                            </audio>-->
+<!--                        </div>-->
                     </div>
                 </li>
             </div>
@@ -344,7 +345,7 @@
                     <div class="row" th:style="${iStat.odd}? 'background-color: rgb(240,240, 240'">
                         <div class="col-1 col-sm-1 col-lg-1" style="padding-left: 0px;">
 
-                            <span class="fa-stack fa-1x" th:id="'/store/audio/'+${track.storeitem.uuid}" onclick="onclicktrack">
+                            <span class="fa-stack fa-1x" th:id="'/store/audio/'+${track.storeitem.uuid}">
                                 <i class="fas fa-circle fa-stack-2x text-primary"></i>
                                 <i class="fas fa-play fa-stack-1x fa-inverse"></i>
                             </span>
