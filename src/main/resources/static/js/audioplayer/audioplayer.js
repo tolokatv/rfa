@@ -34,6 +34,7 @@ const everything = function(element) {
     const seekSlider = shadow.getElementById('seek-slider');
     const volumeSlider = shadow.getElementById('volume-slider');
     const muteIconContainer = shadow.getElementById('mute-icon');
+    const nameTop = shadow.getElementById('NameAutor');
     const audio = shadow.querySelector('audio');
     element.myaudio = audio;
 
@@ -126,7 +127,8 @@ const everything = function(element) {
         }
       };
       // interface function
-      const clickTrackPlay = function (id) {
+      const clickTrackPlay = function (id,name,autor) {
+        nameTop.innerHTML = name;
         if (id === currentStation) {
             changePlayState();
         } else {
