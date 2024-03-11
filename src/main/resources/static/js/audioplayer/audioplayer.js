@@ -9,27 +9,26 @@ class AudioPlayer extends HTMLElement {
         shadow.appendChild(templateContent.cloneNode(true));
     }
 
+    // вхід в середину контейнера
+    myaudio = null;
+    myChangeTrack = null;
+    //
     connectedCallback() {
         everything(this);
     }
 
-    myaudio = null;
-
     setAudioSrc(id) {
+        //myChangeTrack(id);
 //        console.log("Таки вдалося! id="+id);
-        this.myaudio.src=id;
+        this.myaudio.src="/store/audio/"+id;
 //        console.log("audio = "+this.myaudio.src);
     }
 
-    clikTrack(id) {
-        // клікаємо зовнішній трек
-
-    }
 }
 
 const everything = function(element) {
     const shadow = element.shadowRoot;
-
+    let currentStation = " ";
     const audioPlayerContainer = shadow.getElementById('audio-player-container');
     const playIconContainer = shadow.getElementById('play-icon');
     const seekSlider = shadow.getElementById('seek-slider');
@@ -37,6 +36,9 @@ const everything = function(element) {
     const muteIconContainer = shadow.getElementById('mute-icon');
     const audio = shadow.querySelector('audio');
     element.myaudio = audio;
+
+    //}
+
     const durationContainer = shadow.getElementById('duration');
     const currentTimeContainer = shadow.getElementById('current-time');
     const outputContainer = shadow.getElementById('volume-output');
@@ -110,6 +112,36 @@ const everything = function(element) {
         });
     }
 
+    // =====================================
+      const changePlayState = function () {
+        if (playState === "play") {
+          audio.play();
+          playAnimation.playSegments([14, 27], true);
+          playState = "pause";
+        } else {
+          audio.pause();
+          playAnimation.playSegments([0, 14], true);
+          cancelAnimationFrame(raf);
+          playState = "play";
+        }
+      };
+      // interface function
+      const clickTrackPlay = function (id) {
+        if (id === currentStation) {
+            changePlayState();
+        } else {
+        // дивимося, в якому стані плеєр. Якщо грає, то зупиняємо
+          if (playState === "pause") {
+             changePlayState();
+          }
+          //changePlayState();
+          audio.src = "/store/audio/"+id;
+          currentStation = id;
+          changePlayState();
+        }
+    };
+      element.myChangeTrack = clickTrackPlay;
+    // =======================
     playIconContainer.addEventListener('click', (event) => {
         if(playState === 'play') {
             audio.play();

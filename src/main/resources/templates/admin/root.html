@@ -28,7 +28,8 @@
     <script type="module" src="/js/audioplayer/audioplayer.js"></script>
     <script>
         function onClickTrack(event) {
-            document.getElementById('audio-player').setAudioSrc("/store/audio/"+event.id);
+            //document.getElementById('audio-player').setAudioSrc("/store/audio/"+event.id);
+            document.getElementById('audio-player').myChangeTrack(event.id);
         }
     </script>
         <!-- Core theme JS-->
