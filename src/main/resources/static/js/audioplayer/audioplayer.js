@@ -128,6 +128,7 @@ const everything = function(element) {
       };
       // interface function
       const clickTrackPlay = function (id,name,autor) {
+        console.log("======== name: "+name+"======= autor: "+autor);
         nameTop.innerHTML = name;
         if (id === currentStation) {
             changePlayState();
