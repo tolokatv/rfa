@@ -62,9 +62,9 @@
     <!-- audioplayer красивий -->
     <script type="module" src="/js/audioplayer/audioplayer.js"></script>
     <script>
-        function onClickTrack(event) {
+        function onClickTrack(event,name,autor) {
             //document.getElementById('audio-player').setAudioSrc("/store/audio/"+event.id);
-            document.getElementById('audio-player').myChangeTrack(event.id);
+            document.getElementById('audio-player').myChangeTrack(event.id,name.autor);
         }
     </script>
     <!-- Core theme JS-->
