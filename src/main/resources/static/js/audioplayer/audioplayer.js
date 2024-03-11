@@ -138,8 +138,8 @@ const everything = function(element) {
           audio.src = "/store/audio/"+id;
           currentStation = id;
           // test slider time
-          displayBufferedAmount();
           changePlayState();
+          displayBufferedAmount();
         }
     };
       element.myChangeTrack = clickTrackPlay;
