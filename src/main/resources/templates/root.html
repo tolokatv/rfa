@@ -16,9 +16,10 @@
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
         <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
         <!-- Core theme CSS (includes Bootstrap)-->
-        <link href="css/styles.css" rel="stylesheet" />
+        <link href="/css/styles.css" rel="stylesheet" />
     </head>
     <body id="page-top">
+    <div th:insert="~{/fragments/mediahub :: audiotemplate}"/>
         <!-- Експеримент з треками преєр -->
 <!--        <div th:insert="~{/fragments/mediahub :: tolokanews}">  </div>-->
         <!-- MessageBox -->
@@ -28,7 +29,7 @@
         <!-- Masthead-->
         <div th:insert="~{/fragments/root :: masthead}">  </div>
         <!-- Толока новини -->
-        <div th:insert="~{/fragments/root :: tolokanews}">  </div>
+        <div id="tolokaPlayer" th:insert="~{/fragments/mediahub :: tolokanews}">  </div>
         <!-- Services-->
         <div th:insert="~{/fragments/root :: services}">  </div>
         <!-- Portfolio Grid-->
@@ -58,7 +59,15 @@
         <div th:insert="~{/fragments/rootmodal :: modalportfolio6}">  </div>
         <!-- Bootstrap core JS-->
         <script src="js/bootstrap.bundle.min.js"></script>
-        <!-- Core theme JS-->
+    <!-- audioplayer красивий -->
+    <script type="module" src="/js/audioplayer/audioplayer.js"></script>
+    <script>
+        function onClickTrack(event) {
+            //document.getElementById('audio-player').setAudioSrc("/store/audio/"+event.id);
+            document.getElementById('audio-player').myChangeTrack(event.id);
+        }
+    </script>
+    <!-- Core theme JS-->
 <!--        <script src="js/scripts.js"></script>-->
         <!-- * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *-->
         <!-- * *                               SB Forms JS                               * *-->
