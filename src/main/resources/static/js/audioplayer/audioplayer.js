@@ -137,6 +137,7 @@ const everything = function(element) {
           //changePlayState();
           audio.src = "/store/audio/"+id;
           currentStation = id;
+          displayBufferedAmount();
           changePlayState();
         }
     };
