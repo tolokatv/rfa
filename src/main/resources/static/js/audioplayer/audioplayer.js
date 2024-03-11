@@ -118,6 +118,7 @@ const everything = function(element) {
         if (playState === "play") {
           audio.play();
           playAnimation.playSegments([14, 27], true);
+          requestAnimationFrame(whilePlaying);
           playState = "pause";
         } else {
           audio.pause();
@@ -139,6 +140,7 @@ const everything = function(element) {
           }
           //changePlayState();
           audio.src = "/store/audio/"+id;
+          audio.load();
           currentStation = id;
           // test slider time
           changePlayState();
@@ -212,6 +214,7 @@ const everything = function(element) {
             ]
         });
         navigator.mediaSession.setActionHandler('play', () => {
+            console.log("++++++ Navigator play");
             if(playState === 'play') {
                 audio.play();
                 playAnimation.playSegments([14, 27], true);
@@ -225,6 +228,7 @@ const everything = function(element) {
             }
         });
         navigator.mediaSession.setActionHandler('pause', () => {
+            console.log("++++++ Navigator pause");
             if(playState === 'play') {
                 audio.play();
                 playAnimation.playSegments([14, 27], true);
@@ -238,12 +242,15 @@ const everything = function(element) {
             }
         });
         navigator.mediaSession.setActionHandler('seekbackward', (details) => {
+            console.log("++++++ Navigator seekbackward");
             audio.currentTime = audio.currentTime - (details.seekOffset || 10);
         });
         navigator.mediaSession.setActionHandler('seekforward', (details) => {
+            console.log("++++++ Navigator seekforward");
             audio.currentTime = audio.currentTime + (details.seekOffset || 10);
         });
         navigator.mediaSession.setActionHandler('seekto', (details) => {
+            console.log("++++++ Navigator seekto");
             if (details.fastSeek && 'fastSeek' in audio) {
               audio.fastSeek(details.seekTime);
               return;
@@ -251,6 +258,7 @@ const everything = function(element) {
             audio.currentTime = details.seekTime;
         });
         navigator.mediaSession.setActionHandler('stop', () => {
+            console.log("++++++ Navigator stop");
             audio.currentTime = 0;
             seekSlider.value = 0;
             audioPlayerContainer.style.setProperty('--seek-before-width', '0%');
