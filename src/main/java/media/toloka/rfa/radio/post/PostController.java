@@ -41,6 +41,7 @@ public class PostController {
             @PathVariable Long idPost,
             Model model) {
         Post post = postService.GetPostById(idPost);
+
         if (post == null){
             return "redirect:/";
         }

@@ -5,6 +5,7 @@ import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
+import media.toloka.rfa.radio.model.enumerate.EPostCategory;
 import media.toloka.rfa.radio.model.enumerate.EPostStatus;
 
 import java.util.Date;
@@ -33,6 +34,10 @@ public class Post {
     private EPostStatus postStatus;
     @Expose
     private Date enddate;
+    @Expose
+    private EPostCategory category;
+    @Expose
+    private String coverstoreuuid;
 
     @ToString.Exclude
     @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.ALL})

@@ -1,5 +1,7 @@
 package media.toloka.rfa.config.interceptor;
 
+// https://www.baeldung.com/spring-mvc-handlerinterceptor-vs-filter
+
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
