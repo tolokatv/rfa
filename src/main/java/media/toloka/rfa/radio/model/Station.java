@@ -11,7 +11,7 @@ import java.util.*;
 
 @Data
 @Entity
-@Table
+@Table(indexes = @Index(columnList = "uuid"))
 public class Station {
 
     @Id

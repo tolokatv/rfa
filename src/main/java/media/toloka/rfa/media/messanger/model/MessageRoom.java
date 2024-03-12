@@ -2,17 +2,14 @@ package media.toloka.rfa.media.messanger.model;
 
 
 import com.google.gson.annotations.Expose;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Data;
 
 import java.util.UUID;
 
 @Data
 @Entity
-@Table
+@Table(indexes = @Index(columnList = "uuid"))
 public class MessageRoom {
     @Id
     @GeneratedValue

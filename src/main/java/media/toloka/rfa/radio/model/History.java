@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-//@Table(name="history")
+@Table(indexes = @Index(columnList = "uuid"))
 @ToString
 public class History {
 

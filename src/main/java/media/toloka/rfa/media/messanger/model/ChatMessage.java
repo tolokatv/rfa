@@ -9,6 +9,7 @@ import java.util.UUID;
 
 @Entity
 @Data
+@Table(indexes = @Index(columnList = "uuid"))
 public class ChatMessage {
 
     @Id

@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-//@Table(name="user_documents")
+@Table(indexes = @Index(columnList = "uuid"))
 public class Documents {
 
     @Id

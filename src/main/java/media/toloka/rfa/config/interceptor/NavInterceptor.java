@@ -1,4 +1,4 @@
-package media.toloka.rfa.config;
+package media.toloka.rfa.config.interceptor;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import media.toloka.rfa.media.messanger.service.MessangerService;
@@ -26,17 +26,17 @@ public class NavInterceptor implements HandlerInterceptor {
 
     final Logger logger = LoggerFactory.getLogger(NavInterceptor.class);
 
-    @Override
-    public boolean preHandle(
-            HttpServletRequest request,
-            HttpServletResponse response,
-            Object handler) throws Exception {
-
-//        logger.info("[preHandle][" + request + "]" + "[" + request.getMethod()
-//                + "]" + request.getRequestURI());
-
-        return true;
-    }
+//    @Override
+//    public boolean preHandle(
+//            HttpServletRequest request,
+//            HttpServletResponse response,
+//            Object handler) throws Exception {
+//
+////        logger.info("[preHandle][" + request + "]" + "[" + request.getMethod()
+////                + "]" + request.getRequestURI());
+//
+//        return true;
+//    }
     @Override
     public void postHandle(
             HttpServletRequest request,

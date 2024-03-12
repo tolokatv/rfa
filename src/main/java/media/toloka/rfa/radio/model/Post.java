@@ -12,6 +12,7 @@ import java.util.UUID;
 
 @Data
 @Entity
+@Table(indexes = @Index(columnList = "uuid"))
 public class Post {
     @Id
     @GeneratedValue

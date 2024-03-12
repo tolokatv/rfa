@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-//@Table
+@Table(indexes = @Index(columnList = "uuid"))
 public class Clientdetail {
     @Id
     @GeneratedValue

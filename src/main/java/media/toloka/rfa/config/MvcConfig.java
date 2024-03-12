@@ -1,12 +1,13 @@
 package media.toloka.rfa.config;
 
+import media.toloka.rfa.config.interceptor.LoggerInterceptor;
+import media.toloka.rfa.config.interceptor.NavInterceptor;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
@@ -16,6 +17,10 @@ import org.thymeleaf.spring6.templateresolver.SpringResourceTemplateResolver;
 import org.thymeleaf.spring6.view.ThymeleafViewResolver;
 import org.thymeleaf.templatemode.TemplateMode;
 //import org.thymeleaf.extras.springsecurity6.dialect.SpringSecurity6;
+
+// перехоплення вхідного запиту до обробки
+// https://stackoverflow.com/questions/58980041/how-can-i-get-the-client-ip-address-of-requests-in-spring-boot
+// використати для збору інформації про абсолютно всіх відвідувачів.
 
 
 @Configuration
@@ -28,7 +33,10 @@ public class MvcConfig implements WebMvcConfigurer, ApplicationContextAware {
 
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
+
         registry.addInterceptor(navInterceptor);
+        registry.addInterceptor(new LoggerInterceptor());
+
     }
 
     public MvcConfig() {
@@ -108,6 +116,11 @@ public class MvcConfig implements WebMvcConfigurer, ApplicationContextAware {
         viewResolver.setTemplateEngine(templateEngine());
         return viewResolver;
     }
+
+//    @Override
+//    public void addInterceptors(InterceptorRegistry registry) {
+//        registry.addInterceptor(new LoggerInterceptor());
+//    }
 //    public void addViewControllers(ViewControllerRegistry registry) {
 //        registry.addViewController("/home").setViewName("home");
 //        registry.addViewController("/").setViewName("home");
