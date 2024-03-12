@@ -32,7 +32,7 @@ public class Clientdetail {
     @Expose
     private String uuid;
     @Expose
-    private Boolean confirminfo;
+    private Boolean confirminfo = false;
     @Expose
     private Date confirmDate;
     @Expose
@@ -89,27 +89,15 @@ public class Clientdetail {
     @ManyToMany
     private List<MessageRoom> roomList = new ArrayList<>();
 
-//    @ToString.Exclude
-//    @ManyToMany
-//    private List<ChatMessage> roomList = new ArrayList<>();
-
     @ToString.Exclude
     @OneToOne(cascade = {CascadeType.ALL})
     private  Users user;
 
     public Clientdetail() {
-//        this.clientaddressList  = new ArrayList<Clientaddress>();
-//        this.contractList       = new ArrayList<Contract>();
-//        this.historyList        = new ArrayList<History>();
-//        this.documentslist      = new ArrayList<Documents>();
-//        this.stationList        = new ArrayList<Station>();
         this.uuid               = UUID.randomUUID().toString();
         this.createdate         = new Date();
         this.confirminfo        = false;
-//        this.comments           = "";
-//        this.custname           = "";
-//        this.custsurname        = "";
-//        this.firmname           = "";
+        this.account            = 0.0;
     }
 
 }

@@ -19,8 +19,18 @@ public class LoggerInterceptor implements HandlerInterceptor {
         if (remoteAddr == null || "".equals(remoteAddr)) {
             remoteAddr = request.getRemoteAddr();
         }
+        String requestUrl = request.getRequestURL().toString();
+        if (
+                requestUrl.contains("rfa.toloka.media/assets")
+                || requestUrl.contains("rfa.toloka.media/css/")
+                || requestUrl.contains("rfa.toloka.media/js/")
+        ) {
+            return true;
+        } else {
+            logger.info(remoteAddr + " => " +request.getRequestURL().toString());
+        }
         // todo Логировать обращения к серверу.
-        logger.info(remoteAddr + " => " +request.getRequestURL().toString());
+
 //        System.out.println(remoteAddr);
         return true;
     }
