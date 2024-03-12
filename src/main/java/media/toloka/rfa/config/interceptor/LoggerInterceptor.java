@@ -18,7 +18,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
             remoteAddr = request.getRemoteAddr();
         }
         // todo Логировать обращения к серверу.
-        logger.info(request.getRequestURL().toString());
+        logger.info(remoteAddr + " => " +request.getRequestURL().toString());
 //        System.out.println(remoteAddr);
         return true;
     }
