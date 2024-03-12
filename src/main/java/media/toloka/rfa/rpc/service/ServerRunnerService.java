@@ -158,7 +158,7 @@ public class ServerRunnerService {
         String pathConfigFile = env.get("HOME") + clientdir + "/" + station.getClientdetail().getUuid() + "/"
                 + station.getUuid() + "/" + station.getDbname() + ".rfa.toloka.media";
         try {
-            logger.info("============== ПИШИМО ФАЙЛ КОНФІГУРАЦІЇ ДЛЯ NGINX: " + pathConfigFile );
+//            logger.info("============== ПИШИМО ФАЙЛ КОНФІГУРАЦІЇ ДЛЯ NGINX: " + pathConfigFile );
             //записуємо файл конфігурації Nginx в каталог користувача
             Files.write(Paths.get(pathConfigFile), nginxconfig.getBytes() );
 
@@ -181,7 +181,7 @@ public class ServerRunnerService {
 //            try {
             int exitcode = p.waitFor();
             rc = Long.valueOf(exitcode);
-            logger.info("=========================== PREPARE NGINX: exit code = {}", String.valueOf(exitcode)  );
+//            logger.info("=========================== PREPARE NGINX: exit code = {}", String.valueOf(exitcode)  );
 //            } catch (InterruptedException e){
 //                logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
 //                e.printStackTrace();
@@ -230,11 +230,9 @@ public class ServerRunnerService {
 //            try {
             int exitcode = p.waitFor();
             rc = Long.valueOf(exitcode);
-            logger.info("=========================== Migrate Init LibreTime: exit code = {}", String.valueOf(exitcode)  );
-//            } catch (InterruptedException e){
-//                logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
-//                e.printStackTrace();
-//            }
+
+            stationService.SetStationRunState(station,true); // Change runnining status station
+
         } catch (IOException e) {
             logger.warn(" Щось пішло не так при виконанні завдання в операційній системі");
 
@@ -257,6 +255,8 @@ public class ServerRunnerService {
         return rc;
     }
 
+
+
     public Long  StationStop(RPCJob rpcJob) {
         Long rc = 129L;
         Gson gson = gsonService.CreateGson();
@@ -269,7 +269,6 @@ public class ServerRunnerService {
         String server_workdir;
 
         server_workdir = env.get("HOME")+ clientdir + "/" + env.get("CLIENT_UUID") + "/" +env.get("STATION_UUID");
-        logger.info("============== Start Station {}", server_workdir);
         pb.directory(new File(server_workdir));
         pb.redirectErrorStream(true);
 //        pb.redirectOutput(ProcessBuilder.Redirect.appendTo(log));
@@ -284,7 +283,7 @@ public class ServerRunnerService {
 //            try {
             int exitcode = p.waitFor();
             rc = Long.valueOf(exitcode);
-            logger.info("=========================== Migrate Init LibreTime: exit code = {}", String.valueOf(exitcode)  );
+            stationService.SetStationRunState(station,false); // Change runnining status station
 //            } catch (InterruptedException e){
 //                logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
 //                e.printStackTrace();
@@ -323,7 +322,7 @@ public class ServerRunnerService {
         String server_workdir;
 
         server_workdir = env.get("HOME")+ clientdir + "/" + env.get("CLIENT_UUID") + "/" +env.get("STATION_UUID");
-        logger.info("============== MIGRATE WORKER DIR {}", server_workdir);
+//        logger.info("============== MIGRATE WORKER DIR {}", server_workdir);
         pb.directory(new File(server_workdir));
         pb.redirectErrorStream(true);
 //        pb.redirectOutput(ProcessBuilder.Redirect.appendTo(log));
@@ -338,7 +337,7 @@ public class ServerRunnerService {
 //            try {
                 int exitcode = p.waitFor();
                 rc = Long.valueOf(exitcode);
-                logger.info("=========================== Migrate Init LibreTime: exit code = {}", String.valueOf(exitcode)  );
+//                logger.info("=========================== Migrate Init LibreTime: exit code = {}", String.valueOf(exitcode)  );
 //            } catch (InterruptedException e){
 //                logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
 //                e.printStackTrace();

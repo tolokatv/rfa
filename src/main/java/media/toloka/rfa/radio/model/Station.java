@@ -19,7 +19,7 @@ public class Station {
     @Expose
     private Long id;
     @Expose
-    private EServerState serverState;
+    private EServerState serverState; // user record state (banned, ... etc)
     @Expose
     private String name;
     @Expose
@@ -37,13 +37,13 @@ public class Station {
     @Expose
     private Date lastchangedate;
     @Expose
-    public Integer guiport;
+    public Integer guiport; // port gui server
     @Expose
-    public String guiserver;
+    public String guiserver; // address server allocate gui Libretime
     @Expose
-    public Integer main;
+    public Integer main; // port main
     @Expose
-    public Integer show;
+    public Integer show; // port show
     @Expose
     private String uuid;
     @Expose
@@ -54,6 +54,9 @@ public class Station {
     private String icecastsite;
     @Expose
     private String icecastgenre;
+    @Expose
+    private Boolean stationstate; // true if station runing
+
 //    private transient Contract contract;
 
 
@@ -81,6 +84,7 @@ public class Station {
         cal.add(Calendar.MONTH, 2);
         this.endworkdate= cal.getTime();
         // Date.before(), Date.after() and Date.equals()
+        this.stationstate = false;
 
     }
 }
