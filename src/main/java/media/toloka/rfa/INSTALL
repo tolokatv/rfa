@@ -1,4 +1,7 @@
 1. Створюємо базу даних
+    CREATE DATABASE rfa;
+    create user rfa with encrypted password 'toloka2_2018';
+    grant all privileges on database rfa to rfa;
 2. Робимо користувача власником бази даних  ALTER DATABASE rfa OWNER TO rfa;
 3. додаємо віртуальний хост до RabbitMQ /usr/sbin/rabbitmqctl add_vhost rfa
 4. додаємо користувача до RabbitMQ /usr/sbin/rabbitmqctl add_user "usr-NAME" "USR-PSW"
