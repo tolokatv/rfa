@@ -51,6 +51,9 @@ public class SecurityConfig {
                         "/logout",
                         "/registerRadioUser",
                         "/restorePsw",
+                        "/chat",
+                        "/rfachat",
+//                        "/rfachat/**",
                         "/sendmail",
                         "/setUserPassword").permitAll()
                 .requestMatchers("/admin/**").hasAuthority("Admin")
@@ -77,9 +80,17 @@ public class SecurityConfig {
                     .logoutSuccessUrl("/")
                     .permitAll();
         });
+
+        http.headers().frameOptions().sameOrigin();
+
         return http.build();
 
     }
+
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.headers().frameOptions().sameOrigin();
+//    }
 //
 ////    @Bean
 ////    public AuthenticationProvider authenticationProvider() {

@@ -7,8 +7,8 @@ import media.toloka.rfa.radio.document.service.DocumentService;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.model.Clientdetail;
-import media.toloka.rfa.radio.store.Service.StoreService;
-import media.toloka.rfa.radio.store.model.Store;
+import media.toloka.rfa.media.store.Service.StoreService;
+import media.toloka.rfa.media.store.model.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,8 +26,8 @@ import java.util.Random;
 
 import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static media.toloka.rfa.radio.model.enumerate.EHistoryType.History_DocumentCreate;
-import static media.toloka.rfa.radio.store.model.EStoreFileType.STORE_ALBUMCOVER;
-import static media.toloka.rfa.radio.store.model.EStoreFileType.STORE_TRACK;
+import static media.toloka.rfa.media.store.model.EStoreFileType.STORE_ALBUMCOVER;
+import static media.toloka.rfa.media.store.model.EStoreFileType.STORE_TRACK;
 
 
 @Slf4j

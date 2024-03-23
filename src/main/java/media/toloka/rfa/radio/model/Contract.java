@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-//@Table(name="user_contracts")
+@Table(indexes = @Index(columnList = "uuid"))
 public class Contract {
 
     @Id

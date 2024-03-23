@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import media.toloka.rfa.service.RfaService;
 import media.toloka.rfa.config.gson.service.GsonService;
 import media.toloka.rfa.radio.history.service.HistoryService;
-import media.toloka.rfa.radio.message.service.MessageService;
+//import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.model.enumerate.EServerPortType;
 import media.toloka.rfa.radio.model.Station;
 import media.toloka.rfa.radio.station.service.PoolPortsService;
@@ -23,8 +23,8 @@ import static media.toloka.rfa.radio.model.enumerate.EHistoryType.History_Statii
 @Service
 public class RPCService {
 
-    @Autowired
-    private MessageService messageService;
+//    @Autowired
+//    private MessageService messageService;
 
     @Autowired
     private PoolPortsService poolPortsService;

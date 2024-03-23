@@ -4,35 +4,63 @@
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
-<body>
-<div th:fragment="listuser">
-<!--        <a class="btn btn-primary" th:href="@{'/creater/editpost/'+${0}}">Створити пост</a>-->
-        <div th:each="user : ${userlist}">
-            <span th:utext="${user.custname}+' '+${user.custsurname}" onclick="selectuser"/>
-<!--                <a class="btn btn-primary" th:href="@{'/admin/publishpost/'+${post.id} }">Опублікувати</a>-->
-<!--            <td><span  th:text="${post.postStatus.label}" >Статус</span></td>-->
-<!--            <td><span  th:text="${#dates.format(post.createdate, 'dd-MM-yyyy HH:mm')}" >Створено</span></td>-->
+<body style="line-height: 1.15em">
+<div th:fragment="listroom">
+    <!--        <a class="btn btn-primary" th:href="@{'/creater/editpost/'+${0}}">Створити пост</a>-->
+
+    <div style="overflow-y: scroll; max-height: 25vh;line-height: 1.2em" id="headroomlist">
+        <div><b><u>Активні кімнати</u></b></div>
+        <div id="roomlist">
         </div>
+<!--        <div th:each="room : ${roomlist}"  >-->
+<!--            <span th:utext="${room.roomname}" th:id="${room.uuid}" onclick="selectroom(this)" style="font-size: 0.7rem"/>-->
+<!--        </div>-->
+    </div>
+</div>
+
+<div th:fragment="listuser">
+<!--    <div style="overflow-y: scroll; max-height: 500vh; line-height: 1.2em" id="roomlist">-->
+    <div class="roomlist" id="roomlist">
+        <div><b><u>Співрозмовники</u></b></div>
+        <div id="userlist">
+        </div>
+
+        <!--        <div th:each="user : ${userlist}">-->
+<!--            <span th:utext="${user.custname}+' '+${user.custsurname}" th:id="${user.uuid}" onclick="selectuser(this)" style="font-size: 0.7rem;"/>-->
+<!--        </div>-->
+    </div>
 </div>
 
 <div th:fragment="areamessage">
 <!--    <textarea  rows="15" cols="50" id="messagearea"></textarea>-->
 <!--    <div class="mb-3">-->
-        <label for="exampleFormControlTextarea1" class="form-label">Example textarea</label>
-        <textarea class="form-control" id="exampleFormControlTextarea1" rows="20"></textarea>
+    <div><b><u>Повідомлення</u></b></div>
+<!--    <div style="overflow-y: scroll; height: 52vh; line-height: 1.2em" id="publicarea">-->
+    <div class="areapublic" id="publicarea">
+    </div>
 <!--    </div>-->
 <!--    <textarea rows="15" cols="50" id="aboutDescription" style="resize: none;" data-role="none"></textarea>-->
 </div>
 
-<div th:fragment="areaprivatemessage">
-
+<div th:fragment="areaprivatemessage"  >
+    <div><b><u>Приватні повідомлення</u></b></div>
+<!--    <div style="overflow-y: scroll; max-height: 20vh;" id="privatearea">-->
+    <div style="overflow-y: scroll; height: 20vh;line-height: 1.2em" id="privatearea">
+    </div>
 </div>
 
-<div th:fragment="areamessagecontrol">
-    <form >
-        <input type="text" name="name"  class="form-control" id="newmessage" ></input>
-        <button style="margin-bottom: 20px" type="submit" onclick="SendMessage">Надіслати</button>
-    </form>
+<div th:fragment="areamessagecontrol" >
+    <div id="controlarea" >
+<!--    <div style="overflow-y: scroll; max-height: 12vh;" id="controlarea" >-->
+        <section>
+            <span  id="connectstatus">Кому:</span>
+        </section>
+        <div style=" margin-right: 25px; margin-left: 25px;">
+            <input type="text" name="name"  class="form-control" id="newmessage" />
+            <button style="margin-bottom: 20px" type="button" onclick="sendpublic(this)" id="sendmessage">Всім</button>
+            <button style="margin-bottom: 20px" type="button" onclick="sendprivate(this)" id="sendprivate">Приват</button>
+        </div>
+    </div>
 </div>
 
 </body>

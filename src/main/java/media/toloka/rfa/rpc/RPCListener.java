@@ -32,15 +32,6 @@ public class RPCListener {
 
 Logger logger = LoggerFactory.getLogger(RPCListener.class);
 
-//    @RabbitListener(queues = "rfajob")
-//    public String worker1(String message) throws InterruptedException {
-//        logger.info("Received on worker : " + message);
-//        // TODO тут обробляємо завдання з фронтенда.
-//        // створення та керування радіостанціями, обробка файлів музикантів тощо.
-////        Thread.sleep(20000);
-//        return "Received on worker : " + message + "  uuid=" + UUID.randomUUID().toString();
-//    }
-
     @RabbitListener(queues = "${rabbitmq.queue}")
     public void processedFromFront(String message) {
         Long rc = 0L;
@@ -95,6 +86,11 @@ Logger logger = LoggerFactory.getLogger(RPCListener.class);
                 rc = serverRunnerService.StationGetPS(rjob);
                 rjob.getJobresilt().add(new ResultJob(rc, curJob));
                 logger.info("+++++++++++++++++  JOB_STATION_GET_PS");
+                break;
+            case JOB_STATION_SETPASSWORD: // set admin password for LibreTime
+                rc = serverRunnerService.StationSetPSW(rjob);
+                rjob.getJobresilt().add(new ResultJob(rc, curJob));
+                logger.info("+++++++++++++++++  JOB_STATION_SET_STATION_NEW_PASSWORD");
                 break;
             case JOB_CONTRACT_CREATE:
                 logger.info("======= {}    {}", rjob.getRJobType(), rjob.getRjobdata());

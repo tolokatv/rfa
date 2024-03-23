@@ -5,7 +5,8 @@ import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
-import media.toloka.rfa.radio.store.model.Store;
+import media.toloka.rfa.media.messanger.model.MessageRoom;
+import media.toloka.rfa.media.store.model.Store;
 import media.toloka.rfa.security.model.Users;
 
 
@@ -16,7 +17,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-//@Table
+@Table(indexes = @Index(columnList = "uuid"))
 public class Clientdetail {
     @Id
     @GeneratedValue
@@ -31,7 +32,7 @@ public class Clientdetail {
     @Expose
     private String uuid;
     @Expose
-    private Boolean confirminfo;
+    private Boolean confirminfo = false;
     @Expose
     private Date confirmDate;
     @Expose
@@ -93,18 +94,10 @@ public class Clientdetail {
     private  Users user;
 
     public Clientdetail() {
-//        this.clientaddressList  = new ArrayList<Clientaddress>();
-//        this.contractList       = new ArrayList<Contract>();
-//        this.historyList        = new ArrayList<History>();
-//        this.documentslist      = new ArrayList<Documents>();
-//        this.stationList        = new ArrayList<Station>();
         this.uuid               = UUID.randomUUID().toString();
         this.createdate         = new Date();
         this.confirminfo        = false;
-//        this.comments           = "";
-//        this.custname           = "";
-//        this.custsurname        = "";
-//        this.firmname           = "";
+        this.account            = 0.0;
     }
 
 }

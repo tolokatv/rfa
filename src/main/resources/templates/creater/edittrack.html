@@ -124,6 +124,19 @@
                                         Присутня ненормативна лексика
                                     </label>
                                 </div>
+                                <div th:unless="*{tochat}">
+<!--                                <div >-->
+                                    <div class="checkbox">
+                                        <label for="tochat">
+                                            <input th:field="*{tochat}" type="checkbox" >
+                                            Опублікувати в чаті
+                                        </label>
+                                        <p>
+                                            Ви можете повідомити в чаті, що у Вас вийшов новий трек. Це можна зробити лише один раз. Тож, будь ласка, заповніть максимально інформацію про трек.
+                                        </p>
+                                    </div>
+                                </div>
+
                             </div>
                         </div>
                         <!-- Button (Double) -->

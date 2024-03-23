@@ -1,0 +1,21 @@
+.myStyleChat {
+
+}
+
+.MyNextStyle {
+
+}
+
+.roomlist {
+color: "blue";
+overflow-y: scroll;
+max-height: 500vh;
+line-height: 1.2em
+}
+
+.areapublic {
+overflow-y: scroll;
+height: 52vh;
+line-height: 1.2em
+color: #ff8000;
+}

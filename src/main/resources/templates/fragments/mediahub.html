@@ -5,7 +5,277 @@
     <title>МедіаХаб</title>
 </head>
 <body>
+<!-- головна сторінка -->
+<section th:fragment="tolokanews" class="page-section" id="news">
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Колонка керування радіо-->
+            <div class="col-lg-9 col-sm-12">
+                <div class="card" >
+                    <div class="card-header"><h3>Музичні новини на Толоці</h3></div>
+                    <div class="card-body">
+                        <div th:insert="~{/fragments/infoblock :: cardtile}"/>
+                    </div>
+                    <div class="card-footer text-muted">
+                        <a href="/guest/postall/0">Подивитися всі новини на Толоці</a>
+                    </div>
+                </div>
+            </div>
+            <!-- колонка медіа хаб-->
+            <div class="col-lg-3 col-sm-12">
+                <!--                    Вставляємо останні завантажені треки-->
+                <div th:insert="~{/fragments/mediahub :: lasttrecks}">  </div>
+                <!--                    вставляем Медіа Хаб-->
+                <!--            <div th:insert="~{/fragments/mediahub :: usermediahub}">  </div>-->
+            </div>
+        </div>
+
+    </div>
+</section>
+<!-- головна сторінка -->
+<!--  -->
+<template th:fragment="audiotemplate">
+    <style>
+        button {
+            padding: 0;
+            border: 0;
+            background: transparent;
+            cursor: pointer;
+            outline: none;
+            width: 20px;
+            height: 20px;
+            float: left;
+        }
+        #audio-player-container {
+            position: relative;
+            margin: 0px 2.5% auto 2.5%;
+            width: 95%;
+            max-width: 500px;
+            height: 80px;
+            background: #fff;
+            font-family: Arial, Helvetica, sans-serif;
+            --seek-before-width: 0%;
+            --volume-before-width: 80%;
+            --buffered-width: 0%;
+            letter-spacing: -0.5px;
+        }
+        #audio-player-container::before {
+            position: absolute;
+            content: '';
+            width: calc(100% + 4px);
+            height: calc(100% + 4px);
+            left: -2px;
+            top: -2px;
+            background: linear-gradient(to left, #007db5, #ff8a00);
+            z-index: -1;
+        }
+        p {
+            position: absolute;
+            top: -18px;
+            right: 5%;
+            padding: 0 5px;
+            margin: 0;
+            font-size: 0.8rem;
+            background: #fff;
+        }
+        #play-icon {
+            margin: 20px 2.5% 10px 2.5%;
+        }
+        path {
+            stroke: #007db5;
+        }
+        .time {
+            display: inline-block;
+            width: 37px;
+            text-align: center;
+            font-size: 12px;
+            margin: 20px 0 0px 0;
+            float: left;
+        }
+        output {
+            display: inline-block;
+            width: 20px;
+            text-align: center;
+            font-size: 12px;
+            margin: 0px 2.5% 0 5%;
+            float: left;
+            clear: left;
+        }
+        #volume-slider {
+            margin: 0px 2.5%;
+            width: 43%;
+        }
+        #volume-slider::-webkit-slider-runnable-track {
+            background: rgba(0, 125, 181, 0.6);
+        }
+        #volume-slider::-moz-range-track {
+            background: rgba(0, 125, 181, 0.6);
+        }
+        #volume-slider::-ms-fill-upper {
+            background: rgba(0, 125, 181, 0.6);
+        }
+        #volume-slider::before {
+            width: var(--volume-before-width);
+        }
+        #mute-icon {
+            margin: 0 2.5%;
+        }
+        input[type="range"] {
+            position: relative;
+            -webkit-appearance: none;
+            width: 38%;
+            margin: 0;
+            padding: 0;
+            height: 19px;
+            margin: 20px 2.5% 5px 2.5%;
+            float: left;
+            outline: none;
+        }
+        input[type="range"]::-webkit-slider-runnable-track {
+            width: 100%;
+            height: 3px;
+            cursor: pointer;
+            background: linear-gradient(to right, rgba(0, 125, 181, 0.6) var(--buffered-width), rgba(0, 125, 181, 0.2) var(--buffered-width));
+        }
+        input[type="range"]::before {
+            position: absolute;
+            content: "";
+            top: 8px;
+            left: 0;
+            width: var(--seek-before-width);
+            height: 3px;
+            background-color: #007db5;
+            cursor: pointer;
+        }
+        input[type="range"]::-webkit-slider-thumb {
+            position: relative;
+            -webkit-appearance: none;
+            box-sizing: content-box;
+            border: 1px solid #007db5;
+            height: 15px;
+            width: 15px;
+            border-radius: 40%;
+            background-color: #fff;
+            cursor: pointer;
+            margin: -7px 0 0 0;
+        }
+        input[type="range"]:active::-webkit-slider-thumb {
+            transform: scale(1.2);
+            background: #007db5;
+        }
+        input[type="range"]::-moz-range-track {
+            width: 100%;
+            height: 3px;
+            cursor: pointer;
+            background: linear-gradient(to right, rgba(0, 125, 181, 0.6) var(--buffered-width), rgba(0, 125, 181, 0.2) var(--buffered-width));
+        }
+        input[type="range"]::-moz-range-progress {
+            background-color: #007db5;
+        }
+        input[type="range"]::-moz-focus-outer {
+            border: 0;
+        }
+        input[type="range"]::-moz-range-thumb {
+            box-sizing: content-box;
+            border: 1px solid #007db5;
+            height: 15px;
+            width: 15px;
+            border-radius: 50%;
+            background-color: #fff;
+            cursor: pointer;
+        }
+        input[type="range"]:active::-moz-range-thumb {
+            transform: scale(1.2);
+            background: #007db5;
+        }
+        input[type="range"]::-ms-track {
+            width: 100%;
+            height: 3px;
+            cursor: pointer;
+            background: transparent;
+            border: solid transparent;
+            color: transparent;
+        }
+        input[type="range"]::-ms-fill-lower {
+            background-color: #007db5;
+        }
+        input[type="range"]::-ms-fill-upper {
+            background: linear-gradient(to right, rgba(0, 125, 181, 0.6) var(--buffered-width), rgba(0, 125, 181, 0.2) var(--buffered-width));
+        }
+        input[type="range"]::-ms-thumb {
+            box-sizing: content-box;
+            border: 1px solid #007db5;
+            height: 15px;
+            width: 15px;
+            border-radius: 50%;
+            background-color: #fff;
+            cursor: pointer;
+        }
+        input[type="range"]:active::-ms-thumb {
+            transform: scale(1.2);
+            background: #007db5;
+        }
+    </style>
+    <div id="audio-player-container">
+        <audio src="" preload="metadata" loop></audio>
+        <p id="NameAutor">Толока медіа</p>
+        <button id="play-icon"></button>
+        <span id="current-time" class="time">0:00</span>
+        <input type="range" id="seek-slider" max="100" value="0">
+        <span id="duration" class="time">0:00</span>
+        <output id="volume-output">100</output>
+        <input type="range" id="volume-slider" class="time" max="100" value="100">
+        <button id="mute-icon"></button>
+    </div>
+</template>
+
+<!--Останні завантажені треки-->
+<div class="container" th:fragment="lasttrecks">
+    <div class="card" >
+        <div class="card-header">
+            <h3>Нові треки</h3>
+            <audio-player id="audio-player" style="padding:0" data-src=""/>
+<!--            <audio-player id="audio-player" data-src="https://rfa.toloka.media:8443/ukraine"/>-->
+            <!--            <audio-player data-src=""></audio-player>-->
+            <!--            ТУТ БУДЕ ПЛЕЄР-->
+        </div>
+        <ul class="list-group list-group-flush">
+            <div th:each="track, iStat : ${trackList}">
+                <li  class="list-group-item">
+                    <div class="row" th:style="${iStat.odd}? 'background-color: rgb(240,240, 240'">
+                        <div class="col-1 col-sm-1 col-lg-1" style="padding-left: 0px;" th:id="${track.storeitem.uuid}"  th:onclick="onClickTrack(this,[[${track.name}]],[[${track.autor}]])" >
+                            <span class="fa-stack fa-1x">
+                                <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                                <i class="fas fa-play fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </div>
+                        <div class="col-11 col-lg-11 col-sm-11" >
+                            <small>
+                                <span th:text="${track.name}"/><br>
+                                <span th:text="${track.autor}"/><br>
+                                <!--                                <span th:text="${track.clientdetail.custname} + ' ' + ${track.clientdetail.custsurname}"/>-->
+                            </small>
+
+                        </div>
+<!--                        <div>-->
+<!--                            <audio-player th:data-src="'/store/audio/'+${track.storeitem.uuid}"></audio-player>-->
+<!--                            <audio id="'voice'+${track.id}" controls>-->
+<!--                                <source th:src="'/store/audio/'+${track.storeitem.uuid}">-->
+<!--                            </audio>-->
+<!--                        </div>-->
+                    </div>
+                </li>
+            </div>
+        </ul>
+        <div class="card-footer">
+            <a href="/guest/tracksall/0">Подивитися всі завантажені треки</a>
+        </div>
+    </div>
+</div>
+<!--Останні завантажені треки-->
+
 <!-- Для користувача. Стовбчик з пропозиціями завантажених треків-->
+
 <!-- колонка медіа хаб-->
 <div class="container" th:fragment="postallpage">
     <div class="card" >
@@ -65,52 +335,18 @@
         </ul>
     </div>
 </div>
-<!--Останні завантажені треки-->
-<div class="container" th:fragment="lasttrecks">
-    <div class="card" >
-        <div class="card-header"><h3>Останні завантажені треки</h3></div>
-        <ul class="list-group list-group-flush">
-            <div th:each="track, iStat : ${trackList}">
-                <li  class="list-group-item">
-                    <div class="row" th:style="${iStat.odd}? 'background-color: rgb(240,240, 240'">
-                        <div class="col-1 col-sm-1 col-lg-1" style="padding-left: 0px;">
-                            <span class="fa-stack fa-1x">
-                                <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                                <i class="fas fa-play fa-stack-1x fa-inverse"></i>
-                            </span>
-                        </div>
-                        <div class="col-11 col-lg-11 col-sm-11">
-                            <small>
-                                <span th:text="${track.name}"/><br>
-                                <span th:text="${track.autor}"/><br>
-                                <span th:text="${track.clientdetail.custname} + ' ' + ${track.clientdetail.custsurname}"/>
-                            </small>
 
-                        </div>
-                        <div>
-                            <audio id="'voice'+${track.id}" controls>
-                                <source th:src="'/store/audio/'+${track.clientdetail.uuid}+'/'+${track.filename}">
-                            </audio>
-                        </div>
-                    </div>
-                </li>
-            </div>
-        </ul>
-        <div class="card-footer">
-            <a href="/guest/tracksall/0">Подивитися всі завантажені треки</a>
-        </div>
-    </div>
-</div>
 
 <div class="container" th:fragment="lasttrecksall">
     <div class="card" >
-        <div class="card-header"><h3>Останні завантажені треки</h3></div>
+        <div class="card-header"><h3>Завантажені треки</h3></div>
         <ul class="list-group list-group-flush">
             <div th:each="track, iStat : ${trackList}">
                 <li  class="list-group-item">
                     <div class="row" th:style="${iStat.odd}? 'background-color: rgb(240,240, 240'">
                         <div class="col-1 col-sm-1 col-lg-1" style="padding-left: 0px;">
-                            <span class="fa-stack fa-1x">
+
+                            <span class="fa-stack fa-1x" th:id="'/store/audio/'+${track.storeitem.uuid}">
                                 <i class="fas fa-circle fa-stack-2x text-primary"></i>
                                 <i class="fas fa-play fa-stack-1x fa-inverse"></i>
                             </span>
@@ -119,13 +355,12 @@
                             <small >
                                 <span th:text="${track.autor}"/><br>
                                 <span th:text="${track.name}"/><br>
-                                <span th:text="${track.clientdetail.custname} + ' ' + ${track.clientdetail.custsurname}"/>
                             </small>
 
                         </div>
                         <div>
                             <audio id="'voice'+${track.id}" controls>
-                                <source th:src="'/store/audio/'+${track.clientdetail.uuid}+'/'+${track.filename}">
+                                <source th:src="'/store/audio/'+${track.storeitem.uuid}">
                             </audio>
                         </div>
                     </div>

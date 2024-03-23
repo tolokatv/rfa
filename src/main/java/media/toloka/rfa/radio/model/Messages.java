@@ -12,7 +12,7 @@ import java.util.UUID;
 
 @Data
 @Entity
-@Table
+@Table(indexes = @Index(columnList = "uuid"))
 public class Messages {
     @Id
     @GeneratedValue
@@ -38,7 +38,7 @@ public class Messages {
     @Column(columnDefinition = "TEXT")
     private String body;
 
-//    private MessageRoom room = null;
+    private String roomuuid = null;
 //    @Expose
 //    @OneToMany(cascade = {CascadeType.ALL})
 //    private List<MessageRoom> room;

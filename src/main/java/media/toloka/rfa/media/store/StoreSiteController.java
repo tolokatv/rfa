@@ -1,0 +1,344 @@
+package media.toloka.rfa.media.store;
+// https://paulcwarren.github.io/spring-content/refs/release/1.2.4/fs-index.html
+
+
+import media.toloka.rfa.media.store.Service.StoreService;
+import media.toloka.rfa.media.store.model.Store;
+import media.toloka.rfa.radio.client.service.ClientService;
+import media.toloka.rfa.radio.creater.service.CreaterService;
+import media.toloka.rfa.radio.dropfile.service.FilesService;
+import media.toloka.rfa.radio.model.Clientdetail;
+import org.apache.commons.io.FileUtils;
+import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestHeader;
+import org.springframework.web.bind.annotation.ResponseBody;
+//import org.apache.commons.io.IOUtils
+
+import java.awt.image.BufferedImage;
+import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+import org.imgscalr.Scalr;
+import org.springframework.web.servlet.mvc.method.annotation.StreamingResponseBody;
+
+import javax.imageio.ImageIO;
+
+import static org.springframework.http.HttpHeaders.ACCEPT_RANGES;
+
+@Controller
+public class StoreSiteController  {
+
+    final Logger logger = LoggerFactory.getLogger(StoreSiteController.class);
+
+    @Autowired
+    private ClientService clientService;
+
+    @Autowired
+    private FilesService filesService;
+
+    @Autowired
+    private CreaterService createrService;
+
+    @Autowired
+    private StoreService storeService;
+
+    @GetMapping(value = "/store/taudio/{clientUUID}/{fileName}",
+            produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+        public ResponseEntity<StreamingResponseBody> stream(
+            @PathVariable String clientUUID,
+            @PathVariable String fileName,
+            Model model) throws IOException {
+        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
+        String ifile = filesService.GetClientDirectory(cd)+"/"+fileName;
+        String mymetype = filesService.GetMediatype(Paths.get(ifile));
+        Long length = filesService.GetMediaLength(Paths.get(ifile));
+
+
+        //This is just a sample to for creating the input stream as it's what I get from google cloud storage
+        File file = new File(ifile);
+        FileInputStream in = FileUtils.openInputStream(file);
+
+        StreamingResponseBody stream = out -> {
+            IOUtils.copy(in, out);
+        };
+
+        return ResponseEntity.ok()
+                //.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
+                .header(ACCEPT_RANGES, "bytes")
+                .header(HttpHeaders.CONTENT_TYPE, mymetype)
+                .contentLength(length)
+                .body(stream);
+    }
+
+    @GetMapping(value = "/store/audio/{storeUUID}",
+            produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+    public ResponseEntity<StreamingResponseBody> getStoreAudioToStream(
+            @PathVariable("storeUUID") String storeUUID,
+            @RequestHeader(value = "Range", required = false) String rangeHeader
+    ) {
+        // https://www.codeproject.com/Articles/5341970/Streaming-Media-Files-in-Spring-Boot-Web-Applicati
+        try
+        {
+            StreamingResponseBody responseStream;
+            Store storeRecord = storeService.GetStoreByUUID(storeUUID);
+            String filePathString = filesService.GetClientDirectory(storeRecord.getClientdetail())
+                    + "/" + storeRecord.getFilename();
+//            String filePathString = "<Place your MP4 file full path here.>";
+            Path filePath = Paths.get(filePathString);
+            Long fileSize = Files.size(filePath);
+            byte[] buffer = new byte[1024];
+            final HttpHeaders responseHeaders = new HttpHeaders();
+
+            if (rangeHeader == null)
+            {
+                responseHeaders.add("Content-Type", "video/mp4");
+                responseHeaders.add("Content-Length", fileSize.toString());
+                responseStream = os -> {
+                    RandomAccessFile file = new RandomAccessFile(filePathString, "r");
+                    try (file)
+                    {
+                        long pos = 0;
+                        file.seek(pos);
+                        while (pos < fileSize - 1)
+                        {
+                            file.read(buffer);
+                            os.write(buffer);
+                            pos += buffer.length;
+                        }
+                        os.flush();
+                    } catch (Exception e) {}
+                };
+
+                return new ResponseEntity<StreamingResponseBody>
+                        (responseStream, responseHeaders, HttpStatus.OK);
+            }
+
+            String[] ranges = rangeHeader.split("-");
+            Long rangeStart = Long.parseLong(ranges[0].substring(6));
+            Long rangeEnd;
+            if (ranges.length > 1)
+            {
+                rangeEnd = Long.parseLong(ranges[1]);
+            }
+            else
+            {
+                rangeEnd = fileSize - 1;
+            }
+
+            if (fileSize < rangeEnd)
+            {
+                rangeEnd = fileSize - 1;
+            }
+
+            String contentLength = String.valueOf((rangeEnd - rangeStart) + 1);
+            responseHeaders.add("Content-Type", storeRecord.getContentMimeType());
+            //responseHeaders.add("Content-Type", "video/mp4");
+            responseHeaders.add("Content-Length", contentLength);
+            responseHeaders.add("Accept-Ranges", "bytes");
+            responseHeaders.add("Content-Range", "bytes" + " " +
+                    rangeStart + "-" + rangeEnd + "/" + fileSize);
+            final Long _rangeEnd = rangeEnd;
+            responseStream = os -> {
+                RandomAccessFile file = new RandomAccessFile(filePathString, "r");
+                try (file)
+                {
+                    long pos = rangeStart;
+                    file.seek(pos);
+                    while (pos < _rangeEnd)
+                    {
+                        file.read(buffer);
+                        os.write(buffer);
+                        pos += buffer.length;
+                    }
+                    os.flush();
+                }
+                catch (Exception e) {}
+            };
+
+            return new ResponseEntity<StreamingResponseBody>
+                    (responseStream, responseHeaders, HttpStatus.PARTIAL_CONTENT);
+        }
+        catch (FileNotFoundException e)
+        {
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        catch (IOException e)
+        {
+            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        }
+    }
+
+//    @GetMapping(value = "/store/audio1/{storeUUID}",
+//            produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+//    public @ResponseBody byte[] getStoreAudio(
+////    public ResponseEntity<StreamingResponseBody> getStoreAudio(
+//            @PathVariable("storeUUID") String storeUUID,
+//            @RequestHeader(value = "Range", required = false) String rangeHeader,
+//            Model model) {
+////        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
+////        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
+//        // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
+//        Store storeRecord = storeService.GetStoreByUUID(storeUUID);
+//        if (storeRecord == null) {
+//            logger.info("getStoreAudio: Йой! Не знайшли запис у сховищі!");
+//            return null;
+//        } else {
+//            String ifile = filesService.GetClientDirectory(storeRecord.getClientdetail())
+//                    + "/" + storeRecord.getFilename();
+//            InputStream is;
+//            try {
+//                is = new FileInputStream(new File(ifile));
+//                if (is == null) {
+//                    return new byte[0];
+//                }
+//                byte[] buffer = is.readAllBytes();
+//                return buffer;
+//            } catch (FileNotFoundException e) {
+//                logger.info("getStoreAudio: Йой! FileNotFoundException!");
+//                return null;
+//            } catch (IOException e) {
+//                logger.info("==================================== getStoreImage IOException");
+//                e.printStackTrace();
+//                return null;
+//            }
+//        }
+//    }
+
+
+
+    @GetMapping(value = "/store/img/{clientUUID}/{fileName}",
+            produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
+    public @ResponseBody byte[] getStoreImage(
+            @PathVariable String clientUUID,
+            @PathVariable String fileName,
+            Model model ) {
+        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
+//        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
+        // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
+        String ifile = filesService.GetClientDirectory(cd)+"/"+fileName;
+//        logger.info("SCD = {}",ifile);
+//        InputStream is = getClass().getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
+        InputStream is;
+        try {
+            is = new FileInputStream(new File(ifile));
+            if (is == null) {
+                return new byte[0];
+            }
+            byte[] buffer = is.readAllBytes();
+            return buffer;
+        } catch (FileNotFoundException e) {
+            logger.info("getStoreAudio: Йой! FileNotFoundException!");
+        } catch (IOException e) {
+            logger.info("==================================== getStoreImage IOException");
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
+
+    @GetMapping(value = "/store/thrumbal/{clientUUID}/{fileName}",
+            produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
+    public @ResponseBody byte[] getStoreThrumbal(
+            @PathVariable String clientUUID,
+            @PathVariable String fileName,
+            Model model ) {
+        // https://medium.com/@asadise/create-thumbnail-for-an-image-in-spring-framework-49776c873ea1
+        // http://localhost:8080/store/thrumbal/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
+        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
+//        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
+        // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
+        String ifile = filesService.GetClientDirectory(cd)+"/"+fileName;
+//        logger.info("SCD = {}",ifile);
+//        InputStream is = getClass().getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
+        InputStream is;
+
+        OutputStream os;
+
+        BufferedImage thumbImg = null;
+        BufferedImage img;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try {
+            is = new FileInputStream(new File(ifile));
+            if (is == null) {
+                return new byte[0];
+            }
+             img = ImageIO.read(is);
+        } catch (IOException e) {
+            logger.info("==================================== getStoreImage IOException");
+            e.printStackTrace();
+            return null;
+        }
+        thumbImg = Scalr.resize(img, Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, 320, Scalr.OP_ANTIALIAS);
+        try {
+            ImageIO.write(thumbImg, FilenameUtils.getExtension(fileName), baos);
+        } catch (IOException e) {
+            logger.info("==================================== getStoreImage IOException");
+            e.printStackTrace();
+            return null;
+        }
+        byte[] bytes = baos.toByteArray();
+        return bytes;
+    }
+
+    @GetMapping(value = "/store/thrumbal/w/{width}/{clientUUID}/{fileName}",
+            produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
+    public @ResponseBody byte[] getStoreThrumbalWidth(
+            @PathVariable String clientUUID,
+            @PathVariable int width,
+            @PathVariable String fileName,
+            Model model ) {
+        // https://medium.com/@asadise/create-thumbnail-for-an-image-in-spring-framework-49776c873ea1
+        // http://localhost:8080/store/thrumbal/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
+        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
+//        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
+        // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
+        String ifile = filesService.GetClientDirectory(cd)+"/"+fileName;
+//        logger.info("SCD = {}",ifile);
+//        InputStream is = getClass().getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
+        InputStream is;
+
+        OutputStream os;
+
+        BufferedImage thumbImg = null;
+        BufferedImage img;
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        try {
+            is = new FileInputStream(new File(ifile));
+            if (is == null) {
+                return new byte[0];
+            }
+            img = ImageIO.read(is);
+        } catch (IOException e) {
+            logger.info("==================================== getStoreImage IOException");
+            e.printStackTrace();
+            return null;
+        }
+        thumbImg = Scalr.resize(img, Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, width, Scalr.OP_ANTIALIAS);
+        try {
+            ImageIO.write(thumbImg, FilenameUtils.getExtension(fileName), baos);
+        } catch (IOException e) {
+            logger.info("==================================== getStoreImage IOException");
+            e.printStackTrace();
+            return null;
+        }
+        byte[] bytes = baos.toByteArray();
+        return bytes;
+    }
+
+
+
+}

@@ -2,12 +2,11 @@ package media.toloka.rfa.radio.creater;
 
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
-import media.toloka.rfa.radio.document.ClientDocumentEditController;
 import media.toloka.rfa.radio.model.Album;
 import media.toloka.rfa.radio.model.Albumсover;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Track;
-import media.toloka.rfa.radio.store.model.Store;
+import media.toloka.rfa.media.store.model.Store;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
-import java.util.Map;
 
 @Controller
 public class CreaterAlbumController {

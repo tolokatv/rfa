@@ -14,7 +14,7 @@ import java.util.UUID;
 @Data
 @ToString
 @Entity
-//@Table
+@Table(indexes = @Index(columnList = "uuid"))
 public class Clientaddress {
 
     @Id

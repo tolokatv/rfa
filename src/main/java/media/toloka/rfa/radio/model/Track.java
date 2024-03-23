@@ -6,14 +6,14 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 import media.toloka.rfa.radio.model.enumerate.EDocumentStatus;
-import media.toloka.rfa.radio.store.model.Store;
-import media.toloka.rfa.security.model.Users;
+import media.toloka.rfa.media.store.model.Store;
 
 import java.util.Date;
 import java.util.UUID;
 
 @Data
 @Entity
+@Table(indexes = @Index(columnList = "uuid"))
 public class Track {
     @Id
     @GeneratedValue
@@ -52,6 +52,9 @@ public class Track {
 
     @Expose
     private Boolean notnormalvocabulary = false;
+
+    @Expose
+    private Boolean tochat = true;
 
     @Expose
     private EDocumentStatus status;

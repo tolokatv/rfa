@@ -35,6 +35,8 @@ public class ServerRunnerService {
     private String server_rundir;
     @Value("${media.toloka.rfa.server.createStationCommand}")
     private String createStationCommand;
+    @Value("${media.toloka.rfa.server.setLibreTimeAdminPSW}")
+    private String setLibreTimeAdminPSW;
 
     @Value("${media.toloka.rfa.server.preparenginxforstationcommand}")
     private String preparenginxforstationcommand;
@@ -156,7 +158,7 @@ public class ServerRunnerService {
         String pathConfigFile = env.get("HOME") + clientdir + "/" + station.getClientdetail().getUuid() + "/"
                 + station.getUuid() + "/" + station.getDbname() + ".rfa.toloka.media";
         try {
-            logger.info("============== ПИШИМО ФАЙЛ КОНФІГУРАЦІЇ ДЛЯ NGINX: " + pathConfigFile );
+//            logger.info("============== ПИШИМО ФАЙЛ КОНФІГУРАЦІЇ ДЛЯ NGINX: " + pathConfigFile );
             //записуємо файл конфігурації Nginx в каталог користувача
             Files.write(Paths.get(pathConfigFile), nginxconfig.getBytes() );
 
@@ -179,7 +181,7 @@ public class ServerRunnerService {
 //            try {
             int exitcode = p.waitFor();
             rc = Long.valueOf(exitcode);
-            logger.info("=========================== PREPARE NGINX: exit code = {}", String.valueOf(exitcode)  );
+//            logger.info("=========================== PREPARE NGINX: exit code = {}", String.valueOf(exitcode)  );
 //            } catch (InterruptedException e){
 //                logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
 //                e.printStackTrace();
@@ -228,11 +230,9 @@ public class ServerRunnerService {
 //            try {
             int exitcode = p.waitFor();
             rc = Long.valueOf(exitcode);
-            logger.info("=========================== Migrate Init LibreTime: exit code = {}", String.valueOf(exitcode)  );
-//            } catch (InterruptedException e){
-//                logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
-//                e.printStackTrace();
-//            }
+
+            stationService.SetStationRunState(station,true); // Change runnining status station
+
         } catch (IOException e) {
             logger.warn(" Щось пішло не так при виконанні завдання в операційній системі");
 
@@ -255,6 +255,8 @@ public class ServerRunnerService {
         return rc;
     }
 
+
+
     public Long  StationStop(RPCJob rpcJob) {
         Long rc = 129L;
         Gson gson = gsonService.CreateGson();
@@ -267,7 +269,6 @@ public class ServerRunnerService {
         String server_workdir;
 
         server_workdir = env.get("HOME")+ clientdir + "/" + env.get("CLIENT_UUID") + "/" +env.get("STATION_UUID");
-        logger.info("============== Start Station {}", server_workdir);
         pb.directory(new File(server_workdir));
         pb.redirectErrorStream(true);
 //        pb.redirectOutput(ProcessBuilder.Redirect.appendTo(log));
@@ -282,7 +283,7 @@ public class ServerRunnerService {
 //            try {
             int exitcode = p.waitFor();
             rc = Long.valueOf(exitcode);
-            logger.info("=========================== Migrate Init LibreTime: exit code = {}", String.valueOf(exitcode)  );
+            stationService.SetStationRunState(station,false); // Change runnining status station
 //            } catch (InterruptedException e){
 //                logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
 //                e.printStackTrace();
@@ -321,7 +322,7 @@ public class ServerRunnerService {
         String server_workdir;
 
         server_workdir = env.get("HOME")+ clientdir + "/" + env.get("CLIENT_UUID") + "/" +env.get("STATION_UUID");
-        logger.info("============== MIGRATE WORKER DIR {}", server_workdir);
+//        logger.info("============== MIGRATE WORKER DIR {}", server_workdir);
         pb.directory(new File(server_workdir));
         pb.redirectErrorStream(true);
 //        pb.redirectOutput(ProcessBuilder.Redirect.appendTo(log));
@@ -336,7 +337,7 @@ public class ServerRunnerService {
 //            try {
                 int exitcode = p.waitFor();
                 rc = Long.valueOf(exitcode);
-                logger.info("=========================== Migrate Init LibreTime: exit code = {}", String.valueOf(exitcode)  );
+//                logger.info("=========================== Migrate Init LibreTime: exit code = {}", String.valueOf(exitcode)  );
 //            } catch (InterruptedException e){
 //                logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
 //                e.printStackTrace();
@@ -489,6 +490,44 @@ public class ServerRunnerService {
         }
         //================================================================
         // https://www.javaguides.net/2019/11/gson-localdatetime-localdate.html
+//        // TODO Занести в історию запись
+        return rc;
+    }
+
+    public Long StationSetPSW(RPCJob rpcJob) {
+        Long rc = 129L;
+        Gson gson = gsonService.CreateGson();
+//        rpcJob.getRjobdata()  LIBRETIME_POSTGRESQL_ADMIN_PSW
+        Station tmpstation = gson.fromJson(rpcJob.getRjobdata(), Station.class);
+        ProcessBuilder pb = new ProcessBuilder("bash", "-c", setLibreTimeAdminPSW);
+        Station station = stationService.GetStationById(tmpstation.getId());
+        Map<String, String> env = pb.environment();
+        env.put("LIBRETIME_POSTGRESQL_ADMIN_PSW",rpcJob.getUser().getPassword());
+        env.put("PGPASSWORD",station.getDbname());
+        SetEnvironmentForProcessBuilder(env, station);
+
+        pb.redirectErrorStream(true);
+        try {
+            Process p = pb.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                logger.info(line);
+            }
+            int exitcode = p.waitFor();
+            rc = Long.valueOf(exitcode);
+//            assert pb.redirectInput() == ProcessBuilder.Redirect.PIPE;
+//            assert pb.redirectOutput().file() == log;
+//            assert p.getInputStream().read() == -1;
+        } catch (IOException e) {
+            logger.warn(" Щось пішло не так при виконанні завдання в операційній системі");
+            e.printStackTrace();
+        } catch (InterruptedException e){
+            logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
+            e.printStackTrace();
+        }
+
+
 //        // TODO Занести в історию запись
         return rc;
     }

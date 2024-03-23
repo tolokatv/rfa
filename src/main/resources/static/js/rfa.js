@@ -18,16 +18,20 @@ function getkeyhrev () {
     toloka.bstart = document.getElementById('startStation');
     toloka.bstop = document.getElementById('stopStation');
     toloka.bdel = document.getElementById('delStation');
+    toloka.changepswdiv = document.getElementById('setpswarea');
 
     toloka.blinkdisplay = toloka.blink.style.display;
     toloka.bstartdisplay = toloka.bstart.style.display;
     toloka.bstopdisplay = toloka.bstop.style.display;
     toloka.bdeldisplay = toloka.bdel.style.display;
+    toloka.bchangepswdiv =toloka.changepswdiv.style.display;
 
     toloka.blink.style.display = "none";
     toloka.bstart.style.display = "none";
     toloka.bstop.style.display = "none";
     toloka.bdel.style.display = "none";
+    toloka.changepswdiv.style.display = "none";
+    toloka.changepswdiv.style.display = "none";
 }
 
 
@@ -47,6 +51,7 @@ async function getStatus() {
             toloka.bstart.style.display = "none";
             toloka.bstop.style.display = toloka.bstopdisplay;
             toloka.bdel.style.display = "none";
+            toloka.changepswdiv.style.display = "none";
             break;
         case '0':
             myspan.textContent = 'Станція вимкнена';
@@ -55,6 +60,7 @@ async function getStatus() {
             toloka.bstart.style.display = toloka.bstartdisplay
             toloka.bstop.style.display = "none";
             toloka.bdel.style.display = toloka.bdeldisplay ;
+            toloka.changepswdiv.style.display = toloka.bchangepswdiv;
             break;
         default:
             myspan.textContent = 'Станція в процесі запуску або зупинки';

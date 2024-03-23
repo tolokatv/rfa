@@ -68,8 +68,8 @@ public class AdminUser {
         // Обробка ClientDetail. Видаляємо всі списки
 
         //
-        clientService.SaveUser(curuser);
-        clientService.DeleteUser(curuser);
+//        clientService.SaveUser(curuser);
+//        clientService.DeleteUser(curuser);
 
 
 

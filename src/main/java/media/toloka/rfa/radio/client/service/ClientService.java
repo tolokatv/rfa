@@ -16,6 +16,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.URL;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -81,17 +86,13 @@ public class ClientService {
         userRepository.save(user);
     }
 
-//    public Optional<Users> findById(Long idUser) {
-//        return userRepository.findById(idUser);
-//    }
-
-//    public Users getdById(Long idUser) {
-//        return userRepository.getById(idUser);
-//    }
-
     public Clientdetail GetClientDetailById(Long id) {
 
         return clientDetailRepository.getById(id);
+    }
+
+    public Clientdetail GetClientDetailByUUID(String uuid) {
+        return clientDetailRepository.getByUuid(uuid);
     }
 
     public Clientdetail GetClientDetailByUser(Users user) {
@@ -173,8 +174,28 @@ public class ClientService {
         return clientAddressRepository.getById(idAddress);
     }
 
-    public void DeleteUser(Users curuser) {
-        userRepository.delete(curuser);
+//    public void DeleteUser(Users curuser) {
+//        userRepository.delete(curuser);
+//    }
+
+    public String GetCurrentTrack(URL url) {
+        StringBuilder json = null;
+        try { //(
+            InputStream input = url.openStream();
+        // ) {
+            InputStreamReader isr = new InputStreamReader(input);
+            BufferedReader reader = new BufferedReader(isr);
+            json = new StringBuilder();
+            int c;
+            while ((c = reader.read()) != -1) {
+                json.append((char) c);
+            }
+
+        } catch (IOException e) {
+            logger.error("Помилка при отриманні інформації зі станції про поточний трек.");
+            e.printStackTrace();
+        }
+        return json.toString();
     }
 }
 

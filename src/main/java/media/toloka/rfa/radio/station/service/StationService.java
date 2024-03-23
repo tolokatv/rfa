@@ -273,6 +273,12 @@ public class StationService {
         return false;
     }
 
+    public void SetStationRunState(Station station, Boolean b) {
+        Station st = stationRepo.getById(station.getId());
+        st.setStationstate(b);
+        stationRepo.save(st);
+    }
+
 //    public void saveStation(Station station) {
 ////        Users user = serviceUser.GetCurrentUser();
 ////        if (station.getUser() == null) {

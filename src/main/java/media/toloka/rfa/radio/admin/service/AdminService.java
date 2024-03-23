@@ -6,14 +6,14 @@ import media.toloka.rfa.radio.contract.service.ContractService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.document.service.DocumentService;
 import media.toloka.rfa.radio.history.service.HistoryService;
-import media.toloka.rfa.radio.message.service.MessageService;
+//import media.toloka.rfa.radio.message.service.MessageService;
 import media.toloka.rfa.radio.model.Clientaddress;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Documents;
 import media.toloka.rfa.radio.model.Post;
 import media.toloka.rfa.radio.post.service.PostService;
 import media.toloka.rfa.radio.station.service.StationService;
-import media.toloka.rfa.radio.store.Service.StoreService;
+import media.toloka.rfa.media.store.Service.StoreService;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,8 +47,8 @@ public class AdminService {
     @Autowired
     private HistoryService historyService;
 
-    @Autowired
-    private MessageService messageService;
+//    @Autowired
+//    private MessageService messageService;
 
     @Autowired
     private StationService stationService;

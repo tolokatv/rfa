@@ -6,12 +6,12 @@ public enum ERole {
 //    ROLE_MODERATOR("Moderator"),
 //    ROLE_EDITOR("Editor"),
 //    ROLE_ADMIN("Admin");
-    ROLE_UNKNOWN("ROLE_UNCNOWN"),
-    ROLE_USER("ROLE_USER"),
-    ROLE_CREATER("ROLE_CREATER"),
-    ROLE_MODERATOR("ROLE_MODERATOR"),
-    ROLE_EDITOR("ROLE_EDITOR"),
-    ROLE_ADMIN("ROLE_ADMIN");
+    ROLE_UNKNOWN("ROLE_UNCNOWN"),       // 0
+    ROLE_USER("ROLE_USER"),             // 1
+    ROLE_CREATER("ROLE_CREATER"),       // 2
+    ROLE_MODERATOR("ROLE_MODERATOR"),   // 3
+    ROLE_EDITOR("ROLE_EDITOR"),         // 4
+    ROLE_ADMIN("ROLE_ADMIN");           // 5
 
     public final String label;
 
