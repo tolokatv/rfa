@@ -155,6 +155,7 @@ public class ServerRunnerService {
         props.put("servergui",station.getGuiserver());
         String nginxconfig = emailSenderService.getTextContent(nginxtemplate,props);
         // Записуємо файл конфігурації в робочий каталог станції
+        // todo перенести всі операції з файлами до каталогу радіостанцій
         String pathConfigFile = env.get("HOME") + clientdir + "/" + station.getClientdetail().getUuid() + "/"
                 + station.getUuid() + "/" + station.getDbname() + ".rfa.toloka.media";
         try {
