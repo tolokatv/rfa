@@ -2,7 +2,6 @@ package media.toloka.rfa.radio.dropfile.service;
 
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
-import media.toloka.rfa.radio.dropfile.DropPostFileController;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
 import org.slf4j.Logger;
@@ -20,25 +19,27 @@ import java.nio.file.Paths;
 import java.util.HashSet;
 import java.util.Set;
 
-import static org.apache.commons.io.FilenameUtils.getExtension;
-
 @Service
 public class FilesService {
 
     @Autowired
     private ClientService clientService;
 
+    @Value("${media.toloka.rfa.server.client_dir}")
+    private String clientdir;
     @Value("${media.toloka.rfa.upload_directory}")
     private String PATHuploadDirectory;
 
     final Logger logger = LoggerFactory.getLogger(FilesService.class);
 
-    public String GetClientDirectory(Clientdetail cd) {
-//        Users usr = clientService.GetCurrentUser();
-//        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
-        String clientUuid = cd.getUuid();
-//        String str = clientService.getClientDetail(clientService.GetCurrentUser()).getUuid();
-        return PATHuploadDirectory.concat(clientUuid);
+    public String GetBaseClientDirectory(Clientdetail cd) {
+        // Базова клієнтська директорія Тут знаходяться завантажені файли та каталоги радіостанцій.
+        String clientDirectory = System.getenv("HOME") + clientdir + "/" + cd.getUuid() ;
+        return clientDirectory;
+    }
+
+    public String GetUploadDirectory () {
+        return PATHuploadDirectory;
     }
 
 //    public String GetFileLink(String userUUID, String filename) {

@@ -72,7 +72,12 @@ public class CreaterDropPostFileController {
             return;
         }
 
-        Path destination = Paths.get(filesService.GetClientDirectory(cd)).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
+        // приводимо завантаження файлів до одного каталогу
+        // HOME media.toloka.rfa.server.client_dir client.UUID upload
+        // Path destination = Paths.get(filesService.GetClientDirectory(cd)).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
+        //String pathConfigFile = System.getenv("HOME") + cd.getUuid() + "/" + station.getClientdetail().getUuid() + "/"
+        //        + station.getUuid() + "/" + station.getDbname() + ".rfa.toloka.media";
+        Path destination = Paths.get(filesService.GetBaseClientDirectory(cd)).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
         Boolean fileExist = Files.exists(destination);
         String mediatype =  filesService.GetMediatype(destination);
         try {
@@ -85,10 +90,10 @@ public class CreaterDropPostFileController {
             Store storeitem;
             try {
                 Thread.sleep(difference);
-                if (!fileExist) {
+                if (!fileExist) { // Зберігаємо новий файл, якого не було у каталозі для завантаження
                     storeitem = storeService.SaveStoreItemInfo(null,destination, STORE_TRACK, cd);
                     createrService.SaveTrackUploadInfo(destination, storeitem, cd);
-                } else {
+                } else { // файл з таким імʼям був в каталозі. Оновлюємо інформацію
                     storeitem = storeService.GetStoreItemByFilenameByClientDetail(destination.getFileName().toString(), cd);
                 }
                 historyService.saveHistory(History_DocumentCreate, " Завантажено трек: " + file.getOriginalFilename(), clientService.GetCurrentUser());
@@ -119,7 +124,7 @@ public class CreaterDropPostFileController {
             return;
         }
 
-        Path destination = Paths.get(filesService.GetClientDirectory(cd)).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
+        Path destination = Paths.get(filesService.GetBaseClientDirectory(cd)).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
         Boolean fileExist = Files.exists(destination);
         try {
             Files.createDirectories(destination.getParent());

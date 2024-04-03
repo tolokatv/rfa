@@ -7,7 +7,6 @@ import media.toloka.rfa.radio.document.ClientDocumentEditController;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.model.Album;
 import media.toloka.rfa.radio.model.Clientdetail;
-import media.toloka.rfa.radio.model.Station;
 import media.toloka.rfa.radio.model.Track;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
@@ -46,7 +45,7 @@ public class CreaterTrackController {
         List<Track> trackList = createrService.GetAllTracksByCreater(cd);
         List<Album> albums = createrService.GetAllAlbumsByCreater(cd);
 
-        String baseaddress = filesService.GetClientDirectory(cd);
+        String baseaddress = filesService.GetBaseClientDirectory(cd);
         model.addAttribute("baseaddress", baseaddress );
         model.addAttribute("albums", albums );
         model.addAttribute("trackList", trackList );

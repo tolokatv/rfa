@@ -63,7 +63,7 @@ public class StoreSiteController  {
             @PathVariable String fileName,
             Model model) throws IOException {
         Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
-        String ifile = filesService.GetClientDirectory(cd)+"/"+fileName;
+        String ifile = filesService.GetBaseClientDirectory(cd)+"/"+fileName;
         String mymetype = filesService.GetMediatype(Paths.get(ifile));
         Long length = filesService.GetMediaLength(Paths.get(ifile));
 
@@ -95,8 +95,8 @@ public class StoreSiteController  {
         {
             StreamingResponseBody responseStream;
             Store storeRecord = storeService.GetStoreByUUID(storeUUID);
-            String filePathString = filesService.GetClientDirectory(storeRecord.getClientdetail())
-                    + "/" + storeRecord.getFilename();
+            String filePathString = filesService.GetBaseClientDirectory(storeRecord.getClientdetail())
+                    + "/upload/" + storeRecord.getFilename();
 //            String filePathString = "<Place your MP4 file full path here.>";
             Path filePath = Paths.get(filePathString);
             Long fileSize = Files.size(filePath);
@@ -229,7 +229,7 @@ public class StoreSiteController  {
         Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
 //        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
         // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
-        String ifile = filesService.GetClientDirectory(cd)+"/"+fileName;
+        String ifile = filesService.GetBaseClientDirectory(cd)+"/"+fileName;
 //        logger.info("SCD = {}",ifile);
 //        InputStream is = getClass().getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
         InputStream is;
@@ -261,7 +261,7 @@ public class StoreSiteController  {
         Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
 //        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
         // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
-        String ifile = filesService.GetClientDirectory(cd)+"/"+fileName;
+        String ifile = filesService.GetBaseClientDirectory(cd)+"/"+fileName;
 //        logger.info("SCD = {}",ifile);
 //        InputStream is = getClass().getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
         InputStream is;
@@ -306,7 +306,7 @@ public class StoreSiteController  {
         Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
 //        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
         // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
-        String ifile = filesService.GetClientDirectory(cd)+"/"+fileName;
+        String ifile = filesService.GetBaseClientDirectory(cd)+"/"+fileName;
 //        logger.info("SCD = {}",ifile);
 //        InputStream is = getClass().getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
         InputStream is;

@@ -29,9 +29,8 @@ import static media.toloka.rfa.radio.model.enumerate.EHistoryType.History_Docume
 
 @Slf4j
 @RestController
-//@RequestMapping("/uploadfile")
 public class DropPostFileController {
-
+// Завантажуємо документи клієнта
     @Autowired
     private ClientService clientService;
     @Autowired
@@ -63,15 +62,19 @@ public class DropPostFileController {
             return;
         }
 
-        Path destination = Paths.get(filesService.GetClientDirectory(cd)).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
+        // String PutFileToStore(InputStream inputStream, String filename, Clientdetail cd, EStoreFileType storeFileType)
+        // формуємо шлях для завантаження файлу в директорію клієнта
+        Path destination = Paths.get(filesService.GetBaseClientDirectory(cd) + "/" + filesService.GetUploadDirectory())
+                .resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
+
         Boolean fileExist = Files.exists(destination);
         try {
-            Files.createDirectories(destination.getParent());
-            Files.copy(file.getInputStream(), destination, REPLACE_EXISTING);
+            String storeUUID = storeService.PutFileToStore(file.getInputStream(),file.getOriginalFilename(),cd,STORE_DOCUMENT);
+//            Files.createDirectories(destination.getParent());
+//            Files.copy(file.getInputStream(), destination, REPLACE_EXISTING);
             // Зберігаємо інформацію о файлі та привʼязуємо до користувача.
             Random random = new Random();
-            long difference = random.nextInt(1000);
-//            logger.info("Завантаження файлу: Випадкова затримка {}",difference);
+            long difference = random.nextInt(1000);  // затримка задля не повторення ID в базі
             Store storeitem;
             try {
                 Thread.sleep(difference);
@@ -85,7 +88,7 @@ public class DropPostFileController {
             }
             catch(InterruptedException e)
             {
-                logger.info("--------- catch(InterruptedException e)");
+                logger.info("--------- Thread.sleep(difference) -> catch(InterruptedException e)");
             }
         } catch (IOException e) {
             logger.info("Завантаження файлу: Проблема збереження");

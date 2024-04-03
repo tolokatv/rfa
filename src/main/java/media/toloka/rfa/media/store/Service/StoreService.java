@@ -2,6 +2,7 @@ package media.toloka.rfa.media.store.Service;
 
 
 import media.toloka.rfa.media.store.Reposirore.StoreRepositorePagination;
+import media.toloka.rfa.media.store.implementation.StoreFileImplementation;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.media.store.model.EStoreFileType;
@@ -18,7 +19,7 @@ import java.nio.file.Path;
 import java.util.List;
 
 @Service
-public class StoreService {
+public class StoreService extends StoreFileImplementation {
 
     final Logger logger = LoggerFactory.getLogger(StoreService.class);
 
@@ -45,10 +46,10 @@ public class StoreService {
 
     }
 
-    public Store SaveStoreItemInfo(Store storeitem) {
-        storeRepositore.save(storeitem);
-        return storeitem;
-    }
+//    public Store SaveStoreItemInfo(Store storeitem) {
+//        storeRepositore.save(storeitem);
+//        return storeitem;
+//    }
 
     public Store SaveStoreItemInfo(Store storeitem, Path destination, EStoreFileType eStoreFileType, Clientdetail cd) {
         if (storeitem == null) {

@@ -1,5 +1,8 @@
 package media.toloka.rfa.media.store.Interface;
 
+import media.toloka.rfa.media.store.model.EStoreFileType;
+import media.toloka.rfa.radio.model.Clientdetail;
+
 import java.io.InputStream;
 import java.util.UUID;
 
@@ -8,7 +11,8 @@ import static java.util.UUID.randomUUID;
 public interface StoreInterface {
 
     public InputStream GetFileFromStore (String uuid);
-    public String PutFileToStore (InputStream inputStream, String filepatch);
+    public String PutFileToStore (InputStream inputStream, String filepatch, Clientdetail cd, EStoreFileType storeFileType);
+//    public String PutFileToStore(InputStream inputStream, String filename, Clientdetail cd, EStoreFileType storeFileType)
     public Boolean DeleteFileInStore (String uuid);
 
 
