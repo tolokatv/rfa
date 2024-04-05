@@ -126,21 +126,26 @@ public class CreaterDropPostFileController {
 
         Path destination = Paths.get(filesService.GetBaseClientDirectory(cd)).resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
         Boolean fileExist = Files.exists(destination);
+        Store storeitem = null;
         try {
             Files.createDirectories(destination.getParent());
             Files.copy(file.getInputStream(), destination, REPLACE_EXISTING);
-            // Зберігаємо інформацію о файлі та привʼязуємо до користувача.
-            Random random = new Random();
-            long difference = random.nextInt(1000);
-            logger.info("Завантаження файлу: Випадкова затримка {}",difference);
+
+
             try {
-                Store storeitem;
+                // Зберігаємо інформацію о файлі та привʼязуємо до користувача.
+                Random random = new Random();
+                long difference = random.nextInt(1000);
+//                logger.info("Завантаження файлу: Випадкова затримка {}",difference);
                 Thread.sleep(difference);
-                if (!fileExist) {
-                    storeitem = storeService.SaveStoreItemInfo(null,destination, STORE_ALBUMCOVER, cd);                    createrService.SaveAlbumCoverUploadInfo(destination, cd, storeitem);
-                } else {
+
+                if (fileExist) {
+//                    storeitem = storeService.SaveStoreItemInfo(null,destination, STORE_ALBUMCOVER, cd);                    createrService.SaveAlbumCoverUploadInfo(destination, cd, storeitem);
+//                } else {
                     storeitem = storeService.GetStoreItemByFilenameByClientDetail(destination.getFileName().toString(), cd);
+//                    storeitem = storeService.SaveStoreItemInfo(storeitem,destination, STORE_ALBUMCOVER, cd);
                 }
+                storeitem = storeService.SaveStoreItemInfo(storeitem,destination, STORE_ALBUMCOVER, cd);
                 historyService.saveHistory(History_DocumentCreate, " Завантажено обкладинку альбому: " + file.getOriginalFilename(), clientService.GetCurrentUser());
             }
             catch(InterruptedException e)

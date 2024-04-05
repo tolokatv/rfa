@@ -1,5 +1,6 @@
 package media.toloka.rfa.radio.dropfile.service;
 
+import media.toloka.rfa.media.store.implementation.StoreFileImplementation;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 import org.apache.commons.io.FileUtils;
@@ -42,12 +43,7 @@ public class FilesService {
         return PATHuploadDirectory;
     }
 
-//    public String GetFileLink(String userUUID, String filename) {
-//        Path temp = Paths.get(userUUID);
-////        Set<String> stringSet = listFilesUsingDirectoryStream(temp.toString());
-//        return temp.toString();
-//    }
-
+    // перенести в StoreInterface
     public String GetMediatype(Path fileName) {
         String mediaType;
         String extensionFile =  FilenameUtils.getExtension(fileName.getFileName().toString());

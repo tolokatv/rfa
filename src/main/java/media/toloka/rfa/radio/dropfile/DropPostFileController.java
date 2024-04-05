@@ -22,7 +22,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Random;
 
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static media.toloka.rfa.media.store.model.EStoreFileType.STORE_DOCUMENT;
 import static media.toloka.rfa.radio.model.enumerate.EHistoryType.History_DocumentCreate;
 
@@ -62,41 +61,15 @@ public class DropPostFileController {
             return;
         }
 
-        // String PutFileToStore(InputStream inputStream, String filename, Clientdetail cd, EStoreFileType storeFileType)
-        // формуємо шлях для завантаження файлу в директорію клієнта
-        Path destination = Paths.get(filesService.GetBaseClientDirectory(cd) + "/" + filesService.GetUploadDirectory())
-                .resolve(file.getOriginalFilename()).normalize().toAbsolutePath();
-
-        Boolean fileExist = Files.exists(destination);
         try {
+            // тестуємо завантаження через сервіси сховища.
             String storeUUID = storeService.PutFileToStore(file.getInputStream(),file.getOriginalFilename(),cd,STORE_DOCUMENT);
-//            Files.createDirectories(destination.getParent());
-//            Files.copy(file.getInputStream(), destination, REPLACE_EXISTING);
-            // Зберігаємо інформацію о файлі та привʼязуємо до користувача.
-            Random random = new Random();
-            long difference = random.nextInt(1000);  // затримка задля не повторення ID в базі
-            Store storeitem;
-            try {
-                Thread.sleep(difference);
-                if (!fileExist) {
-                    storeitem = storeService.SaveStoreItemInfo(null,destination, STORE_DOCUMENT, cd);
-                    documentService.saveDocumentUploadInfo(destination);
-                } else {
-                    storeitem = storeService.GetStoreItemByFilenameByClientDetail(destination.getFileName().toString(), cd);
-                }
-                historyService.saveHistory(History_DocumentCreate, " Завантажено файл: " + file.getOriginalFilename(), clientService.GetCurrentUser());
-            }
-            catch(InterruptedException e)
-            {
-                logger.info("--------- Thread.sleep(difference) -> catch(InterruptedException e)");
-            }
         } catch (IOException e) {
             logger.info("Завантаження файлу: Проблема збереження");
             e.printStackTrace();
         }
         log.info("uploaded file " + file.getOriginalFilename());
     }
-
 
 }
 

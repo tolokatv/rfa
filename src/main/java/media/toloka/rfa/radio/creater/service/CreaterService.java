@@ -113,7 +113,7 @@ public class CreaterService {
         albumRepository.save(album);
     }
 
-    public void SaveAlbumCoverUploadInfo(Path destination, Clientdetail cd, Store store) {
+    public void SaveAlbumCoverUploadInfo(Path destination,Store store, Clientdetail cd ) {
         Albumсover albumсover = new Albumсover();
         albumсover.setAlbumcoverfile(destination.getFileName().toString());
         String mediatype = filesService.GetMediatype(destination);

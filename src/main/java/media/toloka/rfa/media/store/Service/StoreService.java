@@ -51,36 +51,7 @@ public class StoreService extends StoreFileImplementation {
 //        return storeitem;
 //    }
 
-    public Store SaveStoreItemInfo(Store storeitem, Path destination, EStoreFileType eStoreFileType, Clientdetail cd) {
-        if (storeitem == null) {
-            storeitem = new Store();
-            storeitem.setFilepatch(destination.toAbsolutePath().toString());
-            storeitem.setStorefiletype(eStoreFileType);
-            storeitem.setClientdetail(cd);
-            storeitem.setFilename(destination.getFileName().toString());
-            storeitem.setContentMimeType(filesService.GetMediatype(destination));
-            storeitem.setFilelength(filesService.GetMediaLength(destination));
 
-        } else  {
-            storeitem.setContentMimeType(filesService.GetMediatype(destination));
-            storeitem.setFilelength(filesService.GetMediaLength(destination));
-        }
-        storeRepositore.save(storeitem);
-        return storeitem;
-    }
 
-    public Store GetStoreItemByFilenameByClientDetail(String fileName, Clientdetail cd) {
-        return storeRepositore.getByFilenameAndClientdetail(fileName,cd);
-    }
 
-    public Page GetStorePageItemType(int pageNumber, int pageCount, EStoreFileType eStoreFileType) {
-        Pageable storePage = PageRequest.of(pageNumber, pageCount);
-        Page page = storeRepositore.findByStorefiletype(storePage, eStoreFileType);
-        return page;
-
-    }
-
-    public Store GetStoreByUUID(String storeUUID) {
-        return storeRepositore.getByUuid(storeUUID);
-    }
 }

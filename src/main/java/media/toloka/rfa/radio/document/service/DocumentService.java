@@ -37,7 +37,7 @@ public class DocumentService {
         return ld;
     }
 
-    public void saveDocumentUploadInfo(Path destination) {
+    public void SaveDocumentUploadInfo(Path destination) {
         Documents doc = new Documents();
         doc.setStatus(EDocumentStatus.STATUS_LOADED);
         doc.setPathToDocument(destination.getFileName().toString());
