@@ -46,6 +46,9 @@ public class Album {
     private Albumсover albumcover;
 
     @Expose
+    private String storeuuidalbumcover;
+
+    @Expose
     private String albumcoverdateupload = new Date().toString();
 
     @Expose

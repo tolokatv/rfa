@@ -24,6 +24,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
                 requestUrl.contains("rfa.toloka.media/assets")
                 || requestUrl.contains("rfa.toloka.media/css/")
                 || requestUrl.contains("rfa.toloka.media/js/")
+                || requestUrl.contains("http://localhost:")
         ) {
             return true;
         } else {

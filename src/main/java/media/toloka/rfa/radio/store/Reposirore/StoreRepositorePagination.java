@@ -1,8 +1,8 @@
-package media.toloka.rfa.media.store.Reposirore;
+package media.toloka.rfa.radio.store.Reposirore;
 
 import media.toloka.rfa.radio.model.Clientdetail;
-import media.toloka.rfa.media.store.model.EStoreFileType;
-import media.toloka.rfa.media.store.model.Store;
+import media.toloka.rfa.radio.store.model.EStoreFileType;
+import media.toloka.rfa.radio.store.model.Store;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

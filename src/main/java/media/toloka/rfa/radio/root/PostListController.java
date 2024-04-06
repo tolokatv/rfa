@@ -5,7 +5,7 @@ import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.model.Post;
 import media.toloka.rfa.radio.model.Track;
-import media.toloka.rfa.media.store.model.Store;
+import media.toloka.rfa.radio.store.model.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;

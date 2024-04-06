@@ -1,9 +1,9 @@
-package media.toloka.rfa.media.store;
+package media.toloka.rfa.radio.store;
 // https://paulcwarren.github.io/spring-content/refs/release/1.2.4/fs-index.html
 
 
-import media.toloka.rfa.media.store.Service.StoreService;
-import media.toloka.rfa.media.store.model.Store;
+import media.toloka.rfa.radio.store.Service.StoreService;
+import media.toloka.rfa.radio.store.model.Store;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
@@ -95,8 +95,9 @@ public class StoreSiteController  {
         {
             StreamingResponseBody responseStream;
             Store storeRecord = storeService.GetStoreByUUID(storeUUID);
-            String filePathString = filesService.GetBaseClientDirectory(storeRecord.getClientdetail())
-                    + "/upload/" + storeRecord.getFilename();
+//            String filePathString = filesService.GetBaseClientDirectory(storeRecord.getClientdetail())
+//                    + "/upload/" + storeRecord.getFilename();
+            String filePathString = storeRecord.getFilepatch();
 //            String filePathString = "<Place your MP4 file full path here.>";
             Path filePath = Paths.get(filePathString);
             Long fileSize = Files.size(filePath);
@@ -105,8 +106,9 @@ public class StoreSiteController  {
 
             if (rangeHeader == null)
             {
-                responseHeaders.add("Content-Type", "video/mp4");
-                responseHeaders.add("Content-Length", fileSize.toString());
+                responseHeaders.add("Content-Type", storeRecord.getContentMimeType());
+//                responseHeaders.add("Content-Length", fileSize.toString());
+                responseHeaders.add("Content-Length", storeRecord.getFilelength().toString());
                 responseStream = os -> {
                     RandomAccessFile file = new RandomAccessFile(filePathString, "r");
                     try (file)
@@ -191,7 +193,7 @@ public class StoreSiteController  {
 //            Model model) {
 ////        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
 ////        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
-//        // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
+//        //
 //        Store storeRecord = storeService.GetStoreByUUID(storeUUID);
 //        if (storeRecord == null) {
 //            logger.info("getStoreAudio: Йой! Не знайшли запис у сховищі!");
@@ -250,7 +252,8 @@ public class StoreSiteController  {
         return null;
     }
 
-    @GetMapping(value = "/store/thrumbal/{clientUUID}/{fileName}",
+    //    @GetMapping(value = "/store/thrumbal/{clientUUID}/{fileName}",
+    @GetMapping(value = "/store/thrumbal/{storeUUID}",
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     public @ResponseBody byte[] getStoreThrumbal(
             @PathVariable String clientUUID,

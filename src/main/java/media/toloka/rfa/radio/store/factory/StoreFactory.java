@@ -1,4 +1,4 @@
-package media.toloka.rfa.media.store.factory;
+package media.toloka.rfa.radio.store.factory;
 
 import org.springframework.stereotype.Service;
 

@@ -1,12 +1,9 @@
-package media.toloka.rfa.media.store.Interface;
+package media.toloka.rfa.radio.store.Interface;
 
-import media.toloka.rfa.media.store.model.EStoreFileType;
+import media.toloka.rfa.radio.store.model.EStoreFileType;
 import media.toloka.rfa.radio.model.Clientdetail;
 
 import java.io.InputStream;
-import java.util.UUID;
-
-import static java.util.UUID.randomUUID;
 
 public interface StoreInterface {
 

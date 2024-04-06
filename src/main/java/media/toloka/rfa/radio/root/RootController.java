@@ -7,7 +7,7 @@ import media.toloka.rfa.radio.model.MessageFromSite;
 import media.toloka.rfa.radio.model.Post;
 import media.toloka.rfa.radio.model.Track;
 import media.toloka.rfa.radio.root.service.ServiceMessageFromSite;
-import media.toloka.rfa.media.store.model.Store;
+import media.toloka.rfa.radio.store.model.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

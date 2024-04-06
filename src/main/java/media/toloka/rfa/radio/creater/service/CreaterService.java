@@ -12,7 +12,8 @@ import media.toloka.rfa.media.messanger.service.MessangerService;
 import media.toloka.rfa.radio.model.*;
 import media.toloka.rfa.radio.model.enumerate.EDocumentStatus;
 import media.toloka.rfa.radio.post.repositore.PostRepositore;
-import media.toloka.rfa.media.store.model.Store;
+import media.toloka.rfa.radio.store.Service.StoreService;
+import media.toloka.rfa.radio.store.model.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,9 @@ public class CreaterService {
 
     @Autowired
     private MessangerService messangerService;
+
+    @Autowired
+    private StoreService storeService;
 
     private SimpMessagingTemplate template;
 
@@ -89,10 +93,11 @@ public class CreaterService {
     public void SaveTrackUploadInfo(Path destination, Store storeitem, Clientdetail cd) {
         Track track = new Track();
         track.setStatus(EDocumentStatus.STATUS_LOADED);
-        track.setFilename(destination.getFileName().toString());
-        track.setPatch(destination.toString());
+//        track.setFilename(destination.getFileName().toString());
+//        track.setPatch(destination.toString());
         track.setClientdetail(cd);
-        track.setStoreitem(storeitem);
+//        track.setStoreitem(storeitem);
+        track.setStoreuuid(storeitem.getUuid());
         trackRepository.save(track);
     }
 
@@ -158,10 +163,11 @@ public class CreaterService {
 //                +"<span>"+cd.getCustname()+" "+cd.getCustsurname()+"<br>"
                 +track.getAutor()+"<br>"
                 +track.getName()+"<br>"
-                +"<audio id=\""+track.getUuid() + "\" controls>"
+//                +"<audio id=\""+track.getUuid() + "\" controls>"
+                +"<audio id=\""+track.getStoreuuid() + "\" controls>"
                 +"<source src=\"/store/audio/"
-                +cd.getUuid()+"/"
-                +track.getFilename()+"\"/>"
+//                +cd.getUuid()+"/"
+                +track.getStoreuuid()+"\"/>"
                 +"</audio>"
         );
         cm.setRtype(EChatRecordType.RECORD_TYPE_MEDIA.ordinal());
@@ -196,18 +202,10 @@ public class CreaterService {
             e.printStackTrace();
         }
 
-//        cm = new ChatMessage();
-//        cm.setFromname(cd.getCustname()+" "+cd.getCustsurname());
-//        cm.setTouuid(cd.getUuid());
-//        cm.setBody("Ми опублікували новий трек! "
-//                +"<audio id=\""+track.getUuid() + "\" controls>"
-//                +"<source src=\"/store/audio/"
-//                +cd.getUuid()+"/"
-//                +track.getFilename()+"\">"
-//                +"</audio>"
-//        );
-//
-//        cm.setRoomuuid(messangerService.GetChatRoomByUUID(chattrackroom));
-//        messangerService.SaveMessage(cm);
+    }
+
+    public Store GetStoreAlbumCoverByUUID(String storeUUID) {
+        return storeService.GetStoreByUUID(storeUUID);
+
     }
 }

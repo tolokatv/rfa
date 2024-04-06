@@ -44,51 +44,12 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-6 col-sm-6">
-<!--                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#myModal">-->
-<!--                    Оберіть обкладинку-->
-<!--                </button>-->
-<!--                &lt;!&ndash; The Modal &ndash;&gt;-->
-<!--                <div class="modal" id="myModal">-->
-<!--                    <script>-->
-<!--                        function setcover() {-->
-<!--                          for(let i=1; i<=3; i++) {-->
-<!--                            alert("Кролик номер " + i);-->
-<!--                          }-->
-<!--                        }-->
-<!--                    </script>-->
-
-<!--                    <div class="modal-dialog modal-dialog-scrollable">-->
-<!--                        <div class="modal-content">-->
-
-<!--                            &lt;!&ndash; Modal Header &ndash;&gt;-->
-<!--                            <div class="modal-header">-->
-<!--                                <h1 class="modal-title">Оберіть обкладинку</h1>-->
-<!--                                <button type="button" class="close" data-dismiss="modal">×</button>-->
-<!--                            </div>-->
-
-<!--                            &lt;!&ndash; Modal body &ndash;&gt;-->
-<!--                            <div class="modal-body">-->
-<!--                                <div class="col" th:each="coverl : ${coverlist}">-->
-<!--                                    <img th:src="'/store/thrumbal/' + ${coverl.clientdetail.uuid} + '/' + ${coverl.storeitem.filename}" id="${coverl.clientdetail.uuid} + '/' + ${coverl.storeitem.filename}" onclick="setcover()">-->
-<!--                                    <span id="url" th:text="${coverl.clientdetail.uuid} + '/' + ${coverl.storeitem.filename}" />-->
-<!--&lt;!&ndash;                                    <input id="'input'+'/'+${coverl.clientdetail.uuid} + '/' + ${coverl.storeitem.filename}" th:value="${coverl.clientdetail.uuid} + '/' + ${coverl.storeitem.filename}" />&ndash;&gt;-->
-<!--                                </div>-->
-<!--                            </div>-->
-
-<!--                            &lt;!&ndash; Modal footer &ndash;&gt;-->
-<!--                            <div class="modal-footer">-->
-<!--                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>-->
-<!--                            </div>-->
-
-<!--                        </div>-->
-<!--                    </div>-->
-<!--                </div>-->
 
                 <form th:action="@{/creater/editalbum}"  method="post" th:object="${album}">
-<!--                <form th:action="@{/creater/editalbum}"  method="post" th:object="${album}" class="form-horizontal">-->
                     <fieldset>
                         <legend>Ваш альбом</legend>
-                        <img th:src="${cover} ?  '/store/thrumbal/' + ${album.clientdetail.uuid} + '/' + ${cover} : 'https://picsum.photos/400/300'">
+<!--                        <img th:src="${cover} ?  '/store/thrumbal/' + ${album.clientdetail.uuid} + '/' + ${cover} : 'https://picsum.photos/400/300'"> -->
+                        <img th:src="${cover} ?  '/store/thrumbal/' + ${cover} : 'https://picsum.photos/400/300'">
 
                         <!-- Button trigger modal -->
 <!--                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticChoice">-->

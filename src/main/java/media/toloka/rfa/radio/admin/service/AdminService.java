@@ -13,7 +13,7 @@ import media.toloka.rfa.radio.model.Documents;
 import media.toloka.rfa.radio.model.Post;
 import media.toloka.rfa.radio.post.service.PostService;
 import media.toloka.rfa.radio.station.service.StationService;
-import media.toloka.rfa.media.store.Service.StoreService;
+import media.toloka.rfa.radio.store.Service.StoreService;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

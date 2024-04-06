@@ -1,4 +1,4 @@
-package media.toloka.rfa.media.store.model;
+package media.toloka.rfa.radio.store.model;
 // https://paulcwarren.github.io/spring-content/refs/release/1.2.4/fs-index.html
 
 

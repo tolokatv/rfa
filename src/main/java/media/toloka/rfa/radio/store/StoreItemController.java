@@ -1,7 +1,7 @@
-package media.toloka.rfa.media.store;
+package media.toloka.rfa.radio.store;
 
 
-import media.toloka.rfa.media.store.Service.StoreService;
+import media.toloka.rfa.radio.store.Service.StoreService;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.dropfile.service.FilesService;

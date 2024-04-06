@@ -6,7 +6,7 @@ import media.toloka.rfa.radio.model.Album;
 import media.toloka.rfa.radio.model.Albumсover;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Track;
-import media.toloka.rfa.media.store.model.Store;
+import media.toloka.rfa.radio.store.model.Store;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +32,6 @@ public class CreaterAlbumController {
     private ClientService clientService;
 
     @PostMapping("/creater/setalbumcover/{alcoid}/{albumid}/{cdid}")
-//    Map<String, String> GetAlbumSetCover(
     public String GetAlbumSetCover(
 //            @PathVariable Map<String, String> pathVarsMap
             @PathVariable("alcoid") Long alcoid,
@@ -102,6 +101,8 @@ public class CreaterAlbumController {
         if (idAlbum == 0L) {
             album = new Album();
             album.setClientdetail(cd);
+            album.setName("Новий");
+            album.setAutor("-----------");
             createrService.SaveAlbum(album);
         } else {
             album = createrService.GetAlbumById(idAlbum);
@@ -109,12 +110,14 @@ public class CreaterAlbumController {
         List<Track> tracks = album.getTrack();
 
 
-        Albumсover albumсover = album.getAlbumcover();
+        // Albumсover albumсover = album.getAlbumcover(); //
+
         Store store;
         String cover;
-        if (albumсover != null) {
-            store = albumсover.getStoreitem();
-            cover = store.getFilename();
+        if (album.getStoreuuidalbumcover() != null) {
+            //store = albumсover.getStoreitem();
+            store = createrService.GetStoreAlbumCoverByUUID(album.getStoreuuidalbumcover());
+            cover = store.getUuid();
         } else {
             cover = null;
         }

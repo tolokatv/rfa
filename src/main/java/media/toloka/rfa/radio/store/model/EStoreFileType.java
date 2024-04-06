@@ -1,4 +1,4 @@
-package media.toloka.rfa.media.store.model;
+package media.toloka.rfa.radio.store.model;
 
 public enum EStoreFileType {
 

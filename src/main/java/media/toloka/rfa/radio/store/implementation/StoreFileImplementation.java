@@ -1,13 +1,12 @@
-package media.toloka.rfa.media.store.implementation;
+package media.toloka.rfa.radio.store.implementation;
 
-import media.toloka.rfa.media.store.model.EStoreFileType;
-import media.toloka.rfa.radio.creater.service.CreaterService;
+import media.toloka.rfa.radio.store.model.EStoreFileType;
+//import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.document.service.DocumentService;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
-import media.toloka.rfa.media.store.Interface.StoreInterface;
-import media.toloka.rfa.media.store.Reposirore.StoreRepositorePagination;
-import media.toloka.rfa.media.store.Service.StoreService;
-import media.toloka.rfa.media.store.model.Store;
+import media.toloka.rfa.radio.store.Interface.StoreInterface;
+import media.toloka.rfa.radio.store.Reposirore.StoreRepositorePagination;
+import media.toloka.rfa.radio.store.model.Store;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import org.slf4j.Logger;
@@ -43,8 +42,8 @@ public class StoreFileImplementation implements StoreInterface {
     @Autowired
     private DocumentService documentService;
 
-    @Autowired
-    private CreaterService createrService;
+//    @Autowired
+//    private CreaterService createrService;
 
     @Autowired
     private StoreRepositorePagination storeRepositore;
@@ -109,12 +108,12 @@ public class StoreFileImplementation implements StoreInterface {
                         documentService.SaveDocumentUploadInfo(destination);
                         // todo Подивитися чи потрібна база документів чи краще працювати через сховище
                         break;
-                    case STORE_TRACK:
-                        createrService.SaveTrackUploadInfo(destination, storeitem, cd);
-                        break;
-                    case STORE_ALBUMCOVER:
-                        createrService.SaveAlbumCoverUploadInfo(destination, storeitem,cd);
-                        break;
+//                    case STORE_TRACK:
+//                        createrService.SaveTrackUploadInfo(destination, storeitem, cd);
+//                        break;
+//                    case STORE_ALBUMCOVER:
+//                        createrService.SaveAlbumCoverUploadInfo(destination, storeitem,cd);
+//                        break;
                 }
 
             } else {

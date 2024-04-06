@@ -1,12 +1,11 @@
-package media.toloka.rfa.media.store.Service;
+package media.toloka.rfa.radio.store.Service;
 
 
-import media.toloka.rfa.media.store.Reposirore.StoreRepositorePagination;
-import media.toloka.rfa.media.store.implementation.StoreFileImplementation;
+import media.toloka.rfa.radio.store.Reposirore.StoreRepositorePagination;
+import media.toloka.rfa.radio.store.implementation.StoreFileImplementation;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.model.Clientdetail;
-import media.toloka.rfa.media.store.model.EStoreFileType;
-import media.toloka.rfa.media.store.model.Store;
+import media.toloka.rfa.radio.store.model.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +14,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.Path;
 import java.util.List;
 
 @Service
