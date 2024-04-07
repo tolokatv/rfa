@@ -49,33 +49,8 @@
                     <fieldset>
                         <legend>Ваш альбом</legend>
 <!--                        <img th:src="${cover} ?  '/store/thrumbal/' + ${album.clientdetail.uuid} + '/' + ${cover} : 'https://picsum.photos/400/300'"> -->
-                        <img th:src="${cover} ?  '/store/thrumbal/' + ${cover} : 'https://picsum.photos/400/300'">
+                        <img th:src="${cover} ?  '/store/thrumbal/' + ${album.storeuuidalbumcover}+ '/' + ${cover} : 'https://picsum.photos/400/300'">
 
-                        <!-- Button trigger modal -->
-<!--                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticChoice">-->
-<!--                            Обрати обкладинку-->
-<!--                        </button>-->
-<!--                        &lt;!&ndash; Modal choice cover &ndash;&gt;-->
-
-
-<!--                        <div class="modal fade" id="staticChoice" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">-->
-<!--                            <div class="modal-dialog">-->
-<!--                                <div class="modal-content">-->
-<!--                                    <div class="modal-header">-->
-<!--                                        <h5 class="modal-title" id="staticBackdropLabel">Обкладинки</h5>-->
-<!--                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>-->
-<!--                                    </div>-->
-<!--                                    <div class="modal-body">-->
-<!--                                        Дуже скоро тут зʼявится можливість вибрати обкладинку з Вашого сховища.<br>Слідкуйте за новинами на порталі!-->
-<!--                                    </div>-->
-<!--                                    <div class="modal-footer">-->
-<!--                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Повернутися</button>-->
-<!--                                        <button type="button" class="btn btn-primary">Обрати</button>-->
-<!--                                    </div>-->
-<!--                                </div>-->
-<!--                            </div>-->
-<!--                        </div>-->
-                        <!-- Modal load cover -->
                         <input type="hidden" th:field="*{id}"/>
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="autor">Виконавець</label>

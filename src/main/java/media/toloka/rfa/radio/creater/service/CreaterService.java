@@ -13,6 +13,7 @@ import media.toloka.rfa.radio.model.*;
 import media.toloka.rfa.radio.model.enumerate.EDocumentStatus;
 import media.toloka.rfa.radio.post.repositore.PostRepositore;
 import media.toloka.rfa.radio.store.Service.StoreService;
+import media.toloka.rfa.radio.store.model.EStoreFileType;
 import media.toloka.rfa.radio.store.model.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,6 +75,11 @@ public class CreaterService {
         List<Albumсover> albumсoverList = albumCoverRepository.findByClientdetail(cd);
         return albumсoverList;
     }
+
+    public List<Store> storeListTrackByClientDetail(Clientdetail cd ) {
+        return storeService.GetAllTrackByClientId(cd);
+    }
+
 
     public List<Track> GetAllTracksByCreater(Clientdetail cd) {
         List<Track> trackList = trackRepository.findByClientdetail(cd);

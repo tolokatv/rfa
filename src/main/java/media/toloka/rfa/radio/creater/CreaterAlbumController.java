@@ -31,10 +31,10 @@ public class CreaterAlbumController {
     @Autowired
     private ClientService clientService;
 
-    @PostMapping("/creater/setalbumcover/{alcoid}/{albumid}/{cdid}")
+    @PostMapping("/creater/setalbumcover/{storealcouuid}/{albumid}/{cdid}")
     public String GetAlbumSetCover(
 //            @PathVariable Map<String, String> pathVarsMap
-            @PathVariable("alcoid") Long alcoid,
+            @PathVariable("storealcouuid") String storealcouuid,
             @PathVariable("albumid") Long albumid,
             @PathVariable("cdid") Long cdid,
             Model model
@@ -46,18 +46,20 @@ public class CreaterAlbumController {
 
         Clientdetail cd = clientService.GetClientDetailById(cdid);
         Album album = createrService.GetAlbumById(albumid);
-        Albumсover albumсover = createrService.GetAlbumCoverById(alcoid);
-        album.setAlbumcover(albumсover);
+        Store store = createrService.GetStoreAlbumCoverByUUID(storealcouuid);
+//        Albumсover albumсover = createrService.GetAlbumCoverById(alcoid);
+        album.setStoreuuidalbumcover(store.getUuid());
+
         createrService.SaveAlbum(album);
 
         List<Track> tracks = album.getTrack();
 
 
-        albumсover = album.getAlbumcover();
-        Store store;
+        String albumсover = album.getStoreuuidalbumcover();
+//        Store store;
         String cover;
         if (albumсover != null) {
-            store = albumсover.getStoreitem();
+            store = createrService.GetStoreAlbumCoverByUUID(storealcouuid);
             cover = store.getFilename();
         } else {
             cover = null;
@@ -182,11 +184,11 @@ public class CreaterAlbumController {
             album = createrService.GetAlbumById(idAlbum);
         }
 
-        Albumсover albumсover = album.getAlbumcover();
-        Store store;
+        //Albumсover albumсover = album.getAlbumcover();
+        Store store = createrService.GetStoreAlbumCoverByUUID(album.getStoreuuidalbumcover());
         String currentcover;
-        if (albumсover != null) {
-            store = albumсover.getStoreitem();
+        if (store != null) {
+
             currentcover = store.getFilename();
         } else {
             currentcover = null;

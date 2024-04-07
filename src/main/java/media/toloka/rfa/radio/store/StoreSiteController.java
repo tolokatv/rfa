@@ -256,15 +256,15 @@ public class StoreSiteController  {
     @GetMapping(value = "/store/thrumbal/{storeUUID}/{fileName}",
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     public @ResponseBody byte[] getStoreThrumbal(
-            @PathVariable String clientUUID,
+            @PathVariable String storeUUID,
             @PathVariable String fileName,
             Model model ) {
         // https://medium.com/@asadise/create-thumbnail-for-an-image-in-spring-framework-49776c873ea1
         // http://localhost:8080/store/thrumbal/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
-        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
+//        Clientdetail cd = clientService.GetC ClientDetailByUuid(clientUUID);
 //        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
         // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
-        String ifile = filesService.GetBaseClientDirectory(cd)+"/"+fileName;
+//        String ifile = filesService.GetBaseClientDirectory(cd)+"/"+fileName;
 //        logger.info("SCD = {}",ifile);
 //        InputStream is = getClass().getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
         InputStream is;
@@ -274,7 +274,10 @@ public class StoreSiteController  {
         BufferedImage thumbImg = null;
         BufferedImage img;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        Store storeRecord;
         try {
+            storeRecord = storeService.GetStoreByUUID(storeUUID);
+            String ifile = storeRecord.getFilepatch();
             is = new FileInputStream(new File(ifile));
             if (is == null) {
                 return new byte[0];
@@ -287,7 +290,7 @@ public class StoreSiteController  {
         }
         thumbImg = Scalr.resize(img, Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, 320, Scalr.OP_ANTIALIAS);
         try {
-            ImageIO.write(thumbImg, FilenameUtils.getExtension(fileName), baos);
+            ImageIO.write(thumbImg, FilenameUtils.getExtension(storeRecord.getFilename()), baos);
         } catch (IOException e) {
             logger.info("==================================== getStoreImage IOException");
             e.printStackTrace();

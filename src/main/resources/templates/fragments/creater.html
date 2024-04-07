@@ -168,22 +168,22 @@
         </thead>
         <tbody>
         <a class="btn btn-primary" th:href="@{/creator/trackupload}">Завантажити трек</a>
-        <tr th:each="track : ${trackList}">
+        <tr th:each="storetrack : ${storetrackList}">
             <td>
-                <audio id="'voice'+${track.id}" controls>
-                    <source th:src="'/store/audio/'+${track.clientdetail.uuid}+'/'+${track.filename}">
+                <audio id="'voice'+${storetrack.uuid}" controls>
+                    <source th:src="'/store/audio/'+${storetrack.uuid}+'/'+${storetrack.filename}">
                 </audio>
-                <br><a th:href="'/store/audio/'+${track.clientdetail.uuid}+'/'+${track.filename}">Завантажити</a></td>
-            <td><span th:text="${track.name}"></span></td>
-            <td><span th:text="${track.filename}"></span></td>
+                <br><a th:href="'/store/audio/'+${storetrack.uuid}+'/'+${storetrack.filename}">Завантажити</a></td>
+            <!-- <td><span th:text="${track.name}"></span></td>-->
+            <td><span th:text="${storetrack.filename}"></span></td>
             <td>
                 <!-- Передбачити вивід, коли немає альбому -->
-                <span th:if="${track.album != null}" th:text="${track.album.name}">-</span>
+                <!-- <span th:if="${track.album != null}" th:text="${track.album.name}">-</span> -->
 
 <!--                <span th:text="${track.album} ?: '-'">Назва альбому</span>-->
                 <!-- <span th:if="${not isEmpty(track.album)}" th:text="${track.album.name}"></span> -->
             </td>
-            <td><a class="btn btn-primary" th:href="@{'/creater/edittrack/'+${track.id} }">Редагувати</a></td>
+            <td><a class="btn btn-primary" th:href="@{'/creater/edittrack/'+${storetrack.uuid} }">Редагувати</a></td>
         </tr>
         </tbody>
     </table>

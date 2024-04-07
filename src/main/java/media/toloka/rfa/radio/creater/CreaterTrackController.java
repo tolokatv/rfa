@@ -8,6 +8,7 @@ import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.model.Album;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Track;
+import media.toloka.rfa.radio.store.model.Store;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,13 +43,14 @@ public class CreaterTrackController {
             return "redirect:/";
         }
         Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
-        List<Track> trackList = createrService.GetAllTracksByCreater(cd);
+//        List<Track> trackList = createrService.GetAllTracksByCreater(cd);
+        List<Store> storetrackList = createrService.storeListTrackByClientDetail(cd);
         List<Album> albums = createrService.GetAllAlbumsByCreater(cd);
 
         String baseaddress = filesService.GetBaseClientDirectory(cd);
-        model.addAttribute("baseaddress", baseaddress );
+//        model.addAttribute("baseaddress", baseaddress );
         model.addAttribute("albums", albums );
-        model.addAttribute("trackList", trackList );
+        model.addAttribute("storetrackList", storetrackList );
         return "/creater/tracks";
     }
 

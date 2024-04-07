@@ -5,6 +5,7 @@ import media.toloka.rfa.radio.store.Reposirore.StoreRepositorePagination;
 import media.toloka.rfa.radio.store.implementation.StoreFileImplementation;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.model.Clientdetail;
+import media.toloka.rfa.radio.store.model.EStoreFileType;
 import media.toloka.rfa.radio.store.model.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,6 +16,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+import static media.toloka.rfa.radio.store.model.EStoreFileType.STORE_TRACK;
 
 @Service
 public class StoreService extends StoreFileImplementation {
@@ -31,6 +34,8 @@ public class StoreService extends StoreFileImplementation {
         return storeRepositore.findAllByClientdetail(cd);
     }
 
+//    public  List<Store> GetAllTraByClientId
+
     public Page GetStorePage(int pageNumber, int pageCount) {
         Pageable storePage = PageRequest.of(pageNumber, pageCount);
         Page page = storeRepositore.findAll(storePage);
@@ -42,6 +47,10 @@ public class StoreService extends StoreFileImplementation {
         Page page = storeRepositore.findByClientdetail(storePage,cd);
         return page;
 
+    }
+
+    public List<Store> GetAllTrackByClientId(Clientdetail cd) {
+        return storeRepositore.findByClientdetailAndStorefiletype(cd,STORE_TRACK);
     }
 
 //    public Store SaveStoreItemInfo(Store storeitem) {
