@@ -56,33 +56,33 @@ public class StoreSiteController  {
     @Autowired
     private StoreService storeService;
 
-    @GetMapping(value = "/store/taudio/{clientUUID}/{fileName}",
-            produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
-        public ResponseEntity<StreamingResponseBody> stream(
-            @PathVariable String clientUUID,
-            @PathVariable String fileName,
-            Model model) throws IOException {
-        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
-        String ifile = filesService.GetBaseClientDirectory(cd)+"/"+fileName;
-        String mymetype = filesService.GetMediatype(Paths.get(ifile));
-        Long length = filesService.GetMediaLength(Paths.get(ifile));
-
-
-        //This is just a sample to for creating the input stream as it's what I get from google cloud storage
-        File file = new File(ifile);
-        FileInputStream in = FileUtils.openInputStream(file);
-
-        StreamingResponseBody stream = out -> {
-            IOUtils.copy(in, out);
-        };
-
-        return ResponseEntity.ok()
-                //.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
-                .header(ACCEPT_RANGES, "bytes")
-                .header(HttpHeaders.CONTENT_TYPE, mymetype)
-                .contentLength(length)
-                .body(stream);
-    }
+//    @GetMapping(value = "/store/taudio/{clientUUID}/{fileName}",
+//            produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
+//        public ResponseEntity<StreamingResponseBody> stream(
+//            @PathVariable String clientUUID,
+//            @PathVariable String fileName,
+//            Model model) throws IOException {
+//        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
+//        String ifile = filesService.GetBaseClientDirectory(cd)+"/"+fileName;
+//        String mymetype = filesService.GetMediatype(Paths.get(ifile));
+//        Long length = filesService.GetMediaLength(Paths.get(ifile));
+//
+//
+//        //This is just a sample to for creating the input stream as it's what I get from google cloud storage
+//        File file = new File(ifile);
+//        FileInputStream in = FileUtils.openInputStream(file);
+//
+//        StreamingResponseBody stream = out -> {
+//            IOUtils.copy(in, out);
+//        };
+//
+//        return ResponseEntity.ok()
+//                //.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
+//                .header(ACCEPT_RANGES, "bytes")
+//                .header(HttpHeaders.CONTENT_TYPE, mymetype)
+//                .contentLength(length)
+//                .body(stream);
+//    }
 
     @GetMapping(value = "/store/audio/{storeUUID}",
             produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
@@ -297,16 +297,18 @@ public class StoreSiteController  {
         return bytes;
     }
 
-    @GetMapping(value = "/store/thrumbal/w/{width}/{clientUUID}/{fileName}",
+    @GetMapping(value = "/store/thrumbal/w/{width}/{storeUUID}",
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     public @ResponseBody byte[] getStoreThrumbalWidth(
-            @PathVariable String clientUUID,
+            @PathVariable String storeUUID,
             @PathVariable int width,
             @PathVariable String fileName,
             Model model ) {
         // https://medium.com/@asadise/create-thumbnail-for-an-image-in-spring-framework-49776c873ea1
         // http://localhost:8080/store/thrumbal/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
-        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
+        Store storeRecord = storeService.GetStoreByUUID(storeUUID);
+
+        Clientdetail cd = clientService.GetClientDetailByUuid(storeRecord.getClientdetail().getUuid());
 //        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
         // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
         String ifile = filesService.GetBaseClientDirectory(cd)+"/"+fileName;
@@ -320,7 +322,7 @@ public class StoreSiteController  {
         BufferedImage img;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         try {
-            is = new FileInputStream(new File(ifile));
+            is = new FileInputStream(new File(storeRecord.getFilepatch()));
             if (is == null) {
                 return new byte[0];
             }
