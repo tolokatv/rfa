@@ -297,7 +297,7 @@ public class StoreSiteController  {
         return bytes;
     }
 
-    @GetMapping(value = "/store/thrumbal/w/{width}/{storeUUID}",
+    @GetMapping(value = "/store/thrumbal/w/{width}/{storeUUID}/{fileName}",
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     public @ResponseBody byte[] getStoreThrumbalWidth(
             @PathVariable String storeUUID,
@@ -311,7 +311,7 @@ public class StoreSiteController  {
         Clientdetail cd = clientService.GetClientDetailByUuid(storeRecord.getClientdetail().getUuid());
 //        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
         // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
-        String ifile = filesService.GetBaseClientDirectory(cd)+"/"+fileName;
+//        String ifile = filesService.GetBaseClientDirectory(cd)+"/"+fileName;
 //        logger.info("SCD = {}",ifile);
 //        InputStream is = getClass().getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
         InputStream is;
