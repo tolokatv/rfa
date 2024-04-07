@@ -170,8 +170,9 @@
         <a class="btn btn-primary" th:href="@{/creator/trackupload}">Завантажити трек</a>
         <tr th:each="storetrack : ${storetrackList}">
             <td>
-                <audio id="'voice'+${storetrack.uuid}" controls>
-                    <source th:src="'/store/audio/'+${storetrack.uuid}+'/'+${storetrack.filename}">
+                <audio th:id="'voice'+${storetrack.uuid}" controls>
+                    <!-- <source th:src="'/store/audio/'+${storetrack.uuid}+'/'+${storetrack.filename}"> -->
+                    <source th:src="'/store/audio/'+${storetrack.uuid}">
                 </audio>
                 <br><a th:href="'/store/audio/'+${storetrack.uuid}+'/'+${storetrack.filename}">Завантажити</a></td>
             <!-- <td><span th:text="${track.name}"></span></td>-->
