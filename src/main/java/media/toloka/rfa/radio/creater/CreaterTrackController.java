@@ -55,16 +55,17 @@ public class CreaterTrackController {
     }
 
     // /creater/edittrack/'+${track.id}
-    @GetMapping(value = "/creater/edittrack/{idTrack}")
+    @GetMapping(value = "/creater/edittrack/{uuidTrackStore}")
     public String getCreaterEditTracks(
-            @PathVariable Long idTrack,
+            @PathVariable String uuidTrackStore,
             Model model ) {
         Users user = clientService.GetCurrentUser();
         if (user == null) {
             return "redirect:/";
         }
         Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
-        Track track = createrService.GetTrackById(idTrack);
+
+        Track track = createrService.GetTrackByStoreuuid(uuidTrackStore);
 
         List<Album> albumList = createrService.GetAllAlbumsByCreater(cd);
 
@@ -72,6 +73,7 @@ public class CreaterTrackController {
         model.addAttribute("track", track );
         return "/creater/edittrack";
     }
+
     @PostMapping(value = "/creater/edittrack")
     public String getCreaterEditTracks(
 //            @PathVariable Long idTrack,
@@ -105,8 +107,12 @@ public class CreaterTrackController {
 
         createrService.SaveTrack(track);
 
+        List<Store> storetrackList = createrService.storeListTrackByClientDetail(cd);
+
+
         List<Track> trackList = createrService.GetAllTracksByCreater(cd);
-        model.addAttribute("trackList", trackList );
+//        model.addAttribute("trackList", trackList );
+        model.addAttribute("storetrackList", storetrackList );
         return "/creater/tracks";
     }
 

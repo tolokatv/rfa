@@ -111,6 +111,10 @@ public class CreaterService {
         return trackRepository.getById(idTrack);
     }
 
+    public Track GetTrackByStoreuuid (String storeUuid) {
+        return trackRepository.getByStoreuuid(storeUuid);
+    }
+
     public void SaveTrack(Track track) {
         trackRepository.save(track);
     }

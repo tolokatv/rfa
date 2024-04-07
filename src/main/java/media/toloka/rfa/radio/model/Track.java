@@ -38,10 +38,10 @@ public class Track {
 //    @Expose
 //    private String filename;
 
-//    @Expose
-//    @OneToOne(cascade = {CascadeType.ALL})
-//    @JoinColumn(name = "store_id")
-//    private Store storeitem;
+    @Expose
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "store_id")
+    private Store storeitem;
 
     @Expose
     private String storeuuid;
