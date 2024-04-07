@@ -253,7 +253,7 @@ public class StoreSiteController  {
     }
 
     //    @GetMapping(value = "/store/thrumbal/{clientUUID}/{fileName}",
-    @GetMapping(value = "/store/thrumbal/{storeUUID}",
+    @GetMapping(value = "/store/thrumbal/{storeUUID}/{fileName}",
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     public @ResponseBody byte[] getStoreThrumbal(
             @PathVariable String clientUUID,
