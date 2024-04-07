@@ -104,6 +104,7 @@ public class RPCRESTController {
         Album album = createrService.GetAlbumById(albumid);
         Albumсover albumсover = createrService.GetAlbumCoverById(alcoid);
         album.setAlbumcover(albumсover);
+//        albumсover.setStoreuuid();
         createrService.SaveAlbum(album);
 
 

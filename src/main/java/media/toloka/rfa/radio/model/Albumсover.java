@@ -35,6 +35,9 @@ public class Albumсover {
     private String description;
 
     @Expose
+    private String storeuuid;
+
+    @Expose
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "store_id")
     private Store storeitem;
