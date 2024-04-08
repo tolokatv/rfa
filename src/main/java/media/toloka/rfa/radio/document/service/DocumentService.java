@@ -37,11 +37,12 @@ public class DocumentService {
         return ld;
     }
 
-    public void SaveDocumentUploadInfo(Path destination) {
+    public void SaveDocumentUploadInfo(String storeUUID,Clientdetail cd) {
         Documents doc = new Documents();
         doc.setStatus(EDocumentStatus.STATUS_LOADED);
-        doc.setPathToDocument(destination.getFileName().toString());
-        doc.setClientdetail(clientService.GetClientDetailByUser(clientService.GetCurrentUser()));
+//        doc.setPathToDocument(destination.getFileName().toString());
+        doc.setClientdetail(cd);
+        doc.setStoreuuid(storeUUID);
         documentRepository.save(doc);
     }
 

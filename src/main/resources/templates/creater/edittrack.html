@@ -47,12 +47,12 @@
                 <form th:action="@{/creater/edittrack}"  method="post" th:object="${track}"class="form-horizontal">
                     <fieldset>
                         <legend>Інформація про трек</legend>
-                        <input type="hidden" th:field="*{id}"/>
+                        <input type="hidden" th:field="${track.id}"/>
 
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="filename">Файл</label>
                             <div class="col-md-5">
-                                <input th:field="*{storeitem.filename}" type="text" class="form-control input-md" disabled>
+                                <input th:field="${store.filename}" type="text" class="form-control input-md" disabled>
                             </div>
                         </div>
 

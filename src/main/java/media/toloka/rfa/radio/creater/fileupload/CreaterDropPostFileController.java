@@ -67,6 +67,7 @@ public class CreaterDropPostFileController {
         try {
             // тестуємо завантаження через сервіси сховища.
             String storeUUID = storeService.PutFileToStore(file.getInputStream(),file.getOriginalFilename(),cd,STORE_TRACK);
+            createrService.SaveTrackUploadInfo(storeUUID, cd);
         } catch (IOException e) {
             logger.info("Завантаження файлу: Проблема збереження");
             e.printStackTrace();
@@ -93,6 +94,7 @@ public class CreaterDropPostFileController {
         try {
             // тестуємо завантаження через сервіси сховища.
             String storeUUID = storeService.PutFileToStore(file.getInputStream(),file.getOriginalFilename(),cd,STORE_ALBUMCOVER);
+            createrService.SaveAlbumCoverUploadInfo(storeUUID,cd);
             // todo додати storeUUID до альбому
         } catch (IOException e) {
             logger.info("Завантаження файлу: Проблема збереження");

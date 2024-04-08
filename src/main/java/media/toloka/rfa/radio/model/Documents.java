@@ -28,6 +28,10 @@ public class Documents {
     private EDocumentStatus status;
     @Expose
     private String documenttype;
+
+    @Expose
+    private String storeuuid;
+
     @Expose
     @Column(columnDefinition="TEXT")
     private String userComment;

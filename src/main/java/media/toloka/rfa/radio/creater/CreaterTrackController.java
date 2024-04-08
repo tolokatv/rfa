@@ -8,6 +8,7 @@ import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.model.Album;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Track;
+import media.toloka.rfa.radio.store.Service.StoreService;
 import media.toloka.rfa.radio.store.model.Store;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
@@ -34,6 +35,9 @@ public class CreaterTrackController {
     private FilesService filesService;
     @Autowired
     private CreaterService createrService;
+
+    @Autowired
+    private StoreService storeService;
 
     @GetMapping(value = "/creater/tracks")
     public String getCreaterTracks(
@@ -67,10 +71,13 @@ public class CreaterTrackController {
 
         Track track = createrService.GetTrackByStoreuuid(uuidTrackStore);
 
+        Store store = storeService.GetStoreByUUID(uuidTrackStore);
+
         List<Album> albumList = createrService.GetAllAlbumsByCreater(cd);
 
         model.addAttribute("albumList", albumList );
         model.addAttribute("track", track );
+        model.addAttribute("store", store );
         return "/creater/edittrack";
     }
 

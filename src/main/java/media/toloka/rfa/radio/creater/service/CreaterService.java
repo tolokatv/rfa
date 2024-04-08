@@ -96,14 +96,15 @@ public class CreaterService {
         return postList;
     }
 
-    public void SaveTrackUploadInfo(Path destination, Store storeitem, Clientdetail cd) {
+    public void SaveTrackUploadInfo(String storeitemUUID, Clientdetail cd) {
         Track track = new Track();
         track.setStatus(EDocumentStatus.STATUS_LOADED);
 //        track.setFilename(destination.getFileName().toString());
 //        track.setPatch(destination.toString());
         track.setClientdetail(cd);
 //        track.setStoreitem(storeitem);
-        track.setStoreuuid(storeitem.getUuid());
+        track.setStoreuuid(storeitemUUID);
+        track.setTochat(false);
         trackRepository.save(track);
     }
 
@@ -128,16 +129,16 @@ public class CreaterService {
         albumRepository.save(album);
     }
 
-    public void SaveAlbumCoverUploadInfo(Path destination,Store store, Clientdetail cd ) {
+    public void SaveAlbumCoverUploadInfo(String storeUUID, Clientdetail cd ) {
         Albumсover albumсover = new Albumсover();
-        albumсover.setAlbumcoverfile(destination.getFileName().toString());
-        String mediatype = filesService.GetMediatype(destination);
+//        albumсover.setAlbumcoverfile(destination.getFileName().toString());
+//        String mediatype = filesService.GetMediatype(destination);
 //        = Optional.ofNullable(destination.getFileName().toString())
 //                .filter(f -> f.contains("."))
 //                .map(f -> f.substring(destination.getFileName().toString().lastIndexOf(".") + 1));
-        albumсover.setPatch(destination.toString());
+//        albumсover.setPatch(destination.toString());
         albumсover.setClientdetail(cd);
-        albumсover.setStoreitem(store);
+        albumсover.setStoreuuid(storeUUID);
         albumCoverRepository.save(albumсover);
     }
 

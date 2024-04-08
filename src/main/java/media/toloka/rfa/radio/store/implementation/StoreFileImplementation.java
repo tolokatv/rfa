@@ -1,7 +1,7 @@
 package media.toloka.rfa.radio.store.implementation;
 
 import media.toloka.rfa.radio.store.model.EStoreFileType;
-//import media.toloka.rfa.radio.creater.service.CreaterService;
+import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.document.service.DocumentService;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.store.Interface.StoreInterface;
@@ -103,18 +103,18 @@ public class StoreFileImplementation implements StoreInterface {
             Thread.sleep(difference);
             if (!fileExist) {
                 storeitem = SaveStoreItemInfo(null,destination, storeFileType, cd);
-                switch (storeFileType) {
-                    case STORE_DOCUMENT:
-                        documentService.SaveDocumentUploadInfo(destination);
-                        // todo Подивитися чи потрібна база документів чи краще працювати через сховище
-                        break;
-//                    case STORE_TRACK:
-//                        createrService.SaveTrackUploadInfo(destination, storeitem, cd);
+//                switch (storeFileType) {
+//                    case STORE_DOCUMENT:
+////                        documentService.SaveDocumentUploadInfo(destination);
+//                        // todo Подивитися чи потрібна база документів чи краще працювати через сховище
 //                        break;
-//                    case STORE_ALBUMCOVER:
-//                        createrService.SaveAlbumCoverUploadInfo(destination, storeitem,cd);
-//                        break;
-                }
+////                    case STORE_TRACK:
+//////                        createrService.SaveTrackUploadInfo(storeitem, cd);
+////                        break;
+////                    case STORE_ALBUMCOVER:
+//////                        createrService.SaveAlbumCoverUploadInfo(destination, storeitem,cd);
+////                        break;
+//                }
 
             } else {
                 storeitem = GetStoreItemByFilenameByClientDetail(destination.getFileName().toString(), cd);
