@@ -50,7 +50,8 @@ public class StoreService extends StoreFileImplementation {
     }
 
     public List<Store> GetAllTrackByClientId(Clientdetail cd) {
-        return storeRepositore.findByClientdetailAndStorefiletype(cd,STORE_TRACK);
+//        return storeRepositore.findByClientdetailAndStorefiletype(cd,STORE_TRACK);
+        return storeRepositore.findByClientdetailAndStorefiletypeOrderByIdDesc(cd,STORE_TRACK);
     }
 
 //    public Store SaveStoreItemInfo(Store storeitem) {
