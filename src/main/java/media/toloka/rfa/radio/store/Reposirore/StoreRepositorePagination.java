@@ -29,4 +29,6 @@ public interface StoreRepositorePagination extends PagingAndSortingRepository<St
     Store getByFilepatch(String filepatch);
 
     List<Store> findByClientdetailAndStorefiletype(Clientdetail cd, EStoreFileType type);
+
+//    List<Store> findByClientdetailAndStorefiletypeByOrderByIdAsc(Clientdetail cd, EStoreFileType type);
 }
