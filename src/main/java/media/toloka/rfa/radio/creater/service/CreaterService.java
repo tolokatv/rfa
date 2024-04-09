@@ -170,7 +170,7 @@ public class CreaterService {
         cm.setFromname(cd.getCustname()+" "+cd.getCustsurname());
         cm.setFromuuid(cd.getUuid());
         cm.setBody(
-                "<span style=\"color: red\"><b>Опубліквано новий трек! </b><br>"+"</span>"
+                "<span style=\"color: red\"><b>Опубліковано новий трек! </b><br>"+"</span>"
 //                +"<span>"+cd.getCustname()+" "+cd.getCustsurname()+"<br>"
                 +track.getAutor()+"<br>"
                 +track.getName()+"<br>"
