@@ -250,12 +250,12 @@
                             </span>
                         </div>
                         <div class="col-11 col-lg-11 col-sm-11" >
-                            <small>
-                                <span th:text="${track.name}"/><br>
-                                <span th:text="${track.autor}"/><br>
-                                <!--                                <span th:text="${track.clientdetail.custname} + ' ' + ${track.clientdetail.custsurname}"/>-->
-                            </small>
-
+                                <small>
+                                    <span th:text="${track.autor}"/><br>
+                                    <a th:href="'/guest/viewtrack/'+${track.uuid}">
+                                        <span th:text="${track.name}"/><br>
+                                    </a>
+                                </small>
                         </div>
 <!--                        <div>-->
 <!--                            <audio-player th:data-src="'/store/audio/'+${track.storeitem.uuid}"></audio-player>-->
@@ -354,7 +354,9 @@
                         <div class="col-11 col-lg-11 col-sm-11">
                             <small >
                                 <span th:text="${track.autor}"/><br>
-                                <span th:text="${track.name}"/><br>
+                                <a th:href="'/guest/viewtrack/'+${track.uuid}">
+                                    <span th:text="${track.name}"/><br>
+                                </a>
                             </small>
 
                         </div>

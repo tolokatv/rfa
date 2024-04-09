@@ -219,4 +219,8 @@ public class CreaterService {
         return storeService.GetStoreByUUID(storeUUID);
 
     }
+
+    public Track GetTrackByUuid(String trackuuid) {
+        return trackRepository.getByUuid(trackuuid);
+    }
 }
