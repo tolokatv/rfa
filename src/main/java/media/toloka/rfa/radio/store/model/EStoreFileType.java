@@ -6,7 +6,8 @@ public enum EStoreFileType {
     STORE_DOCUMENT("Документ"),
     STORE_TRACK("Трек"),
     STORE_ALBUMCOVER("Обкладинка альбому"),
-    STORE_POSTCOVER("Обкладинка посту");
+    STORE_POSTCOVER("Обкладинка посту"),
+    STORE_PHOTO("Фото профайлу");
 
 
     public final String label;
