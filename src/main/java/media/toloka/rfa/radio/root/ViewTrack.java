@@ -25,7 +25,7 @@ public class ViewTrack {
 
         Track curtrack = createrService.GetTrackByUuid(trackuuid);
         model.addAttribute("curtrack", curtrack );
-        return "redirect:/guest/viewtrack";
+        return "/guest/viewtrack";
     }
 
 }
