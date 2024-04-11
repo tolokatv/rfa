@@ -44,7 +44,7 @@ public class RPCConfig {
         CachingConnectionFactory connectionFactory = new CachingConnectionFactory(host);
         connectionFactory.setUsername(username);
         connectionFactory.setPassword(password);
-        // todo довести до ладу використання змінних середовища
+        // todo QRFA довести до ладу використання змінних середовища
         String vhost = System.getenv("QRFA");
         if (vhost != null) {
             connectionFactory.setVirtualHost(vhost);
@@ -53,8 +53,6 @@ public class RPCConfig {
             connectionFactory.setVirtualHost(virtualHost);
             System.out.println("======================== virtualHost = "+virtualHost);
         }
-
-
         return connectionFactory;
     }
 

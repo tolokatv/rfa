@@ -160,7 +160,7 @@ public class CreaterService {
     }
 
 
-
+    // todo переробити на роботу зі сховищем
     public Albumсover GetAlbumCoverById(Long alcoid) {
         return albumCoverRepository.getById(alcoid);
     }
@@ -171,13 +171,10 @@ public class CreaterService {
         cm.setFromuuid(cd.getUuid());
         cm.setBody(
                 "<span style=\"color: red\"><b>Опубліковано новий трек! </b><br>"+"</span>"
-//                +"<span>"+cd.getCustname()+" "+cd.getCustsurname()+"<br>"
                 +track.getAutor()+"<br>"
                 +track.getName()+"<br>"
-//                +"<audio id=\""+track.getUuid() + "\" controls>"
                 +"<audio id=\""+track.getStoreuuid() + "\" controls>"
                 +"<source src=\"/store/audio/"
-//                +cd.getUuid()+"/"
                 +track.getStoreuuid()+"\"/>"
                 +"</audio>"
         );

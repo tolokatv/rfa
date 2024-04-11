@@ -34,8 +34,6 @@ public class StoreService extends StoreFileImplementation {
         return storeRepositore.findAllByClientdetail(cd);
     }
 
-//    public  List<Store> GetAllTraByClientId
-
     public Page GetStorePage(int pageNumber, int pageCount) {
         Pageable storePage = PageRequest.of(pageNumber, pageCount);
         Page page = storeRepositore.findAll(storePage);
@@ -53,13 +51,5 @@ public class StoreService extends StoreFileImplementation {
 //        return storeRepositore.findByClientdetailAndStorefiletype(cd,STORE_TRACK);
         return storeRepositore.findByClientdetailAndStorefiletypeOrderByIdDesc(cd,STORE_TRACK);
     }
-
-//    public Store SaveStoreItemInfo(Store storeitem) {
-//        storeRepositore.save(storeitem);
-//        return storeitem;
-//    }
-
-
-
 
 }

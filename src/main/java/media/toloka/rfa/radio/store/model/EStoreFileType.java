@@ -8,6 +8,7 @@ public enum EStoreFileType {
     STORE_ALBUMCOVER("Обкладинка альбому"),
     STORE_POSTCOVER("Обкладинка посту");
 
+
     public final String label;
 
     private EStoreFileType(String label) {

@@ -45,6 +45,9 @@ public class PostController {
         if (post == null){
             return "redirect:/";
         }
+        post.setLooked( post.getLooked()+1L);
+        postService.SavePost(post);
+
         model.addAttribute("post", post );
 
         return "/post/postview";

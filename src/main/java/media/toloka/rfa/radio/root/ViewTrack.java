@@ -17,6 +17,7 @@ public class ViewTrack {
     @Autowired
     private CreaterService createrService;
 
+    // сайт світимо опис треку
     @GetMapping(value = "/guest/viewtrack/{trackuuid}")
     public String getTracksAll(
             @PathVariable String trackuuid,
@@ -24,7 +25,7 @@ public class ViewTrack {
 
         Track curtrack = createrService.GetTrackByUuid(trackuuid);
         model.addAttribute("curtrack", curtrack );
-        return "/guest/viewtrack";
+        return "redirect:/guest/viewtrack";
     }
 
 }

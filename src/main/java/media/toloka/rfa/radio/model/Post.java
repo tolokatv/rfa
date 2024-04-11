@@ -48,6 +48,8 @@ public class Post {
     private Boolean apruve = false;
     @Expose
     private Date apruvedate;
+    @Expose
+    private Long looked = 0L; // скільки разів подивилися
 //    @Expose
 //    private Clientdetail apruveuser;
 

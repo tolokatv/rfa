@@ -1,7 +1,7 @@
 package media.toloka.rfa.radio.store.implementation;
 
 import media.toloka.rfa.radio.store.model.EStoreFileType;
-import media.toloka.rfa.radio.creater.service.CreaterService;
+//import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.document.service.DocumentService;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.store.Interface.StoreInterface;
@@ -33,17 +33,11 @@ public class StoreFileImplementation implements StoreInterface {
     @Autowired
     private StoreRepositorePagination storerepositore;
 
-//    @Autowired
-//    private StoreService storeService;
-
     @Autowired
     private FilesService filesService;
 
     @Autowired
     private DocumentService documentService;
-
-//    @Autowired
-//    private CreaterService createrService;
 
     @Autowired
     private StoreRepositorePagination storeRepositore;
@@ -69,32 +63,18 @@ public class StoreFileImplementation implements StoreInterface {
             return null;
         }
     }
+
     @Override
     public String PutFileToStore(InputStream inputStream, String filename, Clientdetail cd, EStoreFileType storeFileType) {
-//        String newFilePatch = filesService.GetBaseClientDirectory(cd) + "/" + filesService.GetUploadDirectory() + "/" + filename;
         Path destination = Paths.get(filesService.GetBaseClientDirectory(cd) + "/" + filesService.GetUploadDirectory()).resolve(filename).normalize().toAbsolutePath();
-        //Boolean fileExist = Files.exists(destination);
         Boolean fileExist = Files.exists(destination);
 
         try {
             Files.createDirectories(destination.getParent());
             Files.copy(inputStream, destination, REPLACE_EXISTING);
-//            InputStream initialStream = new FileInputStream(new File(newFilePatch));
-//            byte[] buffer = new byte[inputStream.available()];
-//            inputStream.read(buffer);
-//            Path destination = Paths.get(filesService.GetBaseClientDirectory(cd) + "/" + filesService.GetUploadDirectory())
-//                    .resolve(filename).normalize().toAbsolutePath();
-            // дивимося, чи є такий файл у сховищі
-//            Store store11111 = storerepositore.getByFilepatch(destination.toString());
-            // якщо є, то створюємо нову версію
-//            OutputStream targetFileStream = new FileOutputStream(new File(destination.toString()));
-//            targetFileStream.write(buffer);
-//            targetFileStream.close();
-//            Files.write(buffer, targetFileStream);
         } catch (IOException e) {
             logger.warn("IOExeption StoreFileImplementation PutFileToStore {} {}", cd.getUuid(), filename);
         }
-
         // Зберігаємо інформацію о файлі та привʼязуємо до користувача.
         Random random = new Random();
         long difference = random.nextInt(1000);  // затримка задля не повторення ID в базі
@@ -103,19 +83,6 @@ public class StoreFileImplementation implements StoreInterface {
             Thread.sleep(difference);
             if (!fileExist) {
                 storeitem = SaveStoreItemInfo(null,destination, storeFileType, cd);
-//                switch (storeFileType) {
-//                    case STORE_DOCUMENT:
-////                        documentService.SaveDocumentUploadInfo(destination);
-//                        // todo Подивитися чи потрібна база документів чи краще працювати через сховище
-//                        break;
-////                    case STORE_TRACK:
-//////                        createrService.SaveTrackUploadInfo(storeitem, cd);
-////                        break;
-////                    case STORE_ALBUMCOVER:
-//////                        createrService.SaveAlbumCoverUploadInfo(destination, storeitem,cd);
-////                        break;
-//                }
-
             } else {
                 storeitem = GetStoreItemByFilenameByClientDetail(destination.getFileName().toString(), cd);
             }
@@ -125,19 +92,12 @@ public class StoreFileImplementation implements StoreInterface {
         {
             logger.info("--------- Thread.sleep(difference) -> catch(InterruptedException e)");
         }
-//
-//        Store store = new Store();
-//        store.setFilename(filename);
-//        store.setFilepatch(destination.toString());
-//        store.setClientdetail(cd);
-//        store.setFilelength(filesService.GetMediaLength(destination));
-//        store.setContentMimeType(filesService.GetMediatype(destination));
-//        storerepositore.save(store);
         return storeitem.getUuid();
 
     }
 
     public Boolean DeleteFileInStore(String uuid) {
+        // todo зробити видалення файлів у сховищі
         return true;
     }
 
