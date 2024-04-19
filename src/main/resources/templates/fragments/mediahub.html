@@ -251,7 +251,7 @@
                         </div>
                         <div class="col-11 col-lg-11 col-sm-11" >
                                 <small>
-                                    <span th:text="${track.autor}"/><br>
+                                    <a th:href="'/creater/profile/'+${track.clientdetail.uuid}"><span th:text="${track.autor}"/></a><br>
                                     <a th:href="'/guest/viewtrack/'+${track.uuid}">
                                         <span th:text="${track.name}"/><br>
                                     </a>

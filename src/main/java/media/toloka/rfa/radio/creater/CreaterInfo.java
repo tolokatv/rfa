@@ -80,11 +80,15 @@ public class CreaterInfo {
             Model model ) {
 
         Clientdetail cd = clientService.GetClientDetailByUuid(uuidCreater);
-        model.addAttribute("clientdetail", cd );
         // загальна інформація
+
         // Альбоми
+
         // Треки
+
         // Пости
+
+        model.addAttribute("clientdetail", cd );
 
         return "/creater/profile";
     }
