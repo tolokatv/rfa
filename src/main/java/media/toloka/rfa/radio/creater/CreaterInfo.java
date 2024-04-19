@@ -80,7 +80,8 @@ public class CreaterInfo {
             Model model ) {
 
         Clientdetail cd = clientService.GetClientDetailByUuid(uuidCreater);
-        // загальна інформація
+        // загальна інформація розміщується у верхньому рядку
+        // вся інша інформація розміщується у трьох колонках нижче.
 
         // Альбоми
 
@@ -89,6 +90,9 @@ public class CreaterInfo {
         // Пости
 
         model.addAttribute("clientdetail", cd );
+        model.addAttribute("albumList", cd.getAlbumList() );
+        model.addAttribute("trackList", cd.getTrackList() );
+        model.addAttribute("postList", cd.getPostList() );
 
         return "/creater/profile";
     }
