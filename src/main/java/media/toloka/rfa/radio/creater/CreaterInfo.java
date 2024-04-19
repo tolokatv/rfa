@@ -71,4 +71,22 @@ public class CreaterInfo {
         model.addAttribute("clientdetail", cd );
         return "/creater/info";
     }
+
+    // todo Світимо профайл митця
+    // Музичний Бот e2f9b0e6-73b5-4fcf-b249-f1e82d42a689
+    @GetMapping(value = "/creater/profile/{uuidCreater}")
+    public String getProfile(
+            @PathVariable String uuidCreater,
+            Model model ) {
+
+        Clientdetail cd = clientService.GetClientDetailByUuid(uuidCreater);
+        model.addAttribute("clientdetail", cd );
+        // загальна інформація
+        // Альбоми
+        // Треки
+        // Пости
+
+        return "/creater/profile";
+    }
+
 }
