@@ -56,33 +56,6 @@ public class StoreSiteController  {
     @Autowired
     private StoreService storeService;
 
-//    @GetMapping(value = "/store/taudio/{clientUUID}/{fileName}",
-//            produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
-//        public ResponseEntity<StreamingResponseBody> stream(
-//            @PathVariable String clientUUID,
-//            @PathVariable String fileName,
-//            Model model) throws IOException {
-//        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
-//        String ifile = filesService.GetBaseClientDirectory(cd)+"/"+fileName;
-//        String mymetype = filesService.GetMediatype(Paths.get(ifile));
-//        Long length = filesService.GetMediaLength(Paths.get(ifile));
-//
-//
-//        //This is just a sample to for creating the input stream as it's what I get from google cloud storage
-//        File file = new File(ifile);
-//        FileInputStream in = FileUtils.openInputStream(file);
-//
-//        StreamingResponseBody stream = out -> {
-//            IOUtils.copy(in, out);
-//        };
-//
-//        return ResponseEntity.ok()
-//                //.header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getName() + "\"")
-//                .header(ACCEPT_RANGES, "bytes")
-//                .header(HttpHeaders.CONTENT_TYPE, mymetype)
-//                .contentLength(length)
-//                .body(stream);
-//    }
 
     @GetMapping(value = "/store/audio/{storeUUID}",
             produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
@@ -184,44 +157,6 @@ public class StoreSiteController  {
         }
     }
 
-//    @GetMapping(value = "/store/audio1/{storeUUID}",
-//            produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
-//    public @ResponseBody byte[] getStoreAudio(
-////    public ResponseEntity<StreamingResponseBody> getStoreAudio(
-//            @PathVariable("storeUUID") String storeUUID,
-//            @RequestHeader(value = "Range", required = false) String rangeHeader,
-//            Model model) {
-////        Clientdetail cd = clientService.GetClientDetailByUuid(clientUUID);
-////        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
-//        //
-//        Store storeRecord = storeService.GetStoreByUUID(storeUUID);
-//        if (storeRecord == null) {
-//            logger.info("getStoreAudio: Йой! Не знайшли запис у сховищі!");
-//            return null;
-//        } else {
-//            String ifile = filesService.GetClientDirectory(storeRecord.getClientdetail())
-//                    + "/" + storeRecord.getFilename();
-//            InputStream is;
-//            try {
-//                is = new FileInputStream(new File(ifile));
-//                if (is == null) {
-//                    return new byte[0];
-//                }
-//                byte[] buffer = is.readAllBytes();
-//                return buffer;
-//            } catch (FileNotFoundException e) {
-//                logger.info("getStoreAudio: Йой! FileNotFoundException!");
-//                return null;
-//            } catch (IOException e) {
-//                logger.info("==================================== getStoreImage IOException");
-//                e.printStackTrace();
-//                return null;
-//            }
-//        }
-//    }
-
-
-
     @GetMapping(value = "/store/img/{clientUUID}/{fileName}",
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     public @ResponseBody byte[] getStoreImage(
@@ -252,7 +187,6 @@ public class StoreSiteController  {
         return null;
     }
 
-    //    @GetMapping(value = "/store/thrumbal/{clientUUID}/{fileName}",
     @GetMapping(value = "/store/thrumbal/{storeUUID}/{fileName}",
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     public @ResponseBody byte[] getStoreThrumbal(
