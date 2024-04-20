@@ -84,15 +84,15 @@ public class CreaterInfo {
         // вся інша інформація розміщується у трьох колонках нижче.
 
         // Альбоми
-
+        model.addAttribute("albumList", cd.getAlbumList() );
         // Треки
-
+        model.addAttribute("trackList", cd.getTrackList() );
         // Пости
+        model.addAttribute("postList", cd.getPostList() );
 
         model.addAttribute("clientdetail", cd );
-        model.addAttribute("albumList", cd.getAlbumList() );
-        model.addAttribute("trackList", cd.getTrackList() );
-        model.addAttribute("postList", cd.getPostList() );
+
+
 
         return "/creater/profile";
     }

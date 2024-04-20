@@ -69,14 +69,10 @@
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="albumrelisedate">Дата релізу (дд-мм-гг Наприклад: 23-08-24)</label>
                             <div class="col-md-5">
-<!--                                ${#dates.format(albumrelisedate, 'dd-MM-yyyy HH:mm')}-->
-<!--                                <input th:field="*{#dates.format(datealbumrelise, 'dd-MM-yyyy')}" type="text" class="form-control input-md">-->
                                 <input th:field="*{datealbumrelise}" type="text" class="form-control input-md">
-<!--                                <input th:field="*{albumrelisedate}" type="text" class="form-control input-md">-->
                             </div>
                         </div>
 
-                        <!-- Text input-->
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="style">Стиль</label>
                             <div class="col-md-5">
@@ -84,7 +80,6 @@
                             </div>
                         </div>
 
-                        <!-- Textarea -->
                         <div class="form-group">
                             <label class="col-md-4 control-label" for="description">Опис альбому</label>
                             <div class="col">
@@ -92,11 +87,6 @@
                                 <script>
                                     tinymce.init({
                                       selector: 'textarea',
-<!--                                      plugins: [-->
-<!--                                      "advlist", "anchor", "autolink", "charmap", "code",-->
-<!--                                      "help", "image", "insertdatetime", "link", "lists", "media",-->
-<!--                                      "preview", "searchreplace", "table", "visualblocks",-->
-<!--                                        ],-->
                                           plugins: [
                                           "preview", "importcss", "searchreplace", "autolink", "autosave", "save", "directionality", "code", "visualblocks",
                                            "visualchars", "fullscreen", "image", "link", "media", "template", "codesample", "table", "charmap", "pagebreak", "nonbreaking", "anchor",
@@ -115,7 +105,6 @@
                             </div>
                         </div>
 
-
                         <div class="form-group">
                             <div class="col-md-8">
                                 <button type="submit"  class="btn btn-primary">Зберегти</button><span>   </span><a class="btn btn-primary" th:href="@{/creater/albums}">Повернутися</a>
@@ -125,7 +114,7 @@
                 </form>
 
             </div>
-            <div class="col-lg-6 col-sm-6">
+            <div class="col-lg-6 col-sm-6"> <!-- Треки в альбомі -->
                 <div class="row"><h2>Треки в альбомі</h2></div>
                 <div class="row" th:each="track : ${trackList}">
                     <div class="col">

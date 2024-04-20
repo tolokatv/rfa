@@ -111,21 +111,14 @@ public class CreaterAlbumController {
         }
         List<Track> tracks = album.getTrack();
 
-
-        // Albumсover albumсover = album.getAlbumcover(); //
-
         Store store;
         String cover;
         if (album.getStoreuuidalbumcover() != null) {
-            //store = albumсover.getStoreitem();
             store = createrService.GetStoreAlbumCoverByUUID(album.getStoreuuidalbumcover());
             cover = store.getUuid();
         } else {
             cover = null;
         }
-
-//        List<Album> albumList = createrService.GetAllAlbumsByCreater(cd);
-//        model.addAttribute("albumList", albumList );
 
         model.addAttribute("coverlist", createrService.GetAlbumCoverByCd(cd) );
         model.addAttribute("cover", cover );
