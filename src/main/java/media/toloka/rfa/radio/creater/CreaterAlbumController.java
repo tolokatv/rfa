@@ -40,9 +40,6 @@ public class CreaterAlbumController {
             Model model
     ) {
         // для сайту - запит та асінхронна обробка. https://www.cat-in-web.ru/fetch-async-await/
-//        Long alcoid = Long.parseLong(pathVarsMap.get("alcoid"));
-//        Long albumid = Long.parseLong(pathVarsMap.get("albumid"));
-//        Long cdid = Long.parseLong(pathVarsMap.get("cdid"));
 
         Clientdetail cd = clientService.GetClientDetailById(cdid);
         Album album = createrService.GetAlbumById(albumid);

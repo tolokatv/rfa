@@ -94,7 +94,7 @@ public class CreaterInfo {
 
 
 
-        return "/creater/profile";
+        return "/guest/profile";
     }
 
 }
