@@ -370,7 +370,7 @@
             </div>
         </ul>
         <div class="card-footer">
-            <nav aria-label="Page navigation example">
+            <nav aria-label="navigation">
                 <ul class="pagination" >
                     <li class="page-item"><a class="page-link"  th:href="'/guest/tracksall/'+${privpage}">Попередня</a></li>
                     <div th:each="lpage : ${#numbers.sequence(0, __${totalpage-1}__)}">

@@ -51,11 +51,21 @@ public class CreaterStoreController {
 
         Clientdetail cd = clientService.GetClientDetailByUser(user);
 
-        Page page = storeService.GetStorePageByClientDetail(pageNumber,10, cd);
-        List<Store> storeList = page.stream().toList();
+        Page pageStore = storeService.GetStorePageByClientDetail(pageNumber,10, cd);
+        List<Store> storeList = pageStore.stream().toList();
 
+//        model.addAttribute("trackList", trackList );
+        int privpage ;
+        int nextpage ;
+        if (pageNumber == 0) {privpage = 0;} else {privpage = pageNumber - 1;};
+        if (pageNumber >= (pageStore.getTotalPages()-1) ) {nextpage = pageStore.getTotalPages()-1; } else {nextpage = pageNumber+1;} ;
+        model.addAttribute("nextpage", nextpage );
+        model.addAttribute("privpage", privpage );
+        model.addAttribute("totalpage", pageStore.getTotalPages() );
+        model.addAttribute("pagetrack", pageStore );
+        model.addAttribute("currentpage", pageNumber );
         model.addAttribute("storeList", storeList );
-        model.addAttribute("page", page );
+
         return "/store/mainstore";
     }
 

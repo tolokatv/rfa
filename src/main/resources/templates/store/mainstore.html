@@ -35,23 +35,42 @@
     <div class="container-fluid">
         <div class="row" style="padding-top: 40px">
             <div class="col-lg-12 col-sm-12">
+                <nav aria-label="navigation">
+                    <ul class="pagination" >
+                        <li class="page-item"><a class="page-link"  th:href="'/creater/store/'+${privpage}">Попередня</a></li>
+                        <div th:each="lpage : ${#numbers.sequence(0, __${totalpage-1}__)}">
+                            <li class="page-item"><a class="page-link"  th:href="'/creater/store/'+${lpage}" ><span th:text="${lpage+1}">1</a></li>
+                        </div>
+                        <li class="page-item"><a class="page-link" th:href="'/creater/store/'+${nextpage}">Наступна</a></li>
+                    </ul>
+                </nav>
                 <table class="table">
                         <thead>
                         <tr>
+                            <th scope="col">Дата</th>
                             <th scope="col">Файл</th>
                             <th scope="col">Тип</th>
                             <th scope="col">Дії</th>
                         </tr>
                         </thead>
                         <tbody>
-<!--                        <a class="btn btn-primary" th:href="@{'/creater/editpost/'+${0}}">Редагувати</a>-->
                         <tr th:each="storeitem : ${storeList}">
+                            <td><span th:text="${#dates.format(storeitem.createdate, 'dd-MM-yyyy')}"></span></td>
                             <td><span th:text="${storeitem.filename}"></span></td>
                             <td><span th:text="${storeitem.storefiletype.label}"></span></td>
-                            <td><a class="btn btn-primary" th:href="@{'/store/deleteitem/'+${storeitem.id} }">Видалити</a></td>
+                            <td><a class="btn btn-primary" th:href="@{'/store/deleteitem/'+${storeitem.uuid} }">Видалити</a></td>
                         </tr>
                         </tbody>
                     </table>
+                    <nav aria-label="navigation">
+                    <ul class="pagination" >
+                        <li class="page-item"><a class="page-link"  th:href="'/creater/store/'+${privpage}">Попередня</a></li>
+                        <div th:each="lpage : ${#numbers.sequence(0, __${totalpage-1}__)}">
+                            <li class="page-item"><a class="page-link"  th:href="'/creater/store/'+${lpage}" ><span th:text="${lpage+1}">1</a></li>
+                        </div>
+                        <li class="page-item"><a class="page-link" th:href="'/creater/store/'+${nextpage}">Наступна</a></li>
+                    </ul>
+                </nav>
             </div>
         </div>
     </div>
