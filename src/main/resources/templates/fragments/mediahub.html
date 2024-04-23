@@ -235,9 +235,6 @@
         <div class="card-header">
             <h3>Нові треки</h3>
             <audio-player id="audio-player" style="padding:0" data-src=""/>
-<!--            <audio-player id="audio-player" data-src="https://rfa.toloka.media:8443/ukraine"/>-->
-            <!--            <audio-player data-src=""></audio-player>-->
-            <!--            ТУТ БУДЕ ПЛЕЄР-->
         </div>
         <ul class="list-group list-group-flush">
             <div th:each="track, iStat : ${trackList}">
@@ -257,12 +254,6 @@
                                     </a>
                                 </small>
                         </div>
-<!--                        <div>-->
-<!--                            <audio-player th:data-src="'/store/audio/'+${track.storeitem.uuid}"></audio-player>-->
-<!--                            <audio id="'voice'+${track.id}" controls>-->
-<!--                                <source th:src="'/store/audio/'+${track.storeitem.uuid}">-->
-<!--                            </audio>-->
-<!--                        </div>-->
                     </div>
                 </li>
             </div>
@@ -339,13 +330,33 @@
 
 <div class="container" th:fragment="lasttrecksall">
     <div class="card" >
-        <div class="card-header"><h3>Завантажені треки</h3></div>
+        <div class="card-header">
+            <h3>Завантажені треки</h3>
+            <audio-player id="audio-player" style="padding:0" data-src=""/>
+        </div>
         <ul class="list-group list-group-flush">
             <div th:each="track, iStat : ${trackList}">
                 <li  class="list-group-item">
                     <div class="row" th:style="${iStat.odd}? 'background-color: rgb(240,240, 240'">
+                        <div class="col-1 col-sm-1 col-lg-1" style="padding-left: 0px;" th:id="${track.storeuuid}"  th:onclick="onClickTrack(this,[[${track.name}]],[[${track.autor}]])" >
+                            <span class="fa-stack fa-1x">
+                                <i class="fas fa-circle fa-stack-2x text-primary"></i>
+                                <i class="fas fa-play fa-stack-1x fa-inverse"></i>
+                            </span>
+                        </div>
+                        <div class="col-11 col-lg-11 col-sm-11" >
+                            <small>
+                                <a th:href="'/creater/profile/'+${track.clientdetail.uuid}"><span th:text="${track.autor}"/></a><br>
+                                <a th:href="'/guest/viewtrack/'+${track.uuid}">
+                                    <span th:text="${track.name}"/><br>
+                                </a>
+                            </small>
+                        </div>
+                    </div>
+                </li>
+                <!--<li  class="list-group-item">
+                    <div class="row" th:style="${iStat.odd}? 'background-color: rgb(240,240, 240'">
                         <div class="col-1 col-sm-1 col-lg-1" style="padding-left: 0px;">
-
                             <span class="fa-stack fa-1x" th:id="'/store/audio/'+${track.storeuuid}">
                                 <i class="fas fa-circle fa-stack-2x text-primary"></i>
                                 <i class="fas fa-play fa-stack-1x fa-inverse"></i>
@@ -367,6 +378,7 @@
                         </div>
                     </div>
                 </li>
+                -->
             </div>
         </ul>
         <div class="card-footer">

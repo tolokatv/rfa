@@ -23,7 +23,7 @@
     <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
     <!-- Navigation-->
     <div th:insert="~{/fragments/navbar :: mynavbar}">  </div>
-
+    <div th:insert="~{/fragments/mediahub :: audiotemplate}"/>
     <div style="padding-top: 60px">
         <div class="container-fluid">
             <div class="row text-center" style="padding-top: 20px">
@@ -42,6 +42,14 @@
         </div>
     </div>
 
+    <script type="module" src="/js/audioplayer/audioplayer.js"></script>
+    <script>
+        function onClickTrack(event,name,autor) {
+            //document.getElementById('audio-player').setAudioSrc("/store/audio/"+event.id);
+            //console.log("======== name: "+name+"======= autor: "+autor);
+            document.getElementById('audio-player').myChangeTrack(event.id,name,autor);
+        }
+    </script>
 
     <script src="/js/bootstrap.bundle.min.js"></script>
 </head>
