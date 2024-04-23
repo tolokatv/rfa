@@ -5,7 +5,6 @@ import media.toloka.rfa.radio.store.Reposirore.StoreRepositorePagination;
 import media.toloka.rfa.radio.store.implementation.StoreFileImplementation;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.model.Clientdetail;
-import media.toloka.rfa.radio.store.model.EStoreFileType;
 import media.toloka.rfa.radio.store.model.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -52,4 +51,7 @@ public class StoreService extends StoreFileImplementation {
         return storeRepositore.findByClientdetailAndStorefiletypeOrderByIdDesc(cd,STORE_TRACK);
     }
 
+    public void SaveStore(Store store) {
+        storeRepositore.save(store);
+    }
 }

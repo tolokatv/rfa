@@ -37,6 +37,8 @@ public class Store {
     private String contentMimeType;
     @Expose
     private Date createdate = new Date();
+    @Expose
+    private String comment;
 
 
     @ToString.Exclude
