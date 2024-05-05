@@ -17,21 +17,26 @@
 <!--            <div class="carousel slide multi-item-carousel" id="theCarouselStaion">-->
             <div class="carousel slide" data-bs-ride="carousel" id="theCarouselStaion">
                 <div class="carousel-inner">
-                    <div class="carousel-item active">
-                            <a href="https://ukraine.rfa.toloka.media/" target="_blank">
-                                <h2>Радіо Толока</h2>
-                            </a>
+                    <div th:each="station, iStat : ${stationsonline}">
+                        <!-- IF CUSTOMER IS ANONYMOUS -->
+                        <div th:if="${iStat.first}">
+                            <div class="carousel-item active" th:id="${station.uuid}">
+                                <a th:href="'https://'+${station.dbname}+'.rfa.toloka.media/'" target="_blank">
+                                    <h2><span th:text="${station.name}"></span></h2>
+                                </a>
+                            </div>
+                        </div>
+                        <!-- ELSE -->
+                        <div th:unless="${iStat.first}">
+                            <div class="carousel-item" th:id="${station.uuid}">
+                                <a th:href="'https://'+${station.dbname}+'.rfa.toloka.media/'" target="_blank">
+                                    <h2><span th:text="${station.name}"></span></h2>
+                                </a>
+                            </div>
+                        </div>
                     </div>
-                    <div class="carousel-item">
-                            <a href="https://ua22.rfa.toloka.media/" target="_blank">
-                                <h2>Радіо22</h2>
-                            </a>
-                    </div>
-                    <div class="carousel-item">
-                            <a href="https://retro.rfa.toloka.media/" target="_blank">
-                                <h2>Толока Ретро</h2>
-                            </a>
-                    </div>
+
+
 
                     <!--  Example item end -->
                 </div>

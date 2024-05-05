@@ -73,6 +73,13 @@
         function onClickTrack(event,name,autor) {
             document.getElementById('audio-player').myChangeTrack(event.id,name,autor);
         }
+        var myCarousel = document.getElementById('theCarouselStaion')
+
+        myCarousel.addEventListener('slide.bs.carousel', function (ev) {
+            // сделайте что-нибудь...
+            console.log(ev.relatedTarget.id);
+        })
+
     </script>
     <!-- карусель -->
 

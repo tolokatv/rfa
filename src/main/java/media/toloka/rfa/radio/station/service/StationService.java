@@ -279,6 +279,10 @@ public class StationService {
         stationRepo.save(st);
     }
 
+    public List<Station> GetListStationByStatus(boolean b) {
+        return stationRepo.getStationByStationstate(b);
+    }
+
 //    public void saveStation(Station station) {
 ////        Users user = serviceUser.GetCurrentUser();
 ////        if (station.getUser() == null) {

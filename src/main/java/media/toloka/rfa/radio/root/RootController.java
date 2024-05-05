@@ -5,8 +5,10 @@ package media.toloka.rfa.radio.root;
 import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.model.MessageFromSite;
 import media.toloka.rfa.radio.model.Post;
+import media.toloka.rfa.radio.model.Station;
 import media.toloka.rfa.radio.model.Track;
 import media.toloka.rfa.radio.root.service.ServiceMessageFromSite;
+import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.radio.store.model.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,6 +36,9 @@ public class RootController {
     @Autowired
     private CreaterService createrService;
 
+    @Autowired
+    private StationService stationService;
+
     @GetMapping(value = "/admin/root")
     public String adminroot(Model model) {
 
@@ -47,11 +52,11 @@ public class RootController {
         Page pagePost = createrService.GetPostPage(0,12);
         List<Store> storePostList = pagePost.stream().toList();
 
+
 //        model.addAttribute("trackList", trackList );
         model.addAttribute("trackList", storeTrackList );
         model.addAttribute("postList", storePostList );
         model.addAttribute("posts", posts );
-//        model.addAttribute("stations",  stationService.GetListStationByUser(user));
 
         MessageFromSite QuestionForm = new MessageFromSite();
         model.addAttribute("question", QuestionForm);
@@ -63,7 +68,10 @@ public class RootController {
     public String index(Model model) {
 
         List<Post> posts = createrService.GetAllPostsByApruve(true);
+
         List<Track> trackList = createrService.GetLastUploadTracks();
+
+        List<Station> stationOnlineList = stationService.GetListStationByStatus(true);
 
 //        Page page = storeService.GetStorePageItemType(0,5, STORE_TRACK);
         Page pageTrack = createrService.GetTrackPage(0,10);
@@ -76,6 +84,7 @@ public class RootController {
         model.addAttribute("trackList", storeTrackList );
         model.addAttribute("postList", storePostList );
         model.addAttribute("posts", posts );
+        model.addAttribute("stationsonline", stationOnlineList );
 //        model.addAttribute("stations",  stationService.GetListStationByUser(user));
 
         MessageFromSite QuestionForm = new MessageFromSite();
