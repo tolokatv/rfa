@@ -80,6 +80,21 @@
             console.log(ev.relatedTarget.id);
         })
 
+        async function getStatus() {
+            let siteurl = "https://rfa.toloka.media/api/1.0/ps/"+stationId;
+            const response = await fetch(siteurl);
+            const data = await response.json();
+            stationstate = data["status"];
+            myspan = document.getElementById('spanstationstate');
+            return data;
+        }
+
+}
+
+
+
+
+
     </script>
     <!-- карусель -->
 

@@ -32,6 +32,8 @@ dependencies {
 	implementation group: 'commons-io', name: 'commons-io', version: '2.15.1'
 	// https://mvnrepository.com/artifact/org.imgscalr/imgscalr-lib
 	implementation group: 'org.imgscalr', name: 'imgscalr-lib', version: '4.2'
+	// https://mvnrepository.com/artifact/org.json/json
+	implementation group: 'org.json', name: 'json', version: '20090211'
 
 	// stomp web socket
 	implementation("org.springframework.boot:spring-boot-starter-websocket")

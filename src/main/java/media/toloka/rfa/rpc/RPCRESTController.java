@@ -9,6 +9,8 @@ import media.toloka.rfa.radio.model.Album;
 import media.toloka.rfa.radio.model.Albumсover;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Station;
+import media.toloka.rfa.radio.station.onlinelist.Model.ListOnlineFront;
+import media.toloka.rfa.radio.station.service.StationOnlineList;
 import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.rpc.service.ServerRunnerService;
 import org.slf4j.Logger;
@@ -55,61 +57,11 @@ public class RPCRESTController {
     @Autowired
     private ClientService clientService;
 
+    @GetMapping("/api/1.0/stationonline/")
+    List<ListOnlineFront> GetStateStationREST() {
 
-
-    @GetMapping("/api/1.0/test")
-    Map<String, String> GetTest() {
-        Map<String, String> result = new HashMap<String,String>();
-        String getstring = "running 2024-02-03 11:22:01 +0200 EET b843ec36-51af-4416-8f90-24471d53dd05-analyzer-1";
-        int sindex = getstring.indexOf(" ")+1;
-        int eindex = getstring.lastIndexOf(" ");
-        String sDate = getstring.substring(sindex,eindex);
-        String[] strParts = getstring.split(" ");
-        String[] strPartsm = getstring.split("-");
-
-
-//        Date mydate;
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z z");
-//        mydate = Date.(sDate); // parse(sDate, formatter);
-//        logger.info("Date = {}",mydate);
-
-        ZoneId defaultZoneId = ZoneId.systemDefault();
-
-        result.put("length",String.valueOf(strPartsm.length));
-        result.put("service",strPartsm[strPartsm.length - 2]);
-        result.put("date",strParts[1]);
-        result.put("time",strParts[2]);
-        result.put("TZ",defaultZoneId.toString());
-        result.put("sindex",String.valueOf(sindex));
-        result.put("eindex",String.valueOf(eindex));
-//        result.put("defaultZoneId",defaultZoneId.toString());
-
-        return result;
-    }
-
-    @GetMapping("/api/1.0/setalbumcover/{alcoid}/{albumid}/{cdid}")
-//    Map<String, String> GetAlbumSetCover(
-    public void GetAlbumSetCover(
-            @PathVariable Map<String, String> pathVarsMap
-//            @PathVariable("alcoid") Long alcoid,
-//            @PathVariable("albumid") Long albumid,
-//            @PathVariable("cdid") Long cdid
-    ) {
-        // для сайту - запит та асінхронна обробка. https://www.cat-in-web.ru/fetch-async-await/
-        Long alcoid = Long.parseLong(pathVarsMap.get("alcoid"));
-        Long albumid = Long.parseLong(pathVarsMap.get("albumid"));
-        Long cdid = Long.parseLong(pathVarsMap.get("cdid"));
-
-        Clientdetail cd = clientService.GetClientDetailById(cdid);
-        Album album = createrService.GetAlbumById(albumid);
-        Albumсover albumсover = createrService.GetAlbumCoverById(alcoid);
-        album.setAlbumcover(albumсover);
-//        albumсover.setStoreuuid();
-        createrService.SaveAlbum(album);
-
-
-//        Map<String,String> result;
-//        return result;
+        List<ListOnlineFront> listOnline = StationOnlineList.getInstance().GetOnlineList();
+        return listOnline;
     }
 
     @GetMapping("/api/1.0/ps/{id}")
@@ -174,4 +126,61 @@ public class RPCRESTController {
         result.put("status",String.valueOf(count) );
         return result;
     }
+
+    @GetMapping("/api/1.0/test")
+    Map<String, String> GetTest() {
+        Map<String, String> result = new HashMap<String,String>();
+        String getstring = "running 2024-02-03 11:22:01 +0200 EET b843ec36-51af-4416-8f90-24471d53dd05-analyzer-1";
+        int sindex = getstring.indexOf(" ")+1;
+        int eindex = getstring.lastIndexOf(" ");
+        String sDate = getstring.substring(sindex,eindex);
+        String[] strParts = getstring.split(" ");
+        String[] strPartsm = getstring.split("-");
+
+
+//        Date mydate;
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss Z z");
+//        mydate = Date.(sDate); // parse(sDate, formatter);
+//        logger.info("Date = {}",mydate);
+
+        ZoneId defaultZoneId = ZoneId.systemDefault();
+
+        result.put("length",String.valueOf(strPartsm.length));
+        result.put("service",strPartsm[strPartsm.length - 2]);
+        result.put("date",strParts[1]);
+        result.put("time",strParts[2]);
+        result.put("TZ",defaultZoneId.toString());
+        result.put("sindex",String.valueOf(sindex));
+        result.put("eindex",String.valueOf(eindex));
+//        result.put("defaultZoneId",defaultZoneId.toString());
+
+        return result;
+    }
+
+    @GetMapping("/api/1.0/setalbumcover/{alcoid}/{albumid}/{cdid}")
+//    Map<String, String> GetAlbumSetCover(
+    public void GetAlbumSetCover(
+            @PathVariable Map<String, String> pathVarsMap
+//            @PathVariable("alcoid") Long alcoid,
+//            @PathVariable("albumid") Long albumid,
+//            @PathVariable("cdid") Long cdid
+    ) {
+        // для сайту - запит та асінхронна обробка. https://www.cat-in-web.ru/fetch-async-await/
+        Long alcoid = Long.parseLong(pathVarsMap.get("alcoid"));
+        Long albumid = Long.parseLong(pathVarsMap.get("albumid"));
+        Long cdid = Long.parseLong(pathVarsMap.get("cdid"));
+
+        Clientdetail cd = clientService.GetClientDetailById(cdid);
+        Album album = createrService.GetAlbumById(albumid);
+        Albumсover albumсover = createrService.GetAlbumCoverById(alcoid);
+        album.setAlbumcover(albumсover);
+//        albumсover.setStoreuuid();
+        createrService.SaveAlbum(album);
+
+
+//        Map<String,String> result;
+//        return result;
+    }
+
+
 }

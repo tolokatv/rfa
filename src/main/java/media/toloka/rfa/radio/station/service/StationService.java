@@ -157,11 +157,6 @@ public class StationService {
         // - Коли є платні контракти
     }
 
-//    private List<Station> FindStationByClientDetail(Clientdetail clientDetail) {
-//        return stationRepo.findStationByClientdetail(clientDetail.getId());
-//    }
-
-
     private boolean CheckPayContract(Clientdetail clientDetail, Model model) {
         // перевіряємо наявність платних контрактів і можливість приєднати до них станцію
         // У разі неможливості - формуємо відповідне повідомлення для форми
