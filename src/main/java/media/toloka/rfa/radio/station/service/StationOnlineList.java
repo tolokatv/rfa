@@ -3,6 +3,7 @@ package media.toloka.rfa.radio.station.service;
 import media.toloka.rfa.radio.model.Station;
 import media.toloka.rfa.radio.station.onlinelist.Model.ListOnlineFront;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class StationOnlineList {
@@ -12,7 +13,7 @@ public class StationOnlineList {
 
     private static StationOnlineList stationOnlineList; // екземпляр класу
 
-    private static List<ListOnlineFront> listOnline; // екземпляр списку
+    private static List<ListOnlineFront> listOnline = new ArrayList<>(); // екземпляр списку
 
     /**
      * Private constructor - can not be instantiated.
