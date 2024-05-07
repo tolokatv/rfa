@@ -58,7 +58,7 @@ final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
         // беремо перелік станцій для фронту
         List<ListOnlineFront> listOnlineFronts = StationOnlineList.getInstance().GetOnlineList();
 
-
+        Date currentUpdate = new Date();
         listOnlineFronts.clear();
 
         for (Station stationOnline : stationOnlineList) {
@@ -86,26 +86,33 @@ final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
 //            Object
             Object o = builder.create().fromJson(json, Object.class);
             Map<String, Object> Report = (Map<String, Object>)o;
-            Map<String, Object> previous = (Map<String, Object>) Report.get("previous");
+//            Map<String, Object> previous = (Map<String, Object>) Report.get("previous");
 
             Map<String, Object> current = (Map<String, Object>) Report.get("current");
-            Map<String, Object> currentmetadata = (Map<String, Object>) current.get("metadata");
-            String currentmetadataTrackTitle = (String) currentmetadata.get("track_title");
-            String currentmetadataArtistName = (String) currentmetadata.get("artist_name");
+            if (current != null ) {
+                Map<String, Object> currentmetadata = (Map<String, Object>) current.get("metadata");
+                String currentmetadataTrackTitle = (String) currentmetadata.get("track_title");
+                String currentmetadataArtistName = (String) currentmetadata.get("artist_name");
 
-            Map<String, Object> next = (Map<String, Object>) Report.get("next");
-            // Заповнюємо екземпляр станції
-            ListOnlineFront lof = new ListOnlineFront();
-            lof.setUuid(stationOnline.getUuid());
-            lof.setBdname(stationOnline.getDbname());
-            lof.setStationname(stationOnline.getName());
-            lof.setTrack(currentmetadataTrackTitle);
-            lof.setGroup(currentmetadataArtistName);
+//            Map<String, Object> next = (Map<String, Object>) Report.get("next");
+                // Заповнюємо екземпляр станції
+                ListOnlineFront lof = new ListOnlineFront();
+                lof.setUuid(stationOnline.getUuid());
+                lof.setBdname(stationOnline.getDbname());
+                lof.setStationname(stationOnline.getName());
+                lof.setTrack(currentmetadataTrackTitle);
+                lof.setGroup(currentmetadataArtistName);
+                lof.setCurdate(currentUpdate);
 
-            listOnlineFronts.add(lof);
-
+                listOnlineFronts.add(lof);
+            }
             // return new JSONObject(json);
 
+        }
+        for (ListOnlineFront tlof : listOnlineFronts) {
+            if (tlof.getCurdate() != currentUpdate) {
+                // видаляємо застарілі елементи
+            }
         }
 //        logger.info("GetStationOnlineList: END The time is now {}", dateFormat.format(new Date()));
 
