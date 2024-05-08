@@ -70,9 +70,6 @@
     <!-- audioplayer красивий -->
     <script type="module" src="/js/audioplayer/audioplayer.js"></script>
     <script>
-        function onClickTrack(event,name,autor) {
-            document.getElementById('audio-player').myChangeTrack(event.id,name,autor);
-        }
         var myCarousel = document.getElementById('theCarouselStaion')
 
         myCarousel.addEventListener('slide.bs.carousel', function (ev) {
@@ -89,12 +86,9 @@
             return data;
         }
 
-}
-
-
-
-
-
+        function onClickTrack(event,name,autor) {
+            document.getElementById('audio-player').myChangeTrack(event.id,name,autor);
+        }
     </script>
     <!-- карусель -->
 
