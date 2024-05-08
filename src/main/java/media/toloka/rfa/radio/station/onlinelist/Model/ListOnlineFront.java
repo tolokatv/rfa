@@ -14,7 +14,7 @@ public class ListOnlineFront {
     @Expose
     private String stationname;
     @Expose
-    private String bdname;
+    private String dbname;
     @Expose
     private String group;
     @Expose

@@ -49,7 +49,7 @@ final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
 //    }
 
 
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 5000)
     public void GetStationOnlineList() {
 //        logger.info("GetStationOnlineList: Start The time is now {}", dateFormat.format(new Date()));
 
@@ -98,7 +98,7 @@ final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
                 // Заповнюємо екземпляр станції
                 ListOnlineFront lof = new ListOnlineFront();
                 lof.setUuid(stationOnline.getUuid());
-                lof.setBdname(stationOnline.getDbname());
+                lof.setDbname(stationOnline.getDbname());
                 lof.setStationname(stationOnline.getName());
                 lof.setTrack(currentmetadataTrackTitle);
                 lof.setGroup(currentmetadataArtistName);

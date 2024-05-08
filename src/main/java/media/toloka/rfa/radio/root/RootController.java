@@ -8,6 +8,8 @@ import media.toloka.rfa.radio.model.Post;
 import media.toloka.rfa.radio.model.Station;
 import media.toloka.rfa.radio.model.Track;
 import media.toloka.rfa.radio.root.service.ServiceMessageFromSite;
+import media.toloka.rfa.radio.station.onlinelist.Model.ListOnlineFront;
+import media.toloka.rfa.radio.station.service.StationOnlineList;
 import media.toloka.rfa.radio.station.service.StationService;
 import media.toloka.rfa.radio.store.model.Store;
 import org.slf4j.Logger;
@@ -71,7 +73,8 @@ public class RootController {
 
         List<Track> trackList = createrService.GetLastUploadTracks();
 
-        List<Station> stationOnlineList = stationService.GetListStationByStatus(true);
+//        List<Station> stationOnlineList = stationService.GetListStationByStatus(true);
+        List<ListOnlineFront> stationOnlineList = StationOnlineList.getInstance().GetOnlineList();
 
 //        Page page = storeService.GetStorePageItemType(0,5, STORE_TRACK);
         Page pageTrack = createrService.GetTrackPage(0,10);

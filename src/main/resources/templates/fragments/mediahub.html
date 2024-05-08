@@ -22,18 +22,18 @@
                         <div th:if="${iStat.first}">
                             <div class="carousel-item active" th:id="${station.uuid}">
                                 <a th:href="'https://'+${station.dbname}+'.rfa.toloka.media/'" target="_blank">
-                                    <h2><span th:text="${station.name}"></span></h2>
+                                    <h2><span th:text="${station.stationname}"></span></h2>
                                 </a>
-                                <small<span>Автор: ----------</span><br><span>Назва: ----------</span></small>
+                                <small<span th:text="${station.group}">Автор: ----------</spanth><br><span th:text="${station.track}">Назва: ----------</span></small>
                             </div>
                         </div>
                         <!-- ELSE -->
                         <div th:unless="${iStat.first}">
                             <div class="carousel-item" th:id="${station.uuid}">
                                 <a th:href="'https://'+${station.dbname}+'.rfa.toloka.media/'" target="_blank">
-                                    <h2><span th:text="${station.name}"></span></h2>
+                                    <h2><span th:text="${station.stationname}"></span></h2>
                                 </a>
-                                <span>Автор: ----------</span><br><span>Назва: ----------</span>
+                                <small<span th:text="${station.group}">Автор: ----------</span ><br><span th:text="${station.track}">Назва: ----------</span></small>
                             </div>
                         </div>
                     </div>
