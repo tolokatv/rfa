@@ -49,7 +49,7 @@ final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
 //    }
 
 
-    @Scheduled(fixedRate = 60000)
+    @Scheduled(fixedRate = 30000)
     public void GetStationOnlineList() {
 //        logger.info("GetStationOnlineList: Start The time is now {}", dateFormat.format(new Date()));
 
