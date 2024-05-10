@@ -43,19 +43,14 @@ final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
 
     private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 
-//    @Scheduled(fixedRate = 5000)
-//    public void reportCurrentTime() {
-//        logger.info("The time is now {}", dateFormat.format(new Date()));
-//    }
-
-
     @Scheduled(fixedRate = 30000)
     public void GetStationOnlineList() {
-//        logger.info("GetStationOnlineList: Start The time is now {}", dateFormat.format(new Date()));
+        // будуємо перелік станцій, які зараз в онлайні для того, щоб не смикати через GET https при кожному зверненні
+        // REST інтерфейc LibreTime
 
         // беремо станції, які знаходяться онлайн
         List<Station> stationOnlineList = stationService.GetListStationByStatus(true);
-        // беремо перелік станцій для фронту
+        // беремо перелік станцій для морди
         List<ListOnlineFront> listOnlineFronts = StationOnlineList.getInstance().GetOnlineList();
 
         Date currentUpdate = new Date();
@@ -63,27 +58,25 @@ final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
 
         for (Station stationOnline : stationOnlineList) {
             // беремо зі станції поточний трек
+            // todo передбачити оновлення елементів переліку замість очистки переліку станцій.
+            // очищення списку станцій може вплинути на достовірність формування на морді. Наприклад,
+            // перелік станцій буде взято в момент коли перелік ще пустий. Звісно, нічого трагічного
+            // не станеться, але якось не охайно :)
             URL url;
             try {
+                // сформували урл для станції
                 url = new URL("https://" + stationOnline.getUuid() + ".rfa.toloka.media/api/live-info/?callback");
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }
             String json;
+            // Перекидаємо отриману строку в JSON
             try {
                 json = IOUtils.toString(url, Charset.forName("UTF-8"));
             } catch (IOException e) {
                 throw new RuntimeException(e);
             }
-            // json string to JSON
-//            JSONArray jsonArray;
-//            try {
-//                jsonArray = new JSONArray(json);
-//            } catch (JSONException e) {
-//                throw new RuntimeException(e);
-//            }
             GsonBuilder builder = new GsonBuilder();
-//            Object
             Object o = builder.create().fromJson(json, Object.class);
             Map<String, Object> Report = (Map<String, Object>)o;
 //            Map<String, Object> previous = (Map<String, Object>) Report.get("previous");
@@ -94,7 +87,6 @@ final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
                 String currentmetadataTrackTitle = (String) currentmetadata.get("track_title");
                 String currentmetadataArtistName = (String) currentmetadata.get("artist_name");
 
-//            Map<String, Object> next = (Map<String, Object>) Report.get("next");
                 // Заповнюємо екземпляр станції
                 ListOnlineFront lof = new ListOnlineFront();
                 lof.setUuid(stationOnline.getUuid());
@@ -111,7 +103,7 @@ final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
         }
         for (ListOnlineFront tlof : listOnlineFronts) {
             if (tlof.getCurdate() != currentUpdate) {
-                // видаляємо застарілі елементи
+                // todo видаляємо застарілі елементи
             }
         }
 //        logger.info("GetStationOnlineList: END The time is now {}", dateFormat.format(new Date()));
