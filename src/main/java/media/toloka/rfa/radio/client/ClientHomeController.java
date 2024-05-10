@@ -53,15 +53,10 @@ public class ClientHomeController {
         }
 
         String curshow;
-        // todo пробуємо отримати інформацію зі станцій (треки, шоу) для відображення на сайті.
+        // todo Взяти трек з List<ListOnlineFront> listOnlineFronts = StationOnlineList.getInstance().GetOnlineList();
+        // та передати його на сайт
+
         // https://www.baeldung.com/java-read-json-from-url
-//        try {
-//            curshow = clientService.GetCurrentTrack(new URL("https://ukraine.rfa.toloka.media/api/live-info/?callback"));
-//
-//        } catch (MalformedURLException e) {
-//            logger.error("Помилка при отриманні інформації зі станції про поточний трек.");
-//            e.printStackTrace();
-//        }
 
         List<Post> posts = createrService.GetAllPostsByApruve(true);
         List<Track> trackList = createrService.GetLastUploadTracks();
@@ -70,14 +65,9 @@ public class ClientHomeController {
         Page pageTrack = createrService.GetTrackPage(0,10);
         List<Store> storeTrackList = pageTrack.stream().toList();
 
-//        model.addAttribute("trackList", trackList );
         model.addAttribute("trackList", storeTrackList );
         model.addAttribute("posts", posts );
-//        model.addAttribute("stations",  stationService.GetListStationByUser(user));
 
-
-//        model.addAttribute("userID",    user.getId());
-//        model.addAttribute("userName",  user.getName());
         return "/user/user_page";
     }
 
@@ -89,32 +79,6 @@ public class ClientHomeController {
         Long usri = user.getId();
         return "redirect:/user/documents";
     }
-
-//    @GetMapping(value = "/user/user_page")
-//    public String userHome(
-//            Model model ) {
-//        Users user = clientService.GetCurrentUser();
-//        if (user == null) {
-//            return "redirect:/";
-//        }
-//
-//        List<Post> posts = createrService.GetAllPostsByApruve(true);
-//        List<Track> trackList = createrService.GetLastUploadTracks();
-//
-////        Page page = storeService.GetStorePageItemType(0,5, STORE_TRACK);
-//        Page pageTrack = createrService.GetTrackPage(0,10);
-//        List<Store> storeTrackList = pageTrack.stream().toList();
-//
-////        model.addAttribute("trackList", trackList );
-//        model.addAttribute("trackList", storeTrackList );
-//        model.addAttribute("posts", posts );
-////        model.addAttribute("stations",  stationService.GetListStationByUser(user));
-//
-//
-////        model.addAttribute("userID",    user.getId());
-////        model.addAttribute("userName",  user.getName());
-//        return "/user/user_page";
-
 
     @GetMapping(value = "/user/home/managestations")
     public String UserManageStation(

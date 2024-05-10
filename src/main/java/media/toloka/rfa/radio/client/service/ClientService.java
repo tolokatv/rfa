@@ -148,6 +148,7 @@ public class ClientService {
     }
 
     public boolean ClientCanDownloadFile(Clientdetail cd) {
+        // todo перевірка прав користувача завантажувати файли
         // перевіряємо, чи може клієнт завантажувати файли
         // причини, чому може не мати права:
         // - перевищено ліміт для зберігання;

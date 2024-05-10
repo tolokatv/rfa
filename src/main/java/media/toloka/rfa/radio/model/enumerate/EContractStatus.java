@@ -1,7 +1,8 @@
 package media.toloka.rfa.radio.model.enumerate;
 
 public enum EContractStatus {
-// TODO винести низву типу контракту до application.property
+// TODO винести назву типу контракту до application.property
+// Це для інтернаціоналізації інтерфейсу
     CONTRACT_FREE("Безкоштовний"),
     CONTRACT_PAY("Комерційний");
 

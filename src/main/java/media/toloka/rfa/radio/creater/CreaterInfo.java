@@ -72,7 +72,6 @@ public class CreaterInfo {
         return "/creater/info";
     }
 
-    // todo Світимо профайл митця
     // Музичний Бот e2f9b0e6-73b5-4fcf-b249-f1e82d42a689
     @GetMapping(value = "/creater/profile/{uuidCreater}")
     public String getProfile(

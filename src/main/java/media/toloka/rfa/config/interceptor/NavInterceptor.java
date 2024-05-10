@@ -52,7 +52,7 @@ public class NavInterceptor implements HandlerInterceptor {
             return;
         }
         // додали кількість повідомлень для меню
-        // TODO Подивитися чому ми викликаємо цю процедуру декілька разів.
+        // Подивитися чому ми викликаємо цю процедуру декілька разів.
         ModelMap mm = modelAndView.getModelMap();
         int newmessage = messangerService.GetQuantityNewMessage(cd.getUuid());
         if ( newmessage > 0 ) {

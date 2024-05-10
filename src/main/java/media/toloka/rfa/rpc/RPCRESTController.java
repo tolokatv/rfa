@@ -172,6 +172,7 @@ public class RPCRESTController {
 
         Clientdetail cd = clientService.GetClientDetailById(cdid);
         Album album = createrService.GetAlbumById(albumid);
+        // todo переробити роботу зі сховищем на uuid
         Albumсover albumсover = createrService.GetAlbumCoverById(alcoid);
         album.setAlbumcover(albumсover);
 //        albumсover.setStoreuuid();

@@ -27,7 +27,8 @@ public class ContractService {
     }
 
     public List<Contract> ListContractByUser(Users user) {
-        // TODO Коли працюємо як сервіс, то clientService.GetCurrentUser() видасть null. Можуть бути проблеми
+        // TODO Коли працюємо як окремий сервіс, то clientService.GetCurrentUser() видасть null. Можуть бути проблеми
+        // передбачити пошук по користувачу в базі ClientDetail
         Clientdetail cl = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
         return contractRepo.findByClientdetail(cl);
     }
