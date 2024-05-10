@@ -64,6 +64,7 @@ public class RPCRESTController {
         return listOnline;
     }
 
+    // todo 240510 перейти на uuid замість id
     @GetMapping("/api/1.0/ps/{id}")
     Map<String, String> GetStateStationREST(@PathVariable Long id) {
         // для сайту - запит та асінхронна обробка. https://www.cat-in-web.ru/fetch-async-await/
@@ -74,7 +75,7 @@ public class RPCRESTController {
             logger.info("GetStateStationREST: Йой! не знайшли станцію id={}",id);
             return null;
         }
-        // todo передбачити маршрутизацію на сервер, на якому виконується докер
+        // todo Перевірити. передбачити маршрутизацію на сервер, на якому виконується докер
         // application.properties: media.toloka.rfa.server.libretime.guiserver=localhost
         // сервер при завантаженні створює відповідну чергу в яку для нього надсилаються повідомлення
 

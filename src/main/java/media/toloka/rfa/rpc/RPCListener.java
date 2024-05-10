@@ -38,7 +38,7 @@ Logger logger = LoggerFactory.getLogger(RPCListener.class);
         Gson gson = gsonService.CreateGson();
         RPCJob rjob = gson.fromJson(message, RPCJob.class);
 
-        // TODO тут обробляємо завдання з фронтенда.
+
 //        logger.info("+++++++++++++++++  Recive message from QUEUES.");
         ERPCJobType curJob = rjob.getJobchain().poll();
         switch (curJob) {

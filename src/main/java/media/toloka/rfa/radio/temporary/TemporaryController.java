@@ -53,7 +53,8 @@ public class TemporaryController {
     Logger logger = LoggerFactory.getLogger(RPCListener.class);
 
 
-
+    // todo пеерйти на використання UUID замість ID
+    // todo Зʼясувати, чи використовується ця процедура.
     @GetMapping(value = "/user/stationstatus/{id}")
     public String userHomeStation(
             Model model ) {
