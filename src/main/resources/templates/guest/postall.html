@@ -24,11 +24,11 @@
 <!-- Navigation-->
 <div th:insert="~{/fragments/navbar :: mynavbar}"
 <div style="padding-top: 100px"/>
-
+<div th:insert="~{/fragments/mediahub :: audiotemplate}"/>
 <section class="page-section" id="news" >
     <div class="container-fluid">
         <div class="row">
-            <!-- Колонка керування радіо-->
+            <!-- Колонка постів -->
             <div class="col-lg-9 col-sm-12">
                 <div class="card" >
                     <div class="card-header"><h3>Новини на Толоці</h3></div>
@@ -73,50 +73,37 @@
             </div>
             <!-- колонка медіа хаб-->
             <div class="col-lg-3 col-sm-12">
-                <!--                    Вставляємо останні завантажені треки-->
-<!--                <div th:insert="~{/fragments/mediahub :: lasttrecks}">  </div>-->
-                <div class="card" >
-                    <div class="card-header"><h3>Останні треки</h3></div>
-                    <ul class="list-group list-group-flush">
-                        <div th:each="track, iStat : ${trackList}">
-                            <li  class="list-group-item">
-                                <div class="row" th:style="${iStat.odd}? 'background-color: rgb(240,240, 240'">
-<!--                                    <div class="col-1 col-sm-1 col-lg-1" style="padding-left: 0px;">-->
-<!--                                        <span class="fa-stack fa-1x">-->
-<!--                                <i class="fas fa-circle fa-stack-2x text-primary"></i>-->
-<!--                                <i class="fas fa-play fa-stack-1x fa-inverse"></i>-->
-<!--                            </span>-->
-<!--                                    </div>-->
-                                    <div class="col-11 col-lg-11 col-sm-11">
-                                        <small>
-                                            <span th:text="${track.name}"/><br>
-                                            <span th:text="${track.autor}"/>
-<!--                                            <br>-->
-<!--                                            <span th:text="${track.clientdetail.custname} + ' ' + ${track.clientdetail.custsurname}"/>-->
-                                        </small>
 
-                                    </div>
-<!--                                    <div>-->
-<!--                                        <audio id="'voice'+${track.id}" controls>-->
-<!--                                            <source th:src="'/store/audio/'+${track.clientdetail.uuid}+'/'+${track.filename}">-->
-<!--                                        </audio>-->
-<!--                                    </div>-->
-                                </div>
-                            </li>
-                        </div>
-                    </ul>
-                    <div class="card-footer">
-                        <a href="/guest/tracksall/0">Подивитися всі завантажені треки</a>
-                    </div>
-                </div>
-                <!--                    вставляем Медіа Хаб-->
-                <!--            <div th:insert="~{/fragments/mediahub :: usermediahub}">  </div>-->
+                <div th:insert="~{/fragments/mediahub :: lasttrecks}">  </div>
             </div>
         </div>
 
     </div>
 </section>
+<script>
+    var myCarousel = document.getElementById('theCarouselStaion')
 
+    myCarousel.addEventListener('slide.bs.carousel', function (ev) {
+        // сделайте что-нибудь...
+        console.log(ev.relatedTarget.id);
+    })
+
+    async function getStatus() {
+        let siteurl = "https://rfa.toloka.media/api/1.0/ps/"+stationId;
+        const response = await fetch(siteurl);
+        const data = await response.json();
+        stationstate = data["status"];
+        myspan = document.getElementById('spanstationstate');
+        return data;
+    }
+
+    function onClickTrack(event,name,autor) {
+        document.getElementById('audio-player').myChangeTrack(event.id,name,autor);
+    }
+</script>
+<!-- Bootstrap core JS-->
 <script src="/js/bootstrap.bundle.min.js"></script>
+<!-- audioplayer красивий -->
+<script type="module" src="/js/audioplayer/audioplayer.js"></script>
 </body>
 </html>
