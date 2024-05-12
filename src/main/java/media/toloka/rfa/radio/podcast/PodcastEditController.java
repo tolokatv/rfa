@@ -1,0 +1,64 @@
+package media.toloka.rfa.radio.podcast;
+
+
+import media.toloka.rfa.radio.client.service.ClientService;
+import media.toloka.rfa.radio.model.Clientdetail;
+import media.toloka.rfa.radio.podcast.model.PodcastChannel;
+import media.toloka.rfa.radio.podcast.model.PodcastItem;
+import media.toloka.rfa.radio.podcast.service.PodcastService;
+import media.toloka.rfa.security.model.Users;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+
+@Controller
+public class PodcastEditController {
+
+
+    @Autowired
+    private PodcastService podcastService;
+    @Autowired
+    private ClientService clientService;
+
+    final Logger logger = LoggerFactory.getLogger(PodcastController.class);
+
+    @GetMapping(value = "/podcast/pedit/{puuid}")
+    public String podcastroot(
+            @PathVariable String puuid,
+            Model model ) {
+
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+
+        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
+        if (cd == null) { return "redirect:/"; }
+
+        logger.info("Зайшли на /podcast/pedit/{puuid}");
+        PodcastChannel podcast;
+        if (puuid.length() < 3) {
+            // створюємо новий подкаст
+            podcast = new PodcastChannel();
+            podcast.setClientdetail(cd);
+            podcastService.SavePodcast(podcast);
+            model.addAttribute("success",  "Створили новий подкаст.");
+        } else {
+            // шукаємо за UUID подкасту
+            podcast = podcastService.GetChanelByUUID(puuid);
+            if (podcast == null ) {
+                model.addAttribute("warning",  "Йой! Щось пішло не так - ми не знайшли Ваш Подкаст."
+                        +" Зверніться будь ласка до служби підтримки");
+            }
+        }
+        model.addAttribute("podcast",  podcast);
+
+        return "/podcast/pedit";
+    }
+
+
+}
