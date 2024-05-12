@@ -17,7 +17,7 @@ public class EpisodeEditController {
     public String podcastroot(
             @PathVariable String puuid,
             Model model ) {
-        logger.info("Зайшли на /podcast/episodedit/{puuid}");
+        logger.info("Зайшли на епізод: /podcast/episodedit/{}",puuid);
 
 
         return "/podcast/episodeedit";
