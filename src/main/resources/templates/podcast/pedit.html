@@ -50,15 +50,16 @@
     </div>
 
     <section class="pt-4">
-        <div class="container px-lg-5">
+        <div class="container px-lg-5 form-control-sm">
             <form action="#" th:action="@{/podcast/chanelsave}" th:object="${podcast}" method="post">
             <div class="mb-3">
-                <label for="title" class="form-label">Email address</label>
+                <label for="title" class="form-label">Назва подкасту</label>
                 <input type="text" th:field="*{title}"  class="form-control">
                 <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
             </div>
-            <div class="mb-3">
+                <label for="description" class="form-label">Опис подкасту</label>
                 <textarea th:field="*{description}"></textarea>
+            <div class="col-lg-10">
             </div>
 
             <button type="submit" class="btn btn-primary">Зберегти</button>
