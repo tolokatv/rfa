@@ -3,6 +3,7 @@ package media.toloka.rfa.radio.podcast;
 
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.model.Clientdetail;
+import media.toloka.rfa.radio.model.Station;
 import media.toloka.rfa.radio.podcast.model.PodcastChannel;
 import media.toloka.rfa.radio.podcast.model.PodcastItem;
 import media.toloka.rfa.radio.podcast.service.PodcastService;
@@ -13,7 +14,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller
 public class PodcastEditController {
@@ -27,7 +32,7 @@ public class PodcastEditController {
     final Logger logger = LoggerFactory.getLogger(PodcastController.class);
 
     @GetMapping(value = "/podcast/pedit/{puuid}")
-    public String podcastroot(
+    public String PodcastChanel(
             @PathVariable String puuid,
             Model model ) {
 
@@ -45,7 +50,7 @@ public class PodcastEditController {
             // створюємо новий подкаст
             podcast = new PodcastChannel();
             podcast.setClientdetail(cd);
-            podcastService.SavePodcast(podcast);
+//            podcastService.SavePodcast(podcast);
             model.addAttribute("success",  "Створили новий подкаст.");
         } else {
             // шукаємо за UUID подкасту
@@ -55,10 +60,27 @@ public class PodcastEditController {
                         +" Зверніться будь ласка до служби підтримки");
             }
         }
-        model.addAttribute("podcast",  podcast);
+        List<PodcastItem> itemList = podcast.getItem();
+        if (itemList.size() == 0) {
+            model.addAttribute("warning", "Ваш подкаст ще не має епізодів."
+                    +" Завантажте будь ласка епізоди і заповніть в них необхідні поля.");
+        }
 
+        model.addAttribute("podcast",  podcast);
+        model.addAttribute("itemslist",  itemList);
         return "/podcast/pedit";
     }
 
+    @PostMapping(value = "/podcast/chanelsave")
+    public String PodcastChanelSave (
+            @ModelAttribute PodcastChannel podcast,
+//            @ModelAttribute Users formUserPSW,
+            Model model ) {
+        // Users user = clientService.GetCurrentUser();
+
+        // TODO відправити повідомлення на сторінку
+        model.addAttribute("success",  "Реакція на POST зі сторінки /podcast/proot");
+        return "redirect:/podcast/home";
+    }
 
 }

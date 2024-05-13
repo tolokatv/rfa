@@ -47,66 +47,31 @@
     <!-- Page Content-->
     <section class="pt-4">
         <div class="container px-lg-5">
+            <div class="row text-center" style="padding-top: 20px">
+                <div class="col align-center">
+                    <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
+                </div>
+            </div>
             <!-- Page Features-->
             <div class="row gx-lg-5">
-                <div class="col-lg-6 col-xxl-4 mb-5">
+                <!-- початок циклу виводу подкастів -->
+                <div th:each="podcast : ${podcastslist}" class="col-lg-6 col-xxl-4 mb-5">
                     <div class="card bg-light border-0 h-100">
-                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-collection"></i></div>
-                            <h2 class="fs-4 fw-bold">Fresh new layout</h2>
-                            <p class="mb-0">With Bootstrap 5, we've created a fresh new layout for this template!</p>
-<!--                            <a class="btn btn-primary btn-lg col-6 mx-auto" href="/podcast/pedit/0"><small>Редагувати</small></a>-->
-                            <a class="mx-auto" href="/podcast/pedit/0">
+                        <div class="card-header">
+                            <a class="mx-auto" th:href="'/podcast/pedit/'+${podcast.uuid}"> <!-- посилання на редагування подкасту -->
                                 <span class="badge rounded-pill bg-primary">Редагувати</span>
                             </a>
                         </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xxl-4 mb-5">
-                    <div class="card bg-light border-0 h-100">
                         <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-cloud-download"></i></div>
-                            <h2 class="fs-4 fw-bold">Free to download</h2>
-                            <p class="mb-0">As always, Start Bootstrap has a powerful collectin of free templates.</p>
+<!--                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-collection"></i></div>-->
+                            <h3 class="fs-4 fw-bold" th:text="${podcast.title}"></h3> <!-- назва подкасту -->
+<!--                                <small th:each="report : ${user.reports}" th:utext="${#strings.substringAfter(report.name,'_'}></small>-->
+                            <hr><small><p class="mb-0" th:utext="${#strings.substring(podcast.description,0,200)}">Тут ми показуємо короткий опис (обрізаний) подкасту. Спробуємо обрізати засобами шаблонізатора і подивимося, що з цього вийде. </p></small> <!-- зміст подкасту -->
+
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-6 col-xxl-4 mb-5">
-                    <div class="card bg-light border-0 h-100">
-                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-card-heading"></i></div>
-                            <h2 class="fs-4 fw-bold">Jumbotron hero header</h2>
-                            <p class="mb-0">The heroic part of this template is the jumbotron hero header!</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xxl-4 mb-5">
-                    <div class="card bg-light border-0 h-100">
-                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-bootstrap"></i></div>
-                            <h2 class="fs-4 fw-bold">Feature boxes</h2>
-                            <p class="mb-0">We've created some custom feature boxes using Bootstrap icons!</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xxl-4 mb-5">
-                    <div class="card bg-light border-0 h-100">
-                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-code"></i></div>
-                            <h2 class="fs-4 fw-bold">Simple clean code</h2>
-                            <p class="mb-0">We keep our dependencies up to date and squash bugs as they come!</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xxl-4 mb-5">
-                    <div class="card bg-light border-0 h-100">
-                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-patch-check"></i></div>
-                            <h2 class="fs-4 fw-bold">A name you trust</h2>
-                            <p class="mb-0">Start Bootstrap has been the leader in free Bootstrap templates since 2013!</p>
-                        </div>
-                    </div>
-                </div>
+                <!-- кінець циклу виводу подкастів -->
             </div>
         </div>
     </section>
