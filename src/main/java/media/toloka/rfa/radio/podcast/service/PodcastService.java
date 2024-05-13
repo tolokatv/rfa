@@ -1,10 +1,13 @@
 package media.toloka.rfa.radio.podcast.service;
 
+import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.podcast.model.PodcastChannel;
 import media.toloka.rfa.radio.podcast.model.PodcastItem;
 import media.toloka.rfa.radio.podcast.repositore.ChanelRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class PodcastService {
@@ -18,5 +21,9 @@ public class PodcastService {
 
     public void SavePodcast(PodcastChannel podcast) {
         chanelRepository.save(podcast);
+    }
+
+    public List<PodcastChannel> GetPodcastListByCd(Clientdetail cd) {
+        return chanelRepository.findByClientdetail(cd);
     }
 }

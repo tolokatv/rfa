@@ -29,14 +29,12 @@
         <div th:insert="~{/fragments/navbar :: mynavbar}">  </div>
     </header>
 
-    <!-- MessageBox -->
-    <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
     <!-- Header для главной сторінки подкастов -->
     <header class="py-5"  style="padding:6rem">
         <div class="container px-lg-5">
             <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
                 <div class="m-4 m-lg-5">
-                    <h1 class="display-5 fw-bold">Ваш подкаст</h1>
+                    <h1 class="display-5 fw-bold" th:text="${podcast.title}"/>
                     <p class="fs-4">Завантажте файли з епізодами подкасту, додайте обкладинку епізоду та його опис.</p>
                     <a class="btn btn-primary btn-lg col-6 mx-auto" href="/podcast/pedit/0">Завантажити</a>
                 </div>
@@ -44,111 +42,45 @@
         </div>
     </header>
 
+    <!-- MessageBox -->
+    <div class="row text-center" style="padding-top: 20px">
+        <div class="col align-center">
+            <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
+        </div>
+    </div>
+
     <section class="pt-4">
         <form>
             <div class="mb-3">
-            <label for="exampleInputEmail1" class="form-label">Email address</label>
-            <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-            <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-        </div>
+                <label for="exampleInputEmail1" class="form-label">Email address</label>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
+                <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+            </div>
             <div class="mb-3">
-            <label for="exampleInputPassword1" class="form-label">Password</label>
-            <input type="password" class="form-control" id="exampleInputPassword1">
-        </div>
+                <label for="exampleInputPassword1" class="form-label">Password</label>
+                <input type="password" class="form-control" id="exampleInputPassword1">
+            </div>
             <div class="mb-3 form-check">
-            <input type="checkbox" class="form-check-input" id="exampleCheck1">
-            <label class="form-check-label" for="exampleCheck1">Check me out</label>
-        </div>
+                <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                <label class="form-check-label" for="exampleCheck1">Check me out</label>
+            </div>
             <button type="submit" class="btn btn-primary">Зберегти</button>
         </form>
     </section>
     <!-- Episode list-->
     <section class="pt-4">
         <div class="container px-lg-5">
-            <!-- Page Features-->
+            <!-- Епізоди подкасту-->
             <div class="row gx-lg-5">
-                <div class="col-lg-6 col-xxl-4 mb-5">
+                <div th:each="item : ${itemslist}" class="col-lg-6 col-xxl-4 mb-5">
                     <div class="card bg-light border-0 h-100">
                         <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-collection"></i></div>
-                            <h2 class="fs-4 fw-bold">With Bootstrap 5, we've created a fresh new layout for this template!</h2>
+                            <h2 class="fs-4 fw-bold" th:text="${item.title}">With Bootstrap 5, we've created a fresh new layout for this template!</h2>
                             <p class="mb-0">With Bootstrap 5, we've created a fresh new layout for this template!</p>
 <!--                            <a class="btn btn-primary btn-lg col-6 mx-auto" href="/podcast/episodeedit/0">Редагувати</a>-->
-                            <a class="mx-auto" href="/podcast/pedit/{episodeuuid}">
+                            <a class="mx-auto" href="/podcast/episodeedit/{episodeuuid}">
                                 <span class="badge rounded-pill bg-primary">Редагувати</span>
                             </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xxl-4 mb-5">
-                    <div class="card bg-light border-0 h-100">
-                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-cloud-download"></i></div>
-                            <h2 class="fs-4 fw-bold">Free to download</h2>
-                            <p class="mb-0">As always, Start Bootstrap has a powerful collectin of free templates.</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xxl-4 mb-5">
-                    <div class="card bg-light border-0 h-100">
-                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-card-heading"></i></div>
-                            <h2 class="fs-4 fw-bold">Jumbotron hero header</h2>
-                            <p class="mb-0">The heroic part of this template is the jumbotron hero header!</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xxl-4 mb-5">
-                    <div class="card bg-light border-0 h-100">
-                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-bootstrap"></i></div>
-                            <h2 class="fs-4 fw-bold">Feature boxes</h2>
-                            <p class="mb-0">We've created some custom feature boxes using Bootstrap icons!</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xxl-4 mb-5">
-                    <div class="card bg-light border-0 h-100">
-                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-code"></i></div>
-                            <h2 class="fs-4 fw-bold">Simple clean code</h2>
-                            <p class="mb-0">We keep our dependencies up to date and squash bugs as they come!</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xxl-4 mb-5">
-                    <div class="card bg-light border-0 h-100">
-                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-patch-check"></i></div>
-                            <h2 class="fs-4 fw-bold">A name you trust</h2>
-                            <p class="mb-0">Start Bootstrap has been the leader in free Bootstrap templates since 2013!</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xxl-4 mb-5">
-                    <div class="card bg-light border-0 h-100">
-                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-bootstrap"></i></div>
-                            <h2 class="fs-4 fw-bold">Feature boxes</h2>
-                            <p class="mb-0">We've created some custom feature boxes using Bootstrap icons!</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xxl-4 mb-5">
-                    <div class="card bg-light border-0 h-100">
-                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-code"></i></div>
-                            <h2 class="fs-4 fw-bold">Simple clean code</h2>
-                            <p class="mb-0">We keep our dependencies up to date and squash bugs as they come!</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-6 col-xxl-4 mb-5">
-                    <div class="card bg-light border-0 h-100">
-                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                            <div class="feature bg-primary bg-gradient text-white rounded-3 mb-4 mt-n4"><i class="bi bi-patch-check"></i></div>
-                            <h2 class="fs-4 fw-bold">A name you trust</h2>
-                            <p class="mb-0">Start Bootstrap has been the leader in free Bootstrap templates since 2013!</p>
                         </div>
                     </div>
                 </div>
