@@ -51,7 +51,8 @@ public class PodcastEditController {
             podcast = new PodcastChannel();
             podcast.setClientdetail(cd);
 //            podcastService.SavePodcast(podcast);
-            model.addAttribute("success",  "Створили новий подкаст.");
+            model.addAttribute("success",  "Створили новий подкаст."
+                    +" Збережіть його і після цього додайте епізоди до подкасту.");
         } else {
             // шукаємо за UUID подкасту
             podcast = podcastService.GetChanelByUUID(puuid);
@@ -63,7 +64,7 @@ public class PodcastEditController {
         List<PodcastItem> itemList = podcast.getItem();
         if (itemList.size() == 0) {
             model.addAttribute("warning", "Ваш подкаст ще не має епізодів."
-                    +" Завантажте будь ласка епізоди і заповніть в них необхідні поля.");
+                    +" Завантажте будь ласка епізоди, заповніть в них необхідні поля та додаайте до них обкладинку.");
         }
 
         model.addAttribute("podcast",  podcast);
