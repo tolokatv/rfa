@@ -3,7 +3,6 @@ package media.toloka.rfa.radio.podcast;
 
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.model.Clientdetail;
-import media.toloka.rfa.radio.model.Station;
 import media.toloka.rfa.radio.podcast.model.PodcastChannel;
 import media.toloka.rfa.radio.podcast.model.PodcastItem;
 import media.toloka.rfa.radio.podcast.service.PodcastService;
@@ -78,7 +77,15 @@ public class PodcastEditController {
 //            @ModelAttribute Users formUserPSW,
             Model model ) {
         // Users user = clientService.GetCurrentUser();
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
+        if (cd == null) { return "redirect:/"; }
 
+        podcast.setClientdetail(cd);
+        podcastService.SavePodcast(podcast);
         // TODO відправити повідомлення на сторінку
         model.addAttribute("success",  "Реакція на POST зі сторінки /podcast/proot");
         return "redirect:/podcast/home";
