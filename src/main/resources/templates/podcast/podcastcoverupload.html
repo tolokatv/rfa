@@ -26,7 +26,7 @@ https://frontbackend.com/thymeleaf/spring-boot-bootstrap-thymeleaf-drop-file-are
                 <h2 th:text="${message}"/>
             </div>
             <div id="dropzone">
-                <form action="/uploadfile" class="dropzone needsclick" id="demo-upload" method="post">
+                <form th:action="#" class="dropzone needsclick" id="demo-upload" method="post">
                     <input type="hidden"
                            th:name="${_csrf.parameterName}"
                            th:value="${_csrf.token}" />
