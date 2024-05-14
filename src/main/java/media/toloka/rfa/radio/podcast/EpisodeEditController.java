@@ -66,9 +66,8 @@ public class EpisodeEditController {
         Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
         if (cd == null) { return "redirect:/"; }
 
-//        podcast.setClientdetail(cd);
         PodcastItem tepisode = podcastService.GetEpisodeByUUID(euuid);
-//        PodcastChannel podcast = podcastService.GetChanelByUUID(tepisode.getChanel());
+        // Заповнюємо поля знайденого епізоду з форми.
         tepisode.setTitle(episode.getTitle());
         tepisode.setDescription(episode.getDescription());
         podcastService.SaveEpisode(tepisode);
