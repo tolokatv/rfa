@@ -67,6 +67,7 @@ public class PodcastDropPostFileController {
             return;
         }
         PodcastChannel podcast = podcastService.GetChanelByUUID(puuid);
+        log.info("Current episode {} {}",puuid, podcast.getTitle());
         try {
             String storeUUID = storeService.PutFileToStore(file.getInputStream(),file.getOriginalFilename(),cd,STORE_EPISODETRACK);
             podcastService.SaveEpisode(storeUUID, podcast, cd);

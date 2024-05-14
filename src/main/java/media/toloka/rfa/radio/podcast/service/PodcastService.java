@@ -47,8 +47,11 @@ public class PodcastService {
         // зберігаємо інформацію про завантажений епізод
         PodcastItem episode = new PodcastItem();
         episode.setChanel(podcast);
-        episode.setStoreiditem(storeService.GetStoreByUUID(storeUUID));
+        episode.setStoreuuid(storeUUID);
+        episode.setStoreitem(storeService.GetStoreByUUID(storeUUID));
+        podcast.getItem().add(episode);
+        SavePodcast(podcast);
 
-
+        episodeRepository.save(episode);
     }
 }

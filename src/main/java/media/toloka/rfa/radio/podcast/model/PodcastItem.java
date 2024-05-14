@@ -37,10 +37,13 @@ public class PodcastItem {
     @Expose
     @DateTimeFormat(pattern = "dd-MM-yy")
     private Date date = new Date();
+    @Expose
+    private String storeuuid;
 
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "store_id")
-    private Store storeiditem;
+    private Store storeitem;
+
 
     @ElementCollection
     @ManyToOne(cascade = CascadeType.ALL)
