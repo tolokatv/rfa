@@ -22,5 +22,5 @@ public class PodcastImage {
 
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "store_id")
-    private Store storeid;
+    private Store storeidimage;
 }
