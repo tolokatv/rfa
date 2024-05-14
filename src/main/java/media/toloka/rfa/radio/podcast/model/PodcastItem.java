@@ -46,7 +46,8 @@ public class PodcastItem {
 
 
     @ElementCollection
-    @ManyToOne(cascade = CascadeType.ALL)
+//    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinColumn(name = "podcast_channel_id")
     private PodcastChannel chanel;
 }

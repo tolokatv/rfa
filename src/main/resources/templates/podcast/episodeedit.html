@@ -46,11 +46,22 @@
 
     <!-- Page Content-->
     <section class="pt-4">
-        <div class="container px-lg-5">
-            <!-- Page Features-->
+        <div class="container px-lg-5 form-control-sm">
+            <form action="#" th:action="@{'/podcast/episodesave/'+${episode.uuid}}" th:object="${episode}" method="post">
+                <div class="mb-3">
+                                    <input type="hidden" th:field="*{uuid}" />
+                                    <input type="hidden" th:field="*{id}" />
+                    <label for="title" class="form-label">Назва епізоду</label>
+                    <input type="text" th:field="*{title}"  class="form-control">
+                    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
+                </div>
+                <div class="form-outline mb-4">
+                    <label for="description" class="form-label">Опис епізоду</label>
+                    <textarea th:field="*{description}" class="form-control" ></textarea>
+                </div>
 
-            <!-- тут буде форма редагування для епізоду -->
-
+                <button type="submit" class="btn btn-primary">Зберегти</button>
+            </form>
         </div>
     </section>
 

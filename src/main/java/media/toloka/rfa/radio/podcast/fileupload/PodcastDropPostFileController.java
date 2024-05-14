@@ -2,8 +2,6 @@ package media.toloka.rfa.radio.podcast.fileupload;
 
 import lombok.extern.slf4j.Slf4j;
 import media.toloka.rfa.radio.client.service.ClientService;
-import media.toloka.rfa.radio.creater.service.CreaterService;
-import media.toloka.rfa.radio.document.service.DocumentService;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.model.Clientdetail;
@@ -70,7 +68,7 @@ public class PodcastDropPostFileController {
         log.info("Current episode {} {}",puuid, podcast.getTitle());
         try {
             String storeUUID = storeService.PutFileToStore(file.getInputStream(),file.getOriginalFilename(),cd,STORE_EPISODETRACK);
-            podcastService.SaveEpisode(storeUUID, podcast, cd);
+            podcastService.SaveEpisodeUploadfile(storeUUID, podcast, cd);
         } catch (IOException e) {
             logger.info("Завантаження файлу: Проблема збереження");
             e.printStackTrace();
