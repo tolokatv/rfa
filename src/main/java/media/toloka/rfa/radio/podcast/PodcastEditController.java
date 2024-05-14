@@ -85,6 +85,8 @@ public class PodcastEditController {
         if (cd == null) { return "redirect:/"; }
 
         podcast.setClientdetail(cd);
+        PodcastChannel tpodcast = podcastService.GetChanelByUUID(podcast.getUuid());
+//        if (tpodcast != null) {
         podcastService.SavePodcast(podcast);
         // TODO відправити повідомлення на сторінку
         model.addAttribute("success",  "Реакція на POST зі сторінки /podcast/proot");

@@ -3,6 +3,7 @@ package media.toloka.rfa.radio.podcast.model;
 import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
+import media.toloka.rfa.radio.store.model.Store;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.util.Date;
@@ -36,6 +37,10 @@ public class PodcastItem {
     @Expose
     @DateTimeFormat(pattern = "dd-MM-yy")
     private Date date = new Date();
+
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "store_id")
+    private Store storeiditem;
 
     @ElementCollection
     @ManyToOne(cascade = CascadeType.ALL)
