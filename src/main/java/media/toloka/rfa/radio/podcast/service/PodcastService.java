@@ -43,7 +43,7 @@ public class PodcastService {
         return episodeRepository.getByUuid(euuid);
     }
 
-    public void SaveEpisode(String storeUUID, PodcastChannel podcast, Clientdetail cd) {
+    public void SaveEpisodeUploadfile(String storeUUID, PodcastChannel podcast, Clientdetail cd) {
         // зберігаємо інформацію про завантажений епізод
         PodcastItem episode = new PodcastItem();
         episode.setChanel(podcast);
@@ -52,6 +52,11 @@ public class PodcastService {
         podcast.getItem().add(episode);
         SavePodcast(podcast);
 
+//        episodeRepository.save(episode);
+    }
+
+
+    public void SaveEpisode(PodcastItem episode) {
         episodeRepository.save(episode);
     }
 }
