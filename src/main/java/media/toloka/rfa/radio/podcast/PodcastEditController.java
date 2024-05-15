@@ -122,7 +122,7 @@ public class PodcastEditController {
 пробуємо працювати з RSS feed для подкасту
  */
         SyndFeed feed = new SyndFeedImpl();
-        feed.setFeedType("rss_2.0");
+        feed.setFeedType("atom_1.0");
 
         feed.setTitle("Sample Feed (created with Rome)");
         feed.setLink("http://rome.dev.java.net");
