@@ -23,7 +23,7 @@ public class ServiceSecurityUserDetails implements ServiceSecurityUsers, UserDet
     @Autowired
     private UserSecurityRepository repoUsers;
 //    @Override
-    public Long saveUser(Users user) { // TODO Перенести з класу повʼязаного з Security до класу обробки реєстрації користувача
+    public Long saveUser(Users user) { // TODO Видалити. Без використання
         String passwd= user.getPassword();
         String encodedPasswod = passwordEncoder.encode(passwd);
         user.setPassword(encodedPasswod);
@@ -52,7 +52,6 @@ public class ServiceSecurityUserDetails implements ServiceSecurityUsers, UserDet
             Users user = opt.get();
             List<Roles> roles = user.getRoles();
             Set<GrantedAuthority> ga = new HashSet<>();
-            // TODO Тут щось підправив
             for(Roles role:roles) {
                 ga.add(new SimpleGrantedAuthority(role.getRole().label));
             }
