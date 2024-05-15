@@ -85,6 +85,8 @@ public class PodcastEditController {
                     +" Завантажте будь ласка епізоди, заповніть в них необхідні поля та додаайте до них обкладинку.");
         }
 
+        logger.info("image filename: " + podcast.getImage().getStoreidimage().getFilename());
+
         model.addAttribute("podcast",  podcast);
         model.addAttribute("itemslist",  itemList);
         return "/podcast/pedit";

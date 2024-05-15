@@ -3,6 +3,7 @@ package media.toloka.rfa.radio.podcast.service;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.podcast.model.PodcastChannel;
+import media.toloka.rfa.radio.podcast.model.PodcastImage;
 import media.toloka.rfa.radio.podcast.model.PodcastItem;
 import media.toloka.rfa.radio.podcast.repositore.ChanelRepository;
 import media.toloka.rfa.radio.podcast.repositore.EpisodeRepository;
@@ -58,5 +59,13 @@ public class PodcastService {
 
     public void SaveEpisode(PodcastItem episode) {
         episodeRepository.save(episode);
+    }
+
+    public void SaveCoverPodcastUploadfile(String storeUUID, PodcastChannel podcast, Clientdetail cd) {
+        PodcastImage podcastImage = new PodcastImage();
+        podcastImage.setStoreidimage(storeService.GetStoreByUUID(storeUUID));
+        podcastImage.setClientdetail(cd);
+        podcast.setImage(podcastImage);
+        SavePodcast(podcast);
     }
 }

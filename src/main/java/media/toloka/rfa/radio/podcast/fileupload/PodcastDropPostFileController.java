@@ -77,8 +77,35 @@ public class PodcastDropPostFileController {
 
     }
 
-    // Старі версії.
+    // Завантажуємо обкладинку подкасту
+    @PostMapping(path = "/podcast/podcastcoverupload/{puuid}" ) // , produces = MediaType.APPLICATION_JSON_VALUE
+    public void PodcastCoverUpload(
+            @PathVariable String puuid,
+            @RequestParam("file") MultipartFile file) {
 
+//        log.info("uploaded file " + file.getOriginalFilename());
+        if (file.isEmpty()) {
+//                throw new ExecutionControl.UserException("Empty file");
+            logger.info("Завантаження епізоду подкасту: Файл порожній");
+        }
+        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
+        if (clientService.ClientCanDownloadFile(cd) == false) {
+            // клієнт з якоїсь причини не має права завантажувати файли
+            logger.warn("Клієнт {} не має права завантажувати файли.", cd.getUuid());
+            return;
+        }
+        PodcastChannel podcast = podcastService.GetChanelByUUID(puuid);
+//        log.info("Current episode {} {}",puuid, podcast.getTitle());
+        try {
+            String storeUUID = storeService.PutFileToStore(file.getInputStream(),file.getOriginalFilename(),cd,STORE_PODCASTCOVER);
+            podcastService.SaveCoverPodcastUploadfile(storeUUID, podcast, cd);
+        } catch (IOException e) {
+            logger.info("Завантаження файлу: Проблема збереження");
+            e.printStackTrace();
+        }
+        log.info("uploaded file " + file.getOriginalFilename());
+
+    }
 
 }
 

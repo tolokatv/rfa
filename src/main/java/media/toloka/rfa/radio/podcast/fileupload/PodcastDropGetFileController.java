@@ -90,7 +90,7 @@ public class PodcastDropGetFileController {
                     +" Зверніться будь ласка до служби підтримки");
         }
         model.addAttribute("podcast",  podcast);
-        return "/podcast/coverpodcastupload";
+        return "/podcast/podcastcoverupload";
     }
 
 }

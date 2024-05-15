@@ -23,7 +23,8 @@ import java.util.UUID;
 
 @Controller
 public class PodcastController {
-
+// стандарт RSS для подкаста
+// https://podcast-standard.org/podcast_standard/
 
     @Autowired
     private PodcastService podcastService;
