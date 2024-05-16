@@ -80,4 +80,27 @@ public class EpisodeEditController {
         return "redirect:/podcast/pedit/"+podcast.getUuid();
     }
 
+    @GetMapping(value = "/podcast/coverchange/{puuid}")
+    public String PodcastCoverChange(
+            @PathVariable String puuid,
+            Model model ) {
+        logger.info("Зайшли на епізод: /podcast/coverchange/{}",puuid);
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+
+        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
+        if (cd == null) { return "redirect:/"; }
+        PodcastChannel podcast;
+
+//        PodcastItem episode = podcastService.GetEpisodeByUUID(euuid);
+        podcast = podcastService.GetChanelByUUID(puuid);
+
+//        model.addAttribute("episode",  episode);
+        model.addAttribute("podcast",  podcast);
+        return "/podcast/coverchange";
+    }
+
+
 }

@@ -32,12 +32,12 @@
     <!-- MessageBox -->
     <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
     <!-- Header для главной сторінки подкастов -->
-    <header class="py-5"  style="padding:6rem">
-        <div class="container px-lg-5">
-            <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
+    <header  class="py-5">
+        <div class="container-fluid px-lg-5" style="padding-top: 30px">
+            <div class="bg-light rounded-3 text-center">
                 <div class="m-4 m-lg-5">
                     <h1 class="display-5 fw-bold">Ваш епізод подкасту</h1>
-                    <p class="fs-4">Заповніть необхідні поля, додайте обкладинку епізоду та його опис.</p>
+                    <p class="fs-6">Заповніть необхідні поля, додайте обкладинку епізоду та його опис.</p>
                     <a class="btn btn-primary btn-lg col-6 mx-auto" href="/podcast/pedit/0">Завантажити обкладинку</a>
                 </div>
             </div>
@@ -57,7 +57,7 @@
                 </div>
                 <div class="form-outline mb-4">
                     <label for="description" class="form-label">Опис епізоду</label>
-                    <textarea th:field="*{description}" class="form-control" ></textarea>
+                    <textarea th:field="*{description}" class="form-control" rows="6"></textarea>
                 </div>
 
                 <button type="submit" class="btn btn-primary">Зберегти</button>

@@ -29,18 +29,20 @@
         <div th:insert="~{/fragments/navbar :: mynavbar}">  </div>
     </header>
 
-    <!-- Header для главной сторінки подкастов -->
-    <header class="py-5"  style="padding:6rem">
-        <div class="container px-lg-5">
-            <div class="p-4 p-lg-5 bg-light rounded-3 text-center">
-                <div class="m-4 m-lg-5">
+    <!-- Header для главной сторінки подкастов class="py-5" -->
+    <header style="padding-top: 80px">
+        <div class="container-fluid">
+            <div class="bg-light rounded-3 text-center">
+<!--            <div class="p-4 p-lg-5 bg-light rounded-3 text-center">-->
+                <div >
+<!--                <div class="m-4 m-lg-5">-->
                     <h1 class="display-5 fw-bold" th:text="${podcast.title} "/>
-                    <p class="fs-4">Завантажте файли з епізодами подкасту, додайте обкладинку епізоду та його опис.</p>
+                    <p>Завантажте файли з епізодами подкасту, додайте обкладинку епізоду та його опис.</p>
                     <div th:if="${podcast.id != null}">
-                        <a class="btn btn-primary btn-lg col-6 mx-auto" th:href="'/podcast/episodeupload/'+${podcast.uuid}">Завантажити епізод</a>
+                        <a class="btn btn-primary btn-sm mx-auto" th:href="'/podcast/episodeupload/'+${podcast.uuid}">Завантажити епізод</a>
                     </div>
                     <div th:if="${podcast.image == null}">
-                        <a class="btn btn-primary btn-lg col-6 mx-auto" th:href="'/podcast/coverpodcastupload/'+${podcast.uuid}">Завантажити обкладинку</a>
+                        <a class="btn btn-primary btn-lg btn-sm mx-auto" th:href="'/podcast/coverpodcastupload/'+${podcast.uuid}">Завантажити обкладинку</a>
                     </div>
                 </div>
             </div>
@@ -54,34 +56,22 @@
         </div>
     </div>
 
-    <div class="container px-lg-5 form-control-sm">
+    <!-- Обкладинка альбому -->
+    <div th:if="${podcast.image != null}" class="container px-lg-5 form-control-sm">
         <div class="row" style="padding-top: 40px">
             <div class="col" >
-                <!--  -->
-                <img
-                      th:src="'/store/thrumbal/w/300/' + ${podcast.image.storeidimage.uuid} + '/' + ${podcast.image.storeidimage.filename}"
+                <!-- Обкладинка альбому -->
+                <img th:src="'/store/thrumbal/w/300/' + ${podcast.image.storeidimage.uuid} + '/' + ${podcast.image.storeidimage.filename}"
                       th:id="${podcast.image.uuid}"/>
                 <br><span th:text="${podcast.image.storeidimage.filename}"/>
+                <br><a class="mx-auto" th:href="'/podcast/coverchange/'+${podcast.uuid}">
+                    <span class="badge rounded-pill bg-primary">Змінити обкладинку</span>
+                </a>
             </div>
         </div>
     </div>
 
-    <div class="row" style="padding-top: 40px">
-        <div class="col" th:each="coverl : ${coverlist}">
-            <!--  -->
-            <img  th:data-p1="${coverl.storeuuid}" th:data-p2="${album.id}" th:data-p3="${cd.id}" th:onclick="setcover(this, this.getAttribute('data-p1'), this.getAttribute('data-p2'), this.getAttribute('data-p3'))"
-                  th:src="'/store/thrumbal/w/150/' + ${coverl.storeuuid} + '/' + ${coverl.albumcoverfile}"
-                  th:id="${coverl.storeuuid} + '/' + ${coverl.albumcoverfile}"/>
-            <!--      th:onclick="'setcover(this, ' + ${coverl.storeuuid} +',' + ${album.id} +', ' + ${cd.id} + ' )'" th:src="'/store/thrumbal/w/150/' + ${coverl.storeuuid} + '/' + ${coverl.albumcoverfile}" id="${coverl.storeuuid} + '/' + ${coverl.albumcoverfile}"/>
-              -->
-            <br><span th:text="${coverl.albumcoverfile}"/>
-            <br><span th:text="${coverl.storeuuid}"/>
-            <br><span th:text="${album.id}"/>
-        </div>
-    </div>
-
-
-
+    <!-- редагуємо поля подкасту -->
     <section class="pt-4">
         <div class="container px-lg-5 form-control-sm">
             <form action="#" th:action="@{/podcast/chanelsave}" th:object="${podcast}" method="post">
@@ -94,7 +84,7 @@
             </div>
             <div class="form-outline mb-4">
                 <label for="description" class="form-label">Опис подкасту</label>
-                <textarea th:field="*{description}" class="form-control" ></textarea>
+                <textarea th:field="*{description}" class="form-control" rows="6"></textarea>
             </div>
 
             <button type="submit" class="btn btn-primary">Зберегти</button>
@@ -109,13 +99,16 @@
             <div class="row gx-lg-5">
                 <div th:each="item : ${itemslist}" class="col-lg-6 col-xxl-4 mb-5">
                     <div class="card bg-light border-0 h-100">
-                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                            <h2 class="fs-4 fw-bold" th:text="${item.title}"></h2>
-                            <p class="mb-0" th:text="${item.description}"></p>
-<!--                            <a class="btn btn-primary btn-lg col-6 mx-auto" th:href="'/podcast/episodeedit/'+${item.uuid}">Редагувати</a>-->
+                        <div class="card-header">
                             <a class="mx-auto" th:href="'/podcast/episodeedit/'+${podcast.uuid}+'/'+${item.uuid}">
                                 <span class="badge rounded-pill bg-primary">Редагувати</span>
                             </a>
+                        </div>                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                            <h2 class="fs-4 fw-bold" th:text="${item.title}"></h2>
+                            <p  th:if="${item.description.length()>150}" class="mb-0 fs-6" th:utext="${#strings.substring(item.description,0,150)+'...'}"></p>
+                            <p  th:if="${item.description.length()<150}" class="mb-0 fs-6" th:utext="${item.description}"></p>
+<!--                            <p class="mb-0" th:text="${item.description}"></p>-->
+<!--                            <a class="btn btn-primary btn-lg col-6 mx-auto" th:href="'/podcast/episodeedit/'+${item.uuid}">Редагувати</a>-->
                             <p class="mb-0" >Файл:<span th:text="' '+${item.storeitem.filename}"/></p>
                         </div>
                     </div>
