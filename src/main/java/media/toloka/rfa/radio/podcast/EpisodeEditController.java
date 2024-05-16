@@ -4,6 +4,7 @@ package media.toloka.rfa.radio.podcast;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.podcast.model.PodcastChannel;
+import media.toloka.rfa.radio.podcast.model.PodcastImage;
 import media.toloka.rfa.radio.podcast.model.PodcastItem;
 import media.toloka.rfa.radio.podcast.service.PodcastService;
 import media.toloka.rfa.security.model.Users;
@@ -27,14 +28,14 @@ public class EpisodeEditController {
     @Autowired
     private ClientService clientService;
 
-    final Logger logger = LoggerFactory.getLogger(PodcastController.class);
+    final Logger logger = LoggerFactory.getLogger(EpisodeEditController.class);
 
     @GetMapping(value = "/podcast/episodeedit/{puuid}/{euuid}")
-    public String podcastroot(
+    public String EpisodeRoot(
             @PathVariable String euuid,
             @PathVariable String puuid,
             Model model ) {
-        logger.info("Зайшли на епізод: /podcast/episodedit/{}",euuid);
+//        logger.info("Зайшли на епізод: /podcast/episodedit/{}",euuid);
         Users user = clientService.GetCurrentUser();
         if (user == null) {
             return "redirect:/";
@@ -80,11 +81,13 @@ public class EpisodeEditController {
         return "redirect:/podcast/pedit/"+podcast.getUuid();
     }
 
-    @GetMapping(value = "/podcast/coverchange/{puuid}")
-    public String PodcastCoverChange(
-            @PathVariable String puuid,
+    // Зберігаємо обкладинку для епізоду з форми завантаження та вибору обкладинки.
+    // це посилання в шапці картинки для додавання до епізоду в формі завантаження/вибору обкладинки
+    @GetMapping(value = "/podcast/coverepisodeupload/{euuid}/{iuuid}")
+    public String CoverEpisodeUpload(
+            @PathVariable String euuid,
+            @PathVariable String iuuid,
             Model model ) {
-        logger.info("Зайшли на епізод: /podcast/coverchange/{}",puuid);
         Users user = clientService.GetCurrentUser();
         if (user == null) {
             return "redirect:/";
@@ -92,14 +95,24 @@ public class EpisodeEditController {
 
         Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
         if (cd == null) { return "redirect:/"; }
-        PodcastChannel podcast;
 
-//        PodcastItem episode = podcastService.GetEpisodeByUUID(euuid);
-        podcast = podcastService.GetChanelByUUID(puuid);
+        PodcastItem episode = podcastService.GetEpisodeByUUID(euuid);
+//        List<PodcastImage> podcastImageList =
+        PodcastImage podcastImage = podcastService.GetImageByUUID(iuuid);
+//        episode.setImage(podcastImage);
 
-//        model.addAttribute("episode",  episode);
-        model.addAttribute("podcast",  podcast);
-        return "/podcast/coverchange";
+            // чистимо посилання на подкаст в епізоді та батьківському подкасті
+            for (PodcastItem item : episode.getChanel().getItem()) {
+                if (item.getId() == episode.getId() ) {
+                    item.setImage(podcastImage);
+                    break;
+                }
+            }
+        podcastService.SavePodcast(episode.getChanel());
+
+        model.addAttribute("episode",  episode);
+        model.addAttribute("podcast",  episode.getChanel());
+        return "redirect:/podcast/episodeedit/"+episode.getChanel().getUuid()+'/'+episode.getUuid();
     }
 
 

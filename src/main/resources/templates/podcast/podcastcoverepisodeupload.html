@@ -26,18 +26,18 @@ https://frontbackend.com/thymeleaf/spring-boot-bootstrap-thymeleaf-drop-file-are
                 <h2 th:text="${message}"/>
             </div>
             <div id="dropzone">
-                <form th:action="'/podcast/podcastcoverupload/'+${podcast.uuid}" class="dropzone needsclick" id="demo-upload" method="post">
+                <form th:action="'/podcast/podcastcoverepisodeupload/'+${podcast.uuid}+'/'+${episode.uuid}" class="dropzone needsclick" id="demo-upload" method="post">
                     <input type="hidden"
                            th:name="${_csrf.parameterName}"
                            th:value="${_csrf.token}" />
                     <div class="dz-message needsclick">
-                        <button type="button" class="dz-button">Перенсіть файл сюди файл обкладинки або натисніть для вибору файла.</button>
+                        <button type="button" class="dz-button">Перенсіть файл сюди файл обкладинки епізоду або натисніть для вибору файла.</button>
                         <br/>
                     </div>
                 </form>
             </div>
             <div>
-                <a th:href="'/podcast/pedit/'+${podcast.uuid}" class="btn btn-primary">Повернутися додому</a>
+                <a th:href="'/podcast/episodeedit/'+${podcast.uuid}+'/'+${episode.uuid}" class="btn btn-primary">Повернутися додому</a>
             </div>
         </div>
     </div>
@@ -47,12 +47,12 @@ https://frontbackend.com/thymeleaf/spring-boot-bootstrap-thymeleaf-drop-file-are
         <div class="col-lg-8 mt-5">
             <!-- перелік всіх епізодів -->
             <div class="row gx-lg-5">
-                <!-- початок циклу виводу подкастів -->
+                <!-- початок циклу виводу обкладинок користувача -->
                 <div th:each="image : ${podcastImageList}" class="col-lg-6 col-xxl-4 mb-5">
                     <div class="card bg-light border-0 h-100">
                         <div class="card-header">
                             <!-- посилання на додавання епізоду до подкасту -->
-                            <a class="mx-auto" th:href="'/podcast/addcover/'+${podcast.uuid}+'/'+${image.uuid}">
+                            <a class="mx-auto" th:href="'/podcast/coverepisodeupload/'+${podcast.uuid}+'/'+${image.uuid}">
                                 <span class="badge rounded-pill bg-primary">Додати обкладинку</span>
                             </a>
                         </div>
@@ -64,7 +64,7 @@ https://frontbackend.com/thymeleaf/spring-boot-bootstrap-thymeleaf-drop-file-are
                             <!-- Файл -->
                             <p class="mb-0" >Файл:<span th:text="' '+${image.storeidimage.filename}"/></p>
                             <hr>
-                            <!-- Обкладинка альбому -->
+                            <!-- Обкладинка епізоду -->
                             <img class="img-fluid" th:src="'/store/thrumbal/w/300/' + ${image.storeidimage.uuid} + '/' + ${image.storeidimage.filename}"
                                  th:id="${image.uuid}"/>
                         </div>

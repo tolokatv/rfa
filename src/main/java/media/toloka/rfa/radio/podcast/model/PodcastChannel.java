@@ -41,7 +41,7 @@ public class PodcastChannel {
     @DateTimeFormat(pattern = "dd-MM-yy")
     private Date date = new Date();
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "podcast_image_id")
     private PodcastImage image;
 

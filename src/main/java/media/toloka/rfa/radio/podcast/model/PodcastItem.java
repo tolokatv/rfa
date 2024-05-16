@@ -3,6 +3,8 @@ package media.toloka.rfa.radio.podcast.model;
 import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
+import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.store.model.Store;
 import org.springframework.format.annotation.DateTimeFormat;
 
@@ -50,4 +52,14 @@ public class PodcastItem {
     @ManyToOne(fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
     @JoinColumn(name = "podcast_channel_id")
     private PodcastChannel chanel;
+
+    @ToString.Exclude
+    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "clientdetail_id")
+    private Clientdetail clientdetail;
+
+    @ElementCollection
+    @ManyToOne(fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "podcast_image_id")
+    private PodcastImage image;
 }

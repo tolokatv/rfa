@@ -22,7 +22,7 @@ public class PodcastImage {
     private String url = "";
     private String link ="";
 
-    @OneToOne(cascade = {CascadeType.ALL})
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "store_id")
     private Store storeidimage;
 

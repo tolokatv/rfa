@@ -2,7 +2,9 @@ package media.toloka.rfa.radio.podcast.fileupload;
 
 
 import media.toloka.rfa.radio.client.service.ClientService;
+import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.podcast.model.PodcastChannel;
+import media.toloka.rfa.radio.podcast.model.PodcastImage;
 import media.toloka.rfa.radio.podcast.model.PodcastItem;
 import media.toloka.rfa.radio.podcast.service.PodcastService;
 import media.toloka.rfa.security.model.Users;
@@ -14,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+
+import java.util.List;
 
 
 //@Slf4j
@@ -41,11 +45,20 @@ public class PodcastDropGetFileController {
         if (user == null) {
             return "redirect:/";
         }
+
         PodcastChannel podcast = podcastService.GetChanelByUUID(puuid);
         if (podcast == null ) {
             model.addAttribute("warning",  "Йой! Щось пішло не так - ми не знайшли Ваш Подкаст."
                     +" Зверніться будь ласка до служби підтримки");
         }
+        // Малюємо список всіх епізодів всіх подкастів для вибору незайнятих з можливістю зміни подкасту
+        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
+        if (cd == null) { return "redirect:/"; }
+
+        List<PodcastItem> podcastAllItemList = podcastService.GetAllEpisodePaging(cd);
+
+
+        model.addAttribute("podcastAllItemList",  podcastAllItemList);
         model.addAttribute("podcast",  podcast);
         return "/podcast/podcastepisodeupload";
     }
@@ -60,6 +73,8 @@ public class PodcastDropGetFileController {
         if (user == null) {
             return "redirect:/";
         }
+        Clientdetail cd = clientService.GetClientDetailByUser(user);
+
         PodcastChannel podcast = podcastService.GetChanelByUUID(puuid);
         if (podcast == null ) {
             model.addAttribute("warning",  "Йой! Щось пішло не так - ми не знайшли Ваш Подкаст."
@@ -70,9 +85,13 @@ public class PodcastDropGetFileController {
             model.addAttribute("warning",  "Йой! Щось пішло не так - ми не знайшли Ваш епізод."
                     +" Зверніться будь ласка до служби підтримки");
         }
+
+        List<PodcastImage> podcastImageList = podcastService.GetPodcastCoverListByCd(cd);
+
+        model.addAttribute("podcastImageList",  podcastImageList);
         model.addAttribute("podcast",  podcast);
         model.addAttribute("episode",  episode);
-        return "/podcast/coverepisodeupload";
+        return "/podcast/podcastcoverepisodeupload";
     }
 
     @GetMapping("/podcast/coverpodcastupload/{puuid}")
@@ -84,11 +103,16 @@ public class PodcastDropGetFileController {
         if (user == null) {
             return "redirect:/";
         }
+        Clientdetail cd = clientService.GetClientDetailByUser(user);
+
         PodcastChannel podcast = podcastService.GetChanelByUUID(puuid);
         if (podcast == null ) {
             model.addAttribute("warning",  "Йой! Щось пішло не так - ми не знайшли Ваш Подкаст."
                     +" Зверніться будь ласка до служби підтримки");
         }
+
+        List<PodcastImage> podcastImageList = podcastService.GetPodcastCoverListByCd(cd);
+        model.addAttribute("podcastImageList",  podcastImageList);
         model.addAttribute("podcast",  podcast);
         return "/podcast/podcastcoverupload";
     }

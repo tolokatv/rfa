@@ -7,6 +7,7 @@ import media.toloka.rfa.radio.podcast.model.PodcastImage;
 import media.toloka.rfa.radio.podcast.model.PodcastItem;
 import media.toloka.rfa.radio.podcast.repositore.ChanelRepository;
 import media.toloka.rfa.radio.podcast.repositore.EpisodeRepository;
+import media.toloka.rfa.radio.podcast.repositore.PodcastCoverRepository;
 import media.toloka.rfa.radio.store.Service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,6 +22,9 @@ public class PodcastService {
 
     @Autowired
     private EpisodeRepository episodeRepository;
+
+    @Autowired
+    private PodcastCoverRepository coverPodcastRepository;
 
     @Autowired
     private StoreService storeService;
@@ -50,7 +54,9 @@ public class PodcastService {
         episode.setChanel(podcast);
         episode.setStoreuuid(storeUUID);
         episode.setStoreitem(storeService.GetStoreByUUID(storeUUID));
+        episode.setClientdetail(cd);
         podcast.getItem().add(episode);
+
         SavePodcast(podcast);
 
 //        episodeRepository.save(episode);
@@ -68,4 +74,18 @@ public class PodcastService {
         podcast.setImage(podcastImage);
         SavePodcast(podcast);
     }
+
+    public List<PodcastItem> GetAllEpisodePaging(Clientdetail cd) {
+        // findByClientdetailAndStorefiletypeOrderByIdDesc(cd,STORE_EPISODETRACK)
+        return episodeRepository.findByClientdetailOrderByIdDesc(cd);
+    }
+
+    public List<PodcastImage> GetPodcastCoverListByCd(Clientdetail cd) {
+        return coverPodcastRepository.findByClientdetailOrderByIdDesc(cd);
+    }
+
+    public PodcastImage GetImageByUUID(String iuuid) {
+        return coverPodcastRepository.getByUuid(iuuid);
+    }
+
 }

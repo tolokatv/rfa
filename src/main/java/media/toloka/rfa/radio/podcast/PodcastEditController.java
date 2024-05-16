@@ -11,6 +11,7 @@ import com.rometools.rome.io.FeedException;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.podcast.model.PodcastChannel;
+import media.toloka.rfa.radio.podcast.model.PodcastImage;
 import media.toloka.rfa.radio.podcast.model.PodcastItem;
 import media.toloka.rfa.radio.podcast.service.PodcastService;
 import media.toloka.rfa.security.model.Users;
@@ -50,7 +51,7 @@ public class PodcastEditController {
     public String PodcastChanel(
             @PathVariable String puuid,
             Model model ) {
-/*  // todo тимчасово закоментував, щоб не входити кожного разу
+/* */
 
         Users user = clientService.GetCurrentUser();
         if (user == null) {
@@ -59,7 +60,7 @@ public class PodcastEditController {
 
         Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
         if (cd == null) { return "redirect:/"; }
-*/
+
         logger.info("Зайшли на /podcast/pedit/{puuid}");
         PodcastChannel podcast;
         if (puuid.length() < 3) {
@@ -85,7 +86,7 @@ public class PodcastEditController {
                     +" Завантажте будь ласка епізоди, заповніть в них необхідні поля та додаайте до них обкладинку.");
         }
 
-        logger.info("image filename: " + podcast.getImage().getStoreidimage().getFilename());
+//        logger.info("image filename: " + podcast.getImage().getStoreidimage().getFilename());
 
         model.addAttribute("podcast",  podcast);
         model.addAttribute("itemslist",  itemList);
@@ -100,7 +101,7 @@ public class PodcastEditController {
         // http://localhost:3080/podcast/pedit/df61e94f-f74e-401b-9e81-c30a48982d21
 
         // Users user = clientService.GetCurrentUser();
-/*
+
         Users user = clientService.GetCurrentUser();
         if (user == null) {
             return "redirect:/";
@@ -109,14 +110,19 @@ public class PodcastEditController {
         if (cd == null) { return "redirect:/"; }
 
         podcast.setClientdetail(cd);
-*/
+
 
         PodcastChannel tpodcast = podcastService.GetChanelByUUID(podcast.getUuid());
-//        if (tpodcast != null) {
-        tpodcast.setTitle(podcast.getTitle());
-        tpodcast.setDescription(podcast.getDescription());
-        tpodcast.setLastbuilddate(new Date());
-        podcastService.SavePodcast(tpodcast);
+        if (tpodcast != null) {
+            tpodcast.setTitle(podcast.getTitle());
+            tpodcast.setDescription(podcast.getDescription());
+            tpodcast.setLastbuilddate(new Date());
+            tpodcast.setClientdetail(cd);
+            podcastService.SavePodcast(tpodcast);
+        } else {
+            podcast.setClientdetail(cd);
+            podcastService.SavePodcast(podcast);
+        }
         // пробуємо побудувати RSS
         // -  https://github.com/mpgirro/stalla/tree/master?tab=readme-ov-file
         // https://rometools.github.io/rome/HowRomeWorks/RomeV0.4TutorialUsingRomeToCreateAndWriteASyndicationFeed.html
@@ -176,6 +182,77 @@ public class PodcastEditController {
         // TODO відправити повідомлення на сторінку
         model.addAttribute("success",  "Реакція на POST зі сторінки /podcast/proot");
         return "redirect:/podcast/home";
+    }
+
+//    /podcast/addepisode/
+    @GetMapping(value = "/podcast/addepisode/{puuid}/{euuid}")
+    public String PodcastAddEpisode (
+            @PathVariable String euuid,
+            @PathVariable String puuid,
+            Model model ) {
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
+        if (cd == null) { return "redirect:/"; }
+
+        // витягуємо епізод
+        PodcastItem episode = podcastService.GetEpisodeByUUID(euuid);
+        PodcastChannel podcastFromEpisode = episode.getChanel();
+        PodcastChannel podcastTarget = podcastService.GetChanelByUUID(puuid);
+
+        if (podcastFromEpisode != null) {
+        // чистимо посилання на подкаст в епізоді та батьківському подкасті
+            PodcastItem delItem = null;
+            for (PodcastItem item : podcastFromEpisode.getItem()) {
+                if (item.getId() == episode.getId() ) {
+                    delItem = item;
+                    break;
+
+                }
+            }
+            if (delItem != null) {
+                podcastFromEpisode.getItem().remove(delItem);
+                podcastService.SavePodcast(podcastFromEpisode);
+            } else {
+                logger.warn("Щось пішло не так при видаленні епізоду з подкасту");
+            }
+        }
+        podcastTarget.getItem().add(episode);
+        episode.setChanel(podcastTarget);
+
+        podcastService.SavePodcast(podcastTarget);
+        model.addAttribute("podcast",  podcastTarget);
+        model.addAttribute("itemslist",  podcastTarget.getItem());
+        return "redirect:/podcast/pedit/"+podcastTarget.getUuid();
+
+    }
+
+    // http://localhost:3080/podcast/addcover/9fb3d97f-9080-4fea-ad81-c4eceaba8cac/2c76b4fe-861c-4eb9-a5b3-a168eb10acf5
+    @GetMapping(value = "/podcast/addcover/{puuid}/{iuuid}")
+    public String PodcastAddCover (
+            @PathVariable String iuuid,
+            @PathVariable String puuid,
+            Model model ) {
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
+        if (cd == null) { return "redirect:/"; }
+
+        // витягуємо епізод
+        PodcastImage image = podcastService.GetImageByUUID(iuuid);
+        PodcastChannel podcastTarget = podcastService.GetChanelByUUID(puuid);
+
+        podcastTarget.setImage(image);
+
+        podcastService.SavePodcast(podcastTarget);
+        model.addAttribute("podcast",  podcastTarget);
+        model.addAttribute("itemslist",  podcastTarget.getItem());
+        return "redirect:/podcast/pedit/"+podcastTarget.getUuid();
+
     }
 
 }

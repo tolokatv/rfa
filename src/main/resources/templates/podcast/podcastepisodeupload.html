@@ -41,6 +41,45 @@ https://frontbackend.com/thymeleaf/spring-boot-bootstrap-thymeleaf-drop-file-are
             </div>
         </div>
     </div>
+    <!-- перелік всіх епізодів -->
+    <div class="row">
+        <div class="col-lg-8 mt-5">
+            <!-- перелік всіх епізодів -->
+            <div class="row gx-lg-5">
+                <!-- початок циклу виводу подкастів -->
+                <div th:each="item : ${podcastAllItemList}" class="col-lg-6 col-xxl-4 mb-5">
+                    <div class="card bg-light border-0 h-100">
+                        <div class="card-header">
+                            <!-- посилання на додавання епізоду до подкасту -->
+                            <a class="mx-auto" th:href="'/podcast/addepisode/'+${podcast.uuid}+'/'+${item.uuid}">
+                                <span class="badge rounded-pill bg-primary">Додати</span>
+                            </a>
+                        </div>
+                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                            <!-- поточний подкаст -->
+                            <h3 class="fs-6" >Подкаст:</h3>
+                            <h3 class="fs-6" th:text="${item.chanel.title}"></h3>
+                            <hr>
+                            <!-- Файл епізоду -->
+                            <p class="mb-0" >Файл:<span th:text="' '+${item.storeitem.filename}"/></p>
+                            <hr>
+                            <!-- назва епізоду -->
+                            <div th:if="${item.title != null}">
+                                <h3 class="fs-4 fw-bold" th:text="${item.title}"></h3>
+                                <hr>
+                            </div>
+                            <!-- зміст епізоду -->
+                            <div th:if="${item.description != null}">
+                                <p  th:if="${item.description.length()>200}" class="mb-0 fs-6" th:utext="${#strings.substring(item.description,0,200)+'...'}"></p>
+                                <p  th:if="${item.description.length()<200}" class="mb-0 fs-6" th:utext="${item.description}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- кінець циклу виводу подкастів -->
+            </div>
+        </div>
+    </div>
 
 </div>
 

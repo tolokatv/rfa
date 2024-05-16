@@ -64,7 +64,7 @@
                 <img th:src="'/store/thrumbal/w/300/' + ${podcast.image.storeidimage.uuid} + '/' + ${podcast.image.storeidimage.filename}"
                       th:id="${podcast.image.uuid}"/>
                 <br><span th:text="${podcast.image.storeidimage.filename}"/>
-                <br><a class="mx-auto" th:href="'/podcast/coverchange/'+${podcast.uuid}">
+                <br><a th:href="'/podcast/coverpodcastupload/'+${podcast.uuid}">
                     <span class="badge rounded-pill bg-primary">Змінити обкладинку</span>
                 </a>
             </div>
@@ -88,6 +88,7 @@
             </div>
 
             <button type="submit" class="btn btn-primary">Зберегти</button>
+                <a class="btn btn-primary" href="/podcast/home">Повернутися</a>
         </form>
         </div>
     </section>
@@ -97,16 +98,21 @@
         <div class="container px-lg-5">
             <!-- Епізоди подкасту-->
             <div class="row gx-lg-5">
-                <div th:each="item : ${itemslist}" class="col-lg-6 col-xxl-4 mb-5">
+                <div th:each="item : ${podcast.item}" class="col-lg-6 col-xxl-4 mb-5">
                     <div class="card bg-light border-0 h-100">
                         <div class="card-header">
                             <a class="mx-auto" th:href="'/podcast/episodeedit/'+${podcast.uuid}+'/'+${item.uuid}">
                                 <span class="badge rounded-pill bg-primary">Редагувати</span>
                             </a>
-                        </div>                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                            <h2 class="fs-4 fw-bold" th:text="${item.title}"></h2>
-                            <p  th:if="${item.description.length()>150}" class="mb-0 fs-6" th:utext="${#strings.substring(item.description,0,150)+'...'}"></p>
-                            <p  th:if="${item.description.length()<150}" class="mb-0 fs-6" th:utext="${item.description}"></p>
+                        </div>
+                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                            <div th:if="${item.title != null}">
+                                <h2 class="fs-4 fw-bold" th:text="${item.title}"></h2>
+                            </div>
+                            <div th:if="${item.description != null}">
+                                <p  th:if="${item.description.length()>150}" class="mb-0 fs-6" th:utext="${#strings.substring(item.description,0,150)+'...'}"></p>
+                                <p  th:if="${item.description.length()<150}" class="mb-0 fs-6" th:utext="${item.description}"></p>
+                            </div>
 <!--                            <p class="mb-0" th:text="${item.description}"></p>-->
 <!--                            <a class="btn btn-primary btn-lg col-6 mx-auto" th:href="'/podcast/episodeedit/'+${item.uuid}">Редагувати</a>-->
                             <p class="mb-0" >Файл:<span th:text="' '+${item.storeitem.filename}"/></p>
