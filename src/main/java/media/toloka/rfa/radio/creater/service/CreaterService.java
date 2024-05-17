@@ -140,6 +140,7 @@ public class CreaterService {
 //        albumсover.setPatch(destination.toString());
         albumсover.setClientdetail(cd);
         albumсover.setStoreuuid(storeUUID);
+        albumсover.setStoreitem(storeService.GetStoreByUUID(storeUUID));
         albumCoverRepository.save(albumсover);
     }
 
