@@ -185,6 +185,9 @@ public class CreaterAlbumController {
         }
 
         List<Albumсover> albumсover = createrService.GetAlbumCoverByCd(cd);
+        for (Albumсover albumсover1 : albumсover) {
+            logger.warn("Імʼя Файлу: ",albumсover1.getStoreitem().getFilename());
+        }
 
         model.addAttribute("coverlist", albumсover );
         model.addAttribute("cover", currentcover );
