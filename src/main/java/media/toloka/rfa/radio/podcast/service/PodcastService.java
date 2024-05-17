@@ -101,4 +101,7 @@ public class PodcastService {
         return coverPodcastRepository.getByUuid(iuuid);
     }
 
+    public List<PodcastChannel> GetPodcastListForRootCarusel() {
+        return chanelRepository.findByApruve(true);
+    }
 }

@@ -184,7 +184,9 @@ public class CreaterAlbumController {
             currentcover = null;
         }
 
-        model.addAttribute("coverlist", createrService.GetAlbumCoverByCd(cd) );
+        List<Albumсover> albumсover = createrService.GetAlbumCoverByCd(cd);
+
+        model.addAttribute("coverlist", albumсover );
         model.addAttribute("cover", currentcover );
         model.addAttribute("album", album );
         model.addAttribute("cd", cd );

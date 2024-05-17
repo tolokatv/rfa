@@ -16,4 +16,5 @@ public interface ChanelRepository
     PodcastChannel getByUuid(String ChanelUuid);
     PodcastChannel save(PodcastChannel chanel);
 
+    List<PodcastChannel> findByApruve(boolean b);
 }

@@ -24,12 +24,14 @@ public class PodcastChannel {
     @Expose
     private String uuid = UUID.randomUUID().toString();
     @Expose
-    private String title;
+    private Boolean apruve = false;
     @Expose
-    private String link;
+    private String title;
     @Expose
     @Column(columnDefinition = "TEXT")
     private String description;
+    @Expose
+    private String link;
     @Expose
     @DateTimeFormat(pattern = "dd-MM-yy")
     private Date lastbuilddate = new Date();
