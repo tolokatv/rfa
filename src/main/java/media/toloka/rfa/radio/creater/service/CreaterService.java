@@ -105,6 +105,7 @@ public class CreaterService {
 //        track.setStoreitem(storeitem);
         track.setStoreuuid(storeitemUUID);
         track.setTochat(false);
+        track.setStoreitem(storeService.GetStoreByUUID(storeitemUUID));
         trackRepository.save(track);
     }
 

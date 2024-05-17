@@ -186,7 +186,11 @@ public class CreaterAlbumController {
 
         List<Albumсover> albumсover = createrService.GetAlbumCoverByCd(cd);
         for (Albumсover albumсover1 : albumсover) {
-            logger.warn("Імʼя Файлу: ",albumсover1.getStoreitem().getFilename());
+            if (albumсover1.getStoreitem() != null) {
+                logger.warn("Імʼя Файлу: ", albumсover1.getStoreitem().getFilename());
+            } else {
+                logger.warn("Ще не призначили картинку");
+            }
         }
 
         model.addAttribute("coverlist", albumсover );
