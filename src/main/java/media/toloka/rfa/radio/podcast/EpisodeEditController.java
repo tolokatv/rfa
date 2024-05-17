@@ -83,7 +83,7 @@ public class EpisodeEditController {
 
     // Зберігаємо обкладинку для епізоду з форми завантаження та вибору обкладинки.
     // це посилання в шапці картинки для додавання до епізоду в формі завантаження/вибору обкладинки
-    @GetMapping(value = "/podcast/coverepisodeupload/{euuid}/{iuuid}")
+    @GetMapping(value = "/podcast/coverepisodeset/{euuid}/{iuuid}")
     public String CoverEpisodeUpload(
             @PathVariable String euuid,
             @PathVariable String iuuid,

@@ -6,6 +6,7 @@ import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.podcast.model.PodcastChannel;
+import media.toloka.rfa.radio.podcast.model.PodcastItem;
 import media.toloka.rfa.radio.podcast.service.PodcastService;
 import media.toloka.rfa.radio.store.Service.StoreService;
 import org.slf4j.Logger;
@@ -125,10 +126,11 @@ public class PodcastDropPostFileController {
             return;
         }
         PodcastChannel podcast = podcastService.GetChanelByUUID(puuid);
+        PodcastItem podcastItem = podcastService.GetEpisodeByUUID(euuid);
 //        log.info("Current episode {} {}",puuid, podcast.getTitle());
         try {
             String storeUUID = storeService.PutFileToStore(file.getInputStream(),file.getOriginalFilename(),cd,STORE_PODCASTCOVER);
-            podcastService.SaveCoverPodcastUploadfile(storeUUID, podcast, cd);
+            podcastService.SaveCoverEpisodeUploadfile(storeUUID, podcastItem, cd);
         } catch (IOException e) {
             logger.info("Завантаження файлу: Проблема збереження");
             e.printStackTrace();

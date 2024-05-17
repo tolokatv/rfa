@@ -74,6 +74,19 @@ public class PodcastService {
         podcast.setImage(podcastImage);
         SavePodcast(podcast);
     }
+    public void SaveCoverEpisodeUploadfile(String storeUUID, PodcastItem episode, Clientdetail cd) {
+        PodcastImage itemImage = new PodcastImage();
+        itemImage.setStoreidimage(storeService.GetStoreByUUID(storeUUID));
+        itemImage.setClientdetail(cd);
+        episode.setImage(itemImage);
+        for (PodcastItem item : episode.getChanel().getItem()) {
+            if (item.getId() == episode.getId() ) {
+                item.setImage(itemImage);
+                break;
+            }
+        }
+        SavePodcast(episode.getChanel());
+    }
 
     public List<PodcastItem> GetAllEpisodePaging(Clientdetail cd) {
         // findByClientdetailAndStorefiletypeOrderByIdDesc(cd,STORE_EPISODETRACK)

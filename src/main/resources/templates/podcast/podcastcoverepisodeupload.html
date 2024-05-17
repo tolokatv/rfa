@@ -37,11 +37,22 @@ https://frontbackend.com/thymeleaf/spring-boot-bootstrap-thymeleaf-drop-file-are
                 </form>
             </div>
             <div>
-                <a th:href="'/podcast/episodeedit/'+${podcast.uuid}+'/'+${episode.uuid}" class="btn btn-primary">Повернутися додому</a>
+                <a th:href="'/podcast/episodeedit/'+${podcast.uuid}+'/'+${episode.uuid}" class="btn btn-primary">Повернутися</a>
             </div>
         </div>
     </div>
-
+    <!-- світимо назву подкасту і епізоду -->
+    <div class="row">
+        <div class="col-lg-8 mt-5">
+            <!-- перелік всіх епізодів -->
+            <div class="row gx-lg-5">
+                <p>
+                    <b>Подкаст:</b><span th:text="' '+${podcast.title}"></span><br>
+                    <b>Епізод:</b><span th:text="' '+${episode.title}"></span><br>
+                </p>
+            </div>
+        </div>
+    </div>
     <!-- світимо всі обкладинки   -->
     <div class="row">
         <div class="col-lg-8 mt-5">
@@ -51,22 +62,18 @@ https://frontbackend.com/thymeleaf/spring-boot-bootstrap-thymeleaf-drop-file-are
                 <div th:each="image : ${podcastImageList}" class="col-lg-6 col-xxl-4 mb-5">
                     <div class="card bg-light border-0 h-100">
                         <div class="card-header">
-                            <!-- посилання на додавання епізоду до подкасту -->
-                            <a class="mx-auto" th:href="'/podcast/coverepisodeupload/'+${podcast.uuid}+'/'+${image.uuid}">
+                            <!-- посилання на додавання картинки до епізоду  -->
+                            <a class="mx-auto" th:href="'/podcast/coverepisodeset/'+${episode.uuid}+'/'+${image.uuid}">
                                 <span class="badge rounded-pill bg-primary">Додати обкладинку</span>
                             </a>
                         </div>
                         <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
-                            <!-- поточний подкаст -->
-                            <h3 class="fs-6" >Подкаст:</h3>
-                            <h3 class="fs-6" th:text="${podcast.title}"></h3>
-                            <hr>
-                            <!-- Файл -->
-                            <p class="mb-0" >Файл:<span th:text="' '+${image.storeidimage.filename}"/></p>
-                            <hr>
                             <!-- Обкладинка епізоду -->
                             <img class="img-fluid" th:src="'/store/thrumbal/w/300/' + ${image.storeidimage.uuid} + '/' + ${image.storeidimage.filename}"
                                  th:id="${image.uuid}"/>
+                            <!-- Файл -->
+                            <p class="mb-0" >Файл:<span th:text="' '+${image.storeidimage.filename}"/></p>
+                            <hr>
                         </div>
                     </div>
                 </div>

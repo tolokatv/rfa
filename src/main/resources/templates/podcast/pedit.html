@@ -73,7 +73,7 @@
 
     <!-- редагуємо поля подкасту -->
     <section class="pt-4">
-        <div class="container px-lg-5 form-control-sm">
+        <div class="container-fluid px-lg-5 form-control-sm">
             <form action="#" th:action="@{/podcast/chanelsave}" th:object="${podcast}" method="post">
             <div class="mb-3">
                 <input type="hidden" th:field="*{uuid}" />
@@ -95,7 +95,7 @@
     <!-- Episode list-->
 
     <section class="pt-4">
-        <div class="container px-lg-5">
+        <div class="container-fluid px-lg-5">
             <!-- Епізоди подкасту-->
             <div class="row gx-lg-5">
                 <div th:each="item : ${podcast.item}" class="col-lg-6 col-xxl-4 mb-5">
@@ -106,6 +106,8 @@
                             </a>
                         </div>
                         <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                            <img class="img-fluid" th:if="${item.image != null}" th:src="'/store/thrumbal/w/300/' + ${item.image.storeidimage.uuid} + '/' + ${podcast.image.storeidimage.filename}"
+                                 th:id="${item.image.uuid}"/>
                             <div th:if="${item.title != null}">
                                 <h2 class="fs-4 fw-bold" th:text="${item.title}"></h2>
                             </div>
