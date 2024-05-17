@@ -247,10 +247,6 @@ public class StoreSiteController  {
 
         Clientdetail cd = clientService.GetClientDetailByUuid(storeRecord.getClientdetail().getUuid());
 //        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
-        // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
-//        String ifile = filesService.GetBaseClientDirectory(cd)+"/"+fileName;
-//        logger.info("SCD = {}",ifile);
-//        InputStream is = getClass().getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
         InputStream is;
 
         OutputStream os;
@@ -258,8 +254,11 @@ public class StoreSiteController  {
         BufferedImage thumbImg = null;
         BufferedImage img;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        // беремо шлях до файлу зі сторе
+        String filePatch = storeRecord.getFilepatch();
         try {
-            is = new FileInputStream(new File(storeRecord.getFilepatch()));
+            is = new FileInputStream(new File(filePatch));
             if (is == null) {
                 return new byte[0];
             }
