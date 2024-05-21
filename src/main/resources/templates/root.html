@@ -36,7 +36,10 @@
 
         <!-- Толока новини -->
         <div id="tolokaPlayer" th:insert="~{/fragments/mediahub :: tolokanews}">  </div>
-        <!-- Services-->
+    <!-- карусель подкастів -->
+    <div th:insert="~{/fragments/mediahub :: mainpodcastcarusel}">  </div>
+
+    <!-- Services-->
         <div th:insert="~{/fragments/root :: services}">  </div>
         <!-- Portfolio Grid-->
         <div th:insert="~{/fragments/root :: portfolio}">  </div>
@@ -74,7 +77,7 @@
 
         myCarousel.addEventListener('slide.bs.carousel', function (ev) {
             // сделайте что-нибудь...
-            console.log(ev.relatedTarget.id);
+            // console.log(ev.relatedTarget.id);
         })
 
         async function getStatus() {

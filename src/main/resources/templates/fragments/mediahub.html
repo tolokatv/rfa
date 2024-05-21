@@ -52,10 +52,15 @@
 </div>
 
 <!-- карусель подкастів -->
-<section th:fragment="mainpodcastcarusel">
+<section >
 
-    <div class="row">
+</section>
+<div th:fragment="mainpodcastcarusel">
+    <div  class="row">
         <div class="col">
+            <div class="card" >
+        <div class="card-header"><h3>Подкасти на Толоці</h3></div>
+        <div class="card-body">
             <div class="carousel slide" data-bs-ride="carousel" id="theCarouselPodcast">
                 <div class="carousel-inner">
                     <div th:each="podcast, iStat : ${podcastChannels}">
@@ -63,15 +68,15 @@
                         <div th:if="${iStat.first}">
                             <div class="carousel-item active" th:id="${podcast.uuid}">
                                 <a th:href="'/podcast/view/'+${podcast.uuid}" target="_blank">
-                                    <h2><span th:text="${podcastChannels.title}"></span></h2>
+                                    <h2><span th:text="${podcast.title}"></span></h2>
                                 </a>
                             </div>
                         </div>
                         <!-- ELSE -->
                         <div th:unless="${iStat.first}">
-                            <div class="carousel-item" th:id="${podcastChannels.uuid}">
+                            <div class="carousel-item" th:id="${podcast.uuid}">
                                 <a th:href="'/podcast/view/'+${podcast.uuid}" target="_blank">
-                                    <h2><span th:text="${podcastChannels.title}"></span></h2>
+                                    <h2><span th:text="${podcast.title}"></span></h2>
                                 </a>
                             </div>
                         </div>
@@ -82,55 +87,14 @@
                 <a class="right carousel-control" href="#theCarouselPodcast" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
             </div>
         </div>
+        <div class="card-footer text-muted">
+            <a href="/podcast/viewall/0">Подивитися всі подкасти на Толоці</a>
+        </div>
     </div>
+        </div>
+    </div>
+</div>
 
-
-<!--------------------------------------------------------------------------------------------------------------------->
-<!--    <div class="row text-center">-->
-<!--        <div class="col-md-2">-->
-<!--            <h3>Подкасти на Толоці</h3>-->
-<!--        </div>-->
-<!--        <div th:if="${podcastChannels} != null" class="carousel slide" data-bs-ride="carousel" id="carouselPodcast">-->
-<!--            <div class="carousel-inner">-->
-<!--                    &lt;!&ndash;  Podcast item end &ndash;&gt;-->
-<!--                    <div th:each="podcast, iStat : ${podcastChannels}">-->
-<!--&lt;!&ndash;                        <div class="card text-center" style="width: 18rem;">&ndash;&gt;-->
-<!--                        <div class="card text-center">-->
-<!--                            <div class="card-header">-->
-<!--&lt;!&ndash;                                <h5 class="fs-4 fw-bold" th:text="${podcast.title}"></h5> &lt;!&ndash; назва подкасту &ndash;&gt;&ndash;&gt;-->
-<!--                                <a class="mx-auto" href="/podcast/view/"> &lt;!&ndash; посилання на редагування подкасту &ndash;&gt;-->
-<!--                                    <span class="badge rounded-pill bg-primary">Всі подкасти</span>-->
-<!--                                </a>-->
-<!--                            </div>-->
-<!--                            <div class="card-body">-->
-<!--                                <img class="img-fluid" th:if="${podcast.image != null}" th:src="'/store/thrumbal/w/300/' + ${podcast.image.storeidimage.uuid} + '/' + ${podcast.image.storeidimage.filename}"-->
-<!--                                     th:id="${podcast.image.uuid}"/>-->
-<!--                                <h5 class="fs-4 fw-bold" th:text="${podcast.title}"></h5> &lt;!&ndash; назва подкасту &ndash;&gt;-->
-<!--                                <hr>-->
-<!--                                <a class="mx-auto" th:href="'/podcast/view/'+${podcast.uuid}"> &lt;!&ndash; посилання на редагування подкасту &ndash;&gt;-->
-<!--                                    <span class="badge rounded-pill bg-primary">Послухати</span>-->
-<!--                                </a>-->
-<!--                                &lt;!&ndash; зміст подкасту &ndash;&gt;-->
-<!--                                <p  th:if="${podcast.description.length()>100}" class="mb-0 fs-6" th:utext="${#strings.substring(podcast.description,0,100)+'...'}"/>-->
-<!--                                <p  th:if="${podcast.description.length()<101}" class="mb-0 fs-6" th:utext="${podcast.description}"/>-->
-<!--                                &lt;!&ndash; зміст подкасту &ndash;&gt;-->
-<!--                            </div>-->
-<!--                            <div class="card-footer">-->
-<!--                                <a class="mx-auto" href="/login/registerRadioUser"> &lt;!&ndash; посилання на редагування подкасту &ndash;&gt;-->
-<!--                                    <span class="badge rounded-pill bg-primary">Створити подкаст!</span>-->
-<!--                                </a>-->
-<!--                            </div>-->
-<!--                        </div>-->
-<!--                        &lt;!&ndash; IF CUSTOMER IS ANONYMOUS &ndash;&gt;-->
-<!--                        &lt;!&ndash; ELSE &ndash;&gt;-->
-<!--                    </div>-->
-<!--                    &lt;!&ndash;  Podcast item end &ndash;&gt;-->
-<!--&lt;!&ndash;                </div>&ndash;&gt;-->
-<!--                <a class="left carousel-control" href="#carouselPodcast" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>-->
-<!--                <a class="right carousel-control" href="#carouselPodcast" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>-->
-<!--            </div>-->
-<!--    </div>-->
-</section>
 
 <!-- головна сторінка -->
 <section th:fragment="tolokanews" class="page-section" style="padding:1rem" id="news">
@@ -151,9 +115,8 @@
             <div class="col-lg-3 col-sm-12">
                 <!--                    Вставляємо останні завантажені треки-->
                 <div th:insert="~{/fragments/mediahub :: lasttrecks}">  </div>
+<!--                &lt;!&ndash; карусель подкастів &ndash;&gt;-->
 <!--                <div th:insert="~{/fragments/mediahub :: mainpodcastcarusel}">  </div>-->
-                <!--                    вставляем Медіа Хаб-->
-                <!--            <div th:insert="~{/fragments/mediahub :: usermediahub}">  </div>-->
             </div>
         </div>
 
