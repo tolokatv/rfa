@@ -46,7 +46,7 @@
                     <div class="card bg-light border-0 h-100">
 <!--                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">-->
                         <div class="card-body p-4 p-lg-5 pt-0 pt-lg-0">
-                            <img class="img-fluid" style="padding-top: 20px" th:if="${podcast.image != null}" th:src="'/store/thrumbal/w/300/' + ${podcast.image.storeidimage.uuid} + '/' + ${podcast.image.storeidimage.filename}"
+                            <img class="img-fluid align-center" style="padding-top: 20px" th:if="${podcast.image != null}" th:src="'/store/thrumbal/w/300/' + ${podcast.image.storeidimage.uuid} + '/' + ${podcast.image.storeidimage.filename}"
                                  th:id="${podcast.image.uuid}"/>
                             <h1 class="fs-4 fw-bold text-center" th:text="${podcast.title}"></h1> <!-- назва подкасту -->
                             <!-- зміст подкасту -->
