@@ -32,35 +32,23 @@
     <!-- MessageBox -->
     <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
     <!-- Header для главной сторінки подкастов -->
-<!--    <header  class="py-5">-->
-<!--        <div class="container-fluid px-lg-5" style="padding-top: 30px">-->
-<!--            <div class="bg-light rounded-3 text-center">-->
-<!--                <div class="m-4 m-lg-5">-->
-<!--                    <h1 class="display-5 fw-bold">Ваші подкасти</h1>-->
-<!--                    <p class="fs-6">Подкаст - це просто. Заповніть необхідні поля, завантажте Ваші епізоди, додайте інформацію про них і опублікуйте свій подкаст. <br><b>Вітаємо! Ваш подкаст бачить весь світ!</b></p>-->
-<!--                    <a class="btn btn-primary btn-lg col-6 mx-auto" href="/podcast/pedit/0">Створити</a>-->
-<!--                </div>-->
-<!--            </div>-->
-<!--        </div>-->
-<!--    </header>-->
-
-    <!-- Page Content-->
     <section class="pt-4">
         <div class="container px-lg-5">
-            <div class="row text-center" style="padding-top: 20px">
+            <div class="row " style="padding-top: 20px">
                 <div class="col align-center">
                     <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
                 </div>
             </div>
             <!-- Перелік подкастів-->
-            <div class="row">
+            <div class="row" style="padding-top: 50px">
                 <!-- початок циклу виводу подкастів -->
                 <div class="col">
                     <div class="card bg-light border-0 h-100">
-                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+<!--                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">-->
+                        <div class="card-body p-4 p-lg-5 pt-0 pt-lg-0">
                             <img class="img-fluid" th:if="${podcast.image != null}" th:src="'/store/thrumbal/w/300/' + ${podcast.image.storeidimage.uuid} + '/' + ${podcast.image.storeidimage.filename}"
                                  th:id="${podcast.image.uuid}"/>
-                            <h3 class="fs-4 fw-bold" th:text="${podcast.title}"></h3> <!-- назва подкасту -->
+                            <h1 class="fs-4 fw-bold text-center" th:text="${podcast.title}"></h1> <!-- назва подкасту -->
                             <!-- зміст подкасту -->
                             <div  th:utext="${podcast.description}" class="mb-0 fs-6" ></div>
                             <!-- зміст подкасту -->
