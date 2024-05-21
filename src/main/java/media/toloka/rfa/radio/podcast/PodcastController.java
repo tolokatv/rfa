@@ -72,10 +72,10 @@ public class PodcastController {
 
 
         PodcastChannel podcastChannel = podcastService.GetChanelByUUID(puuid);
-        List<PodcastItem> podcastItems = podcastChannel.getItem();
+//        List<PodcastItem> podcastItems = podcastChannel.getItem();
 
-        model.addAttribute("podcastChannel",  podcastChannel);
-        model.addAttribute("podcastItems",  podcastItems);
+        model.addAttribute("podcast",  podcastChannel);
+//        model.addAttribute("podcastItems",  podcastItems);
 
         return "/podcast/view";
     }
