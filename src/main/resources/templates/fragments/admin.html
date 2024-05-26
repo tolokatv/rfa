@@ -6,6 +6,28 @@
 </head>
 <body>
 
+<div th:fragment="searchuser">
+    <div class="row">
+        <div class="col" th:style="'background-color: rgb(230,230, 230'">
+            <form th:action="@{'/admin/users'}" th:object="${ss}" method="post">
+<!--            <form th:action="@{'/admin/searchuser'}"  th:object="${clientsearch}" method="post">-->
+                <div class="form-group row">
+                    <label for="searchString" class="col-4 col-form-label">Будь що, що міститься в полях користувача</label>
+                    <div class="col-8">
+                        <input th:field="*{searchString}" type="text" class="form-control">
+<!--                        <input th:field="${searchString}" th:name="${searchString}" th:value="${searchString}" th:id="searchString" type="text" class="form-control">-->
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="offset-4 col-8">
+                        <button name="submit" type="submit" class="badge rounded-pill bg-primary">Шукати</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
 <div th:fragment="listpostcontrol">
     <table class="table">
         <thead>
@@ -37,20 +59,36 @@
 </div>
 
 <div th:fragment="listusercontrol">
-
-        <a class="btn btn-primary" th:href="@{'/creater/editpost/'+${0}}">Новий</a>
-        <div th:each="user : ${usersList}">
-            <span th:utext="${user.id}+' '+${user.clientdetail.custname}+' '+${user.clientdetail.custsurname}+' '+${user.email}+'
-            <br> '+${user.clientdetail.firmname}"/><br>
-            <span th:utext="' Створення:'+${#dates.format(user.clientdetail.createdate, 'dd-MM-yyyy')}
-                +' Погодження:'+${#dates.format(user.clientdetail.confirmDate, 'dd-MM-yyyy')}
-                +' UUID:'+${user.clientdetail.uuid}"/>
-            <br>
-            <a class="btn btn-primary" th:href="@{'/admin/enableuser/'+${user.id} }">Дозволити</a>
-            <a class="btn btn-primary" th:href="@{'/admin/rejectuser/'+${user.id} }">Відхилити</a>
-            <a class="btn btn-primary" th:href="@{'/admin/apruveinfouser/'+${user.id} }">Підтвердити інформацію</a>
-            <a class="btn btn-primary" th:href="@{'/admin/lockuser/'+${user.id} }">Блокувати</a>
-            <a class="btn btn-primary" th:href="@{'/admin/userdel/'+${user.id} }">Видалити</a>
+<!-- Додаємо форму пошуку користувача-->
+<!--        <a class="btn btn-primary" th:href="@{'/creater/editpost/'+${0}}">Новий</a>-->
+        <div th:each="user, iStat : ${usersList}" >
+            <div style="padding-top: 10px"/>
+            <div th:style="${iStat.odd}? 'background-color: rgb(240,240, 240'">
+                <span  style="padding-top: 5px" th:utext="'ID='+${user.id}+' Імʼя: '+${user.clientdetail.custname}+' '+${user.clientdetail.custsurname}+' Пошта: '+${user.email}
+                +'<br> Офіційна назва: '+${user.clientdetail.firmname}"/>
+                <br>
+                <span th:utext="' Створення:'+${#dates.format(user.clientdetail.createdate, 'dd-MM-yyyy')}
+                    +' Погодження:'+${#dates.format(user.clientdetail.confirmDate, 'dd-MM-yyyy')}
+                    +' UUID:'+${user.clientdetail.uuid}"/>
+                <br>
+<!--            <span class="badge rounded-pill bg-primary">Редагувати</span>-->
+                <a th:href="@{'/admin/enableuser/'+${user.id} }">
+                    <span class="badge rounded-pill bg-primary">Дозволити</span>
+                </a>
+                <a th:href="@{'/admin/rejectuser/'+${user.id} }">
+                    <span class="badge rounded-pill bg-primary">Відхилити</span>
+                </a>
+                <a th:href="@{'/admin/apruveinfouser/'+${user.id} }">
+                    <span class="badge rounded-pill bg-primary">Підтвердити інформацію</span>
+                </a>
+                <a th:href="@{'/admin/lockuser/'+${user.id} }">
+                    <span class="badge rounded-pill bg-primary">Блокувати</span>
+                </a>
+                <a th:href="@{'/admin/userdel/'+${user.id} }">
+                    <span class="badge rounded-pill bg-primary">Видалити</span>
+                </a>
+                <div style="padding-bottom: 5px" />
+            </div>
 
 
         </div>

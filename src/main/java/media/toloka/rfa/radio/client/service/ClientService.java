@@ -21,9 +21,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 @Service
 public class ClientService {
@@ -166,6 +164,40 @@ public class ClientService {
     public List<Users> GetAllUsers() {
         return userRepository.findAll();
     }
+
+    public List<Users> GetSearchUsers(String template) {
+//        List<Users> usersList = new ArrayList<>();
+        List<Users> usersList = userRepository.findUsersByTemplateEmail(template);
+        List<Clientdetail> cdl = clientDetailRepository.findByTemplate(template);
+//
+//        List<MyDataClass> arrayList = new ArrayList<MyDataClass>();
+//
+//        Set<MyDataClass> uniqueElements = new HashSet<MyDataClass>(arrayList);
+//        arrayList.clear();
+//        arrayList.addAll(uniqueElements);
+
+        for (Clientdetail cd : cdl) {
+            usersList.add(cd.getUser());
+        }
+//        Set<Users> uniqueElements = new HashSet<Users>(usersList);
+        Set<Long> uniqueElements = new HashSet<Long>();
+        for (Users u : usersList) {
+            uniqueElements.add(u.getId());
+        }
+
+        List<Users> usersUnic = new ArrayList<Users>();
+        for (Long id : uniqueElements) {
+            for (Users rul : usersList) {
+                if (id == rul.getId()) {
+                    usersUnic.add(rul);
+                    break;
+                }
+            }
+        }
+        return usersUnic;
+//        return userRepository.findAll();
+    }
+
 
     public List<Clientaddress> GetUnApruvedDocumentsOrderLoaddate() {
         return clientAddressRepository.findByApruve(false);
