@@ -95,7 +95,7 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingOne">
                         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#documentslist" aria-expanded="true" aria-controls="documentslist">
-                            Документи
+                            <span th:text="'Документи '+${#lists.size(user.clientdetail.documentslist)}"/>
                         </button>
                     </h2>
                     <div id="documentslist" class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
@@ -118,7 +118,7 @@
                 <div class="accordion-item">
                     <h2 class="accordion-header" id="headingTwo">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#clientaddressList" aria-expanded="false" aria-controls="clientaddressList">
-                            Адреси
+                            <span th:text="'Адреси '+${#lists.size(user.clientdetail.clientaddressList)}"/>
                         </button>
                     </h2>
                     <div id="clientaddressList" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
@@ -134,7 +134,7 @@
                 <div class="accordion-item"> <!-- contractList  -->
                     <h2 class="accordion-header" id="headingThree">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contractList" aria-expanded="false" aria-controls="contractList">
-                            Контракти
+                            <span th:text="'Контракти '+${#lists.size(user.clientdetail.contractList)}"/>
                         </button>
                     </h2>
                     <div id="contractList" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
@@ -148,13 +148,13 @@
                 <div class="accordion-item"> <!-- stationList row -->
                     <h2 class="accordion-header" id="headingThree">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#stationList" aria-expanded="false" aria-controls="stationList">
-                            Станции
+                            <span th:text="'Станции '+${#lists.size(user.clientdetail.stationList)}"/>
                         </button>
                     </h2>
                     <div id="stationList" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
                         <div class="accordion-body">
                             Перелік Станции
-                            <div th:each="doc, iStat : ${user.clientdetail.contractList}" >
+                            <div th:each="doc, iStat : ${user.clientdetail.stationList}" >
                             </div>
                         </div>
                     </div>
@@ -162,7 +162,7 @@
                 <div class="accordion-item"> <!-- albumList row -->
                     <h2 class="accordion-header" id="headingThree">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#albumList" aria-expanded="false" aria-controls="albumList">
-                            Альбоми
+                            <span th:text="'Альбоми '+${#lists.size(user.clientdetail.albumList)}"/>
                         </button>
                     </h2>
                     <div id="albumList" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
@@ -176,7 +176,7 @@
                 <div class="accordion-item"> <!-- trackList row -->
                     <h2 class="accordion-header" id="headingThree">
                         <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#trackList" aria-expanded="false" aria-controls="trackList">
-                            Треки
+                            <span th:text="'Треки '+${#lists.size(user.clientdetail.trackList)}"/>
                         </button>
                     </h2>
                     <div id="trackList" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
