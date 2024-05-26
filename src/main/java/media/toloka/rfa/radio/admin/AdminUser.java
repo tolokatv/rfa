@@ -61,6 +61,7 @@ public class AdminUser {
         if (user == null) {
             return "redirect:/";
         }
+        // todo перевірити на приналежність до групи адмінів.
 
         Users curuser = adminService.GetUsersById(iduser);
         List< Roles> rolesList = curuser.getRoles();
