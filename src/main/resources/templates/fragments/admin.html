@@ -61,38 +61,81 @@
 <div th:fragment="listusercontrol">
 <!-- Додаємо форму пошуку користувача-->
 <!--        <a class="btn btn-primary" th:href="@{'/creater/editpost/'+${0}}">Новий</a>-->
-        <div th:each="user, iStat : ${usersList}" >
-            <div style="padding-top: 10px"/>
-            <div th:style="${iStat.odd}? 'background-color: rgb(240,240, 240'">
+    <div th:each="user, iStat : ${usersList}" >
+        <div th:style="${iStat.odd}? 'background-color: rgb(240,240, 240'">
+            <div class="row">
+<!--            <div th:style="${iStat.odd}? 'background-color: rgb(240,240, 240'">-->
                 <span  style="padding-top: 5px" th:utext="'ID='+${user.id}+' Імʼя: '+${user.clientdetail.custname}+' '+${user.clientdetail.custsurname}+' Пошта: '+${user.email}
-                +'<br> Офіційна назва: '+${user.clientdetail.firmname}"/>
+                        +'<br> Офіційна назва: '+${user.clientdetail.firmname}"/>
                 <br>
                 <span th:utext="' Створення:'+${#dates.format(user.clientdetail.createdate, 'dd-MM-yyyy')}
-                    +' Погодження:'+${#dates.format(user.clientdetail.confirmDate, 'dd-MM-yyyy')}
-                    +' UUID:'+${user.clientdetail.uuid}"/>
+                        +' Погодження:'+${#dates.format(user.clientdetail.confirmDate, 'dd-MM-yyyy')}
+                        +' UUID:'+${user.clientdetail.uuid}"/>
                 <br>
-<!--            <span class="badge rounded-pill bg-primary">Редагувати</span>-->
+                <!--            <span class="badge rounded-pill bg-primary">Редагувати</span>-->
                 <a th:href="@{'/admin/enableuser/'+${user.id} }">
-                    <span class="badge rounded-pill bg-primary">Дозволити</span>
+                        <span class="badge rounded-pill bg-primary">Дозволити</span>
                 </a>
                 <a th:href="@{'/admin/rejectuser/'+${user.id} }">
-                    <span class="badge rounded-pill bg-primary">Відхилити</span>
+                        <span class="badge rounded-pill bg-primary">Відхилити</span>
                 </a>
                 <a th:href="@{'/admin/apruveinfouser/'+${user.id} }">
-                    <span class="badge rounded-pill bg-primary">Підтвердити інформацію</span>
+                        <span class="badge rounded-pill bg-primary">Підтвердити інформацію</span>
                 </a>
                 <a th:href="@{'/admin/lockuser/'+${user.id} }">
-                    <span class="badge rounded-pill bg-primary">Блокувати</span>
+                        <span class="badge rounded-pill bg-primary">Блокувати</span>
                 </a>
                 <a th:href="@{'/admin/userdel/'+${user.id} }">
-                    <span class="badge rounded-pill bg-primary">Видалити</span>
+                        <span class="badge rounded-pill bg-primary">Видалити</span>
                 </a>
-                <div style="padding-bottom: 5px" />
-            </div>
+            </div> <!-- end Head row -->
+            <div class="row"> <!-- document row -->
+               <h5>Документи:</h5>
+                <div th:each="doc, iStat : ${user.clientdetail.documentslist}" >
+                <!-- Перелік документів-->
+                    <span th:text="${doc.status}"/><span thtext="${doc.documenttype}"/>
+                    <br>
+                    <input class="form-control" id="userComment" name="userComment" th:value="${doc.userComment}" type="text" disabled/>
+                    <br>
+                    <input class="form-control" th:value="${doc.adminComment}" type="text" disabled/>
+                    <a th:href="@{'/admin/enableuser/'+${user.id} }">
+                        <span class="badge rounded-pill bg-primary">Подивитися</span>
+                    </a>
+                </div>
+            </div> <!-- end document row -->
+            <div class="row"> <!-- clientaddressList row -->
+                <h5>Адреси:</h5>
+                <div th:each="doc, iStat : ${user.clientdetail.clientaddressList}" >
+                    <!-- Перелік документів-->
+                </div>
+            </div> <!-- end clientaddressList row -->
+            <div class="row"> <!-- contractList row -->
+                <h5>Контракти:</h5>
+                <div th:each="doc, iStat : ${user.clientdetail.contractList}" >
 
-
+                    <!-- Перелік документів-->
+                </div>
+            </div> <!-- end contractList row -->
+            <div class="row"> <!-- stationList row -->
+                <h5>Станции:</h5>
+                <div th:each="doc, iStat : ${user.clientdetail.stationList}" >
+                    <!-- Перелік stationList-->
+                </div>
+            </div> <!-- end stationList row -->
+            <div class="row"> <!-- albumList row -->
+                <h5>Альбоми:</h5>
+                <div th:each="doc, iStat : ${user.clientdetail.albumList}" >
+                    <!-- Перелік документів-->
+                </div>
+            </div> <!-- end albumList row -->
+            <div class="row"> <!-- trackList row -->
+                <h5>Треки:</h5>
+                <div th:each="doc, iStat : ${user.clientdetail.trackList}" >
+                    <!-- Перелік документів-->
+                </div>
+            </div> <!-- end document row -->
         </div>
-
+    </div>
 </div>
 
 <div th:fragment="listuserdocuments">
