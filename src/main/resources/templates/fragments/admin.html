@@ -6,24 +6,168 @@
 </head>
 <body>
 
-<div th:fragment="searchuser">
+<div th:fragment="searchuser" class="container" >
     <div class="row">
-        <div class="col" th:style="'background-color: rgb(230,230, 230'">
+        <div class="col-lg-12 col-sm-12" th:style="'background-color: rgb(230,230, 230'">
             <form th:action="@{'/admin/users'}" th:object="${ss}" method="post">
-<!--            <form th:action="@{'/admin/searchuser'}"  th:object="${clientsearch}" method="post">-->
+                <!--            <form th:action="@{'/admin/searchuser'}"  th:object="${clientsearch}" method="post">-->
                 <div class="form-group row">
-                    <label for="searchString" class="col-4 col-form-label">Будь що, що міститься в полях користувача</label>
-                    <div class="col-8">
-                        <input th:field="*{searchString}" type="text" class="form-control">
-<!--                        <input th:field="${searchString}" th:name="${searchString}" th:value="${searchString}" th:id="searchString" type="text" class="form-control">-->
-                    </div>
+                    <label for="searchString" class="col col-form-label">Будь що, що міститься в полях користувача</label>
+                    <input th:field="*{searchString}" type="text" class="form-control">
                 </div>
-                <div class="form-group row">
-                    <div class="offset-4 col-8">
-                        <button name="submit" type="submit" class="badge rounded-pill bg-primary">Шукати</button>
-                    </div>
+                <div class="form-group row" style="padding-bottom: 10px; padding-top: 10px;">
+                    <button name="submit" type="submit" class="badge rounded-pill bg-primary">Шукати</button>
                 </div>
             </form>
+        </div>
+    </div>
+</div>
+
+<div th:fragment="listusercontrol" class="container" >
+    <div class="form-group row" style="padding-top: 20px">
+        <div class="col-lg-12 col-sm-12">
+            <div th:each="user, iStat : ${usersList}" >
+                <div th:style="${iStat.odd}? 'background-color: rgb(240,240, 240'">
+                    <div >
+                        <span  style="padding-top: 5px" th:utext="'ID='+${user.id}+' Імʼя: '+${user.clientdetail.custname}+' '+${user.clientdetail.custsurname}+' Пошта: '+${user.email}
+                        +'<br> Офіційна назва: '+${user.clientdetail.firmname}"/>
+                        <br>
+                        <span th:utext="' Створення:'+${#dates.format(user.clientdetail.createdate, 'dd-MM-yyyy')}
+                        +' Погодження:'+${#dates.format(user.clientdetail.confirmDate, 'dd-MM-yyyy')}
+                        +' UUID:'+${user.clientdetail.uuid}"/>
+                        <br>
+                        <!--            <span class="badge rounded-pill bg-primary">Редагувати</span>-->
+                        <a th:href="@{'/admin/enableuser/'+${user.id} }">
+                            <span class="badge rounded-pill bg-primary">Дозволити</span>
+                        </a>
+                        <a th:href="@{'/admin/rejectuser/'+${user.id} }">
+                            <span class="badge rounded-pill bg-primary">Відхилити</span>
+                        </a>
+                        <a th:href="@{'/admin/apruveinfouser/'+${user.id} }">
+                            <span class="badge rounded-pill bg-primary">Підтвердити інформацію</span>
+                        </a>
+                        <a th:href="@{'/admin/lockuser/'+${user.id} }">
+                            <span class="badge rounded-pill bg-primary">Блокувати</span>
+                        </a>
+                        <a th:href="@{'/admin/userdel/'+${user.id} }">
+                            <span class="badge rounded-pill bg-primary">Видалити</span>
+                        </a>
+                    </div> <!-- end Head row -->
+
+                    <!-- id="accordionExample" Виникають проблеми з однаковим - відкриваються всі :( -->
+                    <div >
+                        <div class="accordion" th:id="'accordion-'+${user.clientdetail.uuid}">
+                            <div class="col-5">
+                                <div class="accordion-item" th:if="${#lists.size(user.clientdetail.documentslist)} > 0">
+                                    <h2 class="accordion-header" id="headingDoc">
+                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#documentslist" aria-expanded="true" aria-controls="documentslist">
+                                            <span th:text="'Документи '+${#lists.size(user.clientdetail.documentslist)}"/>
+                                        </button>
+                                    </h2>
+                                    <div id="documentslist" class="accordion-collapse collapse " aria-labelledby="headingDoc" th:attr="data-bs-parent='accordion-'+${user.clientdetail.uuid}">
+                                        <!--                         data-bs-parent="${user.clientdetail.uuid}">-->
+                                        <div class="accordion-body">
+                                            Перелік документів
+                                            <div th:each="doc, iStat : ${user.clientdetail.documentslist}" >
+                                                <!--                                <span th:text="${doc.status}"/>-->
+                                                <span th:text="${doc.documenttype}"/>
+                                                <br>
+                                                <input class="form-control" id="userComment" name="userComment" th:value="${doc.userComment}" type="text" disabled/>
+                                                <br>
+                                                <input class="form-control" th:value="${doc.adminComment}" type="text" disabled/>
+                                                <a th:href="@{'/admin/enableuser/'+${user.id} }">
+                                                    <span class="badge rounded-pill bg-primary">Подивитися</span>
+                                                </a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- document -->
+                                <div class="accordion-item" th:if="${#lists.size(user.clientdetail.clientaddressList)} > 0"> <!--  clientaddressList  -->
+                                    <h2 class="accordion-header" id="headingTwo">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#clientaddressList" aria-expanded="false" aria-controls="clientaddressList">
+                                            <span th:text="'Адреси '+${#lists.size(user.clientdetail.clientaddressList)}"/>
+                                        </button>
+                                    </h2>
+                                    <div id="clientaddressList" class="accordion-collapse collapse" aria-labelledby="headingTwo" th:attr="data-bs-parent='accordion-'+${user.clientdetail.uuid}">
+                                        <div class="accordion-body">
+                                            Перелік адрес
+                                            <div th:each="doc, iStat : ${user.clientdetail.clientaddressList}" >
+                                                <span th:text="${doc.uuid}"/><br>
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div> <!--  clientaddressList  -->
+                                <div class="accordion-item" th:if="${#lists.size(user.clientdetail.contractList)} > 0"> <!-- contractList  -->
+                                    <h2 class="accordion-header" id="headingThree">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contractList" aria-expanded="false" aria-controls="contractList">
+                                            <span th:text="'Контракти '+${#lists.size(user.clientdetail.contractList)}"/>
+                                        </button>
+                                    </h2>
+                                    <div id="contractList" class="accordion-collapse collapse" aria-labelledby="headingThree" th:attr="data-bs-parent='accordion-'+${user.clientdetail.uuid}">
+                                        <div class="accordion-body">
+                                            Перелік Контрактів
+                                            <div th:each="contract, iStat : ${user.clientdetail.contractList}" >
+                                                <span th:text="${contract.uuid}"/><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- contractList  -->
+                            </div>
+                            <div class="col-5">
+                                <div class="accordion-item" th:if="${#lists.size(user.clientdetail.stationList)} > 0"> <!-- stationList row -->
+                                    <h2 class="accordion-header" id="headingThree">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#stationList" aria-expanded="false" aria-controls="stationList">
+                                            <span th:text="'Станции '+${#lists.size(user.clientdetail.stationList)}"/>
+                                        </button>
+                                    </h2>
+                                    <div id="stationList" class="accordion-collapse collapse" aria-labelledby="headingThree" th:attr="data-bs-parent='accordion-'+${user.clientdetail.uuid}">
+                                        <div class="accordion-body">
+                                            Перелік Станции
+                                            <div th:each="station, iStat : ${user.clientdetail.stationList}" >
+                                                <span th:text="${station.uuid}"/><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- stationList row -->
+                                <div class="accordion-item" th:if="${#lists.size(user.clientdetail.albumList)} > 0"> <!-- albumList row -->
+                                    <h2 class="accordion-header" id="headingThree">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#albumList" aria-expanded="false" aria-controls="albumList">
+                                            <span th:text="'Альбоми '+${#lists.size(user.clientdetail.albumList)}"/>
+                                        </button>
+                                    </h2>
+                                    <div id="albumList" class="accordion-collapse collapse" aria-labelledby="headingThree" th:attr="data-bs-parent='accordion-'+${user.clientdetail.uuid}">
+                                        <div class="accordion-body">
+                                            Перелік Альбоми
+                                            <div th:each="album, iStat : ${user.clientdetail.albumList}" >
+                                                <span th:text="${album.uuid}"/><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- albumList row -->
+                                <div class="accordion-item" th:if="${#lists.size(user.clientdetail.trackList)} > 0"> <!-- trackList row -->
+                                    <h2 class="accordion-header" id="headingThree">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#trackList" aria-expanded="false" aria-controls="trackList">
+                                            <span th:text="'Треки '+${#lists.size(user.clientdetail.trackList)}"/>
+                                        </button>
+                                    </h2>
+                                    <div id="trackList" class="accordion-collapse collapse" aria-labelledby="headingThree" th:attr="data-bs-parent='accordion-'+${user.clientdetail.uuid}">
+                                        <div class="accordion-body">
+                                            Перелік Треки
+                                            <div th:each="track, iStat : ${user.clientdetail.trackList}" >
+                                                <span th:text="${track.uuid}"/><br>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div> <!-- trackList row -->
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -58,187 +202,8 @@
     </table>
 </div>
 
-<div th:fragment="listusercontrol">
-<!-- Додаємо форму пошуку користувача-->
-<!--        <a class="btn btn-primary" th:href="@{'/creater/editpost/'+${0}}">Новий</a>-->
-    <div th:each="user, iStat : ${usersList}" >
-        <div th:style="${iStat.odd}? 'background-color: rgb(240,240, 240'">
-            <div class="row">
-<!--            <div th:style="${iStat.odd}? 'background-color: rgb(240,240, 240'">-->
-                <span  style="padding-top: 5px" th:utext="'ID='+${user.id}+' Імʼя: '+${user.clientdetail.custname}+' '+${user.clientdetail.custsurname}+' Пошта: '+${user.email}
-                        +'<br> Офіційна назва: '+${user.clientdetail.firmname}"/>
-                <br>
-                <span th:utext="' Створення:'+${#dates.format(user.clientdetail.createdate, 'dd-MM-yyyy')}
-                        +' Погодження:'+${#dates.format(user.clientdetail.confirmDate, 'dd-MM-yyyy')}
-                        +' UUID:'+${user.clientdetail.uuid}"/>
-                <br>
-                <!--            <span class="badge rounded-pill bg-primary">Редагувати</span>-->
-                <a th:href="@{'/admin/enableuser/'+${user.id} }">
-                        <span class="badge rounded-pill bg-primary">Дозволити</span>
-                </a>
-                <a th:href="@{'/admin/rejectuser/'+${user.id} }">
-                        <span class="badge rounded-pill bg-primary">Відхилити</span>
-                </a>
-                <a th:href="@{'/admin/apruveinfouser/'+${user.id} }">
-                        <span class="badge rounded-pill bg-primary">Підтвердити інформацію</span>
-                </a>
-                <a th:href="@{'/admin/lockuser/'+${user.id} }">
-                        <span class="badge rounded-pill bg-primary">Блокувати</span>
-                </a>
-                <a th:href="@{'/admin/userdel/'+${user.id} }">
-                        <span class="badge rounded-pill bg-primary">Видалити</span>
-                </a>
-            </div> <!-- end Head row -->
-
-            <!-- id="accordionExample" Виникають проблеми з однаковим - відкриваються всі :( -->
-            <div class="accordion" id="accordionExample">
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingOne">
-                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#documentslist" aria-expanded="true" aria-controls="documentslist">
-                            <span th:text="'Документи '+${#lists.size(user.clientdetail.documentslist)}"/>
-                        </button>
-                    </h2>
-                    <div id="documentslist" class="accordion-collapse collapse " aria-labelledby="headingOne" data-bs-parent="#accordionExample">
-<!--                    <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#accordionExample">-->
-                        <div class="accordion-body">
-                            <div th:each="doc, iStat : ${user.clientdetail.documentslist}" >
-                                <!-- Перелік документів-->
-                                <span th:text="${doc.status}"/><span thtext="${doc.documenttype.label}"/>
-                                <br>
-                                <input class="form-control" id="userComment" name="userComment" th:value="${doc.userComment}" type="text" disabled/>
-                                <br>
-                                <input class="form-control" th:value="${doc.adminComment}" type="text" disabled/>
-                                <a th:href="@{'/admin/enableuser/'+${user.id} }">
-                                    <span class="badge rounded-pill bg-primary">Подивитися</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- document -->
-                <div class="accordion-item">
-                    <h2 class="accordion-header" id="headingTwo">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#clientaddressList" aria-expanded="false" aria-controls="clientaddressList">
-                            <span th:text="'Адреси '+${#lists.size(user.clientdetail.clientaddressList)}"/>
-                        </button>
-                    </h2>
-                    <div id="clientaddressList" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            Перелік адрес
-                            <div th:each="doc, iStat : ${user.clientdetail.clientaddressList}" >
-
-                            </div>
-
-                        </div>
-                    </div>
-                </div> <!--  clientaddressList  -->
-                <div class="accordion-item"> <!-- contractList  -->
-                    <h2 class="accordion-header" id="headingThree">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contractList" aria-expanded="false" aria-controls="contractList">
-                            <span th:text="'Контракти '+${#lists.size(user.clientdetail.contractList)}"/>
-                        </button>
-                    </h2>
-                    <div id="contractList" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            Перелік Контрактів
-                            <div th:each="doc, iStat : ${user.clientdetail.contractList}" >
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- contractList  -->
-                <div class="accordion-item"> <!-- stationList row -->
-                    <h2 class="accordion-header" id="headingThree">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#stationList" aria-expanded="false" aria-controls="stationList">
-                            <span th:text="'Станции '+${#lists.size(user.clientdetail.stationList)}"/>
-                        </button>
-                    </h2>
-                    <div id="stationList" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            Перелік Станции
-                            <div th:each="doc, iStat : ${user.clientdetail.stationList}" >
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- stationList row -->
-                <div class="accordion-item"> <!-- albumList row -->
-                    <h2 class="accordion-header" id="headingThree">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#albumList" aria-expanded="false" aria-controls="albumList">
-                            <span th:text="'Альбоми '+${#lists.size(user.clientdetail.albumList)}"/>
-                        </button>
-                    </h2>
-                    <div id="albumList" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            Перелік Альбоми
-                            <div th:each="doc, iStat : ${user.clientdetail.albumList}" >
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- albumList row -->
-                <div class="accordion-item"> <!-- trackList row -->
-                    <h2 class="accordion-header" id="headingThree">
-                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#trackList" aria-expanded="false" aria-controls="trackList">
-                            <span th:text="'Треки '+${#lists.size(user.clientdetail.trackList)}"/>
-                        </button>
-                    </h2>
-                    <div id="trackList" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#accordionExample">
-                        <div class="accordion-body">
-                            Перелік Треки
-                            <div th:each="doc, iStat : ${user.clientdetail.trackList}" >
-                            </div>
-                        </div>
-                    </div>
-                </div> <!-- trackList row -->
-            </div>
 
 
-
-<!--            <div class="row"> &lt;!&ndash; document row &ndash;&gt;-->
-<!--               <h5>Документи:</h5>-->
-<!--                <div th:each="doc, iStat : ${user.clientdetail.documentslist}" >-->
-<!--                &lt;!&ndash; Перелік документів&ndash;&gt;-->
-<!--                    <span th:text="${doc.status}"/><span thtext="${doc.documenttype.label}"/>-->
-<!--                    <br>-->
-<!--                    <input class="form-control" id="userComment" name="userComment" th:value="${doc.userComment}" type="text" disabled/>-->
-<!--                    <br>-->
-<!--                    <input class="form-control" th:value="${doc.adminComment}" type="text" disabled/>-->
-<!--                    <a th:href="@{'/admin/enableuser/'+${user.id} }">-->
-<!--                        <span class="badge rounded-pill bg-primary">Подивитися</span>-->
-<!--                    </a>-->
-<!--                </div>-->
-<!--            </div> &lt;!&ndash; end document row &ndash;&gt;-->
-<!--            <div class="row"> &lt;!&ndash; clientaddressList row &ndash;&gt;-->
-<!--                <h5>Адреси:</h5>-->
-<!--                <div th:each="doc, iStat : ${user.clientdetail.clientaddressList}" >-->
-<!--                    &lt;!&ndash; Перелік документів&ndash;&gt;-->
-<!--                </div>-->
-<!--            </div> &lt;!&ndash; end clientaddressList row &ndash;&gt;-->
-<!--            <div class="row"> &lt;!&ndash; contractList row &ndash;&gt;-->
-<!--                <h5>Контракти:</h5>-->
-<!--                <div th:each="doc, iStat : ${user.clientdetail.contractList}" >-->
-
-<!--                    &lt;!&ndash; Перелік документів&ndash;&gt;-->
-<!--                </div>-->
-<!--            </div> &lt;!&ndash; end contractList row &ndash;&gt;-->
-<!--            <div class="row"> &lt;!&ndash; stationList row &ndash;&gt;-->
-<!--                <h5>Станции:</h5>-->
-<!--                <div th:each="doc, iStat : ${user.clientdetail.stationList}" >-->
-<!--                    &lt;!&ndash; Перелік stationList&ndash;&gt;-->
-<!--                </div>-->
-<!--            </div> &lt;!&ndash; end stationList row &ndash;&gt;-->
-<!--            <div class="row"> &lt;!&ndash; albumList row &ndash;&gt;-->
-<!--                <h5>Альбоми:</h5>-->
-<!--                <div th:each="doc, iStat : ${user.clientdetail.albumList}" >-->
-<!--                    &lt;!&ndash; Перелік документів&ndash;&gt;-->
-<!--                </div>-->
-<!--            </div> &lt;!&ndash; end albumList row &ndash;&gt;-->
-<!--            <div class="row"> &lt;!&ndash; trackList row &ndash;&gt;-->
-<!--                <h5>Треки:</h5>-->
-<!--                <div th:each="doc, iStat : ${user.clientdetail.trackList}" >-->
-<!--                    &lt;!&ndash; Перелік документів&ndash;&gt;-->
-<!--                </div>-->
-<!--            </div> &lt;!&ndash; end document row &ndash;&gt;-->
-        </div>
-    </div>
-</div>
 
 <div th:fragment="listuserdocuments">
 
