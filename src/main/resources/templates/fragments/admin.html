@@ -60,11 +60,17 @@
                             <div class="col-5">
                                 <div class="accordion-item" th:if="${#lists.size(user.clientdetail.documentslist)} > 0">
                                     <h2 class="accordion-header" id="headingDoc">
-                                        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#documentslist" aria-expanded="true" aria-controls="documentslist">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                th:attr="data-bs-target='#documentslist-'+${user.clientdetail.uuid}"
+                                                aria-expanded="false"
+                                                th:attrappend="aria-controls='documentslist-'+${user.clientdetail.uuid}">
                                             <span th:text="'Документи '+${#lists.size(user.clientdetail.documentslist)}"/>
                                         </button>
                                     </h2>
-                                    <div id="documentslist" class="accordion-collapse collapse " aria-labelledby="headingDoc" th:attr="data-bs-parent='accordion-'+${user.clientdetail.uuid}">
+                                    <div th:id="'documentslist-'+${user.clientdetail.uuid}" class="accordion-collapse collapse "
+                                         th:attr="aria-labelledby='labelledby-'+${user.clientdetail.uuid}"
+                                         th:attrappend="data-bs-parent='documentslist-'+${user.clientdetail.uuid}">
+<!--                                    <div id="documentslist" class="accordion-collapse collapse " th:attr="aria-labelledby='labelledby-'+${user.clientdetail.uuid} + ' ' + data-bs-parent='accordion-'+${user.clientdetail.uuid}">-->
                                         <!--                         data-bs-parent="${user.clientdetail.uuid}">-->
                                         <div class="accordion-body">
                                             Перелік документів
@@ -84,11 +90,16 @@
                                 </div> <!-- document -->
                                 <div class="accordion-item" th:if="${#lists.size(user.clientdetail.clientaddressList)} > 0"> <!--  clientaddressList  -->
                                     <h2 class="accordion-header" id="headingTwo">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#clientaddressList" aria-expanded="false" aria-controls="clientaddressList">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                th:attr="data-bs-target='#clientaddressList-'+${user.clientdetail.uuid}"
+                                                aria-expanded="false"
+                                                th:attrappend="aria-controls='clientaddressList-'+${user.clientdetail.uuid}">
                                             <span th:text="'Адреси '+${#lists.size(user.clientdetail.clientaddressList)}"/>
                                         </button>
                                     </h2>
-                                    <div id="clientaddressList" class="accordion-collapse collapse" aria-labelledby="headingTwo" th:attr="data-bs-parent='accordion-'+${user.clientdetail.uuid}">
+                                    <div th:id="'clientaddressList-'+${user.clientdetail.uuid}" class="accordion-collapse collapse"
+                                         th:attr="aria-labelledby='labelledby-'+${user.clientdetail.uuid}"
+                                         th:attrappend="data-bs-parent='clientaddressList-'+${user.clientdetail.uuid}">
                                         <div class="accordion-body">
                                             Перелік адрес
                                             <div th:each="doc, iStat : ${user.clientdetail.clientaddressList}" >
@@ -100,11 +111,16 @@
                                 </div> <!--  clientaddressList  -->
                                 <div class="accordion-item" th:if="${#lists.size(user.clientdetail.contractList)} > 0"> <!-- contractList  -->
                                     <h2 class="accordion-header" id="headingThree">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#contractList" aria-expanded="false" aria-controls="contractList">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                th:attr="data-bs-target='#contractList-'+${user.clientdetail.uuid}"
+                                                aria-expanded="false"
+                                                th:attrappend="aria-controls='contractList-'+${user.clientdetail.uuid}">
                                             <span th:text="'Контракти '+${#lists.size(user.clientdetail.contractList)}"/>
                                         </button>
                                     </h2>
-                                    <div id="contractList" class="accordion-collapse collapse" aria-labelledby="headingThree" th:attr="data-bs-parent='accordion-'+${user.clientdetail.uuid}">
+                                    <div th:id="'contractList-'+${user.clientdetail.uuid}" class="accordion-collapse collapse"
+                                         th:attr="aria-labelledby='labelledby-'+${user.clientdetail.uuid}"
+                                         th:attrappend="data-bs-parent='contractList-'+${user.clientdetail.uuid}">
                                         <div class="accordion-body">
                                             Перелік Контрактів
                                             <div th:each="contract, iStat : ${user.clientdetail.contractList}" >
@@ -117,11 +133,16 @@
                             <div class="col-5">
                                 <div class="accordion-item" th:if="${#lists.size(user.clientdetail.stationList)} > 0"> <!-- stationList row -->
                                     <h2 class="accordion-header" id="headingThree">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#stationList" aria-expanded="false" aria-controls="stationList">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                th:attr="data-bs-target='#stationList-'+${user.clientdetail.uuid}"
+                                                aria-expanded="false"
+                                                th:attrappend="aria-controls='stationList-'+${user.clientdetail.uuid}">
                                             <span th:text="'Станции '+${#lists.size(user.clientdetail.stationList)}"/>
                                         </button>
                                     </h2>
-                                    <div id="stationList" class="accordion-collapse collapse" aria-labelledby="headingThree" th:attr="data-bs-parent='accordion-'+${user.clientdetail.uuid}">
+                                    <div th:id="'stationList-'+${user.clientdetail.uuid}" class="accordion-collapse collapse"
+                                         th:attr="aria-labelledby='labelledby-'+${user.clientdetail.uuid}"
+                                         th:attrappend="data-bs-parent='stationList-'+${user.clientdetail.uuid}">
                                         <div class="accordion-body">
                                             Перелік Станции
                                             <div th:each="station, iStat : ${user.clientdetail.stationList}" >
@@ -132,11 +153,16 @@
                                 </div> <!-- stationList row -->
                                 <div class="accordion-item" th:if="${#lists.size(user.clientdetail.albumList)} > 0"> <!-- albumList row -->
                                     <h2 class="accordion-header" id="headingThree">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#albumList" aria-expanded="false" aria-controls="albumList">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                th:attr="data-bs-target='#albumList-'+${user.clientdetail.uuid}"
+                                                aria-expanded="false"
+                                                th:attrappend="aria-controls='albumList-'+${user.clientdetail.uuid}">
                                             <span th:text="'Альбоми '+${#lists.size(user.clientdetail.albumList)}"/>
                                         </button>
                                     </h2>
-                                    <div id="albumList" class="accordion-collapse collapse" aria-labelledby="headingThree" th:attr="data-bs-parent='accordion-'+${user.clientdetail.uuid}">
+                                    <div th:id="'albumList-'+${user.clientdetail.uuid}" class="accordion-collapse collapse "
+                                         th:attr="aria-labelledby='labelledby-'+${user.clientdetail.uuid}"
+                                         th:attrappend="data-bs-parent='albumList-'+${user.clientdetail.uuid}">
                                         <div class="accordion-body">
                                             Перелік Альбоми
                                             <div th:each="album, iStat : ${user.clientdetail.albumList}" >
@@ -147,11 +173,16 @@
                                 </div> <!-- albumList row -->
                                 <div class="accordion-item" th:if="${#lists.size(user.clientdetail.trackList)} > 0"> <!-- trackList row -->
                                     <h2 class="accordion-header" id="headingThree">
-                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#trackList" aria-expanded="false" aria-controls="trackList">
+                                        <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                                th:attr="data-bs-target='#trackList-'+${user.clientdetail.uuid}"
+                                                aria-expanded="false"
+                                                th:attrappend="aria-controls='trackList-'+${user.clientdetail.uuid}">
                                             <span th:text="'Треки '+${#lists.size(user.clientdetail.trackList)}"/>
                                         </button>
                                     </h2>
-                                    <div id="trackList" class="accordion-collapse collapse" aria-labelledby="headingThree" th:attr="data-bs-parent='accordion-'+${user.clientdetail.uuid}">
+                                    <div th:id="'trackList-'+${user.clientdetail.uuid}" class="accordion-collapse collapse "
+                                         th:attr="aria-labelledby='labelledby-'+${user.clientdetail.uuid}"
+                                         th:attrappend="data-bs-parent='trackList-'+${user.clientdetail.uuid}">
                                         <div class="accordion-body">
                                             Перелік Треки
                                             <div th:each="track, iStat : ${user.clientdetail.trackList}" >
