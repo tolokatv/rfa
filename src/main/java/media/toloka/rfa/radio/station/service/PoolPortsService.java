@@ -42,6 +42,7 @@ public class PoolPortsService {
             sp = GetNewFreePort();
         }
         sp.setPorttype(portType);
+        // todo Призначати для Gui закритий порт
         switch  (portType) {
                 case PORT_MAIN:
                     station.setMain(sp.getPort());

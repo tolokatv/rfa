@@ -19,4 +19,6 @@ public interface DocumentRepository extends JpaRepository<Documents, Long> {
 
     List<Documents> findByStatusLessThan(EDocumentStatus eDocumentStatus);
     List<Documents> findByStatusNot(EDocumentStatus eDocumentStatus);
+
+    Documents getByUuid(String uuid);
 }

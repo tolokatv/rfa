@@ -26,6 +26,13 @@
 
     <!--// User page container-->
     <div style="padding-top: 100px">
+        <div sec:authorize="hasRole('Адмін')" >
+            <span>Таки адміністратор</span>
+        </div>
+        <span th:each="role, iStat : ${curuser.roles}">
+            <span th:if="${iStat.first}" th:utext="'Роль:<b> '+${role.role.label}+'</b>'"/>
+            <span th:if="!${iStat.first}"  th:utext="', <b>'+${role.role.label}+'</b>'"/>
+        </span>
 <!--        <div class="container-fluid">-->
 <!--            <div class="row">-->
 <!--                <div class="col-lg-12 col-sm-12">-->

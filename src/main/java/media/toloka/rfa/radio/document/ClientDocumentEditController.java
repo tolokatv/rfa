@@ -38,9 +38,10 @@ public class ClientDocumentEditController {
 
     final Logger logger = LoggerFactory.getLogger(ClientDocumentEditController.class);
 
-    @GetMapping("/user/documentedit/{idDocument}")
+    @GetMapping("/user/documentedit/{uuidDocument}")
     public String GetDocumentEdit(
-            @PathVariable Long idDocument,
+//            @PathVariable Long idDocument,
+            @PathVariable String uuidDocument,
 //            IDDocuments document,
             Model model
     ) {
@@ -48,7 +49,8 @@ public class ClientDocumentEditController {
         Users user = clientService.GetCurrentUser();
         if (user == null) { return "redirect:/"; }
         // витягуємо документ, який ми будемо редагувати і передаємо в форму
-        Documents doc = documentService.GetDocument(idDocument);
+//        Documents doc = documentService.GetDocument(idDocument);
+        Documents doc = documentService.GetDocumentByUUID(uuidDocument);
         List<EDocumentStatus> options = new ArrayList<EDocumentStatus>();
         options.add(STATUS_UNKNOWN);
         options.add(STATUS_LOADED);
@@ -58,7 +60,7 @@ public class ClientDocumentEditController {
 
         model.addAttribute("options", options);
         model.addAttribute("document", doc);
-        model.addAttribute("ide", idDocument);
+//        model.addAttribute("ide", idDocument);
         model.addAttribute("user", user);
         return ("/user/documentedit");
     }
@@ -77,7 +79,7 @@ public class ClientDocumentEditController {
         if (user == null) {
             return "redirect:/";
         }
-        Documents curDocument = documentService.GetDocument(document.getId());
+        Documents curDocument = documentService.GetDocumentByUUID(document.getUuid()); //GetDocument(document.getId());
 //        if (cur)
 //        curDocument.setDocumentstatus(document.getDocumentstatus());
         curDocument.setUserComment(document.getUserComment());

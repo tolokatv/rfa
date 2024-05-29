@@ -32,12 +32,6 @@ public class Track {
     @Expose
     private String autor;
 
-//    @Expose
-//    private String patch;
-//
-//    @Expose
-//    private String filename;
-
     @Expose
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "store_id")

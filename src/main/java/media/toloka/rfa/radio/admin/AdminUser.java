@@ -68,6 +68,7 @@ public class AdminUser {
 
         model.addAttribute("ss", ss );
         List<Users> usersList = adminService.GetSearchUsers(ss.getSearchString());
+        // todo тут додати сортування для роботи адміна з переліком клієнтів
         model.addAttribute("usersList", usersList );
 //        return "redirect:/admin/users";
         return "/admin/users";
@@ -93,6 +94,8 @@ public class AdminUser {
             usersList = adminService.GetSearchUsers(ss.getSearchString());
         }
         String searchString = new String();
+        // todo тут додати сортування для роботи адміна з переліком клієнтів
+
         model.addAttribute("usersList", usersList );
         model.addAttribute("ss", ss );
         return "/admin/users";

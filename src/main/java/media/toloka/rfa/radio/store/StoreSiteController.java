@@ -2,6 +2,7 @@ package media.toloka.rfa.radio.store;
 // https://paulcwarren.github.io/spring-content/refs/release/1.2.4/fs-index.html
 
 
+import jakarta.servlet.http.HttpServletResponse;
 import media.toloka.rfa.radio.store.Service.StoreService;
 import media.toloka.rfa.radio.store.model.Store;
 import media.toloka.rfa.radio.client.service.ClientService;
@@ -156,7 +157,6 @@ public class StoreSiteController  {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    // todo перейти на використання UUID
     @GetMapping(value = "/store/img/{clientUUID}/{fileName}",
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     public @ResponseBody byte[] getStoreImage(
@@ -281,6 +281,39 @@ public class StoreSiteController  {
         return bytes;
     }
 
+// ==================== Пробуємо завантажити документ
 
+    @GetMapping(value = "/store/document/{storeUUID}"
+//    @GetMapping(value = "/store/document/{storeUUID}/{fileName}"
+//            produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE}
+    )
+    public @ResponseBody byte[] getStoreDoc(
+            @PathVariable String storeUUID,
+//            @PathVariable String fileName,
+            HttpServletResponse response,
+            Model model ) {
+        Store storeObject = storeService.GetStoreByUUID(storeUUID);
+//        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
+        response.setContentType(storeObject.getContentMimeType());
+        response.setContentLength(storeObject.getFilelength().intValue());
+        String ifile = storeObject.getFilepatch();
+        InputStream is;
+        try {
+            is = new FileInputStream(new File(ifile));
+            if (is == null) {
+                return new byte[0];
+            }
+            byte[] buffer = is.readAllBytes();
+            return buffer;
+        } catch (FileNotFoundException e) {
+            logger.info("getStoreAudio: Йой! FileNotFoundException! {}",ifile);
+        } catch (IOException e) {
+            logger.info("==================================== getStoreImage IOException");
+            logger.info("Проблеми з файлом: {}",ifile);
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
 
 }
