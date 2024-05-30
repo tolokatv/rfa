@@ -207,6 +207,29 @@
                                                 <span th:if="${contract.usercomment} != null">
                                                     <span th:text="'Коментар користувача: '+${contract.usercomment}"/><br>
                                                 </span>
+                                                <div th:if="${#lists.size(contract.stationList)} > 0">
+                                                    <span>Перелік станцій контракту</span>
+                                                    <table class="table">
+                                                        <thead>
+                                                        <tr>
+                                                            <th>Імʼя</th>
+                                                            <th>База</th>
+                                                        </tr>
+                                                    </thead>
+                                                        <tbody>
+                                                            <div th:each="cstation, iStat : ${contract.stationList}" >
+                                                                <tr>
+                                                                <td>
+                                                                    <span th:text="${cstation.name}"/>
+                                                                </td>
+                                                                <td>
+                                                                    <span th:text="${cstation.dbname}"/>
+                                                                </td>
+                                                            </tr>
+                                                            </div>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
                                                 <hr>
                                             </div>
                                         </div>
@@ -324,9 +347,6 @@
                             </div>
                         </div>
                     </div>
-
-
-
                 </div>
             </div>
         </div>
@@ -394,20 +414,21 @@
         <input name="id" th:value="*{id}" type="hidden"/>
         <!--        <div class="dz-message needsclick">-->
         <!--        <th:block th:switch="${document.status}">-->
-        <span class="form-label">Статус:
+        <span th:utext="'<b>Файл: </b>'+${document.store.filename}"/><br>
+        <span class="form-label"><b>Статус:</b>
             <select th:field="*{status}" class="form-control">
                 <option th:each="linetype : ${options}"  th:value="${linetype}" th:text="${linetype.label}" >Wireframe</option>
             </select>
         </span>
         <br>
-
+        <span><b>Тип документу</b></span>
         <input class="form-control"  th:field="${document.documenttype}"
                type="text"/>
         <label class="form-label" for="documenttype">Вкажіть тип документу  (паспорт, свідотство, угода тощо)</label>
-
+        <br><span><b>Коментар користувача, який пояснює, що це за документ</b></span>
         <input class="form-control" id="userComment" name="userComment" th:value="${document.userComment}" type="text"/>
         <label class="form-label" for="userComment">Коментар користувача до документу</label>
-
+        <br><span><b>Зауваження модератора.</b> Зверніть на них увагу.</span>
         <input class="form-control" th:field="*{adminComment}" type="text" />
         <label class="form-label" for="adminComment">Коментар служби підтримки до документу</label>
 
