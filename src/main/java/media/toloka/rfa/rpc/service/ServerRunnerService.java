@@ -537,6 +537,7 @@ public class ServerRunnerService {
         return rc;
     }
 
+    // todo ДОПИСАТИ ВИДАЛЕННЯ СТАНЦІЇ
     public Long StationDelete(RPCJob rpcJob) {
         Long rc = 129L;
         Gson gson = gsonService.CreateGson();
