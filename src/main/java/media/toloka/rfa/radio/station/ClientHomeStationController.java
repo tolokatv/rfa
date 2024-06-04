@@ -287,6 +287,8 @@ public class ClientHomeStationController {
             @RequestParam(value = "id", required = true) Long id,
             Model model ) {
 
+        String message;
+
         Users user = clientService.GetCurrentUser();
         if (user == null) {
             return "redirect:/";
@@ -299,11 +301,12 @@ public class ClientHomeStationController {
             return "redirect:/user/stations";
         }
         Contract contract = station.getContract();
-        String message = "Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail() + " Перевірте, чи приєднана вона до контракту.";
         if (contract == null) {
+            message = "Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail() + " Перевірте, чи приєднана вона до контракту.";
             logger.info(message);
-            model.addAttribute("success", "Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail() + " Перевірте, чи приєднана вона до контракту.");
-            return "redirect:/user/stations";
+            model.addAttribute("success", message);
+            return "/user/controlstation"+"/?id="+station.getId().toString();
+//            return "redirect:/user/stations";
         }
         if ((station.getContract().getClientdetail().getAccount() < 0 ) && (station.getContract().getContractStatus() == EContractStatus.CONTRACT_PAY)) {
             // todo перевірити гроші на рахунку і проплачений термін
@@ -320,9 +323,9 @@ public class ClientHomeStationController {
         Gson gson = gsonService.CreateGson();
         String strgson = gson.toJson(rjob).toString();
         template.convertAndSend(queueNameRabbitMQ,gson.toJson(rjob).toString());
-        return "/user/controlstation"+"/?id="+station.getId().toString();
+//        return "/user/controlstation"+"/?id="+station.getId().toString();
 
-//        return "redirect:/user/stations";
+        return "redirect:/user/stations";
     }
 
     @GetMapping(value = "/user/stopstation")
