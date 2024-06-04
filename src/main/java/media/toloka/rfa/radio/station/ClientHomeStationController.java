@@ -71,7 +71,6 @@ public class ClientHomeStationController {
             Model model ) {
         Users user = clientService.GetCurrentUser();
         if (user == null) {
-//            logger.warn("User not found. Redirect to main page");
             return "redirect:/";
         }
         model.addAttribute("stations",  stationService.GetListStationByUser(user));
@@ -305,8 +304,7 @@ public class ClientHomeStationController {
             message = "Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail() + " Перевірте, чи приєднана вона до контракту.";
             logger.info(message);
             model.addAttribute("success", message);
-            return "/user/controlstation"+"/?id="+station.getId().toString();
-//            return "redirect:/user/stations";
+            return "redirect:/user/stations";
         }
         if ((station.getContract().getClientdetail().getAccount() < 0 ) && (station.getContract().getContractStatus() == EContractStatus.CONTRACT_PAY)) {
             // todo перевірити гроші на рахунку і проплачений термін
