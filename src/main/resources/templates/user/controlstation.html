@@ -34,7 +34,7 @@
                 <form th:action="@{/user/stationsave}" method="post">
                     <div class="row mb-4">
                         <div th:if="${station.contract == null}" class="alert alert-danger" role="alert"
-                             th:text="'Не можемо запустити станцію ' + ${station.uuid} + ' для користувача ' + ${station.clientdetail.user.email} + ' Перевірте, чи приєднана вона до контракту.'"/>
+                             th:text="'Не можемо запустити станцію ' +  ${station.uuid} + ' для користувача ' + ${station.clientdetail.user.email} + ' Перевірте, чи приєднана вона до контракту.'"/>
                         <div class="col">
                             <div class="form-outline">
                                 <input type="hidden" name="id" id="id" th:value="${station.id}" />
