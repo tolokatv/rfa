@@ -299,8 +299,9 @@ public class ClientHomeStationController {
             return "redirect:/user/stations";
         }
         Contract contract = station.getContract();
+        String message = "Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail() + " Перевірте, чи приєднана вона до контракту.";
         if (contract == null) {
-            logger.info("Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail() + " Перевірте, чи приєднана вона до контракту.");
+            logger.info(message);
             model.addAttribute("success", "Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail() + " Перевірте, чи приєднана вона до контракту.");
             return "redirect:/user/stations";
         }
@@ -319,7 +320,9 @@ public class ClientHomeStationController {
         Gson gson = gsonService.CreateGson();
         String strgson = gson.toJson(rjob).toString();
         template.convertAndSend(queueNameRabbitMQ,gson.toJson(rjob).toString());
-        return "redirect:/user/stations";
+        return "/user/controlstation"+"/?id="+station.getId().toString();
+
+//        return "redirect:/user/stations";
     }
 
     @GetMapping(value = "/user/stopstation")
