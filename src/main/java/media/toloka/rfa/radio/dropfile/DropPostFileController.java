@@ -58,7 +58,7 @@ public class DropPostFileController {
         try {
             // тестуємо завантаження через сервіси сховища.
             String storeUUID = storeService.PutFileToStore(file.getInputStream(),file.getOriginalFilename(),cd,STORE_DOCUMENT);
-            documentService.SaveDocumentUploadInfo(storeUUID, cd);
+            documentService.SaveDocumentUploadInfo(storeUUID,  cd, storeService.GetStoreByUUID(storeUUID));
         } catch (IOException e) {
             logger.info("Завантаження файлу: Проблема збереження");
             e.printStackTrace();

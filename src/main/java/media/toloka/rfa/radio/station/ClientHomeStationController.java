@@ -71,7 +71,6 @@ public class ClientHomeStationController {
             Model model ) {
         Users user = clientService.GetCurrentUser();
         if (user == null) {
-//            logger.warn("User not found. Redirect to main page");
             return "redirect:/";
         }
         model.addAttribute("stations",  stationService.GetListStationByUser(user));
@@ -287,6 +286,8 @@ public class ClientHomeStationController {
             @RequestParam(value = "id", required = true) Long id,
             Model model ) {
 
+        String message;
+
         Users user = clientService.GetCurrentUser();
         if (user == null) {
             return "redirect:/";
@@ -300,8 +301,9 @@ public class ClientHomeStationController {
         }
         Contract contract = station.getContract();
         if (contract == null) {
-            logger.info("Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail() + " Перевірте, чи приєднана вона до контракту.");
-            model.addAttribute("success", "Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail() + " Перевірте, чи приєднана вона до контракту.");
+            message = "Не можемо запустити станцію " + station.getUuid() + " для користувача " + user.getEmail() + " Перевірте, чи приєднана вона до контракту.";
+            logger.info(message);
+            model.addAttribute("success", message);
             return "redirect:/user/stations";
         }
         if ((station.getContract().getClientdetail().getAccount() < 0 ) && (station.getContract().getContractStatus() == EContractStatus.CONTRACT_PAY)) {
@@ -319,6 +321,8 @@ public class ClientHomeStationController {
         Gson gson = gsonService.CreateGson();
         String strgson = gson.toJson(rjob).toString();
         template.convertAndSend(queueNameRabbitMQ,gson.toJson(rjob).toString());
+//        return "/user/controlstation"+"/?id="+station.getId().toString();
+
         return "redirect:/user/stations";
     }
 

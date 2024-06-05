@@ -7,6 +7,8 @@ import media.toloka.rfa.radio.model.MessageFromSite;
 import media.toloka.rfa.radio.model.Post;
 import media.toloka.rfa.radio.model.Station;
 import media.toloka.rfa.radio.model.Track;
+import media.toloka.rfa.radio.podcast.model.PodcastChannel;
+import media.toloka.rfa.radio.podcast.service.PodcastService;
 import media.toloka.rfa.radio.root.service.ServiceMessageFromSite;
 import media.toloka.rfa.radio.station.onlinelist.Model.ListOnlineFront;
 import media.toloka.rfa.radio.station.service.StationOnlineList;
@@ -41,6 +43,10 @@ public class RootController {
     @Autowired
     private StationService stationService;
 
+    @Autowired
+    private PodcastService podcastService;
+
+    // todo подивитися чи використовується і або перенести, або видалити
     @GetMapping(value = "/admin/root")
     public String adminroot(Model model) {
 
@@ -76,6 +82,9 @@ public class RootController {
 //        List<Station> stationOnlineList = stationService.GetListStationByStatus(true);
         List<ListOnlineFront> stationOnlineList = StationOnlineList.getInstance().GetOnlineList();
 
+        // витаскуємо подкасти для каруселі
+        List<PodcastChannel> podcastChannels = podcastService.GetPodcastListForRootCarusel();
+
 //        Page page = storeService.GetStorePageItemType(0,5, STORE_TRACK);
         Page pageTrack = createrService.GetTrackPage(0,10);
         List<Store> storeTrackList = pageTrack.stream().toList();
@@ -83,7 +92,7 @@ public class RootController {
         Page pagePost = createrService.GetPostPage(0,12);
         List<Store> storePostList = pagePost.stream().toList();
 
-//        model.addAttribute("trackList", trackList );
+        model.addAttribute("podcastChannels", podcastChannels );
         model.addAttribute("trackList", storeTrackList );
         model.addAttribute("postList", storePostList );
         model.addAttribute("posts", posts );

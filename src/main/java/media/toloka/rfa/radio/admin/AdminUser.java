@@ -1,6 +1,9 @@
 package media.toloka.rfa.radio.admin;
 
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import lombok.Data;
 import media.toloka.rfa.radio.admin.service.AdminService;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.history.service.HistoryService;
@@ -15,8 +18,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -37,22 +39,69 @@ public class AdminUser {
     @Autowired
     private HistoryService historyService;
 
+    @Data
+    public class SS {
+        private String searchString;
+//        public SS (String ggg) {
+//            this.searchString = ggg;
+//        }
+    }
 
-    @GetMapping(value = "/admin/users")
-    public String getAdmiUser(
-            Model model ) {
+    // Пошук по користувачам. Ключем виступає значення текстового поля
+
+    @PostMapping(value = "/admin/users")
+    public String GetSearchUserList(
+            @ModelAttribute("searchString") SS ss,
+            HttpServletRequest request,
+            HttpServletResponse response,
+//            @RequestParam(value = "searchString") String searchString,
+            Model model
+    ) {
         Users user = clientService.GetCurrentUser();
         if (user == null) {
             return "redirect:/";
         }
 
-        List<Users> usersList = adminService.GetAllUsers();
+        // витягуємо рядок для пошуку
+        // https://www.geeksforgeeks.org/spring-boot-build-a-dynamic-full-text-search-api-using-jpa-queries/
+        logger.info("Рядок для пошуку ="+ss.getSearchString());
 
+        model.addAttribute("ss", ss );
+        List<Users> usersList = adminService.GetSearchUsers(ss.getSearchString());
+        // todo тут додати сортування для роботи адміна з переліком клієнтів
         model.addAttribute("usersList", usersList );
-
+//        return "redirect:/admin/users";
         return "/admin/users";
     }
 
+    // витягуємо перелік всіх користувачів.
+    @GetMapping(value = "/admin/users")
+    public String getAdmiUser(
+//            @ModelAttribute("ss") SS ss,
+            Model model ) {
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+//        Objects ma = model.getAttribute("ss");
+        SS ss = (SS) model.asMap().get("ss");
+        List<Users> usersList = (List<Users>) model.asMap().get("ss");
+        if (ss == null) {
+            ss = new SS();
+            ss.setSearchString("");
+            usersList = adminService.GetAllUsers();
+        } else {
+            usersList = adminService.GetSearchUsers(ss.getSearchString());
+        }
+        String searchString = new String();
+        // todo тут додати сортування для роботи адміна з переліком клієнтів
+
+        model.addAttribute("usersList", usersList );
+        model.addAttribute("ss", ss );
+        return "/admin/users";
+    }
+
+    // намагаємося видалити користувача
     @GetMapping(value = "/admin/userdel/{iduser}")
     public String getAdminDelUser(
             @PathVariable Long iduser,
@@ -61,6 +110,7 @@ public class AdminUser {
         if (user == null) {
             return "redirect:/";
         }
+        // todo перевірити на приналежність до групи адмінів.
 
         Users curuser = adminService.GetUsersById(iduser);
         List< Roles> rolesList = curuser.getRoles();
@@ -75,11 +125,13 @@ public class AdminUser {
 
         List<Users> usersList = adminService.GetAllUsers();
         model.addAttribute("usersList", usersList );
+        model.addAttribute("searchString", new String() );
 
         return "redirect:/admin/users";
     }
 
 //    http://localhost:8080/admin/enableuser/2
+    // витягуємо користувача для редагування
     @GetMapping(value = "/admin/enableuser/{iduser}")
     public String getAdminEnableUser(
             @PathVariable Long iduser,
@@ -95,17 +147,19 @@ public class AdminUser {
         // Обробка ClientDetail. Видаляємо всі списки
 
         //
-        clientService.SaveUser(curuser);
+        // clientService.SaveUser(curuser);
 //        clientService.DeleteUser(curuser);
 
 
 
         List<Users> usersList = adminService.GetAllUsers();
         model.addAttribute("usersList", usersList );
+        model.addAttribute("searchString", new String() );
 
         return "redirect:/admin/users";
     }
 
+    // Заготовка для адміністрування груп користувачів
     @GetMapping(value = "/admin/useraddgroup/{iduser}/{idgroup}")
     public String getAdminEnableUser(
             @PathVariable Long iduser,
@@ -158,6 +212,7 @@ public class AdminUser {
 
         List<Users> usersList = adminService.GetAllUsers();
         model.addAttribute("usersList", usersList );
+        model.addAttribute("searchString", new String() );
 
         return "redirect:/admin/users";
     }

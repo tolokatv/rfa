@@ -21,7 +21,7 @@
 <body>
 <header>
 <!--    <div th:insert="~{/fragments/user :: user_navbar}">  </div>-->
-    <div th:insert="~{/fragments/navbar :: mynavbar}">  </div>
+    <div th:insert="~{/fragments/navbar :: navbarUniverse}">  </div>
 </header>
 
 <div style="padding-top: 100px">
@@ -53,16 +53,13 @@
                             </thead>
                             <tbody>
                             <a class="btn btn-primary" href="/user/userloaddocument">Завантажити</a>
-                            <!--    <tr th:if="${contracts.isEmpty()}">-->
-                            <!--        <a href="/user/createcontract" class="btn btn-primary">Створити контакт</a>-->
-                            <!--    </tr>-->
                             <tr th:each="singledocument : ${documents}">
                                 <td><span th:text="${singledocument.status.label}"></span></td>
                                 <td><span th:text="${singledocument.documenttype}"></span></td>
 <!--                                <td><span th:text="${#temporals.format(singledocument.loaddate)}"></span></td>-->
                                 <td><span th:text="${#dates.format(singledocument.loaddate, 'dd-MM-yyyy HH:mm')}"></span></td>
 
-                                <td><span><a th:href="@{'/user/documentedit/' + ${singledocument.id}}">Редагувати</a></span></td>
+                                <td><span><a th:href="@{'/user/documentedit/' + ${singledocument.uuid}}">Редагувати</a></span></td>
                             </tr>
                             </tbody>
                         </table> </div>

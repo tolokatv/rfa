@@ -77,6 +77,16 @@ public class AdminService {
         return usersList;
     }
 
+    public List<Users> GetSearchUsers(String template) {
+        if (template == null) {
+            List<Users> usersList = clientService.GetAllUsers();
+            return usersList;
+        }
+        List<Users> usersList = clientService.GetSearchUsers(template);
+        return usersList;
+    }
+
+
     public List<Documents> GetNotApruvedDocuments() {
         return documentService.GetUnApruvedDocumentsOrderLoaddate();
     }

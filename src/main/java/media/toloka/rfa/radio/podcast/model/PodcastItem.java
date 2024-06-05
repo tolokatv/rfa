@@ -3,7 +3,12 @@ package media.toloka.rfa.radio.podcast.model;
 import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;
 import lombok.Data;
+import lombok.ToString;
+import media.toloka.rfa.radio.model.Clientdetail;
+import media.toloka.rfa.radio.store.model.Store;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.util.Date;
 import java.util.UUID;
 
 @Data
@@ -14,13 +19,47 @@ public class PodcastItem {
     @GeneratedValue
     @Expose
     private Long id;
+    @Expose
     private String uuid = UUID.randomUUID().toString();
+    @Expose
     private String title;
+    @Expose
     private String link;
+    @Expose
     private String pubDate;
+    @Expose
     private String comments;
+    @Expose
     private String category;
+    @Expose
+    @Column(columnDefinition = "TEXT")
     private String description;
+    @Expose
     private String enclosure;
+    @Expose
+    @DateTimeFormat(pattern = "dd-MM-yy")
+    private Date date = new Date();
+    @Expose
+    private String storeuuid;
 
+    @OneToOne(cascade = {CascadeType.ALL})
+    @JoinColumn(name = "store_id")
+    private Store storeitem;
+
+
+    @ElementCollection
+//    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "podcast_channel_id")
+    private PodcastChannel chanel;
+
+    @ToString.Exclude
+    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "clientdetail_id")
+    private Clientdetail clientdetail;
+
+    @ElementCollection
+    @ManyToOne(fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
+    @JoinColumn(name = "podcast_image_id")
+    private PodcastImage image;
 }

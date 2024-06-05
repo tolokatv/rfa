@@ -35,6 +35,10 @@ public class ServerRunnerService {
     private String server_rundir;
     @Value("${media.toloka.rfa.server.createStationCommand}")
     private String createStationCommand;
+
+    @Value("${media.toloka.rfa.server.deleteStationCommand}")
+    private String stationDeleteCommand;
+
     @Value("${media.toloka.rfa.server.setLibreTimeAdminPSW}")
     private String setLibreTimeAdminPSW;
 
@@ -520,6 +524,41 @@ public class ServerRunnerService {
 //            assert pb.redirectInput() == ProcessBuilder.Redirect.PIPE;
 //            assert pb.redirectOutput().file() == log;
 //            assert p.getInputStream().read() == -1;
+        } catch (IOException e) {
+            logger.warn(" Щось пішло не так при виконанні завдання в операційній системі");
+            e.printStackTrace();
+        } catch (InterruptedException e){
+            logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
+            e.printStackTrace();
+        }
+
+
+//        // TODO Занести в історию запись
+        return rc;
+    }
+
+    // todo ДОПИСАТИ ВИДАЛЕННЯ СТАНЦІЇ
+    public Long StationDelete(RPCJob rpcJob) {
+        Long rc = 129L;
+        Gson gson = gsonService.CreateGson();
+        Station tmpstation = gson.fromJson(rpcJob.getRjobdata(), Station.class);
+        ProcessBuilder pb = new ProcessBuilder("bash", "-c", stationDeleteCommand);
+        Station station = stationService.GetStationById(tmpstation.getId());
+        Map<String, String> env = pb.environment();
+        env.put("LIBRETIME_POSTGRESQL_ADMIN_PSW",rpcJob.getUser().getPassword());
+        env.put("PGPASSWORD",station.getDbname());
+        SetEnvironmentForProcessBuilder(env, station);
+
+        pb.redirectErrorStream(true);
+        try {
+            Process p = pb.start();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                logger.info(line);
+            }
+            int exitcode = p.waitFor();
+            rc = Long.valueOf(exitcode);
         } catch (IOException e) {
             logger.warn(" Щось пішло не так при виконанні завдання в операційній системі");
             e.printStackTrace();

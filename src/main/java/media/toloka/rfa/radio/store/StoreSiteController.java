@@ -2,6 +2,7 @@ package media.toloka.rfa.radio.store;
 // https://paulcwarren.github.io/spring-content/refs/release/1.2.4/fs-index.html
 
 
+import jakarta.servlet.http.HttpServletResponse;
 import media.toloka.rfa.radio.store.Service.StoreService;
 import media.toloka.rfa.radio.store.model.Store;
 import media.toloka.rfa.radio.client.service.ClientService;
@@ -156,7 +157,6 @@ public class StoreSiteController  {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
-    // todo перейти на використання UUID
     @GetMapping(value = "/store/img/{clientUUID}/{fileName}",
             produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE})
     public @ResponseBody byte[] getStoreImage(
@@ -167,8 +167,6 @@ public class StoreSiteController  {
 //        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
         // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
         String ifile = filesService.GetBaseClientDirectory(cd)+"/"+fileName;
-//        logger.info("SCD = {}",ifile);
-//        InputStream is = getClass().getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
         InputStream is;
         try {
             is = new FileInputStream(new File(ifile));
@@ -178,9 +176,10 @@ public class StoreSiteController  {
             byte[] buffer = is.readAllBytes();
             return buffer;
         } catch (FileNotFoundException e) {
-            logger.info("getStoreAudio: Йой! FileNotFoundException!");
+            logger.info("getStoreAudio: Йой! FileNotFoundException! {}",ifile);
         } catch (IOException e) {
             logger.info("==================================== getStoreImage IOException");
+            logger.info("Проблеми з файлом: {}",ifile);
             e.printStackTrace();
             return null;
         }
@@ -195,12 +194,6 @@ public class StoreSiteController  {
             Model model ) {
         // https://medium.com/@asadise/create-thumbnail-for-an-image-in-spring-framework-49776c873ea1
         // http://localhost:8080/store/thrumbal/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
-//        Clientdetail cd = clientService.GetC ClientDetailByUuid(clientUUID);
-//        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
-        // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
-//        String ifile = filesService.GetBaseClientDirectory(cd)+"/"+fileName;
-//        logger.info("SCD = {}",ifile);
-//        InputStream is = getClass().getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
         InputStream is;
 
         OutputStream os;
@@ -209,8 +202,9 @@ public class StoreSiteController  {
         BufferedImage img;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         Store storeRecord;
+        storeRecord = storeService.GetStoreByUUID(storeUUID);
         try {
-            storeRecord = storeService.GetStoreByUUID(storeUUID);
+//            storeRecord = storeService.GetStoreByUUID(storeUUID);
             String ifile = storeRecord.getFilepatch();
             is = new FileInputStream(new File(ifile));
             if (is == null) {
@@ -219,7 +213,10 @@ public class StoreSiteController  {
              img = ImageIO.read(is);
         } catch (IOException e) {
             logger.info("==================================== getStoreImage IOException");
-            e.printStackTrace();
+            logger.info("Проблеми з файлом: {}",storeRecord.getFilepatch());
+//            logger.info("Проблеми з файлом: {}",ifile);
+//
+//            e.printStackTrace();
             return null;
         }
         thumbImg = Scalr.resize(img, Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, 320, Scalr.OP_ANTIALIAS);
@@ -227,7 +224,9 @@ public class StoreSiteController  {
             ImageIO.write(thumbImg, FilenameUtils.getExtension(storeRecord.getFilename()), baos);
         } catch (IOException e) {
             logger.info("==================================== getStoreImage IOException");
-            e.printStackTrace();
+            logger.info("Проблеми з файлом: {}",storeRecord.getFilepatch());
+
+//            e.printStackTrace();
             return null;
         }
         byte[] bytes = baos.toByteArray();
@@ -247,10 +246,6 @@ public class StoreSiteController  {
 
         Clientdetail cd = clientService.GetClientDetailByUuid(storeRecord.getClientdetail().getUuid());
 //        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
-        // todo Прибрати роботу з ресурсами і зробити звичайну роботу з файлами.
-//        String ifile = filesService.GetBaseClientDirectory(cd)+"/"+fileName;
-//        logger.info("SCD = {}",ifile);
-//        InputStream is = getClass().getResourceAsStream("/upload/"+clientUUID+"/"+fileName);
         InputStream is;
 
         OutputStream os;
@@ -258,15 +253,19 @@ public class StoreSiteController  {
         BufferedImage thumbImg = null;
         BufferedImage img;
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
+
+        // беремо шлях до файлу зі сторе
+        String filePatch = storeRecord.getFilepatch();
         try {
-            is = new FileInputStream(new File(storeRecord.getFilepatch()));
+            is = new FileInputStream(new File(filePatch));
             if (is == null) {
                 return new byte[0];
             }
             img = ImageIO.read(is);
         } catch (IOException e) {
             logger.info("==================================== getStoreImage IOException");
-            e.printStackTrace();
+            logger.info("Проблеми з файлом: {}",storeRecord.getFilepatch());
+//            e.printStackTrace();
             return null;
         }
         thumbImg = Scalr.resize(img, Scalr.Method.AUTOMATIC, Scalr.Mode.AUTOMATIC, width, Scalr.OP_ANTIALIAS);
@@ -274,13 +273,47 @@ public class StoreSiteController  {
             ImageIO.write(thumbImg, FilenameUtils.getExtension(fileName), baos);
         } catch (IOException e) {
             logger.info("==================================== getStoreImage IOException");
-            e.printStackTrace();
+            logger.info("Проблеми з файлом: {}",storeRecord.getFilepatch());
+//            e.printStackTrace();
             return null;
         }
         byte[] bytes = baos.toByteArray();
         return bytes;
     }
 
+// ==================== Пробуємо завантажити документ
 
+    @GetMapping(value = "/store/document/{storeUUID}"
+//    @GetMapping(value = "/store/document/{storeUUID}/{fileName}"
+//            produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE}
+    )
+    public @ResponseBody byte[] getStoreDoc(
+            @PathVariable String storeUUID,
+//            @PathVariable String fileName,
+            HttpServletResponse response,
+            Model model ) {
+        Store storeObject = storeService.GetStoreByUUID(storeUUID);
+//        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
+        response.setContentType(storeObject.getContentMimeType());
+        response.setContentLength(storeObject.getFilelength().intValue());
+        String ifile = storeObject.getFilepatch();
+        InputStream is;
+        try {
+            is = new FileInputStream(new File(ifile));
+            if (is == null) {
+                return new byte[0];
+            }
+            byte[] buffer = is.readAllBytes();
+            return buffer;
+        } catch (FileNotFoundException e) {
+            logger.info("getStoreAudio: Йой! FileNotFoundException! {}",ifile);
+        } catch (IOException e) {
+            logger.info("==================================== getStoreImage IOException");
+            logger.info("Проблеми з файлом: {}",ifile);
+            e.printStackTrace();
+            return null;
+        }
+        return null;
+    }
 
 }

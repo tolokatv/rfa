@@ -105,6 +105,7 @@ public class CreaterService {
 //        track.setStoreitem(storeitem);
         track.setStoreuuid(storeitemUUID);
         track.setTochat(false);
+        track.setStoreitem(storeService.GetStoreByUUID(storeitemUUID));
         trackRepository.save(track);
     }
 
@@ -139,6 +140,7 @@ public class CreaterService {
 //        albumсover.setPatch(destination.toString());
         albumсover.setClientdetail(cd);
         albumсover.setStoreuuid(storeUUID);
+        albumсover.setStoreitem(storeService.GetStoreByUUID(storeUUID)); //
         albumCoverRepository.save(albumсover);
     }
 

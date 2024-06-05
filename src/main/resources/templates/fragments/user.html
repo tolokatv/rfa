@@ -242,8 +242,7 @@
 <div th:fragment="editdocument">
     <form class="mx-1 mx-md-4" method="post" th:action="@{/user/documentedit}" th:object="${document}">
         <input name="id" th:value="*{id}" type="hidden"/>
-        <!--        <div class="dz-message needsclick">-->
-        <!--        <th:block th:switch="${document.status}">-->
+        <input name="uuid" th:value="*{uuid}" type="hidden"/>
         <span class="form-label">Статус:
             <select th:field="*{status}" class="form-control">
                 <option th:each="linetype : ${options}"  th:value="${linetype}" th:text="${linetype.label}" disabled>Wireframe</option>
@@ -251,11 +250,10 @@
         </span>
         <br>
 
-        <input class="form-control"  th:field="${document.documenttype}"
-               type="text"/>
+        <input class="form-control"  th:field="*{documenttype}" type="text"/>
         <label class="form-label" for="documenttype">Вкажіть тип документу  (паспорт, свідотство, угода тощо)</label>
 
-        <input class="form-control" id="userComment" name="userComment" th:value="${document.userComment}" type="text"/>
+        <input class="form-control" id="userComment" name="userComment" th:value="*{userComment}" type="text"/>
         <label class="form-label" for="userComment">Коментар до документу</label>
 
         <input class="form-control" th:field="*{adminComment}" type="text" disabled/>

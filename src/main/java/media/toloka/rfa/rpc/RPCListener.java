@@ -78,6 +78,7 @@ Logger logger = LoggerFactory.getLogger(RPCListener.class);
             case JOB_STATION_DELETE:
                 // todo написати видалення станції
                 rc = -10255L;
+                rc = serverRunnerService.StationDelete(rjob);
                 rjob.getJobresilt().add(new ResultJob(rc, curJob));
                 logger.info("+++++++++++++++++  JOB_STATION_DELETE");
                 break;

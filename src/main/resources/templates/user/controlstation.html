@@ -21,7 +21,7 @@
 <body>
 <header>
 <!--    <div th:insert="~{/fragments/user :: user_navbar}">  </div>-->
-    <div th:insert="~{/fragments/navbar :: mynavbar}">  </div>
+    <div th:insert="~{/fragments/navbar :: navbarUniverse}">  </div>
 </header>
 <div class="row"  style="padding-top: 100px">
     <div class="col-md-8 mb-4">
@@ -33,6 +33,8 @@
 <!--                <form th:action="@{/user/stationsave}" th:object="${station}" method="post">-->
                 <form th:action="@{/user/stationsave}" method="post">
                     <div class="row mb-4">
+                        <div th:if="${station.contract == null}" class="alert alert-danger" role="alert"
+                             th:text="'Не можемо запустити станцію ' +  ${station.uuid} + ' для користувача ' + ${station.clientdetail.user.email} + ' Перевірте, чи приєднана вона до контракту.'"/>
                         <div class="col">
                             <div class="form-outline">
                                 <input type="hidden" name="id" id="id" th:value="${station.id}" />

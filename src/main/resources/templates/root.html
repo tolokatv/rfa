@@ -5,11 +5,12 @@
     <head>
         <meta charset="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
-        <meta name="description" content="" />
-        <meta name="author" content="" />
+        <meta name="description" content="Вас почує весь світ!" />
+        <meta name="author" content="Студія Толока" />
+        <div th:replace="~{/fragments/common :: og}"/>
         <title>Толока - радіо для всіх!</title>
         <!-- Favicon-->
-        <link rel="icon" type="image/x-icon" href="assets/favicon.ico" />
+        <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
         <!-- Font Awesome icons (free version)-->
         <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
         <!-- Google fonts-->
@@ -27,7 +28,7 @@
         <!-- MessageBox -->
         <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
         <!-- Navigation-->
-        <div th:insert="~{/fragments/navbar :: mynavbar}">  </div>
+        <div th:insert="~{/fragments/navbar :: navbarUniverse}">  </div>
         <!-- Masthead-->
 
     <div th:insert="~{/fragments/root :: masthead}">  </div>
@@ -36,20 +37,25 @@
 
         <!-- Толока новини -->
         <div id="tolokaPlayer" th:insert="~{/fragments/mediahub :: tolokanews}">  </div>
-        <!-- Services-->
+    <!-- карусель подкастів -->
+    <div th:insert="~{/fragments/mediahub :: mainpodcastcarusel}">  </div>
+
+    <!-- Services-->
         <div th:insert="~{/fragments/root :: services}">  </div>
         <!-- Portfolio Grid-->
         <div th:insert="~{/fragments/root :: portfolio}">  </div>
         <!-- Contact-->
         <div th:insert="~{/fragments/forms :: saveformroot}">  </div>
         <!-- About-->
-        <div th:insert="~{/fragments/root :: about}">  </div>
+<!--        <div th:insert="~{/fragments/root :: about}">  </div>-->
         <!-- Team-->
         <div th:insert="~{/fragments/root :: team}">  </div>
         <!-- Clients-->
-        <div th:insert="~{/fragments/root :: clients}">  </div>
+<!--        <div th:insert="~{/fragments/root :: clients}">  </div>-->
         <!-- Footer-->
-        <div th:insert="~{/fragments/root :: footer}">  </div>
+    <!-- Footer -->
+    <div th:insert="~{/fragments/common :: footer}">  </div>
+<!--        <div th:insert="~{/fragments/root :: footer}">  </div>-->
         <!-- Portfolio Modals-->
         <!-- Portfolio item 1 modal popup-->
         <div th:insert="~{/fragments/rootmodal :: modalportfolio1}">  </div>
@@ -74,7 +80,7 @@
 
         myCarousel.addEventListener('slide.bs.carousel', function (ev) {
             // сделайте что-нибудь...
-            console.log(ev.relatedTarget.id);
+            // console.log(ev.relatedTarget.id);
         })
 
         async function getStatus() {

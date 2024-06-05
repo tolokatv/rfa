@@ -16,7 +16,7 @@ https://frontbackend.com/thymeleaf/spring-boot-bootstrap-thymeleaf-drop-file-are
 <!-- Navigation -->
 <header>
 <!--    <div th:insert="~{/fragments/user :: user_navbar}">  </div>-->
-    <div th:insert="~{/fragments/navbar :: mynavbar}"/>
+    <div th:insert="~{/fragments/navbar :: navbarUniverse}"/>
 </header>
 
 <div class="container">
@@ -30,7 +30,7 @@ https://frontbackend.com/thymeleaf/spring-boot-bootstrap-thymeleaf-drop-file-are
                     <input type="hidden"
                            th:name="${_csrf.parameterName}"
                            th:value="${_csrf.token}" />
-                    <div class="dz-message needsclick">
+<!--                    <div class="dz-message needsclick">-->
 
                     <div class="dz-message needsclick">
                         <button type="button" class="dz-button">Перенсіть файл сюди або натисніть для вибору файла.</button>

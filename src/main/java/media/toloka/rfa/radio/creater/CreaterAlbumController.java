@@ -184,7 +184,16 @@ public class CreaterAlbumController {
             currentcover = null;
         }
 
-        model.addAttribute("coverlist", createrService.GetAlbumCoverByCd(cd) );
+        List<Albumсover> albumсover = createrService.GetAlbumCoverByCd(cd);
+        for (Albumсover albumсover1 : albumсover) {
+            if (albumсover1.getStoreitem() != null) {
+                logger.warn("Імʼя Файлу: ", albumсover1.getStoreitem().getFilename());
+            } else {
+                logger.warn("Ще не призначили картинку");
+            }
+        }
+
+        model.addAttribute("coverlist", albumсover );
         model.addAttribute("cover", currentcover );
         model.addAttribute("album", album );
         model.addAttribute("cd", cd );

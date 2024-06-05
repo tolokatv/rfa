@@ -60,7 +60,8 @@ public class AdminController {
 //                qDocuments.put(doc.getClientdetail().getId(), doc.getClientdetail().getDocumentslist().size());
 //            }
 //        }
-
+        // тимчасово поточний користувач
+        model.addAttribute("curuser", user );
         // Документи до опрацювання
         model.addAttribute("qDocuments", adminService.GetClientsWithNotApruvedDocoments().size() );
         // Пости до опрацювання

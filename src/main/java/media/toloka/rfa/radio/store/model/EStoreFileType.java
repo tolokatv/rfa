@@ -7,9 +7,10 @@ public enum EStoreFileType {
     STORE_TRACK("Трек"),
     STORE_ALBUMCOVER("Обкладинка альбому"),
     STORE_POSTCOVER("Обкладинка посту"),
-    STORE_PHOTO("Фото профайлу");
-
-
+    STORE_PHOTO("Фото профайлу"),
+    STORE_PODCASTCOVER("Обкладинка подкасту"),
+    STORE_EPISODECOVER("Обкладинка епізоду"), // не використовую. Замісь неї використовую STORE_PODCASTCOVER
+    STORE_EPISODETRACK("Трек епізоду");
     public final String label;
 
     private EStoreFileType(String label) {

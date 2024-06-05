@@ -1,0 +1,107 @@
+<<!DOCTYPE HTML>
+<!--
+https://frontbackend.com/thymeleaf/spring-boot-bootstrap-thymeleaf-drop-file-area
+-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Spring Boot Thymeleaf Application - Bootstrap Dropzone</title>
+
+    <link th:rel="stylesheet" th:href="@{/css/bootstrap.min.css} "/>
+    <link th:rel="stylesheet" th:href="@{/css/dropzone.min.css}"/>
+    <link th:rel="stylesheet" th:href="@{/css/toastr.min.css}"/>
+</head>
+<body>
+
+<!-- Navigation -->
+<header>
+<!--    <div th:insert="~{/fragments/user :: user_navbar}">  </div>-->
+    <div th:insert="~{/fragments/navbar :: mynavbar}"/>
+</header>
+
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8 mt-5">
+            <div th:if="${message}">
+                <h2 th:text="${message}"/>
+            </div>
+            <div id="dropzone">
+                <form th:action="'/podcast/podcastcoverepisodeupload/'+${podcast.uuid}+'/'+${episode.uuid}" class="dropzone needsclick" id="demo-upload" method="post">
+                    <input type="hidden"
+                           th:name="${_csrf.parameterName}"
+                           th:value="${_csrf.token}" />
+                    <div class="dz-message needsclick">
+                        <button type="button" class="dz-button">Перенсіть файл сюди файл обкладинки епізоду або натисніть для вибору файла.</button>
+                        <br/>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <a th:href="'/podcast/episodeedit/'+${podcast.uuid}+'/'+${episode.uuid}" class="btn btn-primary">Повернутися</a>
+            </div>
+        </div>
+    </div>
+    <!-- світимо назву подкасту і епізоду -->
+    <div class="row">
+        <div class="col-lg-8 mt-5">
+            <!-- перелік всіх епізодів -->
+            <div class="row gx-lg-5">
+                <p>
+                    <b>Подкаст:</b><span th:text="' '+${podcast.title}"></span><br>
+                    <b>Епізод:</b><span th:text="' '+${episode.title}"></span><br>
+                </p>
+            </div>
+        </div>
+    </div>
+    <!-- світимо всі обкладинки   -->
+    <div class="row">
+        <div class="col-lg-8 mt-5">
+            <!-- перелік всіх епізодів -->
+            <div class="row gx-lg-5">
+                <!-- початок циклу виводу обкладинок користувача -->
+                <div th:each="image : ${podcastImageList}" class="col-lg-6 col-xxl-4 mb-5">
+                    <div class="card bg-light border-0 h-100">
+                        <div class="card-header">
+                            <!-- посилання на додавання картинки до епізоду  -->
+                            <a class="mx-auto" th:href="'/podcast/coverepisodeset/'+${episode.uuid}+'/'+${image.uuid}">
+                                <span class="badge rounded-pill bg-primary">Додати обкладинку</span>
+                            </a>
+                        </div>
+                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                            <!-- Обкладинка епізоду -->
+                            <img class="img-fluid" th:src="'/store/thrumbal/w/300/' + ${image.storeidimage.uuid} + '/' + ${image.storeidimage.filename}"
+                                 th:id="${image.uuid}"/>
+                            <!-- Файл -->
+                            <p class="mb-0" >Файл:<span th:text="' '+${image.storeidimage.filename}"/></p>
+                            <hr>
+                        </div>
+                    </div>
+                </div>
+                <!-- кінець циклу виводу обкладинок -->
+            </div>
+        </div>
+    </div>
+
+</div>
+
+
+<script th:src="@{/js/jquery.min.js}"></script>
+<script th:src="@{/js/popper.js}"></script>
+<!--<script th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>-->
+<script src="/js/bootstrap.bundle.min.js"></script>
+
+<script th:src="@{/js/dropzone.min.js}"></script>
+<script th:src="@{/js/toastr.min.js}"></script>
+
+<script>
+    Dropzone.autoDiscover = false;
+
+    $("#demo-upload").dropzone({
+        success : function(file, response) {
+            toastr.success('File ' + file.name + ' uploaded successfully');
+        }
+    });
+</script>
+
+</body>
+</html>

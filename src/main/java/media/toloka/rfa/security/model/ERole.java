@@ -6,7 +6,7 @@ public enum ERole {
 //    ROLE_MODERATOR("Moderator"),
 //    ROLE_EDITOR("Editor"),
 //    ROLE_ADMIN("Admin");
-    ROLE_UNKNOWN("ROLE_UNCNOWN"),       // 0
+    ROLE_UNKNOWN("ROLE_UNKNOWN"),       // 0
     ROLE_USER("ROLE_USER"),             // 1
     ROLE_CREATER("ROLE_CREATER"),       // 2
     ROLE_MODERATOR("ROLE_MODERATOR"),   // 3

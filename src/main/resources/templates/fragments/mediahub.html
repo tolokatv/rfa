@@ -6,7 +6,6 @@
 </head>
 <body>
 <!-- карусель зі станціями -->
-<!--<div th:fragment="radiocarusel" class="container">-->
 <div th:fragment="radiocarusel">
     <div class="row">
         <div class="col-md-2">
@@ -52,6 +51,57 @@
     </div>
 </div>
 
+<!-- карусель подкастів -->
+<section >
+
+</section>
+<div th:fragment="mainpodcastcarusel">
+    <div  class="row">
+        <div class="col">
+            <div class="card" >
+        <div class="card-header"><h3>Подкасти на Толоці</h3></div>
+        <div class="card-body">
+            <div class="carousel slide" data-bs-ride="carousel" id="theCarouselPodcast">
+                <div class="carousel-inner">
+                    <div th:each="podcast, iStat : ${podcastChannels}">
+                        <!-- IF CUSTOMER IS ANONYMOUS -->
+                        <div th:if="${iStat.first}">
+                            <div class="carousel-item active" th:id="${podcast.uuid}">
+                                <a th:href="'/podcast/view/'+${podcast.uuid}" target="_blank">
+                                    <h2><span th:text="${podcast.title}"></span></h2>
+                                </a>
+                                <div th:if="${podcast.description != null}">
+                                    <p  th:if="${podcast.description.length()>150}" class="mb-0 fs-6" th:utext="${#strings.substring(podcast.description,0,150)+'...'}"></p>
+                                    <p  th:if="${podcast.description.length()<150}" class="mb-0 fs-6" th:utext="${podcast.description}"></p>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ELSE -->
+                        <div th:unless="${iStat.first}">
+                            <div class="carousel-item" th:id="${podcast.uuid}">
+                                <a th:href="'/podcast/view/'+${podcast.uuid}" target="_blank">
+                                    <h2><span th:text="${podcast.title}"></span></h2>
+                                </a>
+                                <div th:if="${podcast.description != null}">
+                                    <p  th:if="${podcast.description.length()>150}" class="mb-0 fs-6" th:utext="${#strings.substring(podcast.description,0,150)+'...'}"></p>
+                                    <p  th:if="${podcast.description.length()<150}" class="mb-0 fs-6" th:utext="${podcast.description}"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--  Example item end -->
+                </div>
+                <a class="left carousel-control" href="#theCarouselPodcast" data-slide="prev"><i class="glyphicon glyphicon-chevron-left"></i></a>
+                <a class="right carousel-control" href="#theCarouselPodcast" data-slide="next"><i class="glyphicon glyphicon-chevron-right"></i></a>
+            </div>
+        </div>
+        <div class="card-footer text-muted">
+            <a href="/podcast/viewall/0">Подивитися всі подкасти на Толоці</a>
+        </div>
+    </div>
+        </div>
+    </div>
+</div>
 
 
 <!-- головна сторінка -->
@@ -73,8 +123,8 @@
             <div class="col-lg-3 col-sm-12">
                 <!--                    Вставляємо останні завантажені треки-->
                 <div th:insert="~{/fragments/mediahub :: lasttrecks}">  </div>
-                <!--                    вставляем Медіа Хаб-->
-                <!--            <div th:insert="~{/fragments/mediahub :: usermediahub}">  </div>-->
+<!--                &lt;!&ndash; карусель подкастів &ndash;&gt;-->
+<!--                <div th:insert="~{/fragments/mediahub :: mainpodcastcarusel}">  </div>-->
             </div>
         </div>
 
@@ -312,8 +362,6 @@
     </div>
 </div>
 <!--Останні завантажені треки-->
-
-<!-- Для користувача. Стовбчик з пропозиціями завантажених треків-->
 
 <!-- колонка медіа хаб-->
 <div class="container" th:fragment="postallpage">

@@ -4,6 +4,8 @@ import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.model.enumerate.EDocumentStatus;
 import media.toloka.rfa.radio.repository.DocumentRepository;
+import media.toloka.rfa.radio.store.Service.StoreService;
+import media.toloka.rfa.radio.store.model.Store;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import media.toloka.rfa.radio.model.Documents;
@@ -16,6 +18,8 @@ public class DocumentService {
 
     @Autowired
     private DocumentRepository documentRepository;
+
+
 
     @Autowired
     private ClientService clientService;
@@ -37,12 +41,13 @@ public class DocumentService {
         return ld;
     }
 
-    public void SaveDocumentUploadInfo(String storeUUID,Clientdetail cd) {
+    public void SaveDocumentUploadInfo(String storeUUID, Clientdetail cd, Store store) {
         Documents doc = new Documents();
         doc.setStatus(EDocumentStatus.STATUS_LOADED);
 //        doc.setPathToDocument(destination.getFileName().toString());
         doc.setClientdetail(cd);
         doc.setStoreuuid(storeUUID);
+        doc.setStore(store);
         documentRepository.save(doc);
     }
 
@@ -50,5 +55,10 @@ public class DocumentService {
 //        return documentRepository.findByStatusLessThan(EDocumentStatus.STATUS_APPROVED);
 //        findByStatusNot
         return documentRepository.findByStatusNot(EDocumentStatus.STATUS_APPROVED);
+    }
+
+    public Documents GetDocumentByUUID(String uuid) {
+        Documents doc = documentRepository.getByUuid(uuid);
+        return doc;
     }
 }

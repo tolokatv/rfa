@@ -1,6 +1,7 @@
 package media.toloka.rfa.radio.store.Service;
 
 
+import media.toloka.rfa.radio.podcast.model.PodcastItem;
 import media.toloka.rfa.radio.store.Reposirore.StoreRepositorePagination;
 import media.toloka.rfa.radio.store.implementation.StoreFileImplementation;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+import static media.toloka.rfa.radio.store.model.EStoreFileType.STORE_EPISODETRACK;
 import static media.toloka.rfa.radio.store.model.EStoreFileType.STORE_TRACK;
 
 @Service
@@ -53,5 +55,9 @@ public class StoreService extends StoreFileImplementation {
 
     public void SaveStore(Store store) {
         storeRepositore.save(store);
+    }
+
+    public List<Store> GetAllEpisodeByClientId(Clientdetail cd) {
+        return storeRepositore.findByClientdetailAndStorefiletypeOrderByIdDesc(cd,STORE_EPISODETRACK);
     }
 }

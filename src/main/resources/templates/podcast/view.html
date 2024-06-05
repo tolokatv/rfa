@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Толока - радіо для всіх!</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+<!--    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>-->
+    <!-- Google fonts-->
+<!--    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />-->
+<!--    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />-->
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <!-- Bootstrap icons-->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.4.1/font/bootstrap-icons.css" rel="stylesheet" />
+
+    <link href="/css/bootstrap.min.css"  rel="stylesheet" />
+    <!--    <link href="/css/infoblock.css"  rel="stylesheet" />-->
+</head>
+<body>
+    <header>
+        <!-- Navigation-->
+        <div th:insert="~{/fragments/navbar :: mynavbar}">  </div>
+    </header>
+
+    <!-- MessageBox -->
+    <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
+    <!-- Header для главной сторінки подкастов -->
+    <section class="pt-4">
+        <div class="container px-lg-5">
+            <div class="row " style="padding-top: 20px">
+                <div class="col align-center">
+                    <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
+                </div>
+            </div>
+            <!-- Перелік подкастів-->
+            <div class="row" style="padding-top: 50px">
+                <!-- початок циклу виводу подкастів -->
+                <div class="col">
+                    <div class="card bg-light border-0 h-100">
+<!--                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">-->
+                        <div class="card-body p-4 p-lg-5 pt-0 pt-lg-0">
+                            <img class="img-fluid align-center" style="padding-top: 20px" th:if="${podcast.image != null}" th:src="'/store/thrumbal/w/300/' + ${podcast.image.storeidimage.uuid} + '/' + ${podcast.image.storeidimage.filename}"
+                                 th:id="${podcast.image.uuid}"/>
+                            <h1 class="fs-4 fw-bold text-center" th:text="${podcast.title}"></h1> <!-- назва подкасту -->
+                            <!-- зміст подкасту -->
+                            <div  th:utext="${podcast.description}" class="mb-0 fs-6" ></div>
+                            <!-- зміст подкасту -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="pt-4">
+        <div class="container-fluid px-lg-5">
+            <!-- Епізоди подкасту-->
+            <div class="row gx-lg-5">
+                <div th:each="item : ${podcast.item}" class="col-lg-6 col-xxl-4 mb-5">
+                    <div class="card bg-light border-0 h-100">
+                        <div class="card-header">
+                            <a class="mx-auto" th:href="'/podcast/episodeedit/'+${podcast.uuid}+'/'+${item.uuid}">
+                                <span class="badge rounded-pill bg-primary">Слухати</span>
+                            </a>
+                        </div>
+                        <div class="card-body text-center p-4 p-lg-5 pt-0 pt-lg-0">
+                            <img class="img-fluid" th:if="${item.image != null}" th:src="'/store/thrumbal/w/100/' + ${item.image.storeidimage.uuid} + '/' + ${podcast.image.storeidimage.filename}"
+                                 th:id="${item.image.uuid}"/>
+                            <div th:if="${item.title != null}">
+                                <h2 class="fs-4 fw-bold" th:text="${item.title}"></h2>
+                            </div>
+                            <div th:if="${item.description != null}">
+                                <p  th:if="${item.description.length()>150}" class="mb-0 fs-6" th:utext="${#strings.substring(item.description,0,150)+'...'}"></p>
+                                <p  th:if="${item.description.length()<150}" class="mb-0 fs-6" th:utext="${item.description}"></p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+    <!-- Footer -->
+    <div th:insert="~{/fragments/common :: footer}">  </div>
+
+    <!-- Footer -->
+
+    <div th:insert="~{/fragments/navbar :: bottomnavbar}">  </div>
+
+
+    <!-- різні скріпти -->
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
