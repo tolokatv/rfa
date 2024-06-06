@@ -321,9 +321,9 @@ public class ClientHomeStationController {
         Gson gson = gsonService.CreateGson();
         String strgson = gson.toJson(rjob).toString();
         template.convertAndSend(queueNameRabbitMQ,gson.toJson(rjob).toString());
-//        return "/user/controlstation"+"/?id="+station.getId().toString();
+        return "/user/controlstation"+"/?id="+station.getId().toString();
 
-        return "redirect:/user/stations";
+//        return "redirect:/user/stations";
     }
 
     @GetMapping(value = "/user/stopstation")
