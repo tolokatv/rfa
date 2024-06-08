@@ -220,7 +220,7 @@ public class ServerRunnerService {
         String server_workdir;
 
         server_workdir = env.get("HOME")+ clientdir + "/" + env.get("CLIENT_UUID") + "/" +env.get("STATION_UUID");
-//        logger.info("============== Start Station {}", server_workdir);
+        logger.info("============== Start Station {}", server_workdir);
         pb.directory(new File(server_workdir));
         pb.redirectErrorStream(true);
 //        pb.redirectOutput(ProcessBuilder.Redirect.appendTo(log));
