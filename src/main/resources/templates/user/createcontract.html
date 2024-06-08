@@ -37,33 +37,28 @@
             </div>
         </div>
 
-        <div class="row">
-            <div class="col-lg-8 mt-5">
-
-                <div th:if="${message}">
-                    <h2 th:text="${message}"/>
-                </div>
-                <div id="dropzone">
-                    <form action="/uploadfile" class="dropzone needsclick" id="demo-upload" method="post">
-                        <input type="hidden"
-                               th:name="${_csrf.parameterName}"
-                               th:value="${_csrf.token}" />
-                        <div class="dz-message needsclick">
-                            <button type="button" class="dz-button">Перенсіть файл сюди або натисніть для вибору файла.</button>
-                            <br/>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
+<!--        <div class="row">-->
+<!--            <div class="col-lg-8 mt-5">-->
+<!--                <div id="dropzone">-->
+<!--                    <form action="/uploadfile" class="dropzone needsclick" id="demo-upload" method="post">-->
+<!--                        <input type="hidden"-->
+<!--                               th:name="${_csrf.parameterName}"-->
+<!--                               th:value="${_csrf.token}" />-->
+<!--                        <div class="dz-message needsclick">-->
+<!--                            <button type="button" class="dz-button">Перенесіть файл сюди або натисніть для вибору файла.</button>-->
+<!--                            <br/>-->
+<!--                        </div>-->
+<!--                    </form>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
 
         <div class="row" style="padding-top: 40px">
+            <div th:if="${message}">
+                <h2 th:text="${message}"/>
+            </div>
             <!-- Колонка керування радіо-->
             <div class="col-lg-9 col-sm-12">
-                <!--                <div class="card" >-->
-                <!--                    <div class="card-header"><h3> Новий контракт</h3></div>-->
-                <!--                    <div class="card-body">-->
-                <!--                Форма створення контракту-->
                 <form
                         th:action="@{/user/createcontract}"
                         th:object="${contract}"
@@ -72,13 +67,9 @@
                     <div class="row align-items-stretch mb-5">
                         <div class="form-group form-group-textarea mb-md-0">
 <!--                            <div>-->
-<!--                                <h3>Номер контракту</h3>-->
-<!--                                <span th:text="${contract.number}" id="number"></span>-->
-<!--                            </div>-->
-                            <div>
                                 <input th:field="*{contractname}" type="text"  class="form-control"  />
-                                <label class="form-label" for="contractname">Назва контракту</label>
-                            </div>
+                                <label class="form-label" for="contractname">Назва угоди</label>
+<!--                            </div>-->
                             <!-- Message input-->
                             <textarea th:field="*{usercomment}"
                                       class="form-control"
@@ -100,29 +91,6 @@
             </div> <!-- Col -->
         </div>  <!-- Row -->
     </div> <!-- Container -->
-<!--    <div class="container">-->
-<!--        <div class="row">-->
-<!--            <div class="col-lg-8 mt-5">-->
-
-<!--                <div th:if="${message}">-->
-<!--                    <h2 th:text="${message}"/>-->
-<!--                </div>-->
-
-<!--                <div id="dropzone">-->
-<!--                    <form action="/uploadfile" class="dropzone needsclick" id="demo-upload" method="post">-->
-
-<!--                        <div class="dz-message needsclick">-->
-<!--                            <button type="button" class="dz-button">Перенсіть файл сюди або натисніть для вибору файла.</button>-->
-<!--                            <br/>-->
-<!--                        </div>-->
-
-<!--                    </form>-->
-<!--                </div>-->
-
-<!--            </div>-->
-<!--        </div>-->
-
-<!--    </div>-->
 </div>
 
 <script th:src="@{/js/jquery.min.js}"></script>

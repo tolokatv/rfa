@@ -86,6 +86,7 @@ public class RPCService {
         newRadio = poolPortsService.AttachPort(user,newRadio, EServerPortType.PORT_SHOW);
         stationService.saveStation(newRadio);
         newRadio = poolPortsService.AttachPort(user,newRadio, EServerPortType.PORT_WEB);
+        newRadio.setName(newRadio.getUuid());
         stationService.saveStation( newRadio);
         // записуємо подію в журнал.
         String sCreateDate = newRadio.getCreatedate().toString();

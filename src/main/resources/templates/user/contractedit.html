@@ -34,9 +34,6 @@
             <!-- Колонка редагування контракту-->
             <div class="col-lg-9 col-sm-12">
                 <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
-<!--                <div th:if="${message}">-->
-<!--                    <h2 th:text="${message}"/>-->
-<!--                </div>-->
                 <form th:action="@{/user/contractedit}" th:object="${contract}" method="post" >
                     <div class="row align-items-stretch mb-5">
                         <div class="form-group form-group-textarea mb-md-0">
@@ -61,8 +58,8 @@
                                 <table class="table">
                                     <thead>
                                     <tr>
-                                        <th scope="col">Дії</th>
                                         <th scope="col">Імʼя станції</th>
+                                        <th scope="col">Дія</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -85,8 +82,8 @@
                                 <table class="table">
                                     <thead>
                                     <tr>
-                                        <th scope="col">Дії</th>
                                         <th scope="col">Імʼя станції</th>
+                                        <th scope="col">Дія</th>
                                     </tr>
                                     </thead>
                                     <tbody>

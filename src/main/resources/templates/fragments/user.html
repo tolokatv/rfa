@@ -91,6 +91,7 @@
             <th scope="col">Імʼя станції</th>
             <th scope="col">Дата створення</th>
             <th scope="col">Дата останньої оплати</th>
+            <th scope="col">Оплачено до</th>
             <th scope="col">Дії</th>
         </tr>
         </thead>
@@ -108,6 +109,7 @@
             <!--                <td><span th:text="${station.createdate}"></span></td>-->
             <td><span th:text="${#dates.format(station.createdate, 'dd-MM-yyyy HH:mm' )}"></span></td>
             <td><span th:text="${#dates.format(station.lastpaydate, 'dd-MM-yyyy HH:mm')}"></span></td>
+            <td> </td>
             <td><a class="btn btn-primary" th:href="@{/user/controlstation(id=${station.id})}">Керувати</a>
             </td>
             <!--                <a th:href="@{/user/temporary(id='${station.id}')}"-->
