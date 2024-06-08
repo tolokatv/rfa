@@ -239,11 +239,12 @@ public class ServerRunnerService {
             stationService.SetStationRunState(station,true); // Change runnining status station
 
         } catch (IOException e) {
-            logger.warn(" Щось пішло не так при виконанні завдання в операційній системі");
-
+            logger.warn(" IOException. Щось пішло не так при виконанні завдання в операційній системі при старті станції.");
+            stationService.SetStationRunState(station,false); // Change runnining status station
             e.printStackTrace();
         } catch (InterruptedException e){
-            logger.warn(" Щось пішло не так при виконанні завдання (p.waitFor) InterruptedException");
+            logger.warn("InterruptedException. Щось пішло не так при виконанні завдання.");
+            stationService.SetStationRunState(station,false); // Change runnining status station
             e.printStackTrace();
         }
 //        }
