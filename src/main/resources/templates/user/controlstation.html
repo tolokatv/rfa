@@ -71,9 +71,18 @@
                             </div>
                             <div>
                                 <p>Посилання для програвача радіо:</p>
-                                <p><span th:text="'https://'+${station.dbname} + '.rfa.toloka.media:8443/'+${station.uuid} + '-main'" /></p>
+                                <p>
+                                    <a th:href="@{'https://'+${station.dbname} + '.rfa.toloka.media:8443/'+${station.uuid} + '-main'}" target="_blank">
+                                        <span th:text="'https://'+${station.dbname} + '.rfa.toloka.media:8443/'+${station.uuid} + '-main'" />
+                                    </a>
+
+                                </p>
                                 <p>Посилання для входу до системи керування станцією:</p>
-                                <p><span th:text="'https://'+${station.dbname} + '.rfa.toloka.media'" /></p>
+                                <p>
+                                    <a th:href="'https://'+${station.dbname} + '.rfa.toloka.media'" target="_blank">
+                                        <span th:text="'https://'+${station.dbname} + '.rfa.toloka.media'" />
+                                    </a>
+                                </p>
                                 <p>Ці посилання Ви завжди можете скопіювати і вставити до адресного ряку броузера.</p>
 
                             </div>
