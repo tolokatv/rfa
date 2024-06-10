@@ -1,6 +1,5 @@
 package media.toloka.rfa.radio.post.service;
 
-import media.toloka.rfa.radio.document.ClientDocumentEditController;
 import media.toloka.rfa.radio.model.Post;
 import media.toloka.rfa.radio.post.repositore.PostRepositore;
 import org.slf4j.Logger;
@@ -29,6 +28,6 @@ public class PostService {
     }
 
     public List<Post> GetListPostByApruve(Boolean apruve) {
-        return postRepositore.findByApruve(apruve);
+        return postRepositore.findByApruveOrderByCreatedateDesc(apruve);
     }
 }

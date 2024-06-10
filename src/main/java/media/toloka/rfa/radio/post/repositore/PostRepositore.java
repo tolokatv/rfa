@@ -12,7 +12,7 @@ import java.util.List;
 public interface PostRepositore extends JpaRepository<Post, Long>, PagingAndSortingRepository<Post, Long> {
     List<Post> findByClientdetail(Clientdetail cd);
     Post getById(Long id);
-    List<Post>  findByApruve(Boolean apruve);
+    List<Post> findByApruveOrderByCreatedateDesc(Boolean apruve);
 
     Page findAllByOrderByPublishdateDesc(Pageable storePage);
 
