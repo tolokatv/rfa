@@ -65,7 +65,7 @@ final Logger logger = LoggerFactory.getLogger(ScheduledTasks.class);
             URL url;
             try {
                 // сформували урл для станції
-                url = new URL("https://" + stationOnline.getUuid() + ".rfa.toloka.media/api/live-info/?callback");
+                url = new URL("https://" + stationOnline.getDbname() + ".rfa.toloka.media/api/live-info/?callback");
             } catch (MalformedURLException e) {
                 throw new RuntimeException(e);
             }
