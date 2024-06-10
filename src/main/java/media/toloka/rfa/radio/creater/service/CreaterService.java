@@ -13,7 +13,6 @@ import media.toloka.rfa.radio.model.*;
 import media.toloka.rfa.radio.model.enumerate.EDocumentStatus;
 import media.toloka.rfa.radio.post.repositore.PostRepositore;
 import media.toloka.rfa.radio.store.Service.StoreService;
-import media.toloka.rfa.radio.store.model.EStoreFileType;
 import media.toloka.rfa.radio.store.model.Store;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +24,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.stereotype.Service;
 
-import java.nio.file.Path;
 import java.util.List;
 
 @Service
@@ -92,7 +90,7 @@ public class CreaterService {
     }
 
     public List<Post> GetAllPostsByApruve(Boolean flag) {
-        List<Post> postList = postRepositore.findByApruve( flag);
+        List<Post> postList = postRepositore.findByApruveOrderByCreatedateDesc( flag);
         return postList;
     }
 
