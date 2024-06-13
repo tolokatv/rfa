@@ -27,15 +27,15 @@ public class Station {
     @Expose
     private boolean enable = false;
     @Expose
-    private Date startdate;
+    private Date startdate;  // дата останього старту
     @Expose
-    private Date createdate;
+    private Date createdate;  // дата створення
     @Expose
-    private Date endworkdate;
+    private Date endworkdate;  // дата зупинки з панелі
     @Expose
-    private Date lastpaydate;
+    private Date lastpaydate;   // дата останьої оплати
     @Expose
-    private Date lastchangedate;
+    private Date lastchangedate;  //дата останьої зміни даних
     @Expose
     public Integer guiport; // port gui server
     @Expose
@@ -55,7 +55,7 @@ public class Station {
     @Expose
     private String icecastgenre;
     @Expose
-    private Boolean stationstate; // true if station runing
+    private Boolean stationstate; // true if station runing state
 
 //    private transient Contract contract;
 

@@ -317,4 +317,36 @@ public class StoreSiteController  {
         return null;
     }
 
+    // вигрібаємо зі сховища встановлюючи тип контенту.
+    // використовується для відображення на сайті та для завантаження з сайту.
+    @GetMapping(value = "/store/content/{storeUUID}")
+    public @ResponseBody byte[] getStoreContent(
+            @PathVariable String storeUUID,
+            HttpServletResponse response,
+            Model model ) {
+        Store storeObject = storeService.GetStoreByUUID(storeUUID);
+//        http://localhost:8080/store/e2f9b0e6-73b5-4fcf-b249-f1e82d42a689/123.jpg
+        response.setContentType(storeObject.getContentMimeType());
+        response.setContentLength(storeObject.getFilelength().intValue());
+        String ifile = storeObject.getFilepatch();
+        InputStream is;
+        try {
+            is = new FileInputStream(new File(ifile));
+            if (is == null) {
+                return new byte[0];
+            }
+            byte[] buffer = is.readAllBytes();
+            return buffer;
+        } catch (FileNotFoundException e) {
+            logger.info("getStoreContent: Йой! FileNotFoundException! {}",ifile);
+        } catch (IOException e) {
+            logger.info("==================================== getStoreContent IOException");
+            logger.info("Проблеми з файлом: {}",ifile);
+//            e.printStackTrace();
+//            return null;
+        }
+        return null;
+    }
+
+
 }
