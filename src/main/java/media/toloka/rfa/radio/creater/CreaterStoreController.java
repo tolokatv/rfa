@@ -5,6 +5,7 @@ import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.model.Clientdetail;
+import media.toloka.rfa.radio.model.Post;
 import media.toloka.rfa.radio.store.Service.StoreService;
 import media.toloka.rfa.radio.store.model.Store;
 import media.toloka.rfa.security.model.Users;
@@ -69,5 +70,39 @@ public class CreaterStoreController {
         return "/store/mainstore";
     }
 
+    @GetMapping(value = "/creater/setpostmainpicture/{postUuid}/{pageNumber}")
+    public String getStoreMainPictureForPost(
+            @PathVariable String postUuid,
+            @PathVariable int pageNumber,
+//            @PathVariable String fileName,
+//            @ModelAttribute Clientdetail fuserdetail,
+            Model model ) {
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
 
+        Clientdetail cd = clientService.GetClientDetailByUser(user);
+        Post curpost = createrService.GetPostByUuid(postUuid);
+
+        Page pageStore = storeService.GetAllPictures(pageNumber,10, cd);
+        List<Store> storeList = pageStore.stream().toList();
+
+        int privpage ;
+        int nextpage ;
+        if (pageNumber == 0) {privpage = 0;} else {privpage = pageNumber - 1;};
+        if (pageNumber >= (pageStore.getTotalPages()-1) ) {nextpage = pageStore.getTotalPages()-1; } else {nextpage = pageNumber+1;} ;
+
+        model.addAttribute("curpost", curpost );
+        model.addAttribute("nextpage", nextpage );
+        model.addAttribute("privpage", privpage );
+        model.addAttribute("totalpage", pageStore.getTotalPages() );
+        model.addAttribute("pagetrack", pageStore );
+        model.addAttribute("currentpage", pageNumber );
+        model.addAttribute("storeList", storeList );
+
+//        List<Store> storeList = storeService.GetAllPictures(cd);
+
+        return "/creater/setpostmainpicture";
+    }
 }

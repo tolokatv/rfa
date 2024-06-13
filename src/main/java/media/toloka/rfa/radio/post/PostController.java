@@ -6,6 +6,8 @@ import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Post;
 import media.toloka.rfa.radio.model.enumerate.EPostStatus;
 import media.toloka.rfa.radio.post.service.PostService;
+import media.toloka.rfa.radio.store.Service.StoreService;
+import media.toloka.rfa.radio.store.model.Store;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,6 +37,9 @@ public class PostController {
 
     @Autowired
     private CreaterService createrService;
+
+    @Autowired
+    private StoreService storeService;
 
     @GetMapping(value = "/post/postview/{idPost}") // /post/postview/52
     public String getViewPost(
@@ -162,6 +167,37 @@ public class PostController {
         model.addAttribute("posts", posts );
         return "/creater/posts";
     }
+
+// /post/setpostimage/'+${curpost.uuid}+'/'+${storeitem.uuid}
+    @GetMapping(value="/post/setpostimage/{uuidpost}/{storeitemuuid}")
+    public String SetPostMainImage(
+            @PathVariable String uuidpost,
+            @PathVariable String storeitemuuid,
+            Model model )
+    {
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+
+        Clientdetail cd = clientService.GetClientDetailByUser(user);
+        Store store = storeService.GetStoreByUUID(storeitemuuid);
+        Post post;
+        post = postService.GetByUiid(uuidpost);
+        post.setCoverstoreuuid(store.getUuid());
+        post.setStore(store);
+
+        postService.SavePost(post);
+
+        List<Post> posts = createrService.GetAllPostsByCreater(cd);
+//        model.addAttribute("posts", posts );
+        model.addAttribute("post", post );
+
+        return "/creater/editpost";
+    }
+
+
+
 
 
 }

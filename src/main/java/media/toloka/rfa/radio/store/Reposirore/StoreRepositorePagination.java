@@ -6,6 +6,7 @@ import media.toloka.rfa.radio.store.model.Store;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 import java.util.List;
@@ -31,4 +32,9 @@ public interface StoreRepositorePagination extends PagingAndSortingRepository<St
     List<Store> findByClientdetailAndStorefiletype(Clientdetail cd, EStoreFileType type);
 
     List<Store> findByClientdetailAndStorefiletypeOrderByIdDesc(Clientdetail cd, EStoreFileType type);
+
+    @Query(value = "SELECT a FROM Store a WHERE "
+            + "a.clientdetail = ?1 AND  "
+            + "LOWER(a.contentMimeType) LIKE LOWER(CONCAT('%', 'image/', '%'))") // OR " +
+    Page findByStorelAllPictures(Pageable pageable, Clientdetail cd);
 }

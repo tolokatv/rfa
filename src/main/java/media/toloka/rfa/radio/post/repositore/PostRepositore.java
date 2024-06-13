@@ -17,4 +17,6 @@ public interface PostRepositore extends JpaRepository<Post, Long>, PagingAndSort
     Page findAllByOrderByPublishdateDesc(Pageable storePage);
 
     List<Post> findByClientdetailOrderByCreatedateDesc(Clientdetail cd);
+
+    Post getByUuid(String postUuid);
 }

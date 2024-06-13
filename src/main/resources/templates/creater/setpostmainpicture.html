@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Толока - радіо для всіх!</title>
+    <!-- Favicon-->
+    <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+    <!-- Font Awesome icons (free version)-->
+    <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+    <!-- Google fonts-->
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+    <!-- Core theme CSS (includes Bootstrap)-->
+    <link href="/css/bootstrap.min.css"  rel="stylesheet" />
+
+    <link th:rel="stylesheet" th:href="@{/css/dropzone.min.css}"/>
+    <link th:rel="stylesheet" th:href="@{/css/toastr.min.css}"/>
+    <!--    <link href="/css/infoblock.css"  rel="stylesheet" />-->
+</head>
+<body>
+<header>
+    <div th:insert="~{/fragments/navbar :: navbarUniverse}">  </div>
+</header>
+
+<!--// User page container-->
+<div style="padding-top: 100px">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-12 col-sm-12">
+                <div th:insert="~{/fragments/creater :: service}"> </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div class="row" style="padding-top: 40px">
+            <div id="dropzone">
+                <form action="/creater/storefileupload" class="dropzone needsclick" id="demo-upload" method="post">
+                    <input type="hidden"
+                           th:name="${_csrf.parameterName}"
+                           th:value="${_csrf.token}" />
+                    <div class="dz-message needsclick">
+
+                        <div class="dz-message needsclick">
+                            <button type="button" class="dz-button">Перенсіть файл сюди або натисніть для вибору файла і перезавантажте сторінку.</button>
+                            <br/>
+                        </div>
+                </form>
+            </div>
+        </div>
+
+        <div class="row" style="padding-top: 40px">
+            <div class="col-lg-3 col-sm-12">
+<!--                <a class="btn btn-primary" th:href="@{'/store/setpostimage/'+${curpost.uuid}+'/'+${storeitem.uuid} }">Встановити</a>-->
+            </div>
+            <div class="col-lg-9 col-sm-12">
+                <nav aria-label="navigation">
+                    <ul class="pagination" >
+                        <li class="page-item"><a class="page-link"  th:href="'/creater/setpostmainpicture/'+${curpost.uuid}+'/'+${privpage}">Попередня</a></li>
+                        <div th:each="lpage : ${#numbers.sequence(0, __${totalpage-1}__)}">
+                            <li class="page-item"><a class="page-link"  th:href="'/creater/setpostmainpicture/'+${curpost.uuid}+'/'+${lpage}" ><span th:text="${lpage+1}">1</a></li>
+                        </div>
+                        <li class="page-item"><a class="page-link" th:href="'/creater/setpostmainpicture/'+${curpost.uuid}+'/'+${nextpage}">Наступна</a></li>
+                    </ul>
+                </nav>
+                <table class="table">
+                    <thead>
+                    <tr>
+                        <th scope="col">Дата</th>
+                        <th scope="col">Файл</th>
+<!--                        <th scope="col">Тип</th>-->
+                        <th scope="col">Призначити</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="storeitem : ${storeList}">
+                        <td><span th:text="${#dates.format(storeitem.createdate, 'dd-MM-yyyy')}"></span></td>
+                        <td><span th:text="${storeitem.filename}"></span></td>
+<!--                        <td><span th:text="${storeitem.storefiletype.label}"></span></td>-->
+                        <td><a class="btn btn-primary" th:href="@{'/post/setpostimage/'+${curpost.uuid}+'/'+${storeitem.uuid} }">Обрати</a></td>
+                    </tr>
+                    </tbody>
+                </table>
+                <nav aria-label="navigation">
+                    <ul class="pagination" >
+                        <li class="page-item"><a class="page-link"  th:href="'/creater/setpostmainpicture/'+${curpost.uuid}+'/'+${privpage}">Попередня</a></li>
+                        <div th:each="lpage : ${#numbers.sequence(0, __${totalpage-1}__)}">
+                            <li class="page-item"><a class="page-link"  th:href="'/creater/setpostmainpicture/'+${curpost.uuid}+'/'+${lpage}" ><span th:text="${lpage+1}">1</a></li>
+                        </div>
+                        <li class="page-item"><a class="page-link" th:href="'/creater/setpostmainpicture/'+${curpost.uuid}+'/'+${nextpage}">Наступна</a></li>
+                    </ul>
+                </nav>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<script src="/js/bootstrap.bundle.min.js"></script>
+<script th:src="@{/js/dropzone.min.js}"></script>
+<script th:src="@{/js/toastr.min.js}"></script>
+
+</body>
+</html>

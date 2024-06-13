@@ -221,5 +221,9 @@ public class CreaterService {
         return trackRepository.getByUuid(trackuuid);
     }
 
+    public Post GetPostByUuid(String postUuid) {
+        return postRepositore.getByUuid(postUuid);
+    }
+
 
 }

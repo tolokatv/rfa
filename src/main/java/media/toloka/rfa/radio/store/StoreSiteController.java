@@ -284,10 +284,7 @@ public class StoreSiteController  {
 
 // ==================== Пробуємо завантажити документ
 
-    @GetMapping(value = "/store/document/{storeUUID}"
-//    @GetMapping(value = "/store/document/{storeUUID}/{fileName}"
-//            produces = {MediaType.IMAGE_JPEG_VALUE, MediaType.IMAGE_PNG_VALUE, MediaType.IMAGE_GIF_VALUE}
-    )
+    @GetMapping(value = "/store/document/{storeUUID}"     )
     public @ResponseBody byte[] getStoreDoc(
             @PathVariable String storeUUID,
 //            @PathVariable String fileName,

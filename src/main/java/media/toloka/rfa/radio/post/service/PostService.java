@@ -30,4 +30,8 @@ public class PostService {
     public List<Post> GetListPostByApruve(Boolean apruve) {
         return postRepositore.findByApruveOrderByCreatedateDesc(apruve);
     }
+
+    public Post GetByUiid(String uuidpost) {
+        return postRepositore.getByUuid(uuidpost);
+    }
 }

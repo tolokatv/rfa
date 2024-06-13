@@ -60,4 +60,11 @@ public class StoreService extends StoreFileImplementation {
     public List<Store> GetAllEpisodeByClientId(Clientdetail cd) {
         return storeRepositore.findByClientdetailAndStorefiletypeOrderByIdDesc(cd,STORE_EPISODETRACK);
     }
+
+    public Page GetAllPictures(int pageNumber, int pageCount, Clientdetail cd) {
+        Pageable storePage = PageRequest.of(pageNumber, pageCount);
+        Page ttt = storeRepositore.findByStorelAllPictures(storePage, cd);
+        return ttt;
+//        return storeRepositore.findByStorelAllPictures(cd.getId());
+    }
 }

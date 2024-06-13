@@ -76,7 +76,12 @@
             </div>
             <div class="col-lg-3 col-sm-12">
                 <!--                    вставляем Медіа Хаб-->
-                <div th:insert="~{/fragments/mediahub :: usermediahub}">  </div>
+<!--                <div th:insert="~{/fragments/mediahub :: usermediahub}">  </div>-->
+                <a class="btn btn-primary" th:href="@{'/creater/setpostmainpicture/'+${post.uuid}+'/0' }">Головна ілюстрація</a>
+                <div th:if="${post.store} != null">
+                    <img class="card-img-top img-fluid"  th:src="'https://rfa.toloka.media/store/content/'+${post.coverstoreuuid}" alt="Card image cap">
+                </div>
+
             </div>
         </div>
     </div>
