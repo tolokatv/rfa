@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.ToString;
 import media.toloka.rfa.radio.model.enumerate.EPostCategory;
 import media.toloka.rfa.radio.model.enumerate.EPostStatus;
+import media.toloka.rfa.radio.store.model.Store;
+import media.toloka.rfa.security.model.Users;
 
 import java.util.Date;
 import java.util.UUID;
@@ -38,6 +40,15 @@ public class Post {
     private EPostCategory category;
     @Expose
     private String coverstoreuuid;
+
+    @ToString.Exclude
+    @OneToOne(cascade = {CascadeType.ALL})
+    private Store store;
+//    @ToString.Exclude
+//    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+//    @CollectionTable
+////    @JoinColumn(name = "store_id")
+//    private Store store;
 
     @ToString.Exclude
     @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.ALL})

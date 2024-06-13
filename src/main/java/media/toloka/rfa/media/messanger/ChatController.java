@@ -197,10 +197,8 @@ public class ChatController {
         model.addAttribute("curuuid", cd.getUuid() );
         model.addAttribute("curusername", cd.getCustname()+" "+cd.getCustsurname() );
         model.addAttribute("curroom", messangerService.GetChatRoomById(1L).getUuid() );
-//        model.addAttribute("roomlist", messangerService.GetChatRoomList() );
+        model.addAttribute("roomlist", messangerService.GetChatRoomList() );
 //
-
-
         return "/messenger/messenger";
     }
 // END
