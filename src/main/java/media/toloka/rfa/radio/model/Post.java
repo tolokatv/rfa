@@ -44,10 +44,8 @@ public class Post {
     @ToString.Exclude
     @OneToOne(cascade = {CascadeType.ALL})
     private Store store;
-//    @ToString.Exclude
-//    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
-//    @CollectionTable
-////    @JoinColumn(name = "store_id")
+//    @ManyToOne(optional = false, fetch = FetchType.EAGER, cascade = {CascadeType.ALL})
+//    @JoinColumn(name = "store_id")
 //    private Store store;
 
     @ToString.Exclude
