@@ -42,6 +42,8 @@ public class PodcastChannel {
     @Expose
     @DateTimeFormat(pattern = "dd-MM-yy")
     private Date date = new Date();
+    @Expose
+    private Long looked = 0L; // скільки разів подивилися
 
     @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "podcast_image_id")

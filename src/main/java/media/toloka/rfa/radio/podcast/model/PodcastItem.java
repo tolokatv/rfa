@@ -41,6 +41,8 @@ public class PodcastItem {
     private Date date = new Date();
     @Expose
     private String storeuuid;
+    @Expose
+    private Long looked = 0L; // скільки разів подивилися
 
     @OneToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "store_id")

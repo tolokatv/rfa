@@ -54,7 +54,8 @@
                 <ul class="dropdown-menu" aria-labelledby="navbarCreater">
                     <li><a class="dropdown-item" href="/creater/albums">Альбоми</a></li>
                     <li><a class="dropdown-item" href="/creater/tracks">Треки</a></li>
-                    <li><a class="dropdown-item" href="/podcast/home">Подкаст</a></li>
+                    <li><a class="dropdown-item" href="/creater/posts">Пости</a></li>
+                    <li><a class="dropdown-item" href="/podcast/home">Подкасти</a></li>
                 </ul>
             </li>  <!-- Creater -->
                 <li sec:authorize="hasRole('ROLE_EDITOR')" class="nav-item dropdown">
@@ -72,7 +73,8 @@
                 <ul class="dropdown-menu" aria-labelledby="navbarModerator">
                     <li><a class="dropdown-item" href="/creater/home">Головна</a></li>
                     <li><a class="dropdown-item" href="/creater/albums">Альбоми</a></li>
-                    <li><a class="dropdown-item" href="/creater/tracks">Треки</a></li>                </ul>
+                    <li><a class="dropdown-item" href="/creater/tracks">Треки</a></li>
+                </ul>
             </li>            <!-- admin -->
                 <li sec:authorize="hasRole('ROLE_ADMIN')" class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarAdmin" role="button" data-bs-toggle="dropdown" aria-expanded="false">
