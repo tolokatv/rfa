@@ -7,24 +7,16 @@
 <body>
 
 <!--
-Метатег Open Graph
+Метатеги Open Graph для різних видів посилань - головна, пост, трек, альбом, подкаст, профайл
 -->
 
 <th:block th:fragment="og">
     <meta property=og:image th:attr="content=${ogimage==null? 'content=https://rfa.toloka.media/pictures/rfaog.png':'content=https://rfa.toloka.media/store/content/og/'+ ogimage+'/t.png' }"/>
-
-<!--    <meta property=og:image content=https://rfa.toloka.media/pictures/rfaog.png />-->
     <meta property=og:url content=https://rfa.toloka.media/ />
     <meta property=og:title content='Радіо для всіх!' />
     <meta property=og:description content='Кожен може створити інтернет радіостанцію і його почує весь світ!'/>
-<!--    <meta property=”og:type” content=”article”/>-->
     <meta property=”og:type” content=”website” />
     <meta property=”og:locale” content=”uk” />
-<!--    <meta property=”og:video” content=”https://example.com/blog/wp-content/uploads/2022/11/video.mp4″/>-->
-<!--    <meta property=”og:video:type” content=”video/mp4″/>-->
-<!--    <meta property=”og:type” content=”threed.asset”/>-->
-<!--    <meta property=”og:asset” content=”https://example.com/assets/standard.obj”/>-->
-<!--    <meta property=”fb:app_id” content=”1234567890″/>-->
 </th:block>
 
 <th:block th:fragment="ogpodcast">
@@ -44,6 +36,31 @@
     <meta property=”og:type” content=”article”/>
     <meta property=”og:locale” content=”uk” />
 </th:block>
+
+<th:block th:fragment="ogalbum">
+    <meta property=og:image th:attr="content=${ogimage==null? 'https://rfa.toloka.media/pictures/ogpost.png':'https://rfa.toloka.media/store/content/og/'+ ogimage+'/t.png' }"/>
+    <meta property=og:url th:attr="content=${'https://rfa.toloka.media/post/postview/'+post.id}" />
+    <meta property=og:title th:attr="content=${post.posttitle}" />
+    <meta property=”og:type” content=”article”/>
+    <meta property=”og:locale” content=”uk” />
+</th:block>
+
+<th:block th:fragment="ogtrack">
+    <meta property=og:image th:attr="content=${ogimage==null? 'https://rfa.toloka.media/pictures/ogpost.png':'https://rfa.toloka.media/store/content/og/'+ ogimage+'/t.png' }"/>
+    <meta property=og:url th:attr="content=${'https://rfa.toloka.media/post/postview/'+post.id}" />
+    <meta property=og:title th:attr="content=${post.posttitle}" />
+    <meta property=”og:type” content=”article”/>
+    <meta property=”og:locale” content=”uk” />
+</th:block>
+
+<th:block th:fragment="ogprofile">
+    <meta property=og:image th:attr="content=${ogimage==null? 'https://rfa.toloka.media/pictures/ogpost.png':'https://rfa.toloka.media/store/content/og/'+ ogimage+'/t.png' }"/>
+    <meta property=og:url th:attr="content=${'https://rfa.toloka.media/post/postview/'+post.id}" />
+    <meta property=og:title th:attr="content=${post.posttitle}" />
+    <meta property=”og:type” content=”article”/>
+    <meta property=”og:locale” content=”uk” />
+</th:block>
+
 
 
 <!-- Footer for all pages-->
