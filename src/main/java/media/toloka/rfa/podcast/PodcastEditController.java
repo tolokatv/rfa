@@ -1,4 +1,4 @@
-package media.toloka.rfa.radio.podcast;
+package media.toloka.rfa.podcast;
 
 
 //import dev.stalla.builder.episode.EpisodeBuilder;
@@ -10,10 +10,10 @@ package media.toloka.rfa.radio.podcast;
 import com.rometools.rome.io.FeedException;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.model.Clientdetail;
-import media.toloka.rfa.radio.podcast.model.PodcastChannel;
-import media.toloka.rfa.radio.podcast.model.PodcastImage;
-import media.toloka.rfa.radio.podcast.model.PodcastItem;
-import media.toloka.rfa.radio.podcast.service.PodcastService;
+import media.toloka.rfa.podcast.model.PodcastChannel;
+import media.toloka.rfa.podcast.model.PodcastImage;
+import media.toloka.rfa.podcast.model.PodcastItem;
+import media.toloka.rfa.podcast.service.PodcastService;
 import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +34,6 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 
 @Controller
 public class PodcastEditController {

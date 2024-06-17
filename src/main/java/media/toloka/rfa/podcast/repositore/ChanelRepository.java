@@ -1,8 +1,7 @@
-package media.toloka.rfa.radio.podcast.repositore;
+package media.toloka.rfa.podcast.repositore;
 
 import media.toloka.rfa.radio.model.Clientdetail;
-import media.toloka.rfa.radio.model.Track;
-import media.toloka.rfa.radio.podcast.model.PodcastChannel;
+import media.toloka.rfa.podcast.model.PodcastChannel;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 

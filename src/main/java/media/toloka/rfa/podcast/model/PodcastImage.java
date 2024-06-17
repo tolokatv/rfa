@@ -1,4 +1,4 @@
-package media.toloka.rfa.radio.podcast.model;
+package media.toloka.rfa.podcast.model;
 
 import com.google.gson.annotations.Expose;
 import jakarta.persistence.*;

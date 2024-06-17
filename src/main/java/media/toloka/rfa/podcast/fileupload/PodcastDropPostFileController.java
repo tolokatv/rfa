@@ -1,13 +1,13 @@
-package media.toloka.rfa.radio.podcast.fileupload;
+package media.toloka.rfa.podcast.fileupload;
 
 import lombok.extern.slf4j.Slf4j;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.history.service.HistoryService;
 import media.toloka.rfa.radio.model.Clientdetail;
-import media.toloka.rfa.radio.podcast.model.PodcastChannel;
-import media.toloka.rfa.radio.podcast.model.PodcastItem;
-import media.toloka.rfa.radio.podcast.service.PodcastService;
+import media.toloka.rfa.podcast.model.PodcastChannel;
+import media.toloka.rfa.podcast.model.PodcastItem;
+import media.toloka.rfa.podcast.service.PodcastService;
 import media.toloka.rfa.radio.store.Service.StoreService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

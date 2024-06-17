@@ -1,13 +1,13 @@
-package media.toloka.rfa.radio.podcast.service;
+package media.toloka.rfa.podcast.service;
 
 import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.model.Clientdetail;
-import media.toloka.rfa.radio.podcast.model.PodcastChannel;
-import media.toloka.rfa.radio.podcast.model.PodcastImage;
-import media.toloka.rfa.radio.podcast.model.PodcastItem;
-import media.toloka.rfa.radio.podcast.repositore.ChanelRepository;
-import media.toloka.rfa.radio.podcast.repositore.EpisodeRepository;
-import media.toloka.rfa.radio.podcast.repositore.PodcastCoverRepository;
+import media.toloka.rfa.podcast.model.PodcastChannel;
+import media.toloka.rfa.podcast.model.PodcastImage;
+import media.toloka.rfa.podcast.model.PodcastItem;
+import media.toloka.rfa.podcast.repositore.ChanelRepository;
+import media.toloka.rfa.podcast.repositore.EpisodeRepository;
+import media.toloka.rfa.podcast.repositore.PodcastCoverRepository;
 import media.toloka.rfa.radio.store.Service.StoreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
