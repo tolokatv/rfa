@@ -96,6 +96,10 @@ public class RootController {
         model.addAttribute("postList", storePostList );
         model.addAttribute("posts", posts );
         model.addAttribute("stationsonline", stationOnlineList );
+
+        // Open graph image
+        model.addAttribute("ogimage", "f5e1a49d-4577-46ea-85ad-b599ad473437" );
+
 //        model.addAttribute("stations",  stationService.GetListStationByUser(user));
 
         MessageFromSite QuestionForm = new MessageFromSite();
