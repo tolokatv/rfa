@@ -96,7 +96,9 @@ public class StoreSiteController  {
                             pos += buffer.length;
                         }
                         os.flush();
-                    } catch (Exception e) {}
+                    } catch (Exception e) {
+                        // todo додати обробку
+                    }
                 };
 
                 return new ResponseEntity<StreamingResponseBody>
