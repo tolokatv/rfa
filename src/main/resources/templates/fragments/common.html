@@ -37,6 +37,17 @@
     <meta property=”og:locale” content=”uk” />
 </th:block>
 
+<th:block th:fragment="ogpost">
+    <meta property=og:image th:attr="content=${ogimage==null? 'content=https://rfa.toloka.media/pictures/ogpost.png':'content=https://rfa.toloka.media/store/content/og/'+ ogimage+'/t.png' }"/>
+
+    <meta property=og:url th:attr="content=${'https://rfa.toloka.media/post/postview/'+post.id }" />
+    <meta property=og:title th:attr="content=${post.posttitle}" />
+<!--    <meta property=og:description th:attr="content=${post.description}"/>-->
+    <meta property=”og:type” content=”article”/>
+    <meta property=”og:locale” content=”uk” />
+</th:block>
+
+
 <!-- Footer for all pages-->
 
 <footer th:fragment="footer" class="text-center text-lg-start bg-body-tertiary text-muted">

@@ -54,6 +54,7 @@ public class PostController {
         postService.SavePost(post);
 
         model.addAttribute("post", post );
+        model.addAttribute("ogimage", post.getCoverstoreuuid() );
 
         return "/post/postview";
     }
