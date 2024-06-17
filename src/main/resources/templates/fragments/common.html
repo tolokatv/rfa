@@ -28,7 +28,7 @@
 </th:block>
 
 <th:block th:fragment="ogpodcast">
-    <meta property=og:image th:attr="content=${ogimage==null? 'content=https://rfa.toloka.media/pictures/ogpodcast.png':'content=https://rfa.toloka.media/store/content/og/'+ ogimage+'/t.png' }"/>
+    <meta property=og:image th:attr="content=${ogimage==null? 'https://rfa.toloka.media/pictures/ogpodcast.png':'https://rfa.toloka.media/store/content/og/'+ ogimage+'/t.png' }"/>
 
     <meta property=og:url th:attr="content=${'https://rfa.toloka.media/podcast/view/'+podcast.uuid }" />
     <meta property=og:title th:attr="content=${podcast.title}" />
