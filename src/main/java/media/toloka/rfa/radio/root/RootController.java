@@ -98,7 +98,7 @@ public class RootController {
         model.addAttribute("stationsonline", stationOnlineList );
 
         // Open graph image
-        model.addAttribute("ogimage", "d8ef8c7b-91fb-4019-979e-20c2550cbde2" );
+        model.addAttribute("ogimage", "1889f972-e5d2-4fd9-9eca-43422e6b4593" );
 
 //        model.addAttribute("stations",  stationService.GetListStationByUser(user));
 
