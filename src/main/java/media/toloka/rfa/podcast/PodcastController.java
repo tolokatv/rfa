@@ -58,20 +58,12 @@ public class PodcastController {
             @PathVariable String puuid,
             Model model ) {
         logger.info("Зайшли на /podcast/view/{puuid}");
-//        Users user = clientService.GetCurrentUser();
-//        if (user == null) {
-//            return "redirect:/";
-//        }
-//        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
-//        if (cd == null) { return "redirect:/"; }
-
-
 
         PodcastChannel podcastChannel = podcastService.GetChanelByUUID(puuid);
-//        List<PodcastItem> podcastItems = podcastChannel.getItem();
 
         model.addAttribute("podcast",  podcastChannel);
-//        model.addAttribute("podcastItems",  podcastItems);
+
+        model.addAttribute("ogimage",  podcastChannel.getImage().getStoreidimage().getUuid() );
 
         return "/podcast/view";
     }
