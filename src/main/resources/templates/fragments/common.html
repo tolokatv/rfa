@@ -11,12 +11,12 @@
 -->
 
 <th:block th:fragment="og">
-    <meta property=og:image th:attr="content=${ogimage==null? 'content=https://rfa.toloka.media/pictures/rfaog.png':'content=https://rfa.toloka.media/store/content/og/'+ ogimage+'/t.png' }"/>
-    <meta property=og:url content=https://rfa.toloka.media/ />
+    <meta property=og:image th:attr="content=${ogimage==null? 'https://rfa.toloka.media/pictures/rfaog.png':'https://rfa.toloka.media/store/content/og/'+ ogimage+'/t.png' }"/>
+    <meta property=og:url content='https://rfa.toloka.media/' />
     <meta property=og:title content='Радіо для всіх!' />
     <meta property=og:description content='Кожен може створити інтернет радіостанцію і його почує весь світ!'/>
-    <meta property=og:type content=”website” />
-    <meta property=og:locale content=”uk” />
+    <meta property=og:type content='website' />
+    <meta property=og:locale content='uk' />
 </th:block>
 
 <th:block th:fragment="ogpodcast">
