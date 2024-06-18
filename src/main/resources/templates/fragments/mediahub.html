@@ -72,7 +72,7 @@
                         <div th:if="${iStat.first}">
                             <div class="carousel-item active" th:id="${podcast.uuid}">
                                 <a th:href="'/podcast/view/'+${podcast.uuid}" target="_blank">
-                                    <h2><span th:text="${podcast.title}"></span></h2>
+                                    <h3><span th:text="${podcast.title}"></span></h3>
                                 </a>
                                 <div th:if="${podcast.description != null}">
                                     <p  th:if="${podcast.description.length()>150}" class="mb-0 fs-6" th:utext="${#strings.substring(podcast.description,0,150)+'...'}"></p>
