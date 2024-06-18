@@ -40,7 +40,10 @@
 <!--              <span>колонка із зображенням подкасту</span>-->
             </div>
             <div class="col-11"> <!-- колонка з описом подкасту -->
-                  <h1 th:text="${podcast.title}"></h1>
+              <a th:href="'/podcast/view/'+${podcast.uuid}" target="_blank">
+                <h2><span th:text="${podcast.title}"></span></h2>
+              </a>
+<!--                  <h1 th:text="${podcast.title}"></h1>-->
 <!--                  <h2> <span>Автор:</span><span th:text ="${podcast.autor}"/> </h2>-->
 <!--                  <h5 > <span th:if="${#strings.length(podcast.style) > 0}">Стиль:<span th:text ="' '+${podcast.style}"/></span> </h5>-->
                   <div th:utext="${podcast.description}"></div>
