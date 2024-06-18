@@ -79,4 +79,15 @@ public class PodcastController {
             model.addAttribute("success",  "Реакція на POST зі сторінки /podcast/proot");
         return "redirect:/podcast/home";
     }
+
+    @GetMapping(value = "/podcast/all")
+    public String podcastAllview(
+//            @PathVariable String puuid,
+            Model model ) {
+
+        List<PodcastChannel> podcastChList = podcastService.GetAllChanel();
+        model.addAttribute("podcastList",  podcastChList);
+        return "/guest/podcastall";
+    }
+
 }

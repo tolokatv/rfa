@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6"
+>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <div th:replace="~{/fragments/common :: ogpodcastall}"/>
+  <title>Толока - радіо для всіх!</title>
+  <!-- Favicon-->
+  <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
+  <!-- Font Awesome icons (free version)-->
+  <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
+  <!-- Google fonts-->
+  <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
+  <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
+  <!-- Core theme CSS (includes Bootstrap)-->
+  <link href="/css/bootstrap.min.css"  rel="stylesheet" />
+  <!--    <link href="/css/infoblock.css"  rel="stylesheet" />-->
+</head>
+<body>
+<header>
+  <div th:insert="~{/fragments/navbar :: navbarUniverse}">  </div>
+</header>
+<div style="padding-top: 100px">
+  <div class="container-fluid">
+    <div class="row text-center" style="padding-top: 20px">
+      <div class="col align-center">
+        <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
+      </div>
+    </div>
+    <div class="row" style="padding-top: 20px">
+      <!-- Колонка -->
+      <div class="col-lg-9 col-sm-12">
+        <div th:each="podcast : ${podcastList}">
+          <div class="row">
+            <div class="col-1"> <!-- колонка із зображенням подкасту -->
+              <img src="https://bootdey.com/img/Content/avatar/avatar1.png" class="img-fluid avatar-xxl rounded-circle" alt="">
+<!--              <span>колонка із зображенням подкасту</span>-->
+            </div>
+            <div class="col-11"> <!-- колонка з описом подкасту -->
+                  <h1 th:text="${podcast.title}"></h1>
+<!--                  <h2> <span>Автор:</span><span th:text ="${podcast.autor}"/> </h2>-->
+<!--                  <h5 > <span th:if="${#strings.length(podcast.style) > 0}">Стиль:<span th:text ="' '+${podcast.style}"/></span> </h5>-->
+                  <div th:utext="${podcast.description}"></div>
+            </div>
+            <hr>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-3 col-sm-12">
+        <!-- Медіа Хаб-->
+        <!--                <div th:insert="~{/fragments/mediahub :: usermediahub}">  </div>-->
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- Bootstrap core JS-->
+<script src="/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

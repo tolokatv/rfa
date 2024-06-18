@@ -31,6 +31,17 @@
     <meta name="facebook-domain-verification" content="rqtf0x9bnlli3nktas6bw2q0dvx3h1" />
 </th:block>
 
+<th:block th:fragment="ogpodcastall">
+    <meta property=og:image content=https://rfa.toloka.media/pictures/ogpodcastall.png/>
+
+    <meta property=og:url content='https://rfa.toloka.media/podcast/all' />
+    <meta property=og:title content='Подкасти на Толоці - Вас слухає весь світ!' />
+    <meta property=og:description content='Тут Ви зможете знайти подкасть на будь-яку тему. Також, Ви можете розмістити свій подкаст і він потрапить в ефір мережі радіостанцій.'/>
+    <meta property=og:type content=”article”/>
+    <meta property=og:locale content=”uk” />
+    <meta name="facebook-domain-verification" content="rqtf0x9bnlli3nktas6bw2q0dvx3h1" />
+</th:block>
+
 <th:block th:fragment="ogpost">
     <meta property=og:image th:attr="content=${ogimage==null? 'https://rfa.toloka.media/pictures/ogpost.png':'https://rfa.toloka.media/store/content/og/'+ ogimage+'/t.png' }"/>
     <meta property=og:url th:attr="content=${'https://rfa.toloka.media/post/postview/'+post.id}" />

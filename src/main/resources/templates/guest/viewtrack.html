@@ -35,14 +35,14 @@
             <div class="col-lg-9 col-sm-12">
                 <h1 th:text="${curtrack.name}"></h1>
                 <h2> <span>Автор:</span><span th:text ="${curtrack.autor}"/> </h2>
-                <h5> <span>Стиль:</span><span th:text ="${curtrack.style}"/> </h5>
-                <br>
+                <h5 > <span th:if="${#strings.length(curtrack.style) > 0}">Стиль:<span th:text ="' '+${curtrack.style}"/></span> </h5>
+                <hr>
                 <div th:utext="${curtrack.description}"></div>
 
             </div>
             <div class="col-lg-3 col-sm-12">
                 <!-- Медіа Хаб-->
-                <div th:insert="~{/fragments/mediahub :: usermediahub}">  </div>
+<!--                <div th:insert="~{/fragments/mediahub :: usermediahub}">  </div>-->
             </div>
         </div>
     </div>
