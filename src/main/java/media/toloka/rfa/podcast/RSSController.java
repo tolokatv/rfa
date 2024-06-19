@@ -28,8 +28,8 @@ public class RSSController {
 
     @Autowired
     private PodcastService podcastService;
-    @Autowired
-    private ClientService clientService;
+//    @Autowired
+//    private ClientService clientService;
 
     final Logger logger = LoggerFactory.getLogger(PodcastController.class);
 
