@@ -42,6 +42,7 @@ public class RSSController {
 
         SyndFeed feed = new SyndFeedImpl();
         feed.setFeedType( "rss_2.0" );
+        feed.setEncoding("UTF-8");
         feed.setTitle(podcastChannel.getTitle() );
         feed.setLink( "https://rfa.toloka.media/podcast/view/"+puuid );
         feed.setDescription( podcastChannel.getDescription() );
