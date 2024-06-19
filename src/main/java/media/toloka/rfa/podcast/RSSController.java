@@ -5,27 +5,18 @@ import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedOutput;
 import media.toloka.rfa.podcast.model.PodcastChannel;
 import media.toloka.rfa.podcast.model.PodcastItem;
+import media.toloka.rfa.podcast.model.PodcastImage;
 import media.toloka.rfa.podcast.service.PodcastService;
 import media.toloka.rfa.radio.client.service.ClientService;
-import media.toloka.rfa.radio.model.Clientdetail;
-import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 
-import media.toloka.rfa.podcast.model.PodcastChannel;
-import media.toloka.rfa.podcast.model.PodcastItem;
-import media.toloka.rfa.podcast.model.PodcastImage;
 
 import java.util.ArrayList;
 import java.util.Date;
