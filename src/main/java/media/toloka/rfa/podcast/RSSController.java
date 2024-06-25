@@ -93,9 +93,9 @@ public class RSSController {
 
         Element name = doc.createElement("name");
         // JDK 1.4
-        //name.appendChild(doc.createTextNode("mkyong"));
+        //name.appendChild(doc.createTextNode("Пробуємо українські літери їЇєЄіІ"));
         // JDK 1.5
-        name.setTextContent("mkyong");
+        name.setTextContent("Пробуємо українські літери їЇєЄіІ");
         staff.appendChild(name);
 
         Element role = doc.createElement("role");
