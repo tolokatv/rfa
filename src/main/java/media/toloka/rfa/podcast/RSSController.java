@@ -41,10 +41,10 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 
-import java.io.ByteArrayOutputStream;
-import java.io.FileOutputStream;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Date;
@@ -74,81 +74,94 @@ public class RSSController {
             docBuilder = docFactory.newDocumentBuilder();
         // root elements
         Document doc = docBuilder.newDocument();
-        Element rootElement = doc.createElement("company");
+        Element rootElement = doc.createElement("rss");
+//            rootElement.createElementNS("http://example/namespace", "PREFIX:aNodeName");
+            rootElement.setAttribute("xmlns:content", "http://purl.org/rss/1.0/modules/content/");
+            rootElement.setAttribute("xmlns:dc", "http://purl.org/dc/elements/1.1/");
+            rootElement.setAttribute("xmlns:wfw", "http://wellformedweb.org/CommentAPI/");
+            rootElement.setAttribute("xmlns:atom", "http://www.w3.org/2005/Atom");
+            rootElement.setAttribute("xmlns:sy", "http://purl.org/rss/1.0/modules/syndication/");
+            rootElement.setAttribute("xmlns:slash", "http://purl.org/rss/1.0/modules/slash/");
+            rootElement.setAttribute("xmlns:itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd");
+            rootElement.setAttribute("xmlns:podcast", "https://podcastindex.org/namespace/1.0");
+            rootElement.setAttribute("xmlns:rawvoice", "http://www.rawvoice.com/rawvoiceRssModule/");
+            rootElement.setAttribute("xmlns:googleplay", "http://www.google.com/schemas/play-podcasts/1.0");
+            rootElement.setAttribute("version", "2.0");
         doc.appendChild(rootElement);
 
         // staff 1001
 
         // add xml elements
-        Element staff = doc.createElement("staff");
+        Element chanel = doc.createElement("channel");
         // add staff to root
-        rootElement.appendChild(staff);
+        rootElement.appendChild(chanel);
         // add xml attribute
-        staff.setAttribute("id", "1001");
+//        staff.setAttribute("id", "1001");
 
         // alternative
         // Attr attr = doc.createAttribute("id");
         // attr.setValue("1001");
         // staff.setAttributeNode(attr);
 
-        Element name = doc.createElement("name");
+        Element title = doc.createElement("title");
         // JDK 1.4
         //name.appendChild(doc.createTextNode("Пробуємо українські літери їЇєЄіІ"));
         // JDK 1.5
-        name.setTextContent("Пробуємо українські літери їЇєЄіІ");
-        staff.appendChild(name);
+            title.setTextContent(decodeUTF8(podcastChannel.getTitle()));
 
-        Element role = doc.createElement("role");
-        role.setTextContent("support");
-        staff.appendChild(role);
+            chanel.appendChild(title);
 
-        Element salary = doc.createElement("salary");
-        salary.setAttribute("currency", "USD");
-        salary.setTextContent("5000");
-        staff.appendChild(salary);
+        Element link = doc.createElement("link");
+            link.setTextContent("URL chanel name");
+            chanel.appendChild(link);
+
+        Element description = doc.createElement("description");
+//        salary.setAttribute("currency", "USD");
+//            description.setTextContent(decodeUTF8(podcastChannel.getDescription()));
+            description.setTextContent(podcastChannel.getDescription());
+            chanel.appendChild(description);
 
         // add xml comment
         Comment comment = doc.createComment(
                 "for special characters like < &, need CDATA");
-        staff.appendChild(comment);
+            chanel.appendChild(comment);
 
         Element bio = doc.createElement("bio");
         // add xml CDATA
         CDATASection cdataSection =
                 doc.createCDATASection("HTML tag <code>testing</code>");
         bio.appendChild(cdataSection);
-        staff.appendChild(bio);
+            chanel.appendChild(bio);
 
         // staff 1002
-        Element staff2 = doc.createElement("staff");
-        // add staff to root
-        rootElement.appendChild(staff2);
-        staff2.setAttribute("id", "1002");
-
-        Element name2 = doc.createElement("name");
-        name2.setTextContent("yflow");
-        staff2.appendChild(name2);
-
-        Element role2 = doc.createElement("role");
-        role2.setTextContent("admin");
-        staff2.appendChild(role2);
-
-        Element salary2 = doc.createElement("salary");
-        salary2.setAttribute("currency", "EUD");
-        salary2.setTextContent("8000");
-        staff2.appendChild(salary2);
-
-        Element bio2 = doc.createElement("bio");
-        // add xml CDATA
-        bio2.appendChild(doc.createCDATASection("a & b"));
-        staff2.appendChild(bio2);
+//        Element staff2 = doc.createElement("staff");
+//        // add staff to root
+//        rootElement.appendChild(staff2);
+//        staff2.setAttribute("id", "1002");
+//
+//        Element name2 = doc.createElement("name");
+//        name2.setTextContent("yflow");
+//        staff2.appendChild(name2);
+//
+//        Element role2 = doc.createElement("role");
+//        role2.setTextContent("admin");
+//        staff2.appendChild(role2);
+//
+//        Element salary2 = doc.createElement("salary");
+//        salary2.setAttribute("currency", "EUD");
+//        salary2.setTextContent("8000");
+//        staff2.appendChild(salary2);
+//
+//        Element bio2 = doc.createElement("bio");
+//        // add xml CDATA
+//        bio2.appendChild(doc.createCDATASection("a & b"));
+//        staff2.appendChild(bio2);
 
 //        db.setErrorHandler(new DefaultHandler());
 //        final Document doc = db.parse(new URL(url).openStream());
 //        final SyndFeed feed = new SyndFeedInput().build(doc);
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream(); //inputStream,"UTF-8"
             try {
-
                 writeXml(doc, outputStream);
             } catch (TransformerException e) {
                 logger.warn("Щось пішло не так при System.out ");
@@ -156,7 +169,7 @@ public class RSSController {
             }
 
 
-            String sss =  outputStream.toString();
+            String sss =  outputStream.toString(StandardCharsets.UTF_8);// toString();//.getBytes(StandardCharsets.UTF_8);
             return sss;
         } catch (ParserConfigurationException e) {
             logger.warn("Щось пішло не так при формуванні XML :( ");
@@ -175,14 +188,44 @@ public class RSSController {
 
         TransformerFactory transformerFactory = TransformerFactory.newInstance();
         Transformer transformer = transformerFactory.newTransformer();
-
         // pretty print
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
+//        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+
+        transformer.setOutputProperty(OutputKeys.METHOD, "xml");
+//        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
+        transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
+//        transformer.setOutputProperty(OutputKeys.INDENT, "no");
+//        transformer.transform(doc, new StreamResult(output));
 
         DOMSource source = new DOMSource(doc);
         StreamResult result = new StreamResult(output);
-//        transformer.
-        transformer.transform(source, result);
+////        transformer.
+//        output.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>".getBytes("UTF-8"));
+        try {
+//            byte[] ttt = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>".getBytes("UTF-8");
+            output.write("<?xml version=\"1.0\" encoding=\"UTF-8\"?>".getBytes("UTF-8"));
+        } catch (UnsupportedEncodingException e) {
+            System.out.println ("Щось пішло не так при перекодуванні XML :( ");
+        } catch (IOException exception) {
+            System.out.println ("Щось пішло не так при запису потоку :( ");
+        }
+
+//        transformer.transform(source, result);
+        transformer.transform(new DOMSource(doc), new StreamResult(output));
+
+    }
+
+    String decodeUTF8(String str) {
+        String sss;
+        try {
+            sss = new String(str.getBytes("UTF-8"), Charset.forName("UTF-8"));
+            return sss;
+        } catch (UnsupportedEncodingException e) {
+            logger.warn("Якась фігня при перетворенні стока->масив->строка");
+        }
+        return null;
+
 
     }
 }
