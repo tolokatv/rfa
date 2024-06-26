@@ -4,6 +4,8 @@ import com.rometools.rome.feed.synd.*;
 import com.rometools.rome.io.FeedException;
 import com.rometools.rome.io.SyndFeedInput;
 import com.rometools.rome.io.SyndFeedOutput;
+import dev.stalla.model.Episode;
+import dev.stalla.model.Podcast;
 import media.toloka.rfa.podcast.model.PodcastChannel;
 import media.toloka.rfa.podcast.model.PodcastItem;
 import media.toloka.rfa.podcast.model.PodcastImage;
@@ -67,6 +69,22 @@ public class RSSController {
             @PathVariable String puuid,
             Model model ) {
         PodcastChannel podcastChannel = podcastService.GetChanelByUUID(puuid);
+
+        List<Episode> episodeList =new ArrayList<>();
+        Episode episode = Episode.builder()
+                .title("перший епізод")
+                .description("Перший опис")
+                .author("Перший автор")
+                .source("https://rfa.toloka.media")
+//                .getItunesBuilder()
+                .build();
+//        episodeList.add(episode);
+//                Podcast podcast = Podcast.builder()
+//                        .title("Заголовок подкасту")
+//                        .description("Опис подкасту")
+//                        .addEpisodeBuilder(episodeList)
+//                        .build();
+
 
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder;
