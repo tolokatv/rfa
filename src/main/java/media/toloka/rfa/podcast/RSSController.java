@@ -107,7 +107,8 @@ public class RSSController {
         // JDK 1.4
         //name.appendChild(doc.createTextNode("Пробуємо українські літери їЇєЄіІ"));
         // JDK 1.5
-            title.setTextContent(decodeUTF8(podcastChannel.getTitle()));
+//            title.setTextContent(decodeUTF8(podcastChannel.getTitle()));
+            title.setTextContent(new String(podcastChannel.getTitle().getBytes(StandardCharsets.UTF_8)));
 
             chanel.appendChild(title);
 
@@ -160,7 +161,9 @@ public class RSSController {
 //        db.setErrorHandler(new DefaultHandler());
 //        final Document doc = db.parse(new URL(url).openStream());
 //        final SyndFeed feed = new SyndFeedInput().build(doc);
+
             ByteArrayOutputStream outputStream = new ByteArrayOutputStream(); //inputStream,"UTF-8"
+//            OutputStream outputStream = new OutputStream(); //inputStream,"UTF-8"
             try {
                 writeXml(doc, outputStream);
             } catch (TransformerException e) {
@@ -190,10 +193,8 @@ public class RSSController {
         Transformer transformer = transformerFactory.newTransformer();
         // pretty print
         transformer.setOutputProperty(OutputKeys.INDENT, "yes");
-//        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
-
+        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         transformer.setOutputProperty(OutputKeys.METHOD, "xml");
-//        transformer.setOutputProperty(OutputKeys.ENCODING, "UTF-8");
         transformer.setOutputProperty(OutputKeys.OMIT_XML_DECLARATION, "yes");
 //        transformer.setOutputProperty(OutputKeys.INDENT, "no");
 //        transformer.transform(doc, new StreamResult(output));
@@ -213,6 +214,9 @@ public class RSSController {
 
 //        transformer.transform(source, result);
         transformer.transform(new DOMSource(doc), new StreamResult(output));
+//        String ttt = new String();
+//        transformer.transform(new DOMSource(doc), new StreamResult(ttt));
+//        System.out.println (ttt);
 
     }
 
