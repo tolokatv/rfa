@@ -1,0 +1,259 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- https://podcast.toloka.media/feed/ssi/ -->
+<rss version="2.0"
+	xmlns:content="http://purl.org/rss/1.0/modules/content/"
+	xmlns:wfw="http://wellformedweb.org/CommentAPI/"
+	xmlns:dc="http://purl.org/dc/elements/1.1/"
+	xmlns:atom="http://www.w3.org/2005/Atom"
+	xmlns:sy="http://purl.org/rss/1.0/modules/syndication/"
+	xmlns:slash="http://purl.org/rss/1.0/modules/slash/"
+	xmlns:itunes="http://www.itunes.com/dtds/podcast-1.0.dtd"
+xmlns:podcast="https://podcastindex.org/namespace/1.0"
+xmlns:rawvoice="http://www.rawvoice.com/rawvoiceRssModule/"
+xmlns:googleplay="http://www.google.com/schemas/play-podcasts/1.0"
+>
+<!-- Подкаст -->
+<channel>
+    <!-- Назва подкасту -->
+	<title>Світ, спорт, я. </title>
+	<!-- посилання на rss -->
+	<atom:link href="https://podcast.toloka.media/feed/ssi/" rel="self" type="application/rss+xml" />
+	<!-- посилання на цуи сторінку подкасту-->
+	<link>https://podcast.toloka.media/topics/histsport</link>
+	<!-- Опис подкасту -->
+	<description>Валентин Щербачов. Легенда української спортивної журналістики, чий характерний голос ми чули на сотнях подій українського спорту. Та почалося все це в 1972 році, коли  в кар’єрі Валентина відбулися значні зміни – він одночасно почав працювати спортивним журналістом, редактором і ведучим спортивних передач в студії на Хрещатик 26. Саме завдяки його наполегливій діяльності ми дізнавались про життя нових чи вже відомих зірок українського спорту, саме він був поруч з легендарними тренерами, висвітлював знакові спортивні події чи просто давав нам всім, і дає до сих пір, змогу зазирнути за лаштунки великого спорту&#8230; Віддаючи данину невпинній роботі метра ми вирішили розповісти про його  п’ятдесятирічний творчий шлях, зробивши легкий інформаційний коктейль з кожного року його діяльності та прикрасивши ці розповіді особистими спогадами Валентина. Слухайте подкаст «Світ-Спорт-Я з Валентином Щербачовим» та дізнавайтесь про маловідомі факти становлення українського спорту.</description>
+	<!-- Дата останнього оновлення -->
+	<lastBuildDate>Sun, 12 Feb 2023 15:18:50 +0000</lastBuildDate>
+	<!-- Мова подкасту -->
+	<language>uk</language>
+	<!-- Як часто оновлюється -->
+	<sy:updatePeriod>hourly</sy:updatePeriod>
+	<!-- -->
+	<sy:updateFrequency>1</sy:updateFrequency>
+	<!-- чим згенеровано RSS -->
+	<generator>https://wordpress.org/?v=6.5.5</generator>
+<!-- Опис картинки подкасту -->
+<image>
+    <!-- посилання на картинку подкасту-->
+	<url>https://podcast.toloka.media/wp-content/uploads/2023/01/LOHO-TOLOKA-19-150x150.png</url>
+	<!-- -->
+	<title>Світ, спорт, я. </title>
+	<!-- -->
+	<link>https://podcast.toloka.media/topics/histsport</link>
+	<!-- Незрозумілі параметри -->
+	<width>32</width>
+	<height>32</height>
+</image>
+    <!-- посилання на агрегатор ??? -->
+	<atom:link rel="hub" href="https://pubsubhubbub.appspot.com/" />
+	<!-- подкаст завершено? -->
+	<podcast:locked>no</podcast:locked>
+	<!-- -->
+	<itunes:new-feed-url>https://podcasts.apple.com/us/podcast/світ-спорт-я/id1671427641</itunes:new-feed-url>
+	<!-- Короткий опис подкасту -->
+	<itunes:summary><![CDATA[Валентин Щербачов. Легенда української спортивної журналістики, чий характерний голос ми чули на сотнях подій українського спорту. Та почалося все це в 1972 році, коли  в кар’єрі Валентина відбулися значні зміни – він одночасно почав працювати спортивним журналістом, редактором і ведучим спортивних передач в студії на Хрещатик 26. Саме завдяки його наполегливій діяльності ми дізнавались про життя нових чи вже відомих зірок українського спорту, саме він був поруч з легендарними тренерами, висвітлював знакові спортивні події чи просто давав нам всім, і дає до сих пір, змогу зазирнути за лаштунки великого спорту... Віддаючи данину невпинній роботі метра ми вирішили розповісти про його  п’ятдесятирічний творчий шлях, зробивши легкий інформаційний коктейль з кожного року його діяльності та прикрасивши ці розповіді особистими спогадами Валентина. Слухайте подкаст «Світ-Спорт-Я з Валентином Щербачовим» та дізнавайтесь про маловідомі факти становлення українського спорту.]]></itunes:summary>
+	<!-- Автор -->
+	<itunes:author>Студія Толока</itunes:author>
+	<!-- Чи використовуються нецензурна лайка -->
+	<itunes:explicit>false</itunes:explicit>
+	<!-- Картинка подкасту -->
+	<itunes:image href="https://podcast.toloka.media/wp-content/uploads/2023/01/SvitSportYA.png" />
+	<!-- Тип подкасту: серіальний чи епізодний -->
+	<itunes:type>episodic</itunes:type>
+	<!-- Власник подкасту -->
+	<itunes:owner>
+		<itunes:name>Студія Толока</itunes:name>
+		<itunes:email>podcast@toloka.media</itunes:email>
+	</itunes:owner>
+	<!-- Ліцензія -->
+	<copyright>CC-0</copyright>
+	<podcast:license>CC-0</podcast:license>
+	<!-- ???????????? -->
+	<podcast:txt>toloka-ysv</podcast:txt>
+	<podcast:medium>podcast</podcast:medium>
+	<!-- Підзаголовок. Але що це - невідомо. -->
+	<itunes:subtitle>Світ, спорт, я.</itunes:subtitle>
+	<!-- Ще одна картинка подкасту -->
+	<image>
+	    <!-- Назва на картинці -->
+		<title>Світ, спорт, я. </title>
+		<!-- урл на картинку -->
+		<url>https://podcast.toloka.media/wp-content/uploads/2023/01/SvitSportYA.png</url>
+		<!-- посилання на сторінку подкасту на сайті -->
+		<link>https://podcast.toloka.media/topics/histsport</link>
+	</image>
+	<!-- Категорії для різних платформ -->
+	<itunes:category text="Society &amp; Culture">
+		<itunes:category text="Personal Journals" />
+	</itunes:category>
+	<googleplay:category text="Society &amp; Culture"/>
+	<itunes:category text="History" />
+	<itunes:category text="Education">
+		<itunes:category text="Self-Improvement" />
+	</itunes:category>
+	<!-- Якісь гео посилання ???? -->
+	<rawvoice:location>Kyiv, Ukraine</rawvoice:location>
+	<podcast:location>Kyiv, Ukraine</podcast:location>
+	<!-- переодичність -->
+	<rawvoice:frequency>Weekly</rawvoice:frequency>
+	<!-- посилання на сторінку донату -->
+	<rawvoice:donate href="https://art.toloka.media/product/pidtrymaty-studiya-toloka/">Підтримати Толоку</rawvoice:donate>
+	<podcast:funding url="https://art.toloka.media/product/pidtrymaty-studiya-toloka/">Підтримати Толоку</podcast:funding>
+	<!-- ????? -->
+	<podcast:podping usesPodping="true" />
+	<!-- унікальний Ідентифікатор подкасту -->
+	<podcast:guid>3b26edf2-f8ea-5f95-a327-fe4a302612f7</podcast:guid>
+	<rawvoice:subscribe feed="https://podcast.toloka.media/feed/ssi/" html="https://podcast.toloka.media/svit-sport-ia/" itunes="https://podcasts.apple.com/us/podcast/світ-спорт-я/id1671427641"></rawvoice:subscribe>
+	<!-- ЕПІЗОД -->
+	<item>
+	    <!-- Назва епізоду -->
+		<title>1974 рік. Світ, спорт, я. Валентин Щербачов</title>
+		<!-- Посилання на сторінку епізоду -->
+		<link>https://podcast.toloka.media/1974-rik-svit-sport-ia-valentyn-shcherbachov/</link>
+		<!-- Дата публікації -->
+		<pubDate>Mon, 30 Jan 2023 15:14:32 +0000</pubDate>
+		<!-- Унікальний ідентифікатор епізоду в рамках подкасту -->
+		<guid isPermaLink="false">https://podcast.toloka.media/?p=89</guid>
+		<!-- Коментарі до епізоду -->
+		<comments>https://podcast.toloka.media/1974-rik-svit-sport-ia-valentyn-shcherbachov/#respond</comments>
+		<wfw:commentRss>https://podcast.toloka.media/1974-rik-svit-sport-ia-valentyn-shcherbachov/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		<!-- Категорія - співпадає з назвою подкасту-->
+		<category><![CDATA[Світ, спорт, я.]]></category>
+		<!-- Опис епізоду -->
+		<description>1974 рік став для громадян СрСр роком повторної відміни кріпосного права, Олег Блохін розпочав свою переможну ходу чемпіонатами СРСР і нарешті скінчилась перша піша кругосвітня подорож. Слухайте огляд подій 1974 року. А подкаст «Світ-Спорт-Я з Валентином Щербачовим» записано і змонтовано на виробничій базі «Студії Толока». З цього приводу «Студія Толока» щиро дякує: Підтримати донатом Студію […]</description>
+		<!-- Для відображення в форматі HTML -->
+		<content:encoded><![CDATA[
+<p> 1974 рік став для громадян СрСр роком повторної відміни кріпосного права, Олег Блохін розпочав свою переможну ходу чемпіонатами СРСР і нарешті скінчилась перша піша кругосвітня подорож. Слухайте огляд подій 1974 року. А подкаст «Світ-Спорт-Я з Валентином Щербачовим» записано і змонтовано на виробничій базі «Студії Толока». З цього приводу «Студія Толока» щиро дякує:</p>
+
+
+
+<ul>
+<li>Андрію Орищенко(гурт «ІМLA») за безцінний вклад в музичне оформлення наших ідей. З питань можливої співпраці звертайтесь безпосередньо до <a href="https://www.facebook.com/andrey.orischenko">Андрія</a></li>
+
+
+
+<li>нашому незмінному провайдеру доступу до мережі інтернет – <a href="http://cnm.ua/">компанії «CNM»</a>. «CNM»-завжди стабільний та якісний інтернет.</li>
+
+
+
+<li>всім тим хто проходив повз нашу студію та вірив в нашу діяльність – продовжуйте <a href="https://toloka.media/">проходити та вірити!</a></li>
+</ul>
+
+
+
+<blockquote class="wp-block-quote has-background has-medium-font-size is-layout-flow wp-block-quote-is-layout-flow" style="background:linear-gradient(135deg,rgb(6,147,227) 0%,rgb(155,81,224) 72%)">
+<p class="has-large-font-size"> Підтримати <a rel="noreferrer noopener" href="https://art.toloka.media/product/pidtrymaty-studiya-toloka/" target="_blank">донатом</a> Студію Толока можна <a rel="noreferrer noopener" href="https://art.toloka.media/product/pidtrymaty-studiya-toloka/" target="_blank">тут</a></p>
+</blockquote>
+
+
+
+<p>Шукайте, підписуйтесь та слухайте наш подкаст «Світ-Спорт-Я з Валентином Щербачовим» на платформах Гугл, Епл та Спотіфай.</p>
+]]></content:encoded>
+        <!-- Посилання на медіа епізоду подката -->
+		<enclosure url="https://podcast.toloka.media/wp-content/uploads/2023/01/Svit-Sport-YA-1974_Final.mp3" length="5293628" type="audio/mpeg" />
+		<!-- Уточнити -->
+		<itunes:episodeType>full</itunes:episodeType>
+		<itunes:explicit>false</itunes:explicit>
+		<itunes:duration>7:24</itunes:duration>
+	</item>
+	<item>
+		<title>1973 рік. Світ, спорт, я. Валентин Щербачов</title>
+		<link>https://podcast.toloka.media/1973-rik-svit-sport-ia-valentyn-shcherbachov/</link>
+		<pubDate>Wed, 25 Jan 2023 18:24:00 +0000</pubDate>
+		<guid isPermaLink="false">https://podcast.toloka.media/?p=66</guid>
+		<comments>https://podcast.toloka.media/1973-rik-svit-sport-ia-valentyn-shcherbachov/#respond</comments>
+		<wfw:commentRss>https://podcast.toloka.media/1973-rik-svit-sport-ia-valentyn-shcherbachov/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		<category><![CDATA[Світ, спорт, я.]]></category>
+		<category><![CDATA[Валентин Щербачов]]></category>
+		<category><![CDATA[ГО "Обʼєднання Толока"]]></category>
+		<category><![CDATA[Київ]]></category>
+		<category><![CDATA[Світ Спорт я]]></category>
+		<category><![CDATA[Студія толока]]></category>
+		<category><![CDATA[Україна]]></category>
+		<description>1973 рік відомий нам смертю Пікассо і  Альєнде, приїздом в Київ герцога Единбурзького та тим самим роком коли Олег Блохін став взірцевим україномовним футболістом. Слухайте огляд подій 1973 року.</description>
+		<content:encoded><![CDATA[
+<p>1973 рік відомий нам смертю Пікассо і&nbsp; Альєнде, приїздом в Київ герцога Единбурзького та тим самим роком коли Олег Блохін став взірцевим україномовним футболістом. Слухайте огляд подій 1973 року. А подкаст «Світ-Спорт-Я з Валентином Щербачовим» записано і змонтовано на виробничій базі «Студії Толока». З цього приводу «Студія Толока» щиро дякує:</p>
+
+
+
+<ul>
+<li>Андрію Орищенко(гурт «ІМLA») за безцінний вклад в музичне оформлення наших ідей. З питань можливої співпраці звертайтесь безпосередньо до <a href="https://www.facebook.com/andrey.orischenko">Андрія</a></li>
+
+
+
+<li>нашому незмінному провайдеру доступу до мережі інтернет – <a href="http://cnm.ua/">компанії «CNM»</a>. «CNM»-завжди стабільний та якісний інтернет.</li>
+
+
+
+<li>всім тим хто проходив повз нашу студію та вірив в нашу діяльність – продовжуйте <a href="https://toloka.media/">проходити та вірити!</a></li>
+</ul>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow">
+<p class="has-background-color has-text-color has-background" style="background:linear-gradient(135deg,rgb(6,147,227) 0%,rgb(160,87,228) 100%)">Підтримати <a href="https://art.toloka.media/product/pidtrymaty-studiya-toloka/" target="_blank" rel="noreferrer noopener">донатом</a> Студію Толока можна <a href="https://art.toloka.media/product/pidtrymaty-studiya-toloka/" target="_blank" rel="noreferrer noopener">тут</a></p>
+</blockquote>
+
+
+
+<p>Шукайте, підписуйтесь та слухайте наш подкаст «Світ-Спорт-Я з Валентином Щербачовим» на платформах Гугл, Епл та Спотіфай.</p>
+]]></content:encoded>
+				<enclosure url="https://podcast.toloka.media/wp-content/uploads/2023/01/SvitSportYA-1973-Final.mp3" length="4199880" type="audio/mpeg" />
+		<itunes:episodeType>full</itunes:episodeType>
+		<itunes:explicit>false</itunes:explicit>
+		<itunes:duration>5:52</itunes:duration>
+	</item>
+	<item>
+		<title>1972 рік. Світ, спорт, я. Валентин Щербачов</title>
+		<link>https://podcast.toloka.media/1972-rik-svit-sport-ia-valentyn-shcherbachov/</link>
+		<pubDate>Wed, 25 Jan 2023 18:13:43 +0000</pubDate>
+		<guid isPermaLink="false">https://podcast.toloka.media/?p=57</guid>
+		<comments>https://podcast.toloka.media/1972-rik-svit-sport-ia-valentyn-shcherbachov/#respond</comments>
+		<wfw:commentRss>https://podcast.toloka.media/1972-rik-svit-sport-ia-valentyn-shcherbachov/feed/</wfw:commentRss>
+		<slash:comments>0</slash:comments>
+		<category><![CDATA[Світ, спорт, я.]]></category>
+		<category><![CDATA[Валентин Щербачов]]></category>
+		<category><![CDATA[ГО "Обʼєднання Толока"]]></category>
+		<category><![CDATA[Київ]]></category>
+		<category><![CDATA[Світ Спорт я]]></category>
+		<category><![CDATA[Студія толока]]></category>
+		<category><![CDATA[Україна]]></category>
+		<description>1972 рік - “Чорний вересень” збирає кривавий врожай, Валерій Борзов вкотре встановлює рекорд, а Олег Блохін забиває свій перший гол в якості динамівського форварда. Та що скаже про 72-й рік Валентин Щербачов</description>
+		<content:encoded><![CDATA[
+<p>1972 рік &#8211; “Чорний вересень” збирає кривавий врожай, Валерій Борзов вкотре встановлює рекорд, а Олег Блохін забиває свій перший гол в якості динамівського форварда. Та що скаже про 72-й рік Валентин Щербачов? Подкаст «Світ-Спорт-Я з Валентином Щербачовим» записано і змонтовано на виробничій базі «Студії Толока». З цього приводу «Студія Толока» щиро дякує:</p>
+
+
+
+<ul>
+<li>Андрію Орищенко(гурт «ІМLA») за безцінний вклад в музичне оформлення наших ідей. З питань можливої співпраці звертайтесь безпосередньо до <a href="https://www.facebook.com/andrey.orischenko">Андрія</a></li>
+
+
+
+<li>нашому незмінному провайдеру доступу до мережі інтернет – <a href="http://cnm.ua/">компанії «CNM»</a>. «CNM»-завжди стабільний та якісний інтернет.</li>
+
+
+
+<li>всім тим хто проходив повз нашу студію та вірив в нашу діяльність – продовжуйте <a href="https://toloka.media/">проходити та вірити!</a></li>
+</ul>
+
+
+
+<blockquote class="wp-block-quote is-layout-flow wp-block-quote-is-layout-flow">
+<p class="has-background-color has-text-color has-background" style="background:linear-gradient(135deg,rgb(7,148,229) 0%,rgb(146,63,224) 100%)">Підтримати <a href="https://art.toloka.media/product/pidtrymaty-studiya-toloka/">донатом</a> Студію Толока можна <a href="https://art.toloka.media/product/pidtrymaty-studiya-toloka/"><strong>тут</strong></a></p>
+</blockquote>
+
+
+
+<p>Шукайте, підписуйтесь та слухайте наш подкаст «Світ-Спорт-Я з Валентином Щербачовим» на платформах Гугл, Епл та Спотіфай.</p>
+]]></content:encoded>
+				<enclosure url="https://podcast.toloka.media/wp-content/uploads/2023/01/SvitSportYA-1972-Final.mp3" length="5762908" type="audio/mpeg" />
+		<itunes:title>1972 рік. Світ, спорт, я. Валентин Щербачов</itunes:title>
+		<itunes:episodeType>full</itunes:episodeType>
+		<itunes:explicit>false</itunes:explicit>
+		<itunes:duration>8:01</itunes:duration>
+		<itunes:order>1</itunes:order>
+	</item>
+</channel>
+</rss>
