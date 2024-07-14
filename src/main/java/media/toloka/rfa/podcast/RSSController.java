@@ -92,6 +92,12 @@ public class RSSController {
             docBuilder = docFactory.newDocumentBuilder();
         // root elements
         Document doc = docBuilder.newDocument();
+
+//            URL namespaceURL = new URL("http://www.w3.org/2001/XMLSchema-instance");
+//            String namespace = "xmlns:xsi="+namespaceURL.toString();
+//
+//            Element messages = doc.createElementNS(namespace, "messages");
+
         Element rootElement = doc.createElement("rss");
 //            rootElement.createElementNS("http://example/namespace", "PREFIX:aNodeName");
             rootElement.setAttribute("xmlns:content", "http://purl.org/rss/1.0/modules/content/");
