@@ -39,7 +39,17 @@
                                         <div class="col">
                                             <div class="card ">
                                                 <a href="#">
-                                                    <img class="card-img-top img-fluid"  th:src="'https://picsum.photos/400/300?random='+${post.id}" alt="Card image cap">
+                                                    <div th:if="${post.store} == null">
+                                                        <!--              post.coverstoreuuid == null-->
+                                                        <img class="card-img-top img-fluid"  th:src="'https://picsum.photos/400/300?random='+${post.id}" alt="Card image cap">
+                                                    </div>
+                                                    <div th:if="${post.store} != null">
+                                                        <!--              post.coverstoreuuid != null-->
+                                                        <img class="card-img-top img-fluid"  th:src="'https://rfa.toloka.media/store/content/'+${post.coverstoreuuid}" alt="Card image cap">
+                                                    </div>
+
+
+<!--                                                    <img class="card-img-top img-fluid"  th:src="'https://picsum.photos/400/300?random='+${post.id}" alt="Card image cap">-->
                                                     <div class="card-body">
                                                         <h5 class="card-title"><a th:href="'/post/postview/'+${post.id}"><span th:text="${post.posttitle}"/></a></h5>
                                                         <p class="card-text">
