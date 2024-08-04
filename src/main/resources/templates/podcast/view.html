@@ -77,11 +77,11 @@
                             <img class="img-fluid" th:if="${item.image != null}" th:src="'/store/thrumbal/w/100/' + ${item.image.storeidimage.uuid} + '/' + ${podcast.image.storeidimage.filename}"
                                  th:id="${item.image.uuid}"/>
                             <div th:if="${item.title != null}">
-                                <h2 class="fs-4 fw-bold" th:text="${item.title}"></h2>
+                                <h2 class="fs-4 fw-bold" style="padding-top: 10px" th:text="${item.title}"></h2>
                             </div>
                             <div th:if="${item.description != null}">
-                                <p  th:if="${item.description.length()>150}" class="mb-0 fs-6" th:utext="${#strings.substring(item.description,0,150)+'...'}"></p>
-                                <p  th:if="${item.description.length()<150}" class="mb-0 fs-6" th:utext="${item.description}"></p>
+                                <p  th:if="${item.description.length()>150}" style="padding-top: 10px" class="mb-0 fs-6" th:utext="${#strings.substring(item.description,0,150)+'...'}"></p>
+                                <p  th:if="${item.description.length()<150}" style="padding-top: 10px" class="mb-0 fs-6" th:utext="${item.description}"></p>
                             </div>
                         </div>
                     </div>
