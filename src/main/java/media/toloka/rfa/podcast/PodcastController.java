@@ -1,6 +1,7 @@
 package media.toloka.rfa.podcast;
 
 
+import jakarta.servlet.http.HttpSession;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Station;
@@ -17,12 +18,17 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 @Controller
 public class PodcastController {
 // стандарт RSS для подкаста
 // https://podcast-standard.org/podcast_standard/
+
+    @Autowired
+    public HttpSession httpSession;
 
     @Autowired
     private PodcastService podcastService;
@@ -87,6 +93,9 @@ public class PodcastController {
 
         List<PodcastChannel> podcastChList = podcastService.GetAllChanel();
         model.addAttribute("podcastList",  podcastChList);
+
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        logger.info("Session ID={} AND CreationTime={}",httpSession.getId(),formatter.format(httpSession.getCreationTime()));
         return "/guest/podcastall";
     }
 
