@@ -46,6 +46,7 @@ public class LoggerInterceptor implements HandlerInterceptor {
             logger.info("Session ID={} AND CreationTime={}",httpSession.getId(),formatter.format(httpSession.getCreationTime()));
 
             Cookie[] cookies =  request.getCookies();
+            logger.info("========= cookies ={}",cookies);
             if (    cookies != null
                     &&
                     cookies.length > 0
