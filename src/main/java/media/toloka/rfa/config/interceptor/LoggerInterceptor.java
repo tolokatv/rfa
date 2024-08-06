@@ -42,31 +42,38 @@ public class LoggerInterceptor implements HandlerInterceptor {
 
             // Працюємо  із сессією та куками
             HttpSession httpSession = request.getSession();
-            Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-            logger.info("Session ID={} AND CreationTime={}",httpSession.getId(),formatter.format(httpSession.getCreationTime()));
+//            Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//            logger.info("Session ID={} AND CreationTime={}",httpSession.getId(),formatter.format(httpSession.getCreationTime()));
 
             Cookie[] cookies =  request.getCookies();
-            logger.info("========= cookies ={}",cookies);
+
+//            logger.info("========= cookies not null = {} ",cookies != null);
+//            if (cookies != null) {
+//                logger.info("========= cookies length = {} ", cookies.length);
+//            }
+
             if (    cookies != null
                     &&
                     cookies.length > 0
             ) {
-                logger.info("========= loop ==========");
+//                logger.info("========= loop ==========");
                 for (Cookie c : cookies) {
-                    logger.info("Cookies={} value={}", c.getName(), c.getValue());
+//                    logger.info("Cookies={} value={}", c.getName(), c.getValue());
+                    if (c.getName().equals("LastVisit")) {
+                        Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+                        logger.info("=== LastVisit={}",formatter.format(Long.parseLong(c.getValue())));
+                    }
                 }
-                logger.info("=========================");
+//                logger.info("=========================");
             }
             // create a cookie
             Date cdate = new Date();
             Long ldate = new Date().getTime();
-//            String ddd = ldate.toString();
-//            ddd.replaceAll("E", "");
-
             Cookie cookie = new Cookie("LastVisit", ldate.toString());
-
             //add cookie to response
             response.addCookie(cookie);
+//            logger.info("=========== Додали Куку ==============");
+
 //            response.addCookie(
 //                    new Cookie(
 //                            "LastGet",
