@@ -45,12 +45,17 @@ public class LoggerInterceptor implements HandlerInterceptor {
             Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             logger.info("Session ID={} AND CreationTime={}",httpSession.getId(),formatter.format(httpSession.getCreationTime()));
 
-            logger.info("========= loop ==========");
-            for (Cookie c : request.getCookies()) {
-
-                logger.info("Cookies={} value={}",c.getName(),c.getValue());
+            Cookie[] cookies =  request.getCookies();
+            if (    cookies != null
+                    &&
+                    cookies.length > 0
+            ) {
+                logger.info("========= loop ==========");
+                for (Cookie c : cookies) {
+                    logger.info("Cookies={} value={}", c.getName(), c.getValue());
+                }
+                logger.info("=========================");
             }
-            logger.info("=========================");
             // create a cookie
             Date cdate = new Date();
             Long ldate = new Date().getTime();
