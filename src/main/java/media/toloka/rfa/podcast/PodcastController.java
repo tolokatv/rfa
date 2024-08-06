@@ -27,8 +27,7 @@ public class PodcastController {
 // стандарт RSS для подкаста
 // https://podcast-standard.org/podcast_standard/
 
-    @Autowired
-    public HttpSession httpSession;
+
 
     @Autowired
     private PodcastService podcastService;
@@ -94,8 +93,7 @@ public class PodcastController {
         List<PodcastChannel> podcastChList = podcastService.GetAllChanel();
         model.addAttribute("podcastList",  podcastChList);
 
-        Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        logger.info("Session ID={} AND CreationTime={}",httpSession.getId(),formatter.format(httpSession.getCreationTime()));
+
         return "/guest/podcastall";
     }
 
