@@ -61,13 +61,12 @@ public class LoggerInterceptor implements HandlerInterceptor {
 //                    logger.info("Cookies={} value={}", c.getName(), c.getValue());
                     if (c.getName().equals("LastVisit")) {
                         Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-                        logger.info("=== LastVisit={}",formatter.format(Long.parseLong(c.getValue())));
+                        logger.info("=== Session ID={} LastVisit={}",httpSession.getId(),formatter.format(Long.parseLong(c.getValue())));
                     }
                 }
 //                logger.info("=========================");
             }
             // create a cookie
-            Date cdate = new Date();
             Long ldate = new Date().getTime();
             Cookie cookie = new Cookie("LastVisit", ldate.toString());
             //add cookie to response
