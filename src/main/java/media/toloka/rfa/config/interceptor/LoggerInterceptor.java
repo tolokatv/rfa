@@ -2,6 +2,7 @@ package media.toloka.rfa.config.interceptor;
 
 // https://www.baeldung.com/spring-mvc-handlerinterceptor-vs-filter
 
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.servlet.http.HttpSession;
@@ -12,13 +13,14 @@ import org.springframework.web.servlet.HandlerInterceptor;
 
 import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 
 public class LoggerInterceptor implements HandlerInterceptor {
 
     final Logger logger = LoggerFactory.getLogger(LoggerInterceptor.class);
 
-    @Autowired
-    public HttpSession httpSession;
+//    @Autowired
+//    public HttpSession httpSession;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
@@ -37,8 +39,36 @@ public class LoggerInterceptor implements HandlerInterceptor {
             return true;
         } else {
             logger.info(remoteAddr + " => " +request.getRequestURL().toString());
+
+            // Працюємо  із сессією та куками
+            HttpSession httpSession = request.getSession();
             Format formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
             logger.info("Session ID={} AND CreationTime={}",httpSession.getId(),formatter.format(httpSession.getCreationTime()));
+
+            logger.info("========= loop ==========");
+            for (Cookie c : request.getCookies()) {
+
+                logger.info("Cookies={} value={}",c.getName(),c.getValue());
+            }
+            logger.info("=========================");
+            // create a cookie
+            Date cdate = new Date();
+            Long ldate = new Date().getTime();
+//            String ddd = ldate.toString();
+//            ddd.replaceAll("E", "");
+
+            Cookie cookie = new Cookie("LastVisit", ldate.toString());
+
+            //add cookie to response
+            response.addCookie(cookie);
+//            response.addCookie(
+//                    new Cookie(
+//                            "LastGet",
+//                            formatter.format(new Date())
+//                    )
+//            );
+
+//            Cookie[] cookie =  request.getCookies();
         }
         // todo Логировать обращения к серверу.
 
