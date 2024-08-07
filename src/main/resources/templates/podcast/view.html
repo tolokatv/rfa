@@ -59,21 +59,13 @@
                                                    th:value="'https://rfa.toloka.media/podcast/rss/'+${podcast.uuid}"
                                                    id="myRSSInput"
                                                    hidden>
-                                            <button onclick="myFunction()">Copy RSS link</button>
+                                            <button onclick="myRssLinkToClipboard()">Copy RSS link</button>
                                             <script>
-                                                function myFunction() {
-                                                  // Get the text field
+                                                function myRssLinkToClipboard() {
                                                   var copyText = document.getElementById("myRSSInput");
-
-                                                  // Select the text field
                                                   copyText.select();
                                                   copyText.setSelectionRange(0, 99999); // For mobile devices
-
-                                                  // Copy the text inside the text field
                                                   navigator.clipboard.writeText(copyText.value);
-
-                                                  // Alert the copied text
-                                                  //alert("Copied the text: " + copyText.value);
                                                 }
                                             </script>
                                     </div>
