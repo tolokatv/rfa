@@ -11,6 +11,10 @@ import media.toloka.rfa.security.model.Users;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,6 +22,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.text.Format;
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -78,6 +84,7 @@ public class PodcastController {
             @ModelAttribute Station station,
             @ModelAttribute Users formUserPSW,
             Model model ) {
+
             // Users user = clientService.GetCurrentUser();
 
             // TODO відправити повідомлення на сторінку
@@ -89,12 +96,34 @@ public class PodcastController {
     public String podcastAllview(
 //            @PathVariable String puuid,
             Model model ) {
+/*
+    Сторінка з переліком наявних на порталі подкастів з пагінацією
 
+ */
         List<PodcastChannel> podcastChList = podcastService.GetAllChanel();
         model.addAttribute("podcastList",  podcastChList);
 
-
         return "/guest/podcastall";
+    }
+
+    @GetMapping(value = "/podcast/rss/{puuid}")
+    public ResponseEntity<byte[]> podcastRss(
+            @PathVariable String puuid,
+            Model model ) {
+        // формуємо RSS для конкретного подкасту.
+        logger.info("Зайшли на /podcast/rss/{}",puuid);
+
+        PodcastChannel podcastChannel = podcastService.GetChanelByUUID(puuid);
+
+        // Що повертаємо?
+        // Напевно, це буде XML.
+
+        String XML_String = "<?xml version='1.0' standalone='yes'?><TEST_XML><T>yyyyyyyyyyyyyyy</T><T>xxxxxxxxxxx</T></TEST_XML>";
+        byte[] byteArray = podcastService.GetRssChanel(puuid).getBytes(StandardCharsets.UTF_8);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("Content-type", MediaType.TEXT_XML_VALUE);
+
+        return ResponseEntity.status(HttpStatus.OK).headers(headers).body(byteArray);
     }
 
 }
