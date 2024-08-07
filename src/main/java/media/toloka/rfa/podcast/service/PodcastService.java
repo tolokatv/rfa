@@ -109,4 +109,8 @@ public class PodcastService {
         List<PodcastChannel> listCh = chanelRepository.findAll();
         return listCh;
     }
+
+    public String GetRssChanel(String storeUUID) {
+        return "<?xml version='1.0' standalone='yes'?><TEST_XML><cuuid>"+storeUUID+"</cuuid><T>xxxxxxxxxxx</T></TEST_XML>";
+    }
 }

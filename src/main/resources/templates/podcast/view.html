@@ -49,11 +49,32 @@
                                              th:id="${podcast.image.uuid}"/>
                                     </div>
                                     <div class="col-3 text-center">
-                                        <a href="#!">
                                             <img class="img-fluid align-center" style="padding-top: 20px" src="/pictures/podcast-rss-feed.webp" id="podcast-rss-feed.webp"/>
                                             <br>
-                                            <span>RSS</span>
                                         </a>
+                                        <!--                                       https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_copy_clipboard -->
+                                        <a th:href="'https://rfa.toloka.media/podcast/rss/'+${podcast.uuid}">
+                                            <input type="text"
+                                                   th:value="'https://rfa.toloka.media/podcast/rss/'+${podcast.uuid}"
+                                                   id="myRSSInput"
+                                                   hidden>
+                                            <button onclick="myFunction()">Copy RSS link</button>
+                                            <script>
+                                                function myFunction() {
+                                                  // Get the text field
+                                                  var copyText = document.getElementById("myRSSInput");
+
+                                                  // Select the text field
+                                                  copyText.select();
+                                                  copyText.setSelectionRange(0, 99999); // For mobile devices
+
+                                                  // Copy the text inside the text field
+                                                  navigator.clipboard.writeText(copyText.value);
+
+                                                  // Alert the copied text
+                                                  //alert("Copied the text: " + copyText.value);
+                                                }
+                                            </script>
                                     </div>
                             </div>
                             <h1 class="fs-4 fw-bold text-center" th:text="${podcast.title}" style="padding-top: 10px"></h1> <!-- назва подкасту -->
