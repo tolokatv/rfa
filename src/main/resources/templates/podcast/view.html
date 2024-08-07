@@ -49,11 +49,12 @@
                                              th:id="${podcast.image.uuid}"/>
                                     </div>
                                     <div class="col-3 text-center">
+                                        <a th:href="'https://rfa.toloka.media/podcast/rss/'+${podcast.uuid}">
                                             <img class="img-fluid align-center" style="padding-top: 20px" src="/pictures/podcast-rss-feed.webp" id="podcast-rss-feed.webp"/>
                                             <br>
                                         </a>
                                         <!--                                       https://www.w3schools.com/howto/tryit.asp?filename=tryhow_js_copy_clipboard -->
-                                        <a th:href="'https://rfa.toloka.media/podcast/rss/'+${podcast.uuid}">
+<!--                                        <a th:href="'https://rfa.toloka.media/podcast/rss/'+${podcast.uuid}">-->
                                             <input type="text"
                                                    th:value="'https://rfa.toloka.media/podcast/rss/'+${podcast.uuid}"
                                                    id="myRSSInput"
