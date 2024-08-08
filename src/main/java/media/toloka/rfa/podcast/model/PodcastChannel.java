@@ -42,6 +42,8 @@ public class PodcastChannel {
     @DateTimeFormat(pattern = "dd-MM-yy")
     private Date date = new Date();
     @Expose
+    private Boolean explicit = false; // відвертий вміст
+    @Expose
     private Long looked = 0L; // скільки разів подивилися
 
     @ManyToOne(cascade = {CascadeType.ALL})
