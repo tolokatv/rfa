@@ -42,6 +42,8 @@ public class PodcastItem {
     @Expose
     private String storeuuid;
     @Expose
+    private Boolean explicit = false; // відвертий вміст
+    @Expose
     private Long looked = 0L; // скільки разів подивилися
 
     @OneToOne(cascade = {CascadeType.ALL})

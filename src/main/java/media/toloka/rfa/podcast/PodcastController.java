@@ -2,6 +2,8 @@ package media.toloka.rfa.podcast;
 
 
 import jakarta.servlet.http.HttpSession;
+import media.toloka.rfa.podcast.model.PodcastItem;
+import media.toloka.rfa.podcast.service.RSSXMLService;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Station;
@@ -37,6 +39,8 @@ public class PodcastController {
 
     @Autowired
     private PodcastService podcastService;
+    @Autowired
+    private RSSXMLService rssxmlService;
     @Autowired
     private ClientService clientService;
 
@@ -113,17 +117,33 @@ public class PodcastController {
         // формуємо RSS для конкретного подкасту.
         logger.info("Зайшли на /podcast/rss/{}",puuid);
 
-        PodcastChannel podcastChannel = podcastService.GetChanelByUUID(puuid);
+//        PodcastChannel podcastChannel = podcastService.GetChanelByUUID(puuid);
 
         // Що повертаємо?
         // Напевно, це буде XML.
 
-        String XML_String = "<?xml version='1.0' standalone='yes'?><TEST_XML><T>yyyyyyyyyyyyyyy</T><T>xxxxxxxxxxx</T></TEST_XML>";
-        byte[] byteArray = podcastService.GetRssChanel(puuid).getBytes(StandardCharsets.UTF_8);
+//        String XML_String = "<?xml version='1.0' standalone='yes'?><TEST_XML><T>yyyyyyyyyyyyyyy</T><T>xxxxxxxxxxx</T></TEST_XML>";
+//        String XML_String = rssxmlService.MakeRSSXMLService(podcastService.GetChanelByUUID(puuid));
+        byte[] byteArray = rssxmlService.MakeRSSXMLService(podcastService.GetChanelByUUID(puuid)).getBytes(StandardCharsets.UTF_8);
         HttpHeaders headers = new HttpHeaders();
         headers.set("Content-type", MediaType.TEXT_XML_VALUE);
 
         return ResponseEntity.status(HttpStatus.OK).headers(headers).body(byteArray);
     }
+
+    @GetMapping(value = "/podcast/episode/{euuid}")
+    public String podcastEpisodeView(
+            @PathVariable String euuid,
+            Model model ) {
+/*
+    Сторінка з переліком наявних на порталі подкастів з пагінацією
+
+ */
+        PodcastItem podcastItem = podcastService.GetEpisodeByUUID(euuid);
+        model.addAttribute("podcastItem",  podcastItem);
+
+        return "/podcast/episode";
+    }
+
 
 }
