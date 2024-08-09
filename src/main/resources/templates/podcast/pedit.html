@@ -82,6 +82,76 @@
                 <input type="text" th:field="*{title}"  class="form-control">
                 <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
             </div>
+                <div>
+                    <!-- itunesCategory -->
+                    <select id="first" onChange="onChangeSelectItunesFirst(this);">
+                        <option value="--------" text="--------------"/>
+                        <option th:each="item: ${itunesCategory}"
+                                th:value="${item['key']}"
+                                th:text="${item['key']}" />
+                    </select>
+                    <select id="second" onChange="onChangeSelectItunesSecond(this);" hidden>
+                        <option value="--------" text="--------------"/>
+                        <option th:each="item: ${itunesCategory}"
+                                th:value="${item['key']}"
+                                th:text="${item['key']}" />
+                    </select>
+
+                    <script>
+                        var firstLevel = "";
+                        var secondLevel = "";
+                        async function onChangeSelectItunesFirst(element) {
+                            firstLevel = element.options[element.selectedIndex].text;
+                            console.log(firstLevel);
+                            var encoded_url = encodeURI("/api/1.0/itunes/getsecondcategory/"+firstLevel);
+                            console.log(encoded_url);
+                            //var response;
+                            //var data;
+                            const response = await fetch(encoded_url);
+                            const listsecond = await response.json();
+
+                            console.log('=========================');
+                            console.log(listsecond.length);
+                            if (listsecond.length > 0) {
+                                console.log(listsecond);
+                                    document.getElementById("second").hidden = false;
+                                } else {
+                                document.getElementById("second").hidden = true;
+                                var second = document.getElementById("second");
+                                var length = second.options.length;
+                                // чистимо другий селект
+                                for (i = length-1; i >= 0; i--) {
+                                    select.options[i] = null;
+                                }
+                                // додаємо option в другий селект
+                                //for (var i = 0; i < listsecond.length; i++) {
+                                //    var option = document.createElement("option");
+                                  //  option.text = listsecond[i];
+                                    //option.value = listsecond[i];
+                                    //select.add(option);
+                                //}
+
+
+
+                            }
+
+                                }
+                            //console.log(response);
+
+                            for (i = length-1; i >= 0; i--) {
+                                select.options[i] = null;
+                            }
+
+
+                             // ...
+                        }
+                        function onChangeSelectItunesSecond(element) {
+                            var text = element.options[element.selectedIndex].text;
+                            console.log(text);
+                             // ...
+                        }
+                    </script>
+                </div>
             <div class="form-outline mb-4">
                 <label for="description" class="form-label">Опис подкасту</label>
                 <textarea th:field="*{description}" class="form-control" rows="6"></textarea>

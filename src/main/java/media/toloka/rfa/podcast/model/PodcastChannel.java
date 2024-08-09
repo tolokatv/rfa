@@ -54,6 +54,10 @@ public class PodcastChannel {
     @OneToMany(fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
     private List<PodcastItem> item = new ArrayList<>();
 
+    @ElementCollection
+    @OneToMany(fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
+    private List<PodcastItunesCategory> itunescategory = new ArrayList<>();
+
 //    @Expose
 //    @OneToOne(cascade = {CascadeType.ALL})
 //    @JoinColumn(name = "store_id")

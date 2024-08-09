@@ -111,14 +111,105 @@ public class RSSXMLService {
     private Node AddItem(PodcastItem item) {
         Element element = document.createElement("item");
 
-        Element title = document.createElement("title");
-        title.setTextContent(item.getTitle());
-        element.appendChild(title);
+//        Element title = document.createElement("title");
+//        title.setTextContent(item.getTitle());
+        element.appendChild(EItemTitle(item));
 
-        Element link = document.createElement("link");
-        link.setTextContent(item.getTitle());
-        element.appendChild(link);
+//        Element link = document.createElement("link");
+//        link.setTextContent(item.getTitle());
+        element.appendChild(EItemLink(item));
+        element.appendChild(EItemGuid(item));
+        element.appendChild(EItemComments(item));
+        element.appendChild(EItemWfw_CommentRss(item));
+        element.appendChild(EItemSlash_Comment(item));
+        element.appendChild(EItemCategory(item)); // https://github.com/ListenNotes/podcast-categories?tab=readme-ov-file
+        element.appendChild(EItemDescription(item));
+        element.appendChild(EItemContent_encoded(item));
+        element.appendChild(EItemEnclosure(item));
 
+
+
+
+        return element;
+    }
+
+    private Node EItemEnclosure(PodcastItem item) {
+        Element element = document.createElement("enclosure");
+//        element.appendChild(document.createCDATASection(item.getDescription()));
+        element.setAttribute("url","https://rfa.toloka.media/podcast/rss/"+item.getUuid());
+        element.setAttribute("length",item.getStoreitem().getFilelength().toString());
+        element.setAttribute("type",item.getStoreitem().getContentMimeType());
+//        element.setTextContent(item.getDescription());
+        return element;
+    }
+
+    private Node EItemContent_encoded(PodcastItem item) {
+        Element element = document.createElement("content:encoded");
+        element.appendChild(document.createCDATASection(item.getDescription()));
+//        element.setAttribute("isPermaLink","https://rfa.toloka.media/podcast/rss/"+item.getUuid());
+//        element.setTextContent(item.getDescription());
+        return element;
+
+    }
+
+    private Node EItemDescription(PodcastItem item) {
+        Element element = document.createElement("description");
+//        element.appendChild(document.createCDATASection(item.getCategory()));
+//        element.setAttribute("isPermaLink","https://rfa.toloka.media/podcast/rss/"+item.getUuid());
+        element.setTextContent(item.getDescription());
+        return element;
+    }
+
+    private Node EItemCategory(PodcastItem item) {
+        Element element = document.createElement("category");
+        String ttt = item.getCategory();
+        if (ttt != null) {
+            element.appendChild(document.createCDATASection(ttt));
+        } else {
+            element.appendChild(document.createCDATASection("Toloka"));
+        }
+//        element.appendChild(document.createCDATASection(ttt));
+        return element;
+    }
+
+    private Node EItemSlash_Comment(PodcastItem item) {
+        // podcastService
+        Element element = document.createElement("slash:comments");
+//        element.setAttribute("isPermaLink","https://rfa.toloka.media/podcast/rss/"+item.getUuid());
+        element.setTextContent(podcastService.GetEpisodeNumberComments(item));
+        return element;
+    }
+
+    private Node EItemWfw_CommentRss(PodcastItem item) {
+        Element element = document.createElement("wfw:commentRss");
+//        element.setAttribute("isPermaLink","https://rfa.toloka.media/podcast/rss/"+item.getUuid());
+        element.setTextContent("https://rfa.toloka.media/podcast/view/"+item.getUuid());
+        return element;
+    }
+
+    private Node EItemComments(PodcastItem item) {
+        Element element = document.createElement("guid");
+//        element.setAttribute("isPermaLink","https://rfa.toloka.media/podcast/rss/"+item.getUuid());
+        element.setTextContent("https://rfa.toloka.media/podcast/view/"+item.getUuid());
+        return element;
+    }
+
+    private Node EItemGuid(PodcastItem item) {
+        Element element = document.createElement("guid");
+        element.setAttribute("isPermaLink","https://rfa.toloka.media/podcast/rss/"+item.getUuid());
+        element.setTextContent(item.getUuid());
+        return element;
+    }
+
+    private Node EItemLink(PodcastItem item) {
+        Element element = document.createElement("link");
+        element.setTextContent(item.getTitle());
+        return element;
+    }
+
+    private Node EItemTitle(PodcastItem item) {
+        Element element = document.createElement("title");
+        element.setTextContent(item.getTitle());
         return element;
     }
 
