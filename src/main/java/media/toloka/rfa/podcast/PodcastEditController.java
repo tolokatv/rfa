@@ -34,6 +34,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 public class PodcastEditController {
@@ -87,6 +88,24 @@ public class PodcastEditController {
 
 //        logger.info("image filename: " + podcast.getImage().getStoreidimage().getFilename());
 
+//        працюємо з переліком категорій
+//        ITUNES
+        Map<String, List<String> > itunesCategory = podcastService.ItunesCatrgory();
+        // вчимося працювати з Мапом
+        List<String> listFirstLevel;
+        ArrayList<String> listSecondLevel;
+        // беремо перелік ключів першого рівня
+        listFirstLevel = new ArrayList<String>(itunesCategory.keySet());
+        for (String firstLevel : listFirstLevel) {
+            logger.info( firstLevel );
+            ArrayList<String> ooo = (ArrayList<String>) itunesCategory.get(firstLevel);
+            for (String secondLevel : ooo) {
+                logger.info("--- " + secondLevel );
+            }
+        }
+
+//
+        model.addAttribute("itunesCategory", itunesCategory);
         model.addAttribute("podcast",  podcast);
         model.addAttribute("itemslist",  itemList);
         return "/podcast/pedit";

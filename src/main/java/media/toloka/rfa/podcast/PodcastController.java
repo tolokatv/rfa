@@ -1,6 +1,7 @@
 package media.toloka.rfa.podcast;
 
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.servlet.http.HttpSession;
 import media.toloka.rfa.podcast.model.PodcastItem;
 import media.toloka.rfa.podcast.service.RSSXMLService;
@@ -24,11 +25,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.lang.reflect.Array;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.text.Format;
 import java.text.SimpleDateFormat;
-import java.util.List;
+import java.util.*;
 
 @Controller
 public class PodcastController {
@@ -73,6 +75,7 @@ public class PodcastController {
             @PathVariable String puuid,
             Model model ) {
         logger.info("Зайшли на /podcast/view/{puuid}");
+
 
         PodcastChannel podcastChannel = podcastService.GetChanelByUUID(puuid);
 

@@ -3,6 +3,7 @@ package media.toloka.rfa.rpc;
 
 
 import media.toloka.rfa.config.gson.service.GsonService;
+import media.toloka.rfa.podcast.service.PodcastService;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.model.Album;
@@ -56,6 +57,38 @@ public class RPCRESTController {
 
     @Autowired
     private ClientService clientService;
+
+    @Autowired
+    private PodcastService podcastService;
+
+
+    @GetMapping("/api/1.0/itunes/getsecondcategory/{firstcategory}")
+    List<String> GetITunesSecondCategoryREST(
+            @PathVariable String firstcategory
+    ) {
+
+        //        працюємо з переліком категорій
+//        ITUNES
+        Map<String, List<String> > itunesCategory = podcastService.ItunesCatrgory();
+        ArrayList<String> listFirstLevel;
+        List<String> listSecondLevel = (List<String>) (itunesCategory.get(firstcategory));
+        logger.info("REST First" + firstcategory );
+        // беремо перелік ключів першого рівня
+//        listFirstLevel = new List<String>(itunesCategory.keySet());
+//        for (String firstLevel : listSecondLevel) {
+//            logger.info( firstLevel );
+//            listSecondLevel = (ArrayList<String>) itunesCategory.get(firstLevel);
+        logger.info("REST numb Second--- " + ((Integer) (listSecondLevel.size() )).toString());
+        logger.info("REST numb Second 2--- " + listSecondLevel.size());
+            for (String secondLevel : listSecondLevel) {
+                logger.info("REST --- " + secondLevel );
+            }
+//        }
+
+
+        return listSecondLevel;
+    }
+
 
     @GetMapping("/api/1.0/stationonline/")
     List<ListOnlineFront> GetStateStationREST() {

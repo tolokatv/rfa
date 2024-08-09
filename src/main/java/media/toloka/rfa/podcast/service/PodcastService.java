@@ -1,5 +1,8 @@
 package media.toloka.rfa.podcast.service;
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+import media.toloka.rfa.podcast.PodcastController;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.podcast.model.PodcastChannel;
@@ -9,13 +12,24 @@ import media.toloka.rfa.podcast.repositore.ChanelRepository;
 import media.toloka.rfa.podcast.repositore.EpisodeRepository;
 import media.toloka.rfa.podcast.repositore.PodcastCoverRepository;
 import media.toloka.rfa.radio.store.Service.StoreService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ResourceUtils;
 
+import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class PodcastService {
+
+    final Logger logger = LoggerFactory.getLogger(PodcastService.class);
+
 
     @Autowired
     private ChanelRepository chanelRepository;
@@ -110,4 +124,27 @@ public class PodcastService {
         return listCh;
     }
 
+    public String GetEpisodeNumberComments(PodcastItem item) {
+        // кількість коментарів для епізоду подкасту
+        return "0";
+    }
+
+    // читаємо категорії itunes для подкасту з файлу, який розташовано в ресурсах
+    public Map<String,List<String>> ItunesCatrgory() {
+
+        String resource = "itunes.json";
+        String jsonString;
+        try {
+            File file = ResourceUtils.getFile("classpath:"+resource);
+            jsonString = new String(Files.readAllBytes(file.toPath()));
+        } catch (FileNotFoundException e) {
+            logger.info("FileNotFoundException: Щось пішло не так під час читання файлу переліку категорій для ITunes.");
+            return null;
+        } catch (IOException e) {
+            logger.info("IOException: Щось пішло не так під час читання файлу переліку категорій для ITunes.");
+            return null;
+        }
+        // отримали рядок з файлу
+        return new Gson().fromJson(jsonString, new TypeToken<HashMap<String, Object>>() {}.getType());
+    }
 }
