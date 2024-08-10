@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import media.toloka.rfa.config.gson.service.GsonService;
+import media.toloka.rfa.podcast.model.PodcastChannel;
+import media.toloka.rfa.podcast.model.PodcastItunesCategory;
 import media.toloka.rfa.podcast.service.PodcastService;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
@@ -89,9 +91,22 @@ public class RPCRESTController {
 //        logger.info(categoryFromSiteS);
         logger.info(categoryFromSite.getPodcastUUID());
 
+        PodcastChannel podcastChannel = podcastService.GetChanelByUUID(categoryFromSite.getPodcastUUID());
+        List<PodcastItunesCategory> listCategory = podcastChannel.getItunescategory();
+        // Чистимо категорії в базі
+        listCategory.clear();
+        podcastService.SavePodcast(podcastChannel);
+
+        PodcastItunesCategory tpodcastItunesCategory = new PodcastItunesCategory();
+        // записуємо новий перелік категорій
             for (PutCategory secondLevel : categoryFromSite.getPutCategories()) {
-                logger.info("Category --- " + secondLevel.getFirst() + "|" + secondLevel.getSecond() );
+                logger.info("Category --- " + secondLevel.getFirst() + " | " + secondLevel.getSecond() );
+                tpodcastItunesCategory.setFirstlevel(secondLevel.getFirst());
+                tpodcastItunesCategory.setSecondlevel(secondLevel.getSecond());
+                podcastChannel.getItunescategory().add(tpodcastItunesCategory);
+//                podcastService.SavePodcast(podcastChannel);
             }
+        podcastService.SavePodcast(podcastChannel);
 
         return "OK";
     }

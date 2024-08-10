@@ -55,7 +55,7 @@ public class PodcastChannel {
     private List<PodcastItem> item = new ArrayList<>();
 
     @ElementCollection
-    @OneToMany(fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
+    @OneToMany(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
     private List<PodcastItunesCategory> itunescategory = new ArrayList<>();
 
 //    @Expose
