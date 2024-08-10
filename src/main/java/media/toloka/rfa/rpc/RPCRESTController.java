@@ -66,7 +66,7 @@ public class RPCRESTController {
     @ToString(includeFieldNames=true)
     @Getter
     @Setter
-    private class putCategory {
+    private class PutCategory {
         private String first;
         private String second;
     }
@@ -76,17 +76,23 @@ public class RPCRESTController {
     @Setter
     private class CategoryFromSite {
         private String podcastUUID;
-        private putCategory[] putCategories;
+        private PutCategory[] putCategories;
     }
 
     @PostMapping(
             value = "/api/1.0/itunes/putcategory", consumes = "application/json", produces = "application/json")
     public String createPerson(@RequestBody String categoryFromSiteS) {
+        // отримуємо перелік категорій подкасту з сайту
         Gson gson = new Gson();
         logger.info(categoryFromSiteS);
         CategoryFromSite categoryFromSite = gson.fromJson(categoryFromSiteS, CategoryFromSite.class);
 //        logger.info(categoryFromSiteS);
         logger.info(categoryFromSite.getPodcastUUID());
+
+            for (PutCategory secondLevel : categoryFromSite.getPutCategories()) {
+                logger.info("Category --- " + secondLevel.getFirst() + "|" + secondLevel.getSecond() );
+            }
+
         return "OK";
     }
 

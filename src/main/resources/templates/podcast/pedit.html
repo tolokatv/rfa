@@ -11,6 +11,7 @@
     <title>Толока - радіо для всіх!</title>
     <meta name="_csrf" th:content="${_csrf.token}"/>
     <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
+    <meta name="podcastUUID" th:content="${podcast.uuid}"/>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
@@ -119,7 +120,7 @@
                                 let header = document.querySelector('meta[name="_csrf_header"]').getAttribute('content')
 
                             tosite.putCategories = categoryList;
-                            tosite.podcastUUID = '==== ==== ==== ====';
+                            tosite.podcastUUID = document.querySelector('meta[name="podcastUUID"]').getAttribute('content');
 
                             var encoded_url = encodeURI("/api/1.0/itunes/putcategory");
                             const response = await fetch(encoded_url, {
