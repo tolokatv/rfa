@@ -9,6 +9,8 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Толока - радіо для всіх!</title>
+    <meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/>
     <!-- Favicon-->
     <link rel="icon" type="image/x-icon" href="/assets/favicon.ico" />
     <!-- Font Awesome icons (free version)-->
@@ -84,71 +86,133 @@
             </div>
                 <div>
                     <!-- itunesCategory -->
-                    <select id="first" onChange="onChangeSelectItunesFirst(this);">
+                    <select id="first" onChange="onChangeSelectItunesF(this)">
                         <option value="--------" text="--------------"/>
                         <option th:each="item: ${itunesCategory}"
                                 th:value="${item['key']}"
                                 th:text="${item['key']}" />
                     </select>
-                    <select id="second" onChange="onChangeSelectItunesSecond(this);" hidden>
+                    <select id="second" onChange="onChangeSelectItunesS(this)" hidden>
                         <option value="--------" text="--------------"/>
                         <option th:each="item: ${itunesCategory}"
                                 th:value="${item['key']}"
                                 th:text="${item['key']}" />
                     </select>
+                    <p onclick="addCategory()">Додати категорію</p>
+                    <br>
+                    <p onclick="saveCategory()">Зберегти категорії</p><br>
+                    <textarea id="categories" class="form-control" rows="6"></textarea>
 
                     <script>
-                        var firstLevel = "";
-                        var secondLevel = "";
-                        async function onChangeSelectItunesFirst(element) {
+                        var checkChangeCategory = false;
+                        let firstLevel = '';
+                        let secondLevel = '';
+                        let categoryList = [];
+                        var categoryElement = {};
+                        async function saveCategory() {
+                            let tosite = {};
+
+                                // https://stackoverflow.com/questions/50486314/how-to-solve-403-error-in-spring-boot-post-request
+                                // let token = $("meta[name='_csrf']").attr("content");
+                                let token = document.querySelector('meta[name="_csrf"]').getAttribute('content')
+                                // let header = $("meta[name='_csrf_header']").attr("content");
+                                let header = document.querySelector('meta[name="_csrf_header"]').getAttribute('content')
+
+                            tosite.putCategories = categoryList;
+                            tosite.podcastUUID = '==== ==== ==== ====';
+
+                            var encoded_url = encodeURI("/api/1.0/itunes/putcategory");
+                            const response = await fetch(encoded_url, {
+                                method: "POST",
+                                    headers: {
+                                        [header]: token,
+                                        "charset": "UTF-8",
+                                        "Content-Type": "application/json"
+                                    },
+                                body: JSON.stringify(tosite),
+                            }).then(res => console.log(res)).catch(err => console.log(err));
+
+
+                        }
+                        //==============================================
+                        async function onChangeSelectItunesF(element) {
                             firstLevel = element.options[element.selectedIndex].text;
-                            console.log(firstLevel);
                             var encoded_url = encodeURI("/api/1.0/itunes/getsecondcategory/"+firstLevel);
-                            console.log(encoded_url);
-                            //var response;
-                            //var data;
                             const response = await fetch(encoded_url);
                             const listsecond = await response.json();
 
-                            console.log('=========================');
-                            console.log(listsecond.length);
+                            categoryElement.first = firstLevel;
+                            categoryElement.second = '';
+                            var second = document.getElementById("second");
+
+                            // clear option in second select
+                            var i, L = second.options.length - 1;
+                            for(i = L; i >= 0; i--) {
+                                second.remove(i);
+                            }
+
                             if (listsecond.length > 0) {
-                                console.log(listsecond);
-                                    document.getElementById("second").hidden = false;
-                                } else {
-                                document.getElementById("second").hidden = true;
+
                                 var second = document.getElementById("second");
-                                var length = second.options.length;
-                                // чистимо другий селект
-                                for (i = length-1; i >= 0; i--) {
-                                    select.options[i] = null;
-                                }
                                 // додаємо option в другий селект
-                                //for (var i = 0; i < listsecond.length; i++) {
-                                //    var option = document.createElement("option");
-                                  //  option.text = listsecond[i];
-                                    //option.value = listsecond[i];
-                                    //select.add(option);
-                                //}
-
-
-
-                            }
-
+                                var option = document.createElement("option");
+                                    option.text = '';
+                                    option.value = '';
+                                    second.add(option);
+                                for (var i = 0; i < listsecond.length; i++) {
+                                    var option = document.createElement("option");
+                                    option.text = listsecond[i];
+                                    option.value = listsecond[i];
+                                    second.add(option);
                                 }
-                            //console.log(response);
 
-                            for (i = length-1; i >= 0; i--) {
-                                select.options[i] = null;
+                                document.getElementById("second").hidden = false;
+                            } else {
+                                categoryElement.second = '';
+                                document.getElementById("second").hidden = true;
+                                // clear option in second select
+                                var i, L = second.options.length - 1;
+                                for(i = L; i >= 0; i--) {
+                                    second.remove(i);
+                                }
                             }
-
-
-                             // ...
                         }
-                        function onChangeSelectItunesSecond(element) {
-                            var text = element.options[element.selectedIndex].text;
-                            console.log(text);
-                             // ...
+
+                        function onChangeSelectItunesS(element) {
+                            secondLevel = element.options[element.selectedIndex].text;
+                            categoryElement.second = secondLevel;
+
+                        }
+
+                        function addCategory() {
+                            var txtArea;
+
+                            console.log("================");
+                            console.log(categoryList);
+                            console.log(categoryElement);
+
+                            checkChangeCategory = true;
+                            let ce = {};
+                            ce.first = categoryElement.first;
+                            ce.second = categoryElement.second;
+                            if(categoryElement.second === undefined) {
+                              console.log("Ще рано");
+                            } else {
+                                categoryList.push(ce);
+                            }
+                            txtArea = document.getElementById("categories");
+                            txtArea.value += categoryElement.first;
+
+                            if(categoryElement.second === undefined) {
+                              console.log("Ще рано");
+                            } else {
+                                let ttt = categoryElement.second;
+                                if (ttt.length > 0) {
+                                    txtArea.value += " | " + categoryElement.second + '\r\n';
+                                } else {
+                                    txtArea.value += '\r\n';
+                                }
+                            }
                         }
                     </script>
                 </div>

@@ -2,6 +2,10 @@ package media.toloka.rfa.rpc;
 
 
 
+import com.google.gson.Gson;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import media.toloka.rfa.config.gson.service.GsonService;
 import media.toloka.rfa.podcast.service.PodcastService;
 import media.toloka.rfa.radio.client.service.ClientService;
@@ -19,9 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -61,6 +63,32 @@ public class RPCRESTController {
     @Autowired
     private PodcastService podcastService;
 
+    @ToString(includeFieldNames=true)
+    @Getter
+    @Setter
+    private class putCategory {
+        private String first;
+        private String second;
+    }
+
+    @ToString(includeFieldNames=true)
+    @Getter
+    @Setter
+    private class CategoryFromSite {
+        private String podcastUUID;
+        private putCategory[] putCategories;
+    }
+
+    @PostMapping(
+            value = "/api/1.0/itunes/putcategory", consumes = "application/json", produces = "application/json")
+    public String createPerson(@RequestBody String categoryFromSiteS) {
+        Gson gson = new Gson();
+        logger.info(categoryFromSiteS);
+        CategoryFromSite categoryFromSite = gson.fromJson(categoryFromSiteS, CategoryFromSite.class);
+//        logger.info(categoryFromSiteS);
+        logger.info(categoryFromSite.getPodcastUUID());
+        return "OK";
+    }
 
     @GetMapping("/api/1.0/itunes/getsecondcategory/{firstcategory}")
     List<String> GetITunesSecondCategoryREST(
@@ -72,17 +100,17 @@ public class RPCRESTController {
         Map<String, List<String> > itunesCategory = podcastService.ItunesCatrgory();
         ArrayList<String> listFirstLevel;
         List<String> listSecondLevel = (List<String>) (itunesCategory.get(firstcategory));
-        logger.info("REST First" + firstcategory );
+//        logger.info("REST First" + firstcategory );
         // беремо перелік ключів першого рівня
 //        listFirstLevel = new List<String>(itunesCategory.keySet());
 //        for (String firstLevel : listSecondLevel) {
 //            logger.info( firstLevel );
 //            listSecondLevel = (ArrayList<String>) itunesCategory.get(firstLevel);
-        logger.info("REST numb Second--- " + ((Integer) (listSecondLevel.size() )).toString());
-        logger.info("REST numb Second 2--- " + listSecondLevel.size());
-            for (String secondLevel : listSecondLevel) {
-                logger.info("REST --- " + secondLevel );
-            }
+//        logger.info("REST numb Second--- " + ((Integer) (listSecondLevel.size() )).toString());
+//        logger.info("REST numb Second 2--- " + listSecondLevel.size());
+//            for (String secondLevel : listSecondLevel) {
+//                logger.info("REST --- " + secondLevel );
+//            }
 //        }
 
 
