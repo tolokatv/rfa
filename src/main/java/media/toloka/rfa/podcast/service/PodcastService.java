@@ -3,6 +3,8 @@ package media.toloka.rfa.podcast.service;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import media.toloka.rfa.podcast.PodcastController;
+import media.toloka.rfa.podcast.model.PodcastItunesCategory;
+import media.toloka.rfa.podcast.repositore.ItunesCategoryRepository;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.podcast.model.PodcastChannel;
@@ -36,6 +38,9 @@ public class PodcastService {
 
     @Autowired
     private EpisodeRepository episodeRepository;
+
+    @Autowired
+    private ItunesCategoryRepository itunesCategoryRepository;
 
     @Autowired
     private PodcastCoverRepository coverPodcastRepository;
@@ -146,5 +151,13 @@ public class PodcastService {
         }
         // отримали рядок з файлу
         return new Gson().fromJson(jsonString, new TypeToken<HashMap<String, Object>>() {}.getType());
+    }
+
+    public void SaveItunesCategory(PodcastItunesCategory pic) {
+        itunesCategoryRepository.save(pic);
+    }
+
+    public void ItunesCategoryClear(PodcastItunesCategory toclear) {
+        itunesCategoryRepository.delete(toclear);
     }
 }

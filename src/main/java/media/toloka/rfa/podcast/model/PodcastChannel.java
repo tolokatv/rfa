@@ -51,11 +51,12 @@ public class PodcastChannel {
     private PodcastImage image;
 
     @ElementCollection
-    @OneToMany(fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
+    @OneToMany( fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
     private List<PodcastItem> item = new ArrayList<>();
 
-    @ElementCollection
-    @OneToMany(fetch=FetchType.LAZY, cascade = {CascadeType.ALL})
+//    @ElementCollection
+    @OneToMany(mappedBy = "chanel", fetch=FetchType.EAGER, orphanRemoval = true)
+//    @JoinColumn(name = "podcast_itunes_category_id")
     private List<PodcastItunesCategory> itunescategory = new ArrayList<>();
 
 //    @Expose

@@ -86,27 +86,33 @@ public class RPCRESTController {
     public String createPerson(@RequestBody String categoryFromSiteS) {
         // отримуємо перелік категорій подкасту з сайту
         Gson gson = new Gson();
-        logger.info(categoryFromSiteS);
+//        logger.info(categoryFromSiteS);
         CategoryFromSite categoryFromSite = gson.fromJson(categoryFromSiteS, CategoryFromSite.class);
 //        logger.info(categoryFromSiteS);
-        logger.info(categoryFromSite.getPodcastUUID());
+//        logger.info(categoryFromSite.getPodcastUUID());
 
         PodcastChannel podcastChannel = podcastService.GetChanelByUUID(categoryFromSite.getPodcastUUID());
-        List<PodcastItunesCategory> listCategory = podcastChannel.getItunescategory();
+//        List<PodcastItunesCategory> listCategory = podcastChannel.getItunescategory();
         // Чистимо категорії в базі
-        listCategory.clear();
+        for (PodcastItunesCategory toclear : podcastChannel.getItunescategory()) {
+            podcastService.ItunesCategoryClear(toclear);
+        }
+        podcastChannel.getItunescategory().clear();
         podcastService.SavePodcast(podcastChannel);
 
-        PodcastItunesCategory tpodcastItunesCategory = new PodcastItunesCategory();
+
         // записуємо новий перелік категорій
             for (PutCategory secondLevel : categoryFromSite.getPutCategories()) {
-                logger.info("Category --- " + secondLevel.getFirst() + " | " + secondLevel.getSecond() );
+//                logger.info("Category --- " + secondLevel.getFirst() + " | " + secondLevel.getSecond() );
+                PodcastItunesCategory tpodcastItunesCategory = new PodcastItunesCategory();
                 tpodcastItunesCategory.setFirstlevel(secondLevel.getFirst());
                 tpodcastItunesCategory.setSecondlevel(secondLevel.getSecond());
-                podcastChannel.getItunescategory().add(tpodcastItunesCategory);
-//                podcastService.SavePodcast(podcastChannel);
+                tpodcastItunesCategory.setChanel(podcastChannel);
+//                podcastChannel.getItunescategory().add(tpodcastItunesCategory);
+//                podcastChannel.getItunescategory().add(tpodcastItunesCategory);
+                podcastService.SaveItunesCategory(tpodcastItunesCategory);
             }
-        podcastService.SavePodcast(podcastChannel);
+//        podcastService.SavePodcast(podcastChannel);
 
         return "OK";
     }
