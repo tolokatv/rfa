@@ -2,7 +2,6 @@ package media.toloka.rfa.podcast.service;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import media.toloka.rfa.podcast.PodcastController;
 import media.toloka.rfa.podcast.model.PodcastItunesCategory;
 import media.toloka.rfa.podcast.repositore.ItunesCategoryRepository;
 import media.toloka.rfa.radio.dropfile.service.FilesService;
@@ -14,6 +13,13 @@ import media.toloka.rfa.podcast.repositore.ChanelRepository;
 import media.toloka.rfa.podcast.repositore.EpisodeRepository;
 import media.toloka.rfa.podcast.repositore.PodcastCoverRepository;
 import media.toloka.rfa.radio.store.Service.StoreService;
+import media.toloka.rfa.radio.store.model.Store;
+import org.jaudiotagger.audio.AudioFile;
+import org.jaudiotagger.audio.AudioFileIO;
+import org.jaudiotagger.audio.exceptions.CannotReadException;
+import org.jaudiotagger.audio.exceptions.InvalidAudioFrameException;
+import org.jaudiotagger.audio.exceptions.ReadOnlyFileException;
+import org.jaudiotagger.tag.TagException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +27,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.ResourceUtils;
 
 import java.io.*;
-import java.nio.charset.StandardCharsets;
+import java.math.BigDecimal;
 import java.nio.file.Files;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -74,6 +81,7 @@ public class PodcastService {
         episode.setStoreuuid(storeUUID);
         episode.setStoreitem(storeService.GetStoreByUUID(storeUUID));
         episode.setClientdetail(cd);
+        episode.setTimetrack(GetTimeTrack(storeUUID));
         podcast.getItem().add(episode);
 
         SavePodcast(podcast);
@@ -81,8 +89,38 @@ public class PodcastService {
 //        episodeRepository.save(episode);
     }
 
+    public String GetTimeTrack(String storeUUID) {
+        // Беремо в сховищі завантажений трек і визначаємо його тривалість
+        String cursFile = storeService.GetStoreByUUID (storeUUID).getFilepatch ();
+        String resultLength;
+
+        try {
+//            File file =
+            AudioFile audioMetadata = AudioFileIO.read(new File(cursFile));
+            logger.info("Audio file {}",cursFile);
+            logger.info("Audio TrackLength {}",audioMetadata.getAudioHeader().getTrackLength ());
+            Integer iii = audioMetadata.getAudioHeader().getTrackLength ();
+            Long lll = Long.valueOf(iii * 1000);
+            Date ddd = new Date(lll);
+
+            Integer hours = audioMetadata.getAudioHeader().getTrackLength () / 3600;
+            Integer minutes = (audioMetadata.getAudioHeader().getTrackLength () % 3600) / 60;
+            Integer seconds = audioMetadata.getAudioHeader().getTrackLength () % 60;
+
+            resultLength = String.format("%02d:%02d:%02d", hours, minutes, seconds);
+
+            logger.info("Audio bitrate {}",audioMetadata.getAudioHeader().getBitRate());
+        } catch (CannotReadException | IOException | TagException | ReadOnlyFileException
+                 | InvalidAudioFrameException e) {
+            throw new RuntimeException("Error while getting metadata for audio file. Error " +  e.getLocalizedMessage());
+        }
+        return resultLength;
+    }
+
 
     public void SaveEpisode(PodcastItem episode) {
+        // todo Записати час файлу для RSS XML
+
         episodeRepository.save(episode);
     }
 
@@ -93,6 +131,7 @@ public class PodcastService {
         podcast.setImage(podcastImage);
         SavePodcast(podcast);
     }
+
     public void SaveCoverEpisodeUploadfile(String storeUUID, PodcastItem episode, Clientdetail cd) {
         PodcastImage itemImage = new PodcastImage();
         itemImage.setStoreidimage(storeService.GetStoreByUUID(storeUUID));
@@ -135,7 +174,7 @@ public class PodcastService {
     }
 
     // читаємо категорії itunes для подкасту з файлу, який розташовано в ресурсах
-    public Map<String,List<String>> ItunesCatrgory() {
+    public Map<String,List<String>> ItunesCategory() {
 
         String resource = "itunes.json";
         String jsonString;

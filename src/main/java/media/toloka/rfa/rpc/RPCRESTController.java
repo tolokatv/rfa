@@ -108,8 +108,6 @@ public class RPCRESTController {
                 tpodcastItunesCategory.setFirstlevel(secondLevel.getFirst());
                 tpodcastItunesCategory.setSecondlevel(secondLevel.getSecond());
                 tpodcastItunesCategory.setChanel(podcastChannel);
-//                podcastChannel.getItunescategory().add(tpodcastItunesCategory);
-//                podcastChannel.getItunescategory().add(tpodcastItunesCategory);
                 podcastService.SaveItunesCategory(tpodcastItunesCategory);
             }
 //        podcastService.SavePodcast(podcastChannel);
@@ -124,7 +122,7 @@ public class RPCRESTController {
 
         //        працюємо з переліком категорій
 //        ITUNES
-        Map<String, List<String> > itunesCategory = podcastService.ItunesCatrgory();
+        Map<String, List<String> > itunesCategory = podcastService.ItunesCategory();
         ArrayList<String> listFirstLevel;
         List<String> listSecondLevel = (List<String>) (itunesCategory.get(firstcategory));
 //        logger.info("REST First" + firstcategory );
