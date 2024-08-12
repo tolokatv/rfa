@@ -350,7 +350,7 @@ public class RSSXMLService {
 
         if (podcastChannel.getImage() != null) {
 
-            url.setTextContent("https://rfa.toloka.media/store/thrumbal/w/300/"
+            url.setTextContent("https://rfa.toloka.media/store/thrumbal/w/1500/"
                     +podcastChannel.getImage().getStoreidimage().getUuid()+"/"
                     +podcastChannel.getImage().getStoreidimage().getFilename());
         }
