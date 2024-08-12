@@ -200,7 +200,8 @@ public class RSSXMLService {
     private Node EItemEnclosure(PodcastItem item) {
         Element element = document.createElement("enclosure");
 //        element.appendChild(document.createCDATASection(item.getDescription()));
-        element.setAttribute("url","https://rfa.toloka.media/podcast/rss/"+item.getUuid()+"/"+item.getStoreitem().getFilename());
+        element.setAttribute("url","https://rfa.toloka.media/podcast/audio/"
+                + item.getStoreuuid() + "/" + item.getStoreitem().getFilename());
         element.setAttribute("length",item.getStoreitem().getFilelength().toString());
         element.setAttribute("type",item.getStoreitem().getContentMimeType());
 //        element.setTextContent(item.getDescription());
