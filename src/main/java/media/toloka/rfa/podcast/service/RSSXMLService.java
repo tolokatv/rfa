@@ -2,6 +2,7 @@ package media.toloka.rfa.podcast.service;
 // https://github.com/Podcast-Standards-Project/PSP-1-Podcast-RSS-Specification
 
 // https://support.google.com/podcast-publishers/answer/9889544?hl=en
+// https://help.apple.com/itc/podcasts_connect/#/itcb54353390
 
 import media.toloka.rfa.podcast.model.PodcastChannel;
 import media.toloka.rfa.podcast.model.PodcastItem;
