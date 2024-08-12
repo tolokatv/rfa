@@ -7,6 +7,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import media.toloka.rfa.config.gson.service.GsonService;
+import media.toloka.rfa.podcast.model.PodcastChannel;
+import media.toloka.rfa.podcast.model.PodcastItunesCategory;
 import media.toloka.rfa.podcast.service.PodcastService;
 import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
@@ -84,14 +86,31 @@ public class RPCRESTController {
     public String createPerson(@RequestBody String categoryFromSiteS) {
         // отримуємо перелік категорій подкасту з сайту
         Gson gson = new Gson();
-        logger.info(categoryFromSiteS);
+//        logger.info(categoryFromSiteS);
         CategoryFromSite categoryFromSite = gson.fromJson(categoryFromSiteS, CategoryFromSite.class);
 //        logger.info(categoryFromSiteS);
-        logger.info(categoryFromSite.getPodcastUUID());
+//        logger.info(categoryFromSite.getPodcastUUID());
 
+        PodcastChannel podcastChannel = podcastService.GetChanelByUUID(categoryFromSite.getPodcastUUID());
+//        List<PodcastItunesCategory> listCategory = podcastChannel.getItunescategory();
+        // Чистимо категорії в базі
+        for (PodcastItunesCategory toclear : podcastChannel.getItunescategory()) {
+            podcastService.ItunesCategoryClear(toclear);
+        }
+        podcastChannel.getItunescategory().clear();
+        podcastService.SavePodcast(podcastChannel);
+
+
+        // записуємо новий перелік категорій
             for (PutCategory secondLevel : categoryFromSite.getPutCategories()) {
-                logger.info("Category --- " + secondLevel.getFirst() + "|" + secondLevel.getSecond() );
+//                logger.info("Category --- " + secondLevel.getFirst() + " | " + secondLevel.getSecond() );
+                PodcastItunesCategory tpodcastItunesCategory = new PodcastItunesCategory();
+                tpodcastItunesCategory.setFirstlevel(secondLevel.getFirst());
+                tpodcastItunesCategory.setSecondlevel(secondLevel.getSecond());
+                tpodcastItunesCategory.setChanel(podcastChannel);
+                podcastService.SaveItunesCategory(tpodcastItunesCategory);
             }
+//        podcastService.SavePodcast(podcastChannel);
 
         return "OK";
     }
@@ -103,7 +122,7 @@ public class RPCRESTController {
 
         //        працюємо з переліком категорій
 //        ITUNES
-        Map<String, List<String> > itunesCategory = podcastService.ItunesCatrgory();
+        Map<String, List<String> > itunesCategory = podcastService.ItunesCategory();
         ArrayList<String> listFirstLevel;
         List<String> listSecondLevel = (List<String>) (itunesCategory.get(firstcategory));
 //        logger.info("REST First" + firstcategory );

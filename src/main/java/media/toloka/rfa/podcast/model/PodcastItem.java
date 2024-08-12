@@ -29,8 +29,11 @@ public class PodcastItem {
     private String pubDate;
     @Expose
     private String comments;
+//    @Expose
+//    private String category;
     @Expose
-    private String category;
+    private String timetrack;
+
     @Expose
     @Column(columnDefinition = "TEXT")
     private String description;

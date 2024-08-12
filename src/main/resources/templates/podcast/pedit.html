@@ -114,9 +114,7 @@
                             let tosite = {};
 
                                 // https://stackoverflow.com/questions/50486314/how-to-solve-403-error-in-spring-boot-post-request
-                                // let token = $("meta[name='_csrf']").attr("content");
                                 let token = document.querySelector('meta[name="_csrf"]').getAttribute('content')
-                                // let header = $("meta[name='_csrf_header']").attr("content");
                                 let header = document.querySelector('meta[name="_csrf_header"]').getAttribute('content')
 
                             tosite.putCategories = categoryList;

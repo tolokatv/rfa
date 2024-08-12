@@ -70,123 +70,13 @@ public class RSSController {
             Model model ) {
         PodcastChannel podcastChannel = podcastService.GetChanelByUUID(puuid);
 
-        List<Episode> episodeList =new ArrayList<>();
-        Episode episode = Episode.builder()
-                .title("перший епізод")
-                .description("Перший опис")
-                .author("Перший автор")
-                .source("https://rfa.toloka.media")
-//                .getItunesBuilder()
-                .build();
-//        episodeList.add(episode);
-//                Podcast podcast = Podcast.builder()
-//                        .title("Заголовок подкасту")
-//                        .description("Опис подкасту")
-//                        .addEpisodeBuilder(episodeList)
-//                        .build();
-
-
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream(); //inputStream,"UTF-8"
         DocumentBuilderFactory docFactory = DocumentBuilderFactory.newInstance();
         DocumentBuilder docBuilder;
         try {
+
             docBuilder = docFactory.newDocumentBuilder();
-        // root elements
-        Document doc = docBuilder.newDocument();
-
-//            URL namespaceURL = new URL("http://www.w3.org/2001/XMLSchema-instance");
-//            String namespace = "xmlns:xsi="+namespaceURL.toString();
-//
-//            Element messages = doc.createElementNS(namespace, "messages");
-
-        Element rootElement = doc.createElement("rss");
-//            rootElement.createElementNS("http://example/namespace", "PREFIX:aNodeName");
-            rootElement.setAttribute("xmlns:content", "http://purl.org/rss/1.0/modules/content/");
-            rootElement.setAttribute("xmlns:dc", "http://purl.org/dc/elements/1.1/");
-            rootElement.setAttribute("xmlns:wfw", "http://wellformedweb.org/CommentAPI/");
-            rootElement.setAttribute("xmlns:atom", "http://www.w3.org/2005/Atom");
-            rootElement.setAttribute("xmlns:sy", "http://purl.org/rss/1.0/modules/syndication/");
-            rootElement.setAttribute("xmlns:slash", "http://purl.org/rss/1.0/modules/slash/");
-            rootElement.setAttribute("xmlns:itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd");
-            rootElement.setAttribute("xmlns:podcast", "https://podcastindex.org/namespace/1.0");
-            rootElement.setAttribute("xmlns:rawvoice", "http://www.rawvoice.com/rawvoiceRssModule/");
-            rootElement.setAttribute("xmlns:googleplay", "http://www.google.com/schemas/play-podcasts/1.0");
-            rootElement.setAttribute("version", "2.0");
-        doc.appendChild(rootElement);
-
-        // staff 1001
-
-        // add xml elements
-        Element chanel = doc.createElement("channel");
-        // add staff to root
-        rootElement.appendChild(chanel);
-        // add xml attribute
-//        staff.setAttribute("id", "1001");
-
-        // alternative
-        // Attr attr = doc.createAttribute("id");
-        // attr.setValue("1001");
-        // staff.setAttributeNode(attr);
-
-        Element title = doc.createElement("title");
-        // JDK 1.4
-        //name.appendChild(doc.createTextNode("Пробуємо українські літери їЇєЄіІ"));
-        // JDK 1.5
-//            title.setTextContent(decodeUTF8(podcastChannel.getTitle()));
-            title.setTextContent(new String(podcastChannel.getTitle().getBytes(StandardCharsets.UTF_8)));
-
-            chanel.appendChild(title);
-
-        Element link = doc.createElement("link");
-            link.setTextContent("URL chanel name");
-            chanel.appendChild(link);
-
-        Element description = doc.createElement("description");
-//        salary.setAttribute("currency", "USD");
-//            description.setTextContent(decodeUTF8(podcastChannel.getDescription()));
-            description.setTextContent(podcastChannel.getDescription());
-            chanel.appendChild(description);
-
-        // add xml comment
-        Comment comment = doc.createComment(
-                "for special characters like < &, need CDATA");
-            chanel.appendChild(comment);
-
-        Element bio = doc.createElement("bio");
-        // add xml CDATA
-        CDATASection cdataSection =
-                doc.createCDATASection("HTML tag <code>testing</code>");
-        bio.appendChild(cdataSection);
-            chanel.appendChild(bio);
-
-        // staff 1002
-//        Element staff2 = doc.createElement("staff");
-//        // add staff to root
-//        rootElement.appendChild(staff2);
-//        staff2.setAttribute("id", "1002");
-//
-//        Element name2 = doc.createElement("name");
-//        name2.setTextContent("yflow");
-//        staff2.appendChild(name2);
-//
-//        Element role2 = doc.createElement("role");
-//        role2.setTextContent("admin");
-//        staff2.appendChild(role2);
-//
-//        Element salary2 = doc.createElement("salary");
-//        salary2.setAttribute("currency", "EUD");
-//        salary2.setTextContent("8000");
-//        staff2.appendChild(salary2);
-//
-//        Element bio2 = doc.createElement("bio");
-//        // add xml CDATA
-//        bio2.appendChild(doc.createCDATASection("a & b"));
-//        staff2.appendChild(bio2);
-
-//        db.setErrorHandler(new DefaultHandler());
-//        final Document doc = db.parse(new URL(url).openStream());
-//        final SyndFeed feed = new SyndFeedInput().build(doc);
-
-            ByteArrayOutputStream outputStream = new ByteArrayOutputStream(); //inputStream,"UTF-8"
+            Document doc = docBuilder.newDocument();
 //            OutputStream outputStream = new OutputStream(); //inputStream,"UTF-8"
             try {
                 writeXml(doc, outputStream);
@@ -194,7 +84,6 @@ public class RSSController {
                 logger.warn("Щось пішло не так при System.out ");
                 return "";
             }
-
 
             String sss =  outputStream.toString(StandardCharsets.UTF_8);// toString();//.getBytes(StandardCharsets.UTF_8);
             return sss;
@@ -204,10 +93,6 @@ public class RSSController {
         }
 
         /* цикл по епізодам */
-//        for (PodcastItem item : podcastChannel.getItem())
-//        {
-//
-//        }
     }
     private static void writeXml(Document doc,
                                  OutputStream output)

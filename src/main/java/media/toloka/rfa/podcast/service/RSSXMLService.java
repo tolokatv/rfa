@@ -1,7 +1,11 @@
 package media.toloka.rfa.podcast.service;
+// https://github.com/Podcast-Standards-Project/PSP-1-Podcast-RSS-Specification
+
+// https://support.google.com/podcast-publishers/answer/9889544?hl=en
 
 import media.toloka.rfa.podcast.model.PodcastChannel;
 import media.toloka.rfa.podcast.model.PodcastItem;
+import media.toloka.rfa.podcast.model.PodcastItunesCategory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -97,8 +101,23 @@ public class RSSXMLService {
         channel.appendChild(EChannel_Itunes_Owner(podcastChannel));
         channel.appendChild(EChannelCopyright(podcastChannel));
 
+        EChannel_Itunes_Category(podcastChannel,channel);
+
+
 
         List<PodcastItem> podcastItems = podcastChannel.getItem();
+        logger.info("============= List Item length: {}",podcastItems.size());
+//        for (PodcastItem item : podcastItems) {
+        for ( int i = 0; i < podcastItems.size(); i++ ) {
+            if (podcastItems.get(i).getTimetrack() == null ) {
+                PodcastItem pi = podcastItems.get(i);
+                pi.setTimetrack(podcastService.GetTimeTrack(pi.getStoreitem().getUuid()));
+                podcastService.SaveEpisode(pi);
+            }
+        }
+
+
+
         // заповнюємо епізоди
         for (PodcastItem item : podcastItems) {
             channel.appendChild(AddItem(item));
@@ -106,6 +125,23 @@ public class RSSXMLService {
 
         rootRSS.appendChild(channel);
         return;
+    }
+
+    private void EChannel_Itunes_Category(PodcastChannel podcastChannel, Element channel) {
+        for (PodcastItunesCategory podcastItunesCategory : podcastChannel.getItunescategory()) {
+//            String first = podcastItunesCategory.getFirstlevel();
+//            String second = podcastItunesCategory.getSecondlevel();
+            if (podcastItunesCategory.getFirstlevel() != null && podcastItunesCategory.getFirstlevel().length() > 1) {
+                Element elementFirst = document.createElement("itunes:category");
+                elementFirst.setAttribute("text",podcastItunesCategory.getFirstlevel());
+                if (podcastItunesCategory.getSecondlevel() != null && podcastItunesCategory.getSecondlevel().length() > 1) {
+                    Element elementSecond = document.createElement("itunes:category");
+                    elementSecond.setAttribute("text",podcastItunesCategory.getSecondlevel());
+                    elementFirst.appendChild(elementSecond);
+                }
+                channel.appendChild(elementFirst);
+            }
+        }
     }
 
     private Node AddItem(PodcastItem item) {
@@ -122,14 +158,37 @@ public class RSSXMLService {
         element.appendChild(EItemComments(item));
         element.appendChild(EItemWfw_CommentRss(item));
         element.appendChild(EItemSlash_Comment(item));
-        element.appendChild(EItemCategory(item)); // https://github.com/ListenNotes/podcast-categories?tab=readme-ov-file
+//        element.appendChild(EItemCategory(item)); // https://github.com/ListenNotes/podcast-categories?tab=readme-ov-file
         element.appendChild(EItemDescription(item));
         element.appendChild(EItemContent_encoded(item));
         element.appendChild(EItemEnclosure(item));
+        element.appendChild(EItemItunes_Duration(item));
+        // зберігаємо час треку в базу якщо поле пусте
+//        if (item.getTimetrack() == null ||  item.getTimetrack().length() < 2) {
+//            item.setTimetrack(podcastService.GetTimeTrack(item.getStoreitem().getUuid()));
+//            podcastService.SaveEpisode(item);
+//
+//        }
 
 
 
 
+
+        return element;
+    }
+
+    private Node EItemItunes_Duration(PodcastItem item) {
+        Element element = document.createElement("itunes:duration");
+        if (item.getTimetrack() != null) {
+            if ( item.getTimetrack().length() > 2) {
+                element.setTextContent(item.getTimetrack());
+            }
+            else {
+                element.setTextContent(podcastService.GetTimeTrack(item.getStoreitem().getUuid()));
+            }
+        } else {
+            element.setTextContent(podcastService.GetTimeTrack(item.getStoreitem().getUuid()));
+        }
         return element;
     }
 
@@ -162,12 +221,13 @@ public class RSSXMLService {
 
     private Node EItemCategory(PodcastItem item) {
         Element element = document.createElement("category");
-        String ttt = item.getCategory();
-        if (ttt != null) {
-            element.appendChild(document.createCDATASection(ttt));
-        } else {
-            element.appendChild(document.createCDATASection("Toloka"));
-        }
+//        List<PodcastItunesCategory> podcastItunesCategories = item.getChanel().getItunescategory();
+//        String ttt = item.getCategory();
+//        if (ttt != null) {
+//            element.appendChild(document.createCDATASection(ttt));
+//        } else {
+//            element.appendChild(document.createCDATASection("Toloka"));
+//        }
 //        element.appendChild(document.createCDATASection(ttt));
         return element;
     }

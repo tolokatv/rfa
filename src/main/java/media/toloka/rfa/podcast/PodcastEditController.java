@@ -90,7 +90,7 @@ public class PodcastEditController {
 
 //        працюємо з переліком категорій
 //        ITUNES
-        Map<String, List<String> > itunesCategory = podcastService.ItunesCatrgory();
+        Map<String, List<String> > itunesCategory = podcastService.ItunesCategory();
         // вчимося працювати з Мапом
 //        List<String> listFirstLevel;
 //        ArrayList<String> listSecondLevel;
