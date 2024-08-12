@@ -128,6 +128,7 @@ public class PodcastService {
      * https://stackoverflow.com/questions/29632342/converting-language-names-to-iso-639-language-codes
      */
     public String GetLanguageCode(String lng){
+        if (lng == null) return "ukr";
         Locale loc = new Locale("en");
         String[] name = loc.getISOLanguages(); // list of language codes
 
