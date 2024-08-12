@@ -28,6 +28,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
@@ -92,7 +93,7 @@ public class RSSXMLService {
         channel.appendChild(EChannelAtomLink(podcastChannel));
         channel.appendChild(EChannelLink(podcastChannel));
         channel.appendChild(EChannelDescription(podcastChannel));
-//         channel.appendChild(EChannelLastBuildDate(podcastChannel)); // Доопрацювати
+        channel.appendChild(EChannelLastBuildDate(podcastChannel)); // Доопрацювати
         channel.appendChild(EChannelLanguage(podcastChannel));
         channel.appendChild(EChannelSy_updatePeriod(podcastChannel));
         channel.appendChild(EChannelSy_updateFrequency(podcastChannel));
@@ -400,13 +401,18 @@ public class RSSXMLService {
 
     private Node EChannelLastBuildDate(PodcastChannel podcastChannel) {
         Element element = document.createElement("lastBuildDate");
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy Z");
-//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy HH:mm:ss Z");
-//        Instant instant = podcastChannel.getLastbuilddate().toInstant();
-//        LocalDateTime ldt = podcastChannel.getLastbuilddate().toInstant().atOffset(ZoneOffset.UTC).toLocalDateTime();
-        LocalDateTime ldt = podcastChannel.getLastbuilddate().toInstant().atZone(ZoneOffset.UTC).toLocalDateTime();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy hh:mm:ss", Locale.ENGLISH);
+//        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy Z", Locale.ENGLISH);
+//        LocalDateTime ldt = podcastChannel.getLastbuilddate().toInstant()
+//                .atZone(ZoneId.systemDefault())
+//                .toLocalDateTime();
+        LocalDateTime ldt = Instant.ofEpochMilli(podcastChannel.getLastbuilddate().getTime())
+                .atZone(ZoneId.systemDefault())
+//                .atOffset(ZoneOffset.UTC)
+                .toLocalDateTime();
+        ldt.atOffset(ZoneOffset.UTC);
         String sd = ldt.format(formatter);
-        element.setTextContent(sd);
+        element.setTextContent(sd+" +0000");
         return element;
     }
 
