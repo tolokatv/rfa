@@ -160,6 +160,9 @@ public class RSSXMLService {
 //        Element link = document.createElement("link");
 //        link.setTextContent(item.getTitle());
         element.appendChild(EItemLink(item));
+
+        element.appendChild(EItemPubDate(item));
+
         element.appendChild(EItemGuid(item));
         element.appendChild(EItemComments(item));
         element.appendChild(EItemWfw_CommentRss(item));
@@ -180,6 +183,17 @@ public class RSSXMLService {
 
 
 
+        return element;
+    }
+
+    private Node EItemPubDate(PodcastItem item) {
+        Element element = document.createElement("pubDate");
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("EEE, dd MMM yyyy hh:mm:ss", Locale.ENGLISH);
+        LocalDateTime ldt = Instant.ofEpochMilli(item.getDate().getTime())
+                .atZone(ZoneId.systemDefault())
+                .toLocalDateTime();
+        ldt.atOffset(ZoneOffset.UTC);
+        element.setTextContent(ldt.format(formatter)+" +0000");
         return element;
     }
 
