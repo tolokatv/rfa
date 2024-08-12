@@ -8,6 +8,7 @@ package media.toloka.rfa.podcast.service;
 import media.toloka.rfa.podcast.model.PodcastChannel;
 import media.toloka.rfa.podcast.model.PodcastItem;
 import media.toloka.rfa.podcast.model.PodcastItunesCategory;
+import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,6 +34,8 @@ import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 import java.util.stream.Collectors;
+
+import org.apache.commons.lang3.StringUtils;
 
 @Service
 public class RSSXMLService {
@@ -156,10 +159,11 @@ public class RSSXMLService {
 //            String second = podcastItunesCategory.getSecondlevel();
             if (podcastItunesCategory.getFirstlevel() != null && podcastItunesCategory.getFirstlevel().length() > 1) {
                 Element elementFirst = document.createElement("itunes:category");
-                elementFirst.setAttribute("text",podcastItunesCategory.getFirstlevel());
+//                elementFirst.setAttribute("text",podcastItunesCategory.getFirstlevel());
+                elementFirst.setAttribute("text", StringEscapeUtils.escapeXml(podcastItunesCategory.getFirstlevel()));
                 if (podcastItunesCategory.getSecondlevel() != null && podcastItunesCategory.getSecondlevel().length() > 1) {
                     Element elementSecond = document.createElement("itunes:category");
-                    elementSecond.setAttribute("text",podcastItunesCategory.getSecondlevel());
+                    elementSecond.setAttribute("text",StringEscapeUtils.escapeXml( podcastItunesCategory.getSecondlevel()));
                     elementFirst.appendChild(elementSecond);
                 }
                 channel.appendChild(elementFirst);
