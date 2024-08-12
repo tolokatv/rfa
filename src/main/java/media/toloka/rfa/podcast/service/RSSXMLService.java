@@ -386,15 +386,15 @@ public class RSSXMLService {
         return element;
     }
 
-    private Node EChannelLanguage(PodcastChannel podcastChannel) {
+    private Node EChannelDescription(PodcastChannel podcastChannel) {
         Element element = document.createElement("description");
         element.setTextContent(podcastChannel.getDescription());
         return element;
     }
 
-    private Node EChannelDescription(PodcastChannel podcastChannel) {
+    private Node EChannelLanguage(PodcastChannel podcastChannel) {
         Element element = document.createElement("language");
-        element.setTextContent(podcastChannel.getLanguage());
+        element.setTextContent(podcastService.GetLanguageCode(podcastChannel.getLanguage()) );
         return element;
     }
 
