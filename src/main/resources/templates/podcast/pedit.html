@@ -219,6 +219,14 @@
                 <label for="description" class="form-label">Опис подкасту</label>
                 <textarea th:field="*{description}" class="form-control" rows="6"></textarea>
             </div>
+                <div class="form-outline mb-4">
+                    <span>Оберіть мову подкасту</span>
+                    <select th:field="*{language}" >
+                        <option th:each="lang: ${languages}"
+                                th:value="${lang}"
+                                th:text="${lang}" />
+                    </select>
+                </div>
 
             <button type="submit" class="btn btn-primary">Зберегти</button>
                 <a class="btn btn-primary" href="/podcast/home">Повернутися</a>
