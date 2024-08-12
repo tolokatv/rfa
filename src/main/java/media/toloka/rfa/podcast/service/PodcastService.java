@@ -81,7 +81,7 @@ public class PodcastService {
         episode.setStoreuuid(storeUUID);
         episode.setStoreitem(storeService.GetStoreByUUID(storeUUID));
         episode.setClientdetail(cd);
-        episode.setTimetrack(GetTimeTrack(storeUUID));
+        episode.setTimetrack(GetTimeTrack(storeUUID)); // зберегли час треку для RSS
         podcast.getItem().add(episode);
 
         SavePodcast(podcast);
@@ -93,6 +93,7 @@ public class PodcastService {
         // Беремо в сховищі завантажений трек і визначаємо його тривалість
         String cursFile = storeService.GetStoreByUUID (storeUUID).getFilepatch ();
         String resultLength;
+
 
         try {
 //            File file =

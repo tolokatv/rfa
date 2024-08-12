@@ -106,6 +106,18 @@ public class RSSXMLService {
 
 
         List<PodcastItem> podcastItems = podcastChannel.getItem();
+        logger.info("============= List Item length: {}",podcastItems.size());
+//        for (PodcastItem item : podcastItems) {
+        for ( int i = 0; i < podcastItems.size(); i++ ) {
+            if (podcastItems.get(i).getTimetrack() == null ) {
+                PodcastItem pi = podcastItems.get(i);
+                pi.setTimetrack(podcastService.GetTimeTrack(pi.getStoreitem().getUuid()));
+                podcastService.SaveEpisode(pi);
+            }
+        }
+
+
+
         // заповнюємо епізоди
         for (PodcastItem item : podcastItems) {
             channel.appendChild(AddItem(item));
@@ -151,6 +163,13 @@ public class RSSXMLService {
         element.appendChild(EItemContent_encoded(item));
         element.appendChild(EItemEnclosure(item));
         element.appendChild(EItemItunes_Duration(item));
+        // зберігаємо час треку в базу якщо поле пусте
+//        if (item.getTimetrack() == null ||  item.getTimetrack().length() < 2) {
+//            item.setTimetrack(podcastService.GetTimeTrack(item.getStoreitem().getUuid()));
+//            podcastService.SaveEpisode(item);
+//
+//        }
+
 
 
 
@@ -160,7 +179,16 @@ public class RSSXMLService {
 
     private Node EItemItunes_Duration(PodcastItem item) {
         Element element = document.createElement("itunes:duration");
-        element.setTextContent(podcastService.GetTimeTrack(item.getStoreitem().getUuid()));
+        if (item.getTimetrack() != null) {
+            if ( item.getTimetrack().length() > 2) {
+                element.setTextContent(item.getTimetrack());
+            }
+            else {
+                element.setTextContent(podcastService.GetTimeTrack(item.getStoreitem().getUuid()));
+            }
+        } else {
+            element.setTextContent(podcastService.GetTimeTrack(item.getStoreitem().getUuid()));
+        }
         return element;
     }
 
