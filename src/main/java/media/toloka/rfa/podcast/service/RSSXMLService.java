@@ -254,7 +254,7 @@ public class RSSXMLService {
     }
 
     private Node EItemComments(PodcastItem item) {
-        Element element = document.createElement("guid");
+        Element element = document.createElement("comments");
 //        element.setAttribute("isPermaLink","https://rfa.toloka.media/podcast/rss/"+item.getUuid());
         element.setTextContent("https://rfa.toloka.media/podcast/view/"+item.getUuid());
         return element;
