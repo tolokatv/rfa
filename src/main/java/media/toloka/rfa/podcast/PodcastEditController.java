@@ -31,10 +31,8 @@ import com.rometools.rome.io.SyndFeedOutput;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 public class PodcastEditController {
@@ -103,8 +101,12 @@ public class PodcastEditController {
 //                logger.info("--- " + secondLevel );
 //            }
 //        }
+        Set<String> languages = Arrays.stream(Locale.getISOLanguages())
+                .map(Locale::new)
+                .map(Locale::getDisplayLanguage)
+                .collect(Collectors.toCollection(TreeSet::new));
 
-//
+        model.addAttribute("languages", languages);
         model.addAttribute("itunesCategory", itunesCategory);
         model.addAttribute("podcast",  podcast);
         model.addAttribute("itemslist",  itemList);
@@ -136,6 +138,7 @@ public class PodcastEditController {
             tpodcast.setDescription(podcast.getDescription());
             tpodcast.setLastbuilddate(new Date());
             tpodcast.setClientdetail(cd);
+            tpodcast.setLanguage(podcast.getLanguage());
             podcastService.SavePodcast(tpodcast);
         } else {
             podcast.setClientdetail(cd);

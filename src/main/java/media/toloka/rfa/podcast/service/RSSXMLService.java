@@ -1,8 +1,9 @@
 package media.toloka.rfa.podcast.service;
 // https://github.com/Podcast-Standards-Project/PSP-1-Podcast-RSS-Specification
-
 // https://support.google.com/podcast-publishers/answer/9889544?hl=en
 // https://help.apple.com/itc/podcasts_connect/#/itcb54353390
+// Check podcast RSS    https://podba.se/validate/
+//                      https://www.castfeedvalidator.com/
 
 import media.toloka.rfa.podcast.model.PodcastChannel;
 import media.toloka.rfa.podcast.model.PodcastItem;
@@ -29,8 +30,8 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class RSSXMLService {
@@ -60,18 +61,20 @@ public class RSSXMLService {
         MakeXML();
         // Формуємо простір імен для RSS
         Element rootRSS = document.createElement("rss");
+        rootRSS.setAttributeNS("http://www.w3.org/2000/xmlns/","xmlns:podcast", "https://podcastindex.org/namespace/1.0"); //xmlns:podcast="https://podcastindex.org/namespace/1.0"
+        rootRSS.setAttributeNS("http://www.w3.org/2000/xmlns/","xmlns:atom", "http://www.w3.org/2005/Atom");
+        rootRSS.setAttributeNS("http://www.w3.org/2000/xmlns/","xmlns:itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd");
         rootRSS.setAttributeNS("http://www.w3.org/2000/xmlns/","xmlns:content", "http://purl.org/rss/1.0/modules/content/");
         rootRSS.setAttributeNS("http://www.w3.org/2000/xmlns/","xmlns:dc", "http://purl.org/dc/elements/1.1/");
         rootRSS.setAttributeNS("http://www.w3.org/2000/xmlns/","xmlns:wfw", "http://wellformedweb.org/CommentAPI/");
-        rootRSS.setAttributeNS("http://www.w3.org/2000/xmlns/","xmlns:atom", "http://www.w3.org/2005/Atom");
         rootRSS.setAttributeNS("http://www.w3.org/2000/xmlns/","xmlns:sy", "http://purl.org/rss/1.0/modules/syndication/");
         rootRSS.setAttributeNS("http://www.w3.org/2000/xmlns/","xmlns:slash", "http://purl.org/rss/1.0/modules/slash/");
-        rootRSS.setAttributeNS("http://www.w3.org/2000/xmlns/","xmlns:itunes", "http://www.itunes.com/dtds/podcast-1.0.dtd");
-        rootRSS.setAttributeNS("http://www.w3.org/2000/xmlns/","xmlns:podcast", "https://podcastindex.org/namespace/1.0");
         rootRSS.setAttributeNS("http://www.w3.org/2000/xmlns/","xmlns:rawvoice", "http://www.rawvoice.com/rawvoiceRssModule/");
         rootRSS.setAttributeNS("http://www.w3.org/2000/xmlns/","xmlns:googleplay", "http://www.google.com/schemas/play-podcasts/1.0");
+
 //
         rootRSS.setAttribute("version", "2.0");
+
         MakeXMLChanel(rootRSS,podcastChannel);
         document.appendChild(rootRSS);
         return;
@@ -80,6 +83,7 @@ public class RSSXMLService {
     private void MakeXMLChanel(Element rootRSS, PodcastChannel podcastChannel) {
         // Додаємо Chanel до RSS
         Element channel = document.createElement("channel");
+
 
 
 //        Element title = document.createElement("title");
@@ -196,7 +200,7 @@ public class RSSXMLService {
     private Node EItemEnclosure(PodcastItem item) {
         Element element = document.createElement("enclosure");
 //        element.appendChild(document.createCDATASection(item.getDescription()));
-        element.setAttribute("url","https://rfa.toloka.media/podcast/rss/"+item.getUuid());
+        element.setAttribute("url","https://rfa.toloka.media/podcast/rss/"+item.getUuid()+"/"+item.getStoreitem().getFilename());
         element.setAttribute("length",item.getStoreitem().getFilelength().toString());
         element.setAttribute("type",item.getStoreitem().getContentMimeType());
 //        element.setTextContent(item.getDescription());
