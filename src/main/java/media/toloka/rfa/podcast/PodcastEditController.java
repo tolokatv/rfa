@@ -34,6 +34,8 @@ import java.io.Writer;
 import java.util.*;
 import java.util.stream.Collectors;
 
+
+
 @Controller
 public class PodcastEditController {
 
@@ -138,6 +140,8 @@ public class PodcastEditController {
             tpodcast.setDescription(podcast.getDescription());
             tpodcast.setLastbuilddate(new Date());
             tpodcast.setClientdetail(cd);
+
+
             tpodcast.setLanguage(podcast.getLanguage());
             podcastService.SavePodcast(tpodcast);
         } else {

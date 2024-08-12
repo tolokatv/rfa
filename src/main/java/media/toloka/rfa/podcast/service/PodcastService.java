@@ -29,10 +29,7 @@ import org.springframework.util.ResourceUtils;
 import java.io.*;
 import java.math.BigDecimal;
 import java.nio.file.Files;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class PodcastService {
@@ -118,6 +115,33 @@ public class PodcastService {
         return resultLength;
     }
 
+    /**
+     * This method is to get the language code from given language name
+     * as locale can't be instantiate from a language name.
+     *
+     * You can specify which language you are at : Locale loc=new Locale("en") use whatever your language is
+     *
+     * @param lng -> given language name eg.: English
+     * @return -> will return "eng"
+     *
+     * Wilson M Penha Jr.
+     * https://stackoverflow.com/questions/29632342/converting-language-names-to-iso-639-language-codes
+     */
+    public String GetLanguageCode(String lng){
+        Locale loc = new Locale("en");
+        String[] name = loc.getISOLanguages(); // list of language codes
+
+        for (int i = 0; i < name.length; i++) {
+            Locale locale = new Locale(name[i],"US");
+            // get the language name in english for comparison
+//            String langLocal = itemLang.toLowerCase();
+            String langLocal = locale.getDisplayLanguage(loc).toLowerCase();
+            if (lng.toLowerCase().equals(langLocal)){
+                return locale.getISO3Language();
+            }
+        }
+        return "unknown";
+    }
 
     public void SaveEpisode(PodcastItem episode) {
         // todo Записати час файлу для RSS XML
