@@ -93,7 +93,7 @@ public class RSSXMLService {
         channel.appendChild(EChannelAtomLink(podcastChannel));
         channel.appendChild(EChannelLink(podcastChannel));
         channel.appendChild(EChannelDescription(podcastChannel));
-        channel.appendChild(EChannelLastBuildDate(podcastChannel)); // Доопрацювати
+        channel.appendChild(EChannelLastBuildDate(podcastChannel));
         channel.appendChild(EChannelLanguage(podcastChannel));
         channel.appendChild(EChannelSy_updatePeriod(podcastChannel));
         channel.appendChild(EChannelSy_updateFrequency(podcastChannel));
@@ -106,6 +106,10 @@ public class RSSXMLService {
         channel.appendChild(EChannel_Itunes_Type(podcastChannel));
         channel.appendChild(EChannel_Itunes_Owner(podcastChannel));
         channel.appendChild(EChannelCopyright(podcastChannel));
+        channel.appendChild(EChannelPodcastLocked(podcastChannel));
+        channel.appendChild(EChannelPodcastGuid(podcastChannel));
+
+
 
         EChannel_Itunes_Category(podcastChannel,channel);
 
@@ -131,6 +135,19 @@ public class RSSXMLService {
 
         rootRSS.appendChild(channel);
         return;
+    }
+
+    private Node EChannelPodcastGuid(PodcastChannel podcastChannel) {
+        Element element = document.createElement("podcast:guid");
+//        element.setAttribute("isPermaLink","https://rfa.toloka.media/podcast/rss/"+podcastChannel.getUuid());
+        element.setTextContent(podcastChannel.getUuid());
+        return element;
+    }
+
+    private Node EChannelPodcastLocked(PodcastChannel podcastChannel) {
+        Element element = document.createElement("podcast:locked");
+        element.setTextContent("no");
+        return element;
     }
 
     private void EChannel_Itunes_Category(PodcastChannel podcastChannel, Element channel) {
