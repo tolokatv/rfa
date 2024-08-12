@@ -310,7 +310,7 @@ public class RSSXMLService {
 
     private Node EChannel_Itunes_Image(PodcastChannel podcastChannel) {
         Element element = document.createElement("itunes:image");
-        element.setAttribute("href","https://rfa.toloka.media/store/thrumbal/w/300/"
+        element.setAttribute("href","https://rfa.toloka.media/store/thrumbal/w/1500/"
                 +podcastChannel.getImage().getStoreidimage().getUuid()+"/"
                 +podcastChannel.getImage().getStoreidimage().getFilename());
         return element;
