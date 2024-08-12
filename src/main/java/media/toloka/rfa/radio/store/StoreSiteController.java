@@ -161,9 +161,9 @@ public class StoreSiteController  {
     }
 
     //тимчасово продублював для верифікації RSS XML подкасту
-    @GetMapping(value = "/store/audio/{storeUUID}/{fileName}",
+    @GetMapping(value = "/podcast/audio/{storeUUID}/{fileName}",
             produces = {MediaType.APPLICATION_OCTET_STREAM_VALUE})
-    public ResponseEntity<StreamingResponseBody> getStoreAudioToStream(
+    public ResponseEntity<StreamingResponseBody> getStoreAudioToStreamWFN(
             @PathVariable("storeUUID") String storeUUID,
             @PathVariable String fileName,
             @RequestHeader(value = "Range", required = false) String rangeHeader
