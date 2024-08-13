@@ -42,6 +42,11 @@ public class PodcastChannel {
     @DateTimeFormat(pattern = "dd-MM-yy")
     private Date date = new Date();
     @Expose
+    @DateTimeFormat(pattern = "dd-MM-yy")
+    private Date datepublish;
+    @Expose
+    private Boolean publishing = false;
+    @Expose
     private Boolean explicit = false; // відвертий вміст
     @Expose
     private Long looked = 0L; // скільки разів подивилися

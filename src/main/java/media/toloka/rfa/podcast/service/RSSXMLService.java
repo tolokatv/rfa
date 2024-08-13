@@ -159,11 +159,12 @@ public class RSSXMLService {
 //            String second = podcastItunesCategory.getSecondlevel();
             if (podcastItunesCategory.getFirstlevel() != null && podcastItunesCategory.getFirstlevel().length() > 1) {
                 Element elementFirst = document.createElement("itunes:category");
-//                elementFirst.setAttribute("text",podcastItunesCategory.getFirstlevel());
-                elementFirst.setAttribute("text", StringEscapeUtils.escapeXml(podcastItunesCategory.getFirstlevel()));
+                elementFirst.setAttribute("text",podcastItunesCategory.getFirstlevel());
+//                elementFirst.setAttribute("text", StringEscapeUtils.escapeXml(podcastItunesCategory.getFirstlevel()));
                 if (podcastItunesCategory.getSecondlevel() != null && podcastItunesCategory.getSecondlevel().length() > 1) {
                     Element elementSecond = document.createElement("itunes:category");
-                    elementSecond.setAttribute("text",StringEscapeUtils.escapeXml( podcastItunesCategory.getSecondlevel()));
+                    elementFirst.setAttribute("text",podcastItunesCategory.getSecondlevel());
+//                    elementSecond.setAttribute("text",StringEscapeUtils.escapeXml( podcastItunesCategory.getSecondlevel()));
                     elementFirst.appendChild(elementSecond);
                 }
                 channel.appendChild(elementFirst);

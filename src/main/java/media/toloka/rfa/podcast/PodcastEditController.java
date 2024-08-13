@@ -115,6 +115,40 @@ public class PodcastEditController {
         return "/podcast/pedit";
     }
 
+    // публікуємо або знімаємо з публікації подкаст
+    @PostMapping(value = "/podcast/channelpublish")
+    public String PodcastChanelPublish (
+            @ModelAttribute PodcastChannel podcast,
+//            @ModelAttribute Users formUserPSW,
+            Model model ) {
+        Users user = clientService.GetCurrentUser();
+        if (user == null) {
+            return "redirect:/";
+        }
+        Clientdetail cd = clientService.GetClientDetailByUser(clientService.GetCurrentUser());
+        if (cd == null) { return "redirect:/"; }
+
+        PodcastChannel tpodcast = podcastService.GetChanelByUUID(podcast.getUuid());
+        if (tpodcast == null) {
+          model.addAttribute("danger","Ви намагаєтесь опублікувати не збережений подкаст. Збережіть, а потім спробуйте опублікувати.");
+//            model.addAttribute("podcast",  tpodcast);
+//            model.addAttribute("itemslist",  tpodcast.getItem());
+            return "redirect:/podcast/home/";
+        }
+        if (!tpodcast.getPublishing()) {
+            // публікуємо
+            tpodcast.setPublishing(true);
+            tpodcast.setDatepublish(new Date());
+        } else tpodcast.setPublishing(false);
+        podcastService.SavePodcast(tpodcast);
+
+        model.addAttribute("podcast",  tpodcast);
+        model.addAttribute("itemslist",  tpodcast.getItem());
+        return "redirect:/podcast/pedit/"+tpodcast.getUuid();
+
+
+    }
+
     @PostMapping(value = "/podcast/chanelsave")
     public String PodcastChanelSave (
             @ModelAttribute PodcastChannel podcast,
