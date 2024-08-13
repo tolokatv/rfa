@@ -79,8 +79,8 @@
                     <div th:if="*{publishing}">
                         <button type="submit" class="btn btn-primary">Приховати</button>
                         <div ><span>Опубліковано</span><br>
-                            <span th:text="${#dates.format(podcast.datepublish, 'dd-MM-yyyy')}"/><br>
-                            <span th:text="${#dates.format(podcast.datepublish, 'hh-mm-ss')}"/>
+                            <span th:text="${#dates.format(podcast.datepublish, 'dd-MM-yyyy')}">Publish Date</span><br>
+                            <span th:text="${#dates.format(podcast.datepublish, 'hh:mm:ss')}">Publish Time</span>
                         </div>
                     </div>
                     <!-- ELSE -->
