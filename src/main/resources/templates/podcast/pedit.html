@@ -71,6 +71,25 @@
                     <span class="badge rounded-pill bg-primary">Змінити обкладинку</span>
                 </a>
             </div>
+            <div class="col" >
+                <!-- Опублікувати -->
+                <form th:action="@{/podcast/channelpublish}" th:object="${podcast}" method="post">
+                    <input type="hidden" th:field="*{uuid}" />
+                    <!-- IF CUSTOMER IS ANONYMOUS -->
+                    <div th:if="*{publishing}">
+                        <button type="submit" class="btn btn-primary">Приховати</button>
+                        <div ><span>Опубліковано</span><br>
+                            <span th:text="${#dates.format(podcast.datepublish, 'dd-MM-yyyy')}"/><br>
+                            <span th:text="${#dates.format(podcast.datepublish, 'hh-mm-ss')}"/>
+                        </div>
+                    </div>
+                    <!-- ELSE -->
+                    <div th:unless="*{publishing}">
+                        <button type="submit" class="btn btn-primary">Опублікувати</button>
+                    </div>
+<!--                    <button type="submit" class="btn btn-primary">Опублікувати</button>-->
+                </form>
+            </div>
         </div>
     </div>
 
