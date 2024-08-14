@@ -74,18 +74,23 @@
             <div class="col" >
                 <!-- Опублікувати -->
                 <form th:action="@{/podcast/channelpublish}" th:object="${podcast}" method="post">
-                    <input type="hidden" th:field="*{uuid}" />
-                    <!-- IF CUSTOMER IS ANONYMOUS -->
-                    <div th:if="*{publishing}">
-                        <button type="submit" class="btn btn-primary">Приховати</button>
-                        <div ><span>Опубліковано</span><br>
-                            <span th:text="${#dates.format(podcast.datepublish, 'dd-MM-yyyy')}">Publish Date</span><br>
-                            <span th:text="${#dates.format(podcast.datepublish, 'hh:mm:ss')}">Publish Time</span>
+                    <div th:if="*{apruve}">
+                        <input type="hidden" th:field="*{uuid}" />
+                        <!-- IF CUSTOMER IS ANONYMOUS -->
+                        <div th:if="*{publishing}">
+                            <button type="submit" class="btn btn-primary">Приховати</button>
+                            <div ><span>Опубліковано</span><br>
+                                <span th:text="${#dates.format(podcast.datepublish, 'dd-MM-yyyy')}">Publish Date</span><br>
+                                <span th:text="${#dates.format(podcast.datepublish, 'hh:mm:ss')}">Publish Time</span>
+                            </div>
+                        </div>
+                        <!-- ELSE -->
+                        <div th:unless="*{publishing}">
+                            <button type="submit" class="btn btn-primary">Опублікувати</button>
                         </div>
                     </div>
-                    <!-- ELSE -->
-                    <div th:unless="*{publishing}">
-                        <button type="submit" class="btn btn-primary">Опублікувати</button>
+                    <div th:unless="*{apruve}">
+                        <span>Увага! Подкаст не схвалено адміністрвтором або заблоковано.</span>
                     </div>
 <!--                    <button type="submit" class="btn btn-primary">Опублікувати</button>-->
                 </form>

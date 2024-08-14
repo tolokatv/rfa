@@ -16,4 +16,5 @@ public interface ChanelRepository
     PodcastChannel save(PodcastChannel chanel);
 
     List<PodcastChannel> findByApruve(boolean b);
+    List<PodcastChannel> findByPublishing(boolean b);
 }
