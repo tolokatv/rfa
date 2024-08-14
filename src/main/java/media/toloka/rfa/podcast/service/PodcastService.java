@@ -24,6 +24,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ClassUtils;
 import org.springframework.util.ResourceUtils;
 
 import java.io.*;
@@ -208,7 +209,9 @@ public class PodcastService {
         String resource = "itunes.json";
         String jsonString;
         try {
+            ClassLoader cl = ClassUtils.getDefaultClassLoader();
             File file = ResourceUtils.getFile("classpath:"+resource);
+            logger.info(file.toString());
             jsonString = new String(Files.readAllBytes(file.toPath()));
         } catch (FileNotFoundException e) {
             logger.info("FileNotFoundException: Щось пішло не так під час читання файлу переліку категорій для ITunes.");
