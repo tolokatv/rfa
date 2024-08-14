@@ -186,7 +186,10 @@ public class PodcastService {
     }
 
     public List<PodcastChannel> GetPodcastListForRootCarusel() {
-        return chanelRepository.findByApruve(true);
+//        return chanelRepository.findByApruve(true);
+//        return chanelRepository.findByPublishing(true);
+        List<PodcastChannel> jjj = chanelRepository.findByPublishing(true);
+        return jjj;
     }
 
     public List<PodcastChannel> GetAllChanel() {

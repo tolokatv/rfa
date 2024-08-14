@@ -135,18 +135,17 @@ public class PodcastEditController {
 //            model.addAttribute("itemslist",  tpodcast.getItem());
             return "redirect:/podcast/home/";
         }
-        if (!tpodcast.getPublishing()) {
-            // публікуємо
-            tpodcast.setPublishing(true);
-            tpodcast.setDatepublish(new Date());
-        } else tpodcast.setPublishing(false);
-        podcastService.SavePodcast(tpodcast);
-
-        model.addAttribute("podcast",  tpodcast);
-        model.addAttribute("itemslist",  tpodcast.getItem());
+        if (tpodcast.getApruve()) { // Якщо подкаст схвалено адміністратором, то можна змінювати статус публікації
+            if (!tpodcast.getPublishing()) { //Змінюємо статус публікації подкасту
+                // публікуємо
+                tpodcast.setPublishing(true);
+                tpodcast.setDatepublish(new Date());
+            } else tpodcast.setPublishing(false); // Знімаємо з публікації
+            podcastService.SavePodcast(tpodcast);
+        }
+//        model.addAttribute("podcast",  tpodcast);
+//        model.addAttribute("itemslist",  tpodcast.getItem());
         return "redirect:/podcast/pedit/"+tpodcast.getUuid();
-
-
     }
 
     @PostMapping(value = "/podcast/chanelsave")
