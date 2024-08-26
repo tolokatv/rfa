@@ -9,37 +9,25 @@ class AudioPlayer extends HTMLElement {
         shadow.appendChild(templateContent.cloneNode(true));
     }
 
-    // вхід в середину контейнера
-    myaudio = null;
-    myChangeTrack = null;
-    //
     connectedCallback() {
         everything(this);
     }
 
-    setAudioSrc(id) {
-        //myChangeTrack(id);
-//        console.log("Таки вдалося! id="+id);
-        this.myaudio.src="/store/audio/"+id;
-//        console.log("audio = "+this.myaudio.src);
+    setAudioSrc(audiosrc) {
+        this.audio.src = audiosrc;
     }
 
 }
 
 const everything = function(element) {
-    const shadow = element.shadowRoot;
-    let currentStation = " ";
+  const shadow = element.shadowRoot;
+
     const audioPlayerContainer = shadow.getElementById('audio-player-container');
     const playIconContainer = shadow.getElementById('play-icon');
     const seekSlider = shadow.getElementById('seek-slider');
     const volumeSlider = shadow.getElementById('volume-slider');
     const muteIconContainer = shadow.getElementById('mute-icon');
-    const nameTop = shadow.getElementById('NameAutor');
     const audio = shadow.querySelector('audio');
-    element.myaudio = audio;
-
-    //}
-
     const durationContainer = shadow.getElementById('duration');
     const currentTimeContainer = shadow.getElementById('current-time');
     const outputContainer = shadow.getElementById('volume-output');
@@ -74,6 +62,12 @@ const everything = function(element) {
         currentTimeContainer.textContent = calculateTime(seekSlider.value);
         audioPlayerContainer.style.setProperty('--seek-before-width', `${seekSlider.value / seekSlider.max * 100}%`);
         raf = requestAnimationFrame(whilePlaying);
+    }
+
+    //const audioSetTrack =
+    function audioSetTrack(srcTrack) {
+        const audio = shadow.querySelector('audio');
+        audio.src = srcTrack;
     }
 
     const showRangeProgress = (rangeInput) => {
@@ -113,43 +107,7 @@ const everything = function(element) {
         });
     }
 
-    // =====================================
-      const changePlayState = function () {
-        if (playState === "play") {
-          audio.play();
-          playAnimation.playSegments([14, 27], true);
-          requestAnimationFrame(whilePlaying);
-          playState = "pause";
-        } else {
-          audio.pause();
-          playAnimation.playSegments([0, 14], true);
-          cancelAnimationFrame(raf);
-          playState = "play";
-        }
-      };
-      // interface function
-      const clickTrackPlay = function (id,name,autor) {
-        //console.log("======== name: "+name+"======= autor: "+autor);
-        nameTop.innerHTML = name;
-        if (id === currentStation) {
-            changePlayState();
-        } else {
-        // дивимося, в якому стані плеєр. Якщо грає, то зупиняємо
-          if (playState === "pause") {
-             changePlayState();
-          }
-          //changePlayState();
-          audio.src = "/store/audio/"+id;
-          audio.load();
-          currentStation = id;
-          // test slider time
-          changePlayState();
-          displayBufferedAmount();
-        }
-    };
-      element.myChangeTrack = clickTrackPlay;
-    // =======================
-    playIconContainer.addEventListener('click', (event) => {
+    playIconContainer.addEventListener('click', () => {
         if(playState === 'play') {
             audio.play();
             playAnimation.playSegments([14, 27], true);
@@ -214,7 +172,6 @@ const everything = function(element) {
             ]
         });
         navigator.mediaSession.setActionHandler('play', () => {
-            console.log("++++++ Navigator play");
             if(playState === 'play') {
                 audio.play();
                 playAnimation.playSegments([14, 27], true);
@@ -228,7 +185,6 @@ const everything = function(element) {
             }
         });
         navigator.mediaSession.setActionHandler('pause', () => {
-            console.log("++++++ Navigator pause");
             if(playState === 'play') {
                 audio.play();
                 playAnimation.playSegments([14, 27], true);
@@ -242,15 +198,12 @@ const everything = function(element) {
             }
         });
         navigator.mediaSession.setActionHandler('seekbackward', (details) => {
-            console.log("++++++ Navigator seekbackward");
             audio.currentTime = audio.currentTime - (details.seekOffset || 10);
         });
         navigator.mediaSession.setActionHandler('seekforward', (details) => {
-            console.log("++++++ Navigator seekforward");
             audio.currentTime = audio.currentTime + (details.seekOffset || 10);
         });
         navigator.mediaSession.setActionHandler('seekto', (details) => {
-            console.log("++++++ Navigator seekto");
             if (details.fastSeek && 'fastSeek' in audio) {
               audio.fastSeek(details.seekTime);
               return;
@@ -258,7 +211,6 @@ const everything = function(element) {
             audio.currentTime = details.seekTime;
         });
         navigator.mediaSession.setActionHandler('stop', () => {
-            console.log("++++++ Navigator stop");
             audio.currentTime = 0;
             seekSlider.value = 0;
             audioPlayerContainer.style.setProperty('--seek-before-width', '0%');
@@ -272,5 +224,6 @@ const everything = function(element) {
     }
 }
 
-customElements.define('audio-player', AudioPlayer);
 
+
+customElements.define('audio-player', AudioPlayer);
