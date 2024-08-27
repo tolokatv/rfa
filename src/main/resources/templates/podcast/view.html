@@ -71,10 +71,6 @@
                                         }
                                     </script>
                                 </div>
-                                    <div class="col-12 col-sm-12">
-                                        <audio-player id="rfapodcastlayer" data-src="https://assets.codepen.io/4358584/Anitek_-_Komorebi.mp3"></audio-player>
-                                    </div>
-
                             </div>
                             <h1 class="fs-4 fw-bold text-center" th:text="${podcast.title}" style="padding-top: 10px"></h1> <!-- назва подкасту -->
                             <!-- зміст подкасту -->
@@ -84,20 +80,28 @@
                     </div>
 <!--                </div>-->
             </div>
+            <div class="row">
+                <audio-player id="rfapodcastlayer" data-src="https://assets.codepen.io/4358584/Anitek_-_Komorebi.mp3"></audio-player>
+            </div>
         </div>
     </section>
 
     <section class="pt-4">
         <div class="container-fluid px-lg-5">
             <!-- Епізоди подкасту-->
-            <script>
-                function setEpisodToPlayer(episodeUUID) {
-                    // document.getElementById('audio-player').myChangeTrack(event.id,name,autor);
-                  var rfaplayer = document.getElementById("rfapodcastlayer");
-                  sourceLink = "https://rfa.toloka.media/podcast/audio/bc2c0328-2807-420c-8606-d9052fe793e8/ProDobro-2 (1).mp3";
-                  rfaplayer.setAudioSrc(sourceLink);
-                  rfaplayer.play();
+<!--                function setEpisodToPlayer(episodeUUID) {-->
+<!--                    // document.getElementById('audio-player').myChangeTrack(event.id,name,autor);-->
+<!--                  var rfaplayer = document.getElementById("rfapodcastlayer");-->
+<!--                  sourceLink = "https://rfa.toloka.media/podcast/audio/bc2c0328-2807-420c-8606-d9052fe793e8/ProDobro-2 (1).mp3";-->
+<!--                  rfaplayer.setAudioSrc(sourceLink);-->
+<!--                  rfaplayer.play();-->
 
+<!--                }-->
+
+            <script>
+                function setEpisodToPlayer(id,file) {
+                    document.getElementById('rfapodcastlayer').myChangeTrack(id,file);
+                    //document.getElementById('audio-player').myChangeTrack(event.id,file);
                 }
             </script>
             <!-- запускаємо програвач епізод-->
@@ -106,7 +110,7 @@
                     <div class="card bg-light border-0 h-100">
                         <div class="card-header">
                             <!-- запускаємо програвач на цей епізод-->
-                            <span th:id="${item.uuid}" class="badge rounded-pill bg-primary" onclick="setEpisodToPlayer(this,[[${item.store.filename}]])">Слухати</span>
+                            <span th:id="${item.uuid}" class="badge rounded-pill bg-primary" th:onclick="setEpisodToPlayer([[${item.storeitem.uuid}]],[[${item.storeitem.filename}]])">Слухати</span>
                             <!-- запускаємо програвач на цей епізод-->
                             <a class="mx-auto" th:href="'/podcast/episode/'+${item.uuid}">
                                 <span class="badge rounded-pill bg-primary">Детальніше</span>
@@ -125,12 +129,6 @@
                         </div>
                     </div>
                 </div>
-                <script>
-
-                    function setEpisodToPlayer(event,file) {
-                        document.getElementById('audio-player').myChangeTrack(event.id,file);
-                    }
-                </script>
             </div>
         </div>
     </section>

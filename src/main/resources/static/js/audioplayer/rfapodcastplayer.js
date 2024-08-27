@@ -9,13 +9,24 @@ class AudioPlayer extends HTMLElement {
         shadow.appendChild(templateContent.cloneNode(true));
     }
 
+    myaudio = null;
+
     connectedCallback() {
         everything(this);
     }
 
+    myChangeTrack(id,file) {
+        //var playme = shadow.getElementById('playme'); playme.src='snd/SOUND.WAV'; playme.load();
+        this.myaudio.src= "https://rfa.toloka.media/podcast/audio/"+id+"/"+file;
+        console.log(this.myaudio);
+        //this.audio.src = element.getAttribute('data-src');
+        //this.audio.src = "https://rfa.toloka.media/podcast/audio/"+id+"/"+file;
+    }
     setAudioSrc(audiosrc) {
         this.audio.src = audiosrc;
     }
+
+
 
 }
 
@@ -35,6 +46,7 @@ const everything = function(element) {
     let muteState = 'unmute';
     let raf = null;
 
+    element.myaudio = audio;
     audio.src = element.getAttribute('data-src');
 
     const playAnimation = lottieWeb.loadAnimation({
