@@ -51,13 +51,13 @@
                    th:id="${podcastItem.image.uuid}"/>
             </div>
           </div>
-          <div>
-            <audio-player id="rfaepisodeplayerr" th:data-src="'/podcast/audio/'+ ${podcastItem.storeitem.uuid} +'/'+ ${podcastItem.storeitem.filename}"></audio-player>
-          </div>
           <h1 class="fs-4 fw-bold text-center" th:text="${podcastItem.title}" style="padding-top: 10px"></h1> <!-- назва подкасту -->
           <!-- зміст подкасту -->
           <div  th:utext="${podcastItem.description}" class="mb-0 fs-6"  style="padding-top: 10px"></div>
           <!-- зміст подкасту -->
+        </div>
+        <div class="row">
+          <audio-player id="rfaepisodeplayerr" th:data-src="'/podcast/audio/'+ ${podcastItem.storeitem.uuid} +'/'+ ${podcastItem.storeitem.filename}"></audio-player>
         </div>
       </div>
       <!--                </div>-->
