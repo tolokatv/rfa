@@ -37,8 +37,9 @@
         <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
       </div>
     </div>
-    <!-- Перелік подкастів-->
-    <div class="row" style="padding-top: 50px">
+    <div class="row">
+      <audio-player id="rfaepisodeplayerr" th:data-src="'/podcast/audio/'+ ${podcastItem.storeitem.uuid} +'/'+ ${podcastItem.storeitem.filename}"></audio-player>
+    </div>    <div class="row" style="padding-top: 50px">
       <!-- початок виводу подкастe -->
 
       <div class="card bg-light border-0 h-100">
@@ -56,14 +57,15 @@
           <div  th:utext="${podcastItem.description}" class="mb-0 fs-6"  style="padding-top: 10px"></div>
           <!-- зміст подкасту -->
         </div>
-        <div class="row">
-          <audio-player id="rfaepisodeplayerr" th:data-src="'/podcast/audio/'+ ${podcastItem.storeitem.uuid} +'/'+ ${podcastItem.storeitem.filename}"></audio-player>
-        </div>
       </div>
       <!--                </div>-->
     </div>
+
   </div>
 </section>
+<div class="container">
+
+</div>
 
 <!--<section class="pt-4">-->
 <!--  <div class="container-fluid px-lg-5">-->
