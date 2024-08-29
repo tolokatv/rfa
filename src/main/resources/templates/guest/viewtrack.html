@@ -32,6 +32,9 @@
                 <div th:insert="~{/fragments/messagebox :: mymessagebox}">  </div>
             </div>
         </div>
+        <div class="row">
+            <audio-player id="TrackPlayer" th:data-src="'/store/audio/'+ ${curtrack.storeitem.uuid}"></audio-player>
+        </div>
         <div class="row" style="padding-top: 20px">
             <!-- Колонка -->
             <div class="col-lg-9 col-sm-12">
@@ -46,9 +49,6 @@
                 <!-- Медіа Хаб-->
 <!--                <div th:insert="~{/fragments/mediahub :: usermediahub}">  </div>-->
             </div>
-        </div>
-        <div class="row">
-            <audio-player id="TrackPlayer" th:data-src="'/store/audio/'+ ${curtrack.storeitem.uuid}></audio-player>
         </div>
     </div>
 </div>
