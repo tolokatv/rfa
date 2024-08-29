@@ -20,6 +20,8 @@
 
 </head>
 <body>
+<script type="module" src="/js/audioplayer/rfapodcastplayer.js" ></script>
+<div th:insert="~{/fragments/RFAPlayer :: rfaplayertemplate}"/>
 <header>
     <div th:insert="~{/fragments/navbar :: navbarUniverse}">  </div>
 </header>
@@ -44,6 +46,9 @@
                 <!-- Медіа Хаб-->
 <!--                <div th:insert="~{/fragments/mediahub :: usermediahub}">  </div>-->
             </div>
+        </div>
+        <div class="row">
+            <audio-player id="TrackPlayer" th:data-src="'/store/audio/'+ ${curtrack.storeitem.uuid}></audio-player>
         </div>
     </div>
 </div>
