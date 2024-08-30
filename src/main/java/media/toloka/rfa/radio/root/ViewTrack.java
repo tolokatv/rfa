@@ -25,13 +25,6 @@ public class ViewTrack {
             Model model) {
 
         Track curtrack = createrService.GetTrackByUuid(trackuuid);
-        // to do виправляю помилку. Прибрати коли зникнуть null у посилання на Store_id
-//        if (curtrack.getStoreitem() == null) {
-//            curtrack.setStoreitem(createrService.GetStoreByStoreuuid(curtrack.getStoreuuid()));
-//            createrService.SaveTrack(curtrack);
-//        }
-        // to do виправляю помилку. Прибрати коли зникнуть null у посилання на Store_id
-
         model.addAttribute("curtrack", curtrack );
         return "/guest/viewtrack";
     }

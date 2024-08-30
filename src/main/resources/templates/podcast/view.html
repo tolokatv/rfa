@@ -105,17 +105,13 @@
                 let episodeArray = []
                 function getEpisodeList () {
                     if (episodeArray.length === 0) { // якщо масив заповнено - нічого не робимо
-                        //const listCardHeader = document.getElementById("episodeList").getElementsByClassName("card-header"); // витягуємо всі наші uuid треків
-                        //console.log(listCardHeader);
                         var cusid_ele = document.getElementsByClassName('episodePlayer'); // витягуємо всі наші uuid треків в масив
                         for (var i = 0; i < cusid_ele.length; ++i) {
                            var item = cusid_ele[i];
-                           console.log(item.id);
                            episodeArray.push(item.id);
                         }
                         document.getElementById('rfapodcastlayer').setEpisodeList(episodeArray);
                     }
-                    console.log(episodeArray.length);
                 }
             </script>
             <!-- запускаємо програвач епізод-->
