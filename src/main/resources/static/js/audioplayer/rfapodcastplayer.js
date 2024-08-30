@@ -10,9 +10,14 @@ class AudioPlayer extends HTMLElement {
     }
 
     myaudio = null;
+    myEpisodeList = [];
 
     connectedCallback() {
         everything(this);
+    }
+
+    setEpisodeList(mEpisodeList) { // закинули uuid епізодів подкасту
+        this.myEpisodeList = mEpisodeList;
     }
 
     myChangeTrack(id,file) {
