@@ -226,4 +226,7 @@ public class CreaterService {
     }
 
 
+    public Store GetStoreByStoreuuid(String storeUUID) {
+        return storeService.GetStoreByUUID(storeUUID);
+    }
 }
