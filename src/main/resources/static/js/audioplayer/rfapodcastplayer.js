@@ -21,11 +21,7 @@ class AudioPlayer extends HTMLElement {
     }
 
     myChangeTrack(id,file) {
-        //var playme = shadow.getElementById('playme'); playme.src='snd/SOUND.WAV'; playme.load();
         this.myaudio.src= "https://rfa.toloka.media/podcast/audio/"+id+"/"+file;
-        console.log(this.myaudio);
-        //this.audio.src = element.getAttribute('data-src');
-        //this.audio.src = "https://rfa.toloka.media/podcast/audio/"+id+"/"+file;
     }
     setAudioSrc(audiosrc) {
         this.audio.src = audiosrc;
