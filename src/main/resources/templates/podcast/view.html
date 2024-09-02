@@ -97,12 +97,16 @@
 <!--                }-->
 
             <script>
-                function setEpisodToPlayer(id,file) {
-                    document.getElementById('rfapodcastlayer').myChangeTrack(id,file);
+                function setEpisodToPlayer(itemid,name,storeid,file) {
+                    document.getElementById('rfapodcastlayer').myChangeTrack(itemid,name,storeid,file);
+
                     getEpisodeList();
                 }
 
-                let episodeArray = []
+                let episodeArray = [];
+                function getPreparedEpisodeList() {
+                    return episodeArray;
+                }
                 function getEpisodeList () {
                     if (episodeArray.length === 0) { // якщо масив заповнено - нічого не робимо
                         var cusid_ele = document.getElementsByClassName('episodePlayer'); // витягуємо всі наші uuid треків в масив
@@ -120,7 +124,7 @@
                     <div class="card bg-light border-0 h-100">
                         <div class="card-header">
                             <!-- запускаємо програвач на цей епізод-->
-                            <span th:id="${item.uuid}" class="badge rounded-pill bg-primary episodePlayer" th:onclick="setEpisodToPlayer([[${item.storeitem.uuid}]],[[${item.storeitem.filename}]])">Слухати</span>
+                            <span th:id="${item.uuid}" class="badge rounded-pill bg-primary episodePlayer" th:onclick="setEpisodToPlayer([[${item.uuid}]],[[${item.title}]],[[${item.storeitem.uuid}]],[[${item.storeitem.filename}]])">Слухати</span>
                             <!-- запускаємо програвач на цей епізод-->
                             <a class="mx-auto" th:href="'/podcast/episode/'+${item.uuid}">
                                 <span class="badge rounded-pill bg-primary">Детальніше</span>

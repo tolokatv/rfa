@@ -1,6 +1,11 @@
 import lottieWeb from 'https://cdn.skypack.dev/lottie-web';
 
 class AudioPlayer extends HTMLElement {
+    myaudio = null;
+    myEpisodeList = null;
+    myEpisodeCurrentUUID = null;
+    myNextEpisodeUUID = null;
+
     constructor() {
         super();
         const template = document.querySelector('template');
@@ -9,31 +14,69 @@ class AudioPlayer extends HTMLElement {
         shadow.appendChild(templateContent.cloneNode(true));
     }
 
-    myaudio = null;
-    myEpisodeList = [];
+    setmyNextEpisodeUUID(next) {
+        this.myNextEpisodeUUID = next;
+    }
+    getmyNextEpisodeUUID() {
+        return this.myNextEpisodeUUID;
+    }
 
     connectedCallback() {
         everything(this);
     }
 
-    setEpisodeList(mEpisodeList) { // закинули uuid епізодів подкасту
-        this.myEpisodeList = mEpisodeList;
+    setEpisodeList(tEpisodeList) { // закинули uuid епізодів подкасту
+        this.myEpisodeList = tEpisodeList;
+    }
+    getEpisodeList() { // закинули uuid епізодів подкасту
+        return this.myEpisodeList;
     }
 
-    myChangeTrack(id,file) {
-        this.myaudio.src= "https://rfa.toloka.media/podcast/audio/"+id+"/"+file;
+    getmyEpisodeCurrentUUID() {
+       return this.myEpisodeCurrentUUID;
     }
-    setAudioSrc(audiosrc) {
-        this.audio.src = audiosrc;
+    setmyEpisodeCurrentUUID(cuuid) {
+       this.myEpisodeCurrentUUID = cuuid;
     }
 
+    myChangeTrack(itemid,nameEpisode,storeid,file) { // використовую для програвання епізоду на сторінці подкасту
+        this.setmyEpisodeCurrentUUID(itemid);
+//        this.myEpisodeCurrentUUID = id;
+        this.myaudio.pause();
+        this.myaudio.src= "https://rfa.toloka.media/podcast/audio/"+storeid+"/"+file; // todo прибрати домен
+        this.myaudio.load();
+        console.log(nameEpisode); // встановити назву епізоду в плеєрі.
+        this.myaudio.play();
+    }
 
+    async getNextEpisode(curuuid, nextuuid) {
+        let getURL = "/podcast/getepisode/"+curuuid+"/"+nextuuid;
+        let response = await fetch(getURL);
 
+        if (response.ok) { // если HTTP-статус в диапазоне 200-299
+        // получаем тело ответа (см. про этот метод ниже)
+            let json = await response.json();
+            console.log(json);
+            //this.myChangeTrack(json.current,json.title,json.storeuuid,json.file);
+            if (json.adv) {
+                // коли це рекламна вставка між епізодами
+                this.myChangeTrack(json.current,json.title,json.storeuuid,json.file);
+                //this.setmyEpisodeCurrentUUID(json.current);
+            } else {
+                // коли це черговий епізод
+                this.myChangeTrack(json.next,json.title,json.storeuuid,json.file);
+                //this.setmyEpisodeCurrentUUID(json.next);
+            }
+
+        } else {
+            alert("Ошибка HTTP: " + response.status);
+        }
+
+    }
 }
 
 const everything = function(element) {
-  const shadow = element.shadowRoot;
-
+    const shadow = element.shadowRoot;
     const audioPlayerContainer = shadow.getElementById('audio-player-container');
     const playIconContainer = shadow.getElementById('play-icon');
     const seekSlider = shadow.getElementById('seek-slider');
@@ -46,6 +89,10 @@ const everything = function(element) {
     let playState = 'play';
     let muteState = 'unmute';
     let raf = null;
+
+//    let listEpisode = [];
+////    element.myEpisodeList = listEpisode;
+//    listEpisode = element.myEpisodeList;
 
     element.myaudio = audio;
     audio.src = element.getAttribute('data-src');
@@ -120,6 +167,8 @@ const everything = function(element) {
         });
     }
 
+
+
     playIconContainer.addEventListener('click', () => {
         if(playState === 'play') {
             audio.play();
@@ -144,6 +193,36 @@ const everything = function(element) {
             audio.muted = false;
             muteState = 'unmute';
         }
+    });
+
+    audio.addEventListener("ended", (event) => { // працює
+      console.log(
+        "Audio stopped either because it has finished playing or no further data is available.",
+      );
+      let ttt = element.getEpisodeList(); // функція описана в HTML файлі
+      console.log(ttt);
+      let ppp = element.getmyEpisodeCurrentUUID();
+      console.log(ppp);
+      let itemuuid = null;
+      let ii = null;
+      let i = 0;
+      for (i; i < ttt.length; ++i) {
+        if (ttt[i] === ppp)  {
+          itemuuid = ttt[i];
+          ii = i;
+          break;
+        }
+      }
+        console.log(itemuuid);
+        ii = ii+1;
+        if (ii > ttt.length - 1) {
+            ii = 0;
+        }
+        console.log(ii);
+        console.log(ttt[ii]);
+        // звертаємося до сервера за наступним епізодом.
+        // this.myaudio.src= "https://rfa.toloka.media/podcast/audio/"+storeid+"/"+file; // todo прибрати домен
+        element.getNextEpisode(element.getmyEpisodeCurrentUUID(), ttt[ii]);
     });
 
     audio.addEventListener('progress', displayBufferedAmount);
