@@ -79,7 +79,7 @@
                     </div>
             </div>
             <div class="row">
-                <audio-player id="rfapodcastlayer" data-src=""></audio-player>
+                <audio-player id="rfapodcastlayer" th:data-src="'/podcast/audio/'+${podcast.item[0].storeitem.uuid}+'/'+${podcast.item[0].storeitem.filename}"></audio-player>
             </div>
         </div>
     </section>
@@ -87,15 +87,6 @@
     <section class="pt-4">
         <div class="container-fluid px-lg-5">
             <!-- Епізоди подкасту-->
-<!--                function setEpisodToPlayer(episodeUUID) {-->
-<!--                    // document.getElementById('audio-player').myChangeTrack(event.id,name,autor);-->
-<!--                  var rfaplayer = document.getElementById("rfapodcastlayer");-->
-<!--                  sourceLink = "https://rfa.toloka.media/podcast/audio/bc2c0328-2807-420c-8606-d9052fe793e8/ProDobro-2 (1).mp3";-->
-<!--                  rfaplayer.setAudioSrc(sourceLink);-->
-<!--                  rfaplayer.play();-->
-
-<!--                }-->
-
             <script>
                 function setEpisodToPlayer(itemid,name,storeid,file) {
                     document.getElementById('rfapodcastlayer').myChangeTrack(itemid,name,storeid,file);
