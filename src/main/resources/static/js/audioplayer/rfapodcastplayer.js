@@ -42,8 +42,9 @@ class AudioPlayer extends HTMLElement {
     myChangeTrack(itemid,nameEpisode,storeid,file) { // використовую для програвання епізоду на сторінці подкасту
         this.setmyEpisodeCurrentUUID(itemid);
 //        this.myEpisodeCurrentUUID = id;
+        this.shadowRoot.getElementById('trackName').innerHTML = nameEpisode; // працює, але коряво :(
         this.myaudio.pause();
-        this.myaudio.src= "https://rfa.toloka.media/podcast/audio/"+storeid+"/"+file; // todo прибрати домен
+        this.myaudio.src= "/podcast/audio/"+storeid+"/"+file; // todo прибрати домен
         this.myaudio.load();
         console.log(nameEpisode); // встановити назву епізоду в плеєрі.
         this.myaudio.play();
