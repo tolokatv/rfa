@@ -23,10 +23,8 @@ public class ViewTrack {
     public String getTracksAll(
             @PathVariable String trackuuid,
             Model model) {
-
         Track curtrack = createrService.GetTrackByUuid(trackuuid);
         model.addAttribute("curtrack", curtrack );
         return "/guest/viewtrack";
     }
-
 }
