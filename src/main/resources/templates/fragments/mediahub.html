@@ -464,11 +464,14 @@
             <div th:each="track, iStat : ${trackList}">
                 <li  class="list-group-item">
                     <div class="row" th:style="${iStat.odd}? 'background-color: rgb(240,240, 240'">
-                        <div class="col-1 col-sm-1 col-lg-1" style="padding-left: 0px;" th:id="${track.storeuuid}"  th:onclick="onClickTrack(this,[[${track.name}]],[[${track.autor}]])" >
-                            <span class="fa-stack fa-1x">
+                        <div class="col-1 col-sm-1 col-lg-1"
+                             style="padding-left: 0px;padding-right: 0px; vertical-align: middle; display: flex; align-items: center;justify-content: center;"
+                             th:id="${track.storeuuid}"
+                             th:onclick="onClickTrack(this,[[${track.name}]],[[${track.autor}]])" >
+                            <div class="fa-stack fa-1x">
                                 <i class="fas fa-circle fa-stack-2x text-primary"></i>
                                 <i class="fas fa-play fa-stack-1x fa-inverse"></i>
-                            </span>
+                            </div>
                         </div>
                         <div class="col-11 col-lg-11 col-sm-11" >
                             <small>
