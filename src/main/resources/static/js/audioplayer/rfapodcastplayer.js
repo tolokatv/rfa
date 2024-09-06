@@ -81,7 +81,6 @@ class AudioPlayer extends HTMLElement {
         } else {
             alert("getNextEpisode: REST Ошибка HTTP: " + response.status);
         }
-
     }
 }
 
