@@ -6,6 +6,8 @@ class AudioPlayer extends HTMLElement {
     myEpisodeCurrentUUID = null;
     myNextEpisodeUUID = null;
 
+    let myplayState = null;
+
     constructor() {
         super();
         const template = document.querySelector('template');
@@ -40,39 +42,45 @@ class AudioPlayer extends HTMLElement {
     }
 
     myChangeTrack(itemid,nameEpisode,storeid,file) { // використовую для програвання епізоду на сторінці подкасту
+
+//        if(playState === 'play') {
+//            this.myaudio.play();
+//            playAnimation.playSegments([14, 27], true);
+//            requestAnimationFrame(whilePlaying);
+//            playState = 'pause';
+//        } else {
+//            audio.pause();
+//            playAnimation.playSegments([0, 14], true);
+//            cancelAnimationFrame(raf);
+//            playState = 'play';
+//        }
+
         this.setmyEpisodeCurrentUUID(itemid);
 //        this.myEpisodeCurrentUUID = id;
         this.shadowRoot.getElementById('trackName').innerHTML = nameEpisode; // працює, але коряво :(
         this.myaudio.pause();
-        this.myaudio.src= "/podcast/audio/"+storeid+"/"+file; // todo прибрати домен
+        this.myaudio.src= "/podcast/audio/"+storeid+"/"+file;
         this.myaudio.load();
-        console.log(nameEpisode); // встановити назву епізоду в плеєрі.
         this.myaudio.play();
+
+
     }
 
     async getNextEpisode(curuuid, nextuuid) {
         let getURL = "/podcast/getepisode/"+curuuid+"/"+nextuuid;
         let response = await fetch(getURL);
 
-        if (response.ok) { // если HTTP-статус в диапазоне 200-299
-        // получаем тело ответа (см. про этот метод ниже)
+        if (response.ok) { // если HTTP-статус в диапазоне 200-299 // получаем тело ответа (см. про этот метод ниже)
+
             let json = await response.json();
-            console.log(json);
-            //this.myChangeTrack(json.current,json.title,json.storeuuid,json.file);
-            if (json.adv) {
-                // коли це рекламна вставка між епізодами
+            if (json.adv) { // коли це рекламна вставка між епізодами
                 this.myChangeTrack(json.current,json.title,json.storeuuid,json.file);
-                //this.setmyEpisodeCurrentUUID(json.current);
-            } else {
-                // коли це черговий епізод
+            } else { // коли це черговий епізод
                 this.myChangeTrack(json.next,json.title,json.storeuuid,json.file);
-                //this.setmyEpisodeCurrentUUID(json.next);
             }
-
         } else {
-            alert("Ошибка HTTP: " + response.status);
+            alert("getNextEpisode: REST Ошибка HTTP: " + response.status);
         }
-
     }
 }
 
@@ -88,12 +96,9 @@ const everything = function(element) {
     const currentTimeContainer = shadow.getElementById('current-time');
     const outputContainer = shadow.getElementById('volume-output');
     let playState = 'play';
+    element.myplayState = playState; // Намагаюся звʼязати змінні зі змінними в класі.
     let muteState = 'unmute';
     let raf = null;
-
-//    let listEpisode = [];
-////    element.myEpisodeList = listEpisode;
-//    listEpisode = element.myEpisodeList;
 
     element.myaudio = audio;
     audio.src = element.getAttribute('data-src');
@@ -197,13 +202,8 @@ const everything = function(element) {
     });
 
     audio.addEventListener("ended", (event) => { // працює
-      console.log(
-        "Audio stopped either because it has finished playing or no further data is available.",
-      );
       let ttt = element.getEpisodeList(); // функція описана в HTML файлі
-      console.log(ttt);
       let ppp = element.getmyEpisodeCurrentUUID();
-      console.log(ppp);
       let itemuuid = null;
       let ii = null;
       let i = 0;
@@ -214,15 +214,10 @@ const everything = function(element) {
           break;
         }
       }
-        console.log(itemuuid);
         ii = ii+1;
         if (ii > ttt.length - 1) {
             ii = 0;
         }
-        console.log(ii);
-        console.log(ttt[ii]);
-        // звертаємося до сервера за наступним епізодом.
-        // this.myaudio.src= "https://rfa.toloka.media/podcast/audio/"+storeid+"/"+file; // todo прибрати домен
         element.getNextEpisode(element.getmyEpisodeCurrentUUID(), ttt[ii]);
     });
 
