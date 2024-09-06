@@ -6,7 +6,7 @@ class AudioPlayer extends HTMLElement {
     myEpisodeCurrentUUID = null;
     myNextEpisodeUUID = null;
 
-    let myplayState = null;
+    myplayState = null;
 
     constructor() {
         super();
