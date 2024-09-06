@@ -117,14 +117,22 @@
 
 <!-- головна сторінка -->
 <section th:fragment="tolokanews" class="page-section" style="padding:1rem" id="news">
-    <div class="container-fluid">
+<!--    <div class="container-fluid">-->
         <div class="row">
             <div class="col-lg-9 col-sm-12">
                 <div class="card" >
-                    <div class="card-header text-center"><h3>Музичні новини на Толоці</h3></div>
-                    <div class="card-body">
-                        <div th:insert="~{/fragments/infoblock :: postcardtile}"/>
+                    <div class="text-center card-header" style="padding-left: 0px; padding-right: 0px;">
+                        <h3>Музичні новини на Толоці</h3>
                     </div>
+
+                </div>
+                <div th:insert="~{/fragments/infoblock :: postcardtile}"/>
+<!--                <div class="card" >-->
+<!--&lt;!&ndash;                    <div class="card-header text-center"><h3>Музичні новини на Толоці</h3></div>&ndash;&gt;-->
+<!--                    <div class="card-body">-->
+<!--                        <div th:insert="~{/fragments/infoblock :: postcardtile}"/>-->
+<!--                    </div>-->
+                <div class="card" >
                     <div class="card-footer text-muted">
                         <a href="/guest/postall/0">Подивитися всі новини на Толоці</a>
                     </div>
@@ -139,7 +147,7 @@
             </div>
         </div>
 
-    </div>
+<!--    </div>-->
 </section>
 <!-- головна сторінка -->
 <!--  -->
@@ -339,21 +347,32 @@
 </template>
 
 <!--Останні завантажені треки-->
-<div class="container" th:fragment="lasttrecks">
+<div th:fragment="lasttrecks">
+<!--<div class="container" th:fragment="lasttrecks">-->
     <div class="card" >
-        <div class="card-header">
+        <div class="text-center card-header" style="padding-left: 0px; padding-right: 0px;">
             <h3>Нові треки</h3>
-            <audio-player id="audio-player" style="padding:0" data-src=""/>
+            <audio-player id="audio-player" style="padding:0" th:data-src="'/store/audio/'+${trackList[0].storeuuid}"/>
         </div>
+    </div>
+
+    <div class="card" >
+<!--        <div class="card-header">-->
+<!--            <h3>Нові треки</h3>-->
+<!--            <audio-player id="audio-player" style="padding:0" data-src=""/>-->
+<!--        </div>-->
         <ul class="list-group list-group-flush">
             <div th:each="track, iStat : ${trackList}">
                 <li  class="list-group-item">
                     <div class="row" th:style="${iStat.odd}? 'background-color: rgb(240,240, 240'">
-                        <div class="col-1 col-sm-1 col-lg-1" style="padding-left: 0px;" th:id="${track.storeuuid}"  th:onclick="onClickTrack(this,[[${track.name}]],[[${track.autor}]])" >
-                            <span class="fa-stack fa-1x">
-                                <i class="fas fa-circle fa-stack-2x text-primary"></i>
-                                <i class="fas fa-play fa-stack-1x fa-inverse"></i>
-                            </span>
+                        <div class="col-1 col-sm-1 col-lg-1 align-middle"
+                             style="padding-left: 0px;padding-right: 0px; vertical-align: middle; display: flex; align-items: center;justify-content: center;"
+                             th:id="${track.storeuuid}"
+                             th:onclick="onClickTrack(this,[[${track.name}]],[[${track.autor}]])" >
+                            <div class="fa-stack fa-1x align-middle" >
+                                <i class="fas fa-circle fa-stack-2x text-primary" ></i>
+                                <i class="fas fa-play fa-stack-1x fa-inverse" ></i>
+                            </div>
                         </div>
                         <div class="col-11 col-lg-11 col-sm-11" >
                                 <small>
