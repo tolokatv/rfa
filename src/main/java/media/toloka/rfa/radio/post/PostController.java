@@ -4,6 +4,7 @@ import media.toloka.rfa.radio.client.service.ClientService;
 import media.toloka.rfa.radio.creater.service.CreaterService;
 import media.toloka.rfa.radio.model.Clientdetail;
 import media.toloka.rfa.radio.model.Post;
+import media.toloka.rfa.radio.model.enumerate.EPostCategory;
 import media.toloka.rfa.radio.model.enumerate.EPostStatus;
 import media.toloka.rfa.radio.post.service.PostService;
 import media.toloka.rfa.radio.store.Service.StoreService;
@@ -19,8 +20,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.Arrays;
 import java.util.List;
 
+import static com.fasterxml.jackson.databind.type.LogicalType.Map;
 import static media.toloka.rfa.radio.model.enumerate.EPostStatus.POSTSTATUS_REDY;
 
 @Controller
@@ -82,7 +85,10 @@ public class PostController {
         } else {
             post = postService.GetPostById(idPost);
         }
+
+        List<EPostCategory> category = Arrays.asList(EPostCategory.values());
         model.addAttribute("post", post );
+        model.addAttribute("categorys", category );
 
         return "/creater/editpost";
     }
@@ -111,6 +117,7 @@ public class PostController {
         }
         post.setPostbody(fPost.getPostbody());
         post.setPosttitle(fPost.getPosttitle());
+        post.setCategory(fPost.getCategory());
         post.setClientdetail(cd);
 
         postService.SavePost(post);

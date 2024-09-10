@@ -28,7 +28,7 @@ public class PostListController {
             @PathVariable int page,
 //            @PathVariable String fileName,
             Model model) {
-        List<Post> posts = createrService.GetAllPostsByApruve(true);
+        List<Post> posts = createrService.GetAllPostsByApruveAndMusicPost(true);
         List<Track> trackList = createrService.GetLastUploadTracks();
 
         Page pageTrack = createrService.GetTrackPage(0,10);

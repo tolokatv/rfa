@@ -49,7 +49,7 @@ public class RootController {
     @GetMapping(value = "/admin/root")
     public String adminroot(Model model) {
 
-        List<Post> posts = createrService.GetAllPostsByApruve(true);
+        List<Post> posts = createrService.GetAllPostsByApruveAndMusicPost(true);
         List<Track> trackList = createrService.GetLastUploadTracks();
 
 //        Page page = storeService.GetStorePageItemType(0,5, STORE_TRACK);
@@ -74,7 +74,7 @@ public class RootController {
     @GetMapping(value = "/")
     public String index(Model model) {
 
-        List<Post> posts = createrService.GetAllPostsByApruve(true);
+        List<Post> posts = createrService.GetAllPostsByApruveAndMusicPost(true);
 
         List<Track> trackList = createrService.GetLastUploadTracks();
 
@@ -111,7 +111,7 @@ public class RootController {
     @GetMapping(value = "/about")
     public String about(Model model) {
 
-        List<Post> posts = createrService.GetAllPostsByApruve(true);
+        List<Post> posts = createrService.GetAllPostsByApruveAndMusicPost(true);
         List<Track> trackList = createrService.GetLastUploadTracks();
 
 //        Page page = storeService.GetStorePageItemType(0,5, STORE_TRACK);
