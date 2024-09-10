@@ -47,6 +47,14 @@
                     <input type="hidden" th:field="*{id}"/>
                     <input th:field="*{posttitle}" type="text"  class="form-control"  />
                     <label class="form-label" for="posttitle">Заголовок посту</label>
+                    <br>
+                    <span>Розділ:</span>
+                    <select th:field="*{category}" >
+                        <option value="--------" text="--------------"/>
+                        <option th:each="item: ${categorys}"
+                                th:value="${item.name}"
+                                th:text="${item.label}" />
+                    </select>
                     <script>
                     tinymce.init({
                       selector: 'textarea',

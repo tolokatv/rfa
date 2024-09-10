@@ -89,7 +89,7 @@ public class CreaterService {
         return postList;
     }
 
-    public List<Post> GetAllPostsByApruve(Boolean flag) {
+    public List<Post> GetAllPostsByApruveAndMusicPost(Boolean flag) {
         List<Post> postList = postRepositore.findByApruveOrderByCreatedateDesc( flag);
         return postList;
     }
@@ -229,4 +229,5 @@ public class CreaterService {
     public Store GetStoreByStoreuuid(String storeUUID) {
         return storeService.GetStoreByUUID(storeUUID);
     }
+
 }

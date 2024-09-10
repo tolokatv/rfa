@@ -21,4 +21,6 @@ public interface StationRepo extends JpaRepository<Station, Long> {
     List<Station> findStationByClientdetailAndContract(Clientdetail clientdetail, Contract contract);
 
     List<Station> getStationByStationstate(boolean b);
+
+    Station getStationByUuid(String uuid);
 }

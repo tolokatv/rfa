@@ -58,7 +58,7 @@ public class ClientHomeController {
 
         // https://www.baeldung.com/java-read-json-from-url
 
-        List<Post> posts = createrService.GetAllPostsByApruve(true);
+        List<Post> posts = createrService.GetAllPostsByApruveAndMusicPost(true);
         List<Track> trackList = createrService.GetLastUploadTracks();
 
 //        Page page = storeService.GetStorePageItemType(0,5, STORE_TRACK);

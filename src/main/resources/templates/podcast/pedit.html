@@ -101,7 +101,7 @@
     <!-- редагуємо поля подкасту -->
     <section class="pt-4">
         <div class="container-fluid px-lg-5 form-control-sm">
-            <form action="#" th:action="@{/podcast/chanelsave}" th:object="${podcast}" method="post">
+            <form th:action="@{/podcast/chanelsave}" th:object="${podcast}" method="post">
             <div class="mb-3">
                 <input type="hidden" th:field="*{uuid}" />
                 <input type="hidden" th:field="*{id}" />

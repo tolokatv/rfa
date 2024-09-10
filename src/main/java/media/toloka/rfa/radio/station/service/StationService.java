@@ -278,6 +278,10 @@ public class StationService {
         return stationRepo.getStationByStationstate(b);
     }
 
+    public Station GetGuestVievStation(String uuid) {
+        return stationRepo.getStationByUuid(uuid);
+    }
+
 //    public void saveStation(Station station) {
 ////        Users user = serviceUser.GetCurrentUser();
 ////        if (station.getUser() == null) {
