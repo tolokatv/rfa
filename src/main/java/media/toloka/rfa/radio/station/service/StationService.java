@@ -278,7 +278,7 @@ public class StationService {
         return stationRepo.getStationByStationstate(b);
     }
 
-    public Station GetGuestVievStation(String uuid) {
+    public Station GetStationByUUID(String uuid) {
         return stationRepo.getStationByUuid(uuid);
     }
 
