@@ -5,6 +5,8 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.ToString;
 import media.toloka.rfa.radio.model.enumerate.EServerState;
+import media.toloka.rfa.radio.store.model.Store;
+import media.toloka.rfa.security.model.Users;
 
 
 import java.util.*;
@@ -22,6 +24,9 @@ public class Station {
     private EServerState serverState; // user record state (banned, ... etc)
     @Expose
     private String name;
+    @Expose
+    @Column(columnDefinition = "TEXT")
+    private String description; // Опис радіостанції
     @Expose
     private String dbname;
     @Expose
@@ -73,6 +78,10 @@ public class Station {
     @ToString.Exclude
     @OneToMany(mappedBy = "station", fetch=FetchType.EAGER, cascade = {CascadeType.ALL})
     private List<Poolport> ports = new ArrayList<>();
+
+    @ToString.Exclude
+    @OneToOne(cascade = {CascadeType.ALL})
+    private Store stationlogo;
 
 
     public Station() {
