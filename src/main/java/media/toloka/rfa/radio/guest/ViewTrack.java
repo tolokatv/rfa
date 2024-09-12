@@ -20,7 +20,11 @@ public class ViewTrack {
             @PathVariable String trackuuid,
             Model model) {
         Track curtrack = createrService.GetTrackByUuid(trackuuid);
-        model.addAttribute("curtrack", curtrack );
-        return "/guest/viewtrack";
+        if (curtrack != null)   {
+            // model.addAttribute("curtrack", curtrack );
+            model.addAttribute("curtrack", curtrack );
+            return "/guest/viewtrack";
+        }
+        return "redirect:/";
     }
 }
