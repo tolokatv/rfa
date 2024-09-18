@@ -20,7 +20,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class GuestRadioDescription {
     // відображаємо радіостанцію.
 
-    final Logger logger = LoggerFactory.getLogger(ClientHomeInfoController.class);
+    final Logger logger = LoggerFactory.getLogger(GuestRadioDescription.class);
 
     @Autowired
     private ClientService clientService;
